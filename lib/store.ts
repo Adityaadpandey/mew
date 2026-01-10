@@ -2,7 +2,7 @@ import { create } from 'zustand'
 
 export interface CanvasObject {
   id: string
-  type: 'rectangle' | 'circle' | 'triangle' | 'diamond' | 'text' | 'line' | 'arrow' | 'sticky'
+  type: 'rectangle' | 'circle' | 'triangle' | 'diamond' | 'text' | 'line' | 'arrow' | 'sticky' | 'hexagon'
   x: number
   y: number
   width: number
@@ -18,18 +18,33 @@ export interface CanvasObject {
   fontSize?: number
   fontFamily?: string
   points?: { x: number; y: number }[]
+  isGroup?: boolean
+  groupLabel?: string
+  groupColor?: string
+  // Advanced styling properties
+  badge?: string
+  badgeColor?: string
+  status?: 'active' | 'inactive' | 'warning' | 'error' | 'success'
+  glow?: boolean
+  pulse?: boolean
+  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'glow'
+  importance?: 'low' | 'normal' | 'high' | 'critical'
+  gradient?: boolean
+  borderStyle?: 'solid' | 'dashed' | 'dotted' | 'double'
 }
 
 export interface Connection {
   id: string
   from: string
   to: string
-  fromPort?: 'n' | 'e' | 's' | 'w'
-  toPort?: 'n' | 'e' | 's' | 'w'
+  fromPort?: 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
+  toPort?: 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
   type: 'line' | 'arrow'
   label?: string
   stroke?: string
   strokeWidth?: number
+  animated?: boolean
+  dashArray?: string
 }
 
 interface CanvasState {
@@ -57,6 +72,12 @@ interface CanvasState {
   setTool: (tool: CanvasState['tool']) => void
   toggleGrid: () => void
   toggleSnapToGrid: () => void
+  // Z-index manipulation
+  bringToFront: (ids: string[]) => void
+  sendToBack: (ids: string[]) => void
+  bringForward: (ids: string[]) => void
+  sendBackward: (ids: string[]) => void
+  duplicateObjects: (ids: string[]) => string[]
 }
 
 import { temporal } from 'zundo'
@@ -112,6 +133,88 @@ export const useCanvasStore = create<CanvasState>()(
       setTool: (tool) => set({ tool }),
       toggleGrid: () => set((state) => ({ gridEnabled: !state.gridEnabled })),
       toggleSnapToGrid: () => set((state) => ({ snapToGrid: !state.snapToGrid })),
+      // Z-index manipulation functions
+      bringToFront: (ids) =>
+        set((state) => {
+          const maxZ = Math.max(...state.objects.map(o => o.zIndex), 0)
+          return {
+            objects: state.objects.map((obj) =>
+              ids.includes(obj.id) ? { ...obj, zIndex: maxZ + 1 + ids.indexOf(obj.id) } : obj
+            ),
+            lastModified: Date.now(),
+          }
+        }),
+      sendToBack: (ids) =>
+        set((state) => {
+          const minZ = Math.min(...state.objects.map(o => o.zIndex), 0)
+          return {
+            objects: state.objects.map((obj) =>
+              ids.includes(obj.id) ? { ...obj, zIndex: minZ - 1 - ids.indexOf(obj.id) } : obj
+            ),
+            lastModified: Date.now(),
+          }
+        }),
+      bringForward: (ids) =>
+        set((state) => {
+          const sorted = [...state.objects].sort((a, b) => a.zIndex - b.zIndex)
+          const newObjects = [...state.objects]
+          ids.forEach(id => {
+            const obj = newObjects.find(o => o.id === id)
+            if (!obj) return
+            // Find next object above this one
+            const above = sorted.find(o => o.zIndex > obj.zIndex && !ids.includes(o.id))
+            if (above) {
+              const temp = obj.zIndex
+              obj.zIndex = above.zIndex
+              above.zIndex = temp
+            } else {
+              obj.zIndex = Math.max(...newObjects.map(o => o.zIndex)) + 1
+            }
+          })
+          return { objects: newObjects, lastModified: Date.now() }
+        }),
+      sendBackward: (ids) =>
+        set((state) => {
+          const sorted = [...state.objects].sort((a, b) => b.zIndex - a.zIndex)
+          const newObjects = [...state.objects]
+          ids.forEach(id => {
+            const obj = newObjects.find(o => o.id === id)
+            if (!obj) return
+            // Find next object below this one
+            const below = sorted.find(o => o.zIndex < obj.zIndex && !ids.includes(o.id))
+            if (below) {
+              const temp = obj.zIndex
+              obj.zIndex = below.zIndex
+              below.zIndex = temp
+            } else {
+              obj.zIndex = Math.min(...newObjects.map(o => o.zIndex)) - 1
+            }
+          })
+          return { objects: newObjects, lastModified: Date.now() }
+        }),
+      duplicateObjects: (ids) => {
+        const newIds: string[] = []
+        set((state) => {
+          const maxZ = Math.max(...state.objects.map(o => o.zIndex), 0)
+          const newObjects = [...state.objects]
+          ids.forEach((id, i) => {
+            const obj = state.objects.find(o => o.id === id)
+            if (obj) {
+              const newId = `${obj.id}-copy-${Date.now()}-${i}`
+              newIds.push(newId)
+              newObjects.push({
+                ...obj,
+                id: newId,
+                x: obj.x + 20,
+                y: obj.y + 20,
+                zIndex: maxZ + 1 + i,
+              })
+            }
+          })
+          return { objects: newObjects, selectedIds: newIds, lastModified: Date.now() }
+        })
+        return newIds
+      },
     }),
     {
       partialize: (state) => ({

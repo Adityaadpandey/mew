@@ -3,12 +3,19 @@
 import { useCanvasStore, type CanvasObject, type Connection } from '@/lib/store'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
+import { ArrowDown, ArrowUp, Copy, Layers, Trash2 } from 'lucide-react'
 import { nanoid } from 'nanoid'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { CanvasNode } from './canvas-node'
 
 interface Point { x: number; y: number }
-type Port = 'n' | 'e' | 's' | 'w'
+type Port = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
+
+interface ContextMenuState {
+  x: number
+  y: number
+  objectIds: string[]
+}
 
 export function DiagramCanvas() {
   const canvasRef = useRef<HTMLDivElement>(null)
@@ -20,6 +27,7 @@ export function DiagramCanvas() {
   const [connectionStart, setConnectionStart] = useState<{ objectId: string; port: Port } | null>(null)
   const [connectionPreview, setConnectionPreview] = useState<Point | null>(null)
   const [hoveredPort, setHoveredPort] = useState<{ objectId: string; port: Port } | null>(null)
+  const [contextMenu, setContextMenu] = useState<ContextMenuState | null>(null)
 
   const { resolvedTheme } = useTheme()
   const darkMode = resolvedTheme === 'dark'
@@ -28,6 +36,7 @@ export function DiagramCanvas() {
     zoom, pan, setPan, selectedIds, setSelectedIds, objects, connections,
     addObject, addConnection, updateObject, updateConnection, deleteObjects, deleteConnection,
     tool, setTool, gridEnabled, gridSize, snapToGrid,
+    bringToFront, sendToBack, bringForward, sendBackward, duplicateObjects,
   } = useCanvasStore()
 
   const [isDragging, setIsDragging] = useState(false)
@@ -38,6 +47,15 @@ export function DiagramCanvas() {
   const [panStart, setPanStart] = useState<Point | null>(null)
   const [selectionBox, setSelectionBox] = useState<{ start: Point; end: Point } | null>(null)
   const [hoveredObject, setHoveredObject] = useState<string | null>(null)
+
+  // Close context menu when clicking elsewhere
+  useEffect(() => {
+    const handleClick = () => setContextMenu(null)
+    if (contextMenu) {
+      window.addEventListener('click', handleClick)
+      return () => window.removeEventListener('click', handleClick)
+    }
+  }, [contextMenu])
 
   const snapValue = useCallback((value: number) => {
     if (!snapToGrid) return value
@@ -53,19 +71,24 @@ export function DiagramCanvas() {
     }
   }, [pan, zoom])
 
+  // Get point for 8 ports (N, NE, E, SE, S, SW, W, NW)
   const getPortPoint = useCallback((obj: CanvasObject, port: Port): Point => {
     const cx = obj.x + obj.width / 2
     const cy = obj.y + obj.height / 2
     switch (port) {
       case 'n': return { x: cx, y: obj.y }
+      case 'ne': return { x: obj.x + obj.width, y: obj.y }
       case 'e': return { x: obj.x + obj.width, y: cy }
+      case 'se': return { x: obj.x + obj.width, y: obj.y + obj.height }
       case 's': return { x: cx, y: obj.y + obj.height }
+      case 'sw': return { x: obj.x, y: obj.y + obj.height }
       case 'w': return { x: obj.x, y: cy }
+      case 'nw': return { x: obj.x, y: obj.y }
     }
   }, [])
 
   const getClosestPort = useCallback((point: Point, obj: CanvasObject): Port => {
-    const ports: Port[] = ['n', 'e', 's', 'w']
+    const ports: Port[] = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
     let min = Infinity, best: Port = 'n'
     ports.forEach(p => {
       const pp = getPortPoint(obj, p)
@@ -82,17 +105,34 @@ export function DiagramCanvas() {
     )
   }, [objects])
 
+  const handleContextMenu = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    const point = getCanvasPoint(e)
+    const clickedObject = findObjectAtPoint(point)
+    
+    if (clickedObject) {
+      // If clicked object is not in selection, select only it
+      const targetIds = selectedIds.includes(clickedObject.id) ? selectedIds : [clickedObject.id]
+      if (!selectedIds.includes(clickedObject.id)) {
+        setSelectedIds([clickedObject.id])
+      }
+      setContextMenu({ x: e.clientX, y: e.clientY, objectIds: targetIds })
+    } else {
+      setContextMenu(null)
+    }
+  }, [getCanvasPoint, findObjectAtPoint, selectedIds, setSelectedIds])
+
   const getConnectionPoints = useCallback((conn: Connection) => {
     const fromObj = objects.find(o => o.id === conn.from)
     const toObj = objects.find(o => o.id === conn.to)
     if (!fromObj || !toObj) return null
 
-    let fromPort: Port = conn.fromPort || 's'
-    let toPort: Port = conn.toPort || 'n'
+    let fromPort: Port = (conn.fromPort as Port) || 's'
+    let toPort: Port = (conn.toPort as Port) || 'n'
 
     if (!conn.fromPort || !conn.toPort) {
       let minDist = Infinity
-      const ports: Port[] = ['n', 'e', 's', 'w']
+      const ports: Port[] = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
       ports.forEach(p1 => {
         if (conn.fromPort && p1 !== conn.fromPort) return
         const pt1 = getPortPoint(fromObj, p1)
@@ -114,14 +154,61 @@ export function DiagramCanvas() {
     if (!shapeType) return
 
     const point = getCanvasPoint(e as unknown as MouseEvent)
+    
+    // Map shape types to their proper canvas object types
+    const getObjectType = (shape: string): CanvasObject['type'] => {
+      // Basic shapes that have their own type
+      const basicShapes: Record<string, CanvasObject['type']> = {
+        'rectangle': 'rectangle',
+        'circle': 'circle',
+        'diamond': 'diamond',
+        'triangle': 'triangle',
+        'hexagon': 'hexagon',
+        'octagon': 'hexagon', // Use hexagon renderer for octagon
+        'sticky': 'sticky',
+        'text': 'text',
+        'arrow': 'arrow',
+        'line': 'line',
+      }
+      return basicShapes[shape] || 'rectangle'
+    }
+
+    // Get default dimensions based on shape type
+    const getDimensions = (shape: string) => {
+      switch (shape) {
+        case 'sticky':
+          return { width: 200, height: 150 }
+        case 'text':
+          return { width: 120, height: 40 }
+        case 'circle':
+          return { width: 80, height: 80 }
+        case 'diamond':
+          return { width: 100, height: 100 }
+        case 'triangle':
+          return { width: 100, height: 90 }
+        case 'hexagon':
+        case 'octagon':
+          return { width: 120, height: 100 }
+        default:
+          return { width: 160, height: 70 }
+      }
+    }
+
+    // Get default fill color based on shape type
+    const getFillColor = (shape: string) => {
+      if (shape === 'sticky') return '#FEF3C7'
+      return '#FFFFFF'
+    }
+
+    const dimensions = getDimensions(shapeType)
     const newObject: CanvasObject = {
       id: nanoid(),
-      type: shapeType === 'diamond' ? 'diamond' : shapeType === 'circle' ? 'circle' : 'rectangle',
-      x: snapValue(point.x - 80),
-      y: snapValue(point.y - 35),
-      width: 160,
-      height: 70,
-      fill: '#FFFFFF',
+      type: getObjectType(shapeType),
+      x: snapValue(point.x - dimensions.width / 2),
+      y: snapValue(point.y - dimensions.height / 2),
+      width: dimensions.width,
+      height: dimensions.height,
+      fill: getFillColor(shapeType),
       stroke: '#E2E8F0',
       strokeWidth: 1,
       rotation: 0,
@@ -375,16 +462,31 @@ export function DiagramCanvas() {
       if ((e.metaKey || e.ctrlKey) && key === 'd') {
         e.preventDefault()
         if (selectedIds.length > 0) {
-          const newIds: string[] = []
-          selectedIds.forEach(id => {
-            const obj = objects.find(o => o.id === id)
-            if (obj) {
-              const newId = nanoid()
-              addObject({ ...obj, id: newId, x: obj.x + 20, y: obj.y + 20 })
-              newIds.push(newId)
-            }
-          })
-          setSelectedIds(newIds)
+          duplicateObjects(selectedIds)
+        }
+        return
+      }
+
+      // Z-index shortcuts
+      if (key === ']' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        if (selectedIds.length > 0) {
+          if (e.shiftKey) {
+            bringToFront(selectedIds)
+          } else {
+            bringForward(selectedIds)
+          }
+        }
+        return
+      }
+      if (key === '[' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+        if (selectedIds.length > 0) {
+          if (e.shiftKey) {
+            sendToBack(selectedIds)
+          } else {
+            sendBackward(selectedIds)
+          }
         }
         return
       }
@@ -410,7 +512,7 @@ export function DiagramCanvas() {
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedIds, objects, deleteObjects, setSelectedIds, setTool, addObject])
+  }, [selectedIds, objects, deleteObjects, setSelectedIds, setTool, duplicateObjects, bringToFront, sendToBack, bringForward, sendBackward])
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (e.button === 1 || (e.button === 0 && tool === 'hand')) {
@@ -460,7 +562,7 @@ export function DiagramCanvas() {
       return
     }
 
-    if (['rectangle', 'circle', 'diamond', 'text', 'sticky'].includes(tool)) {
+    if (['rectangle', 'circle', 'diamond', 'text', 'sticky', 'triangle', 'hexagon', 'arrow', 'line'].includes(tool)) {
       setIsDrawing(true)
       setDrawStart(point)
       setTempObject({
@@ -478,6 +580,8 @@ export function DiagramCanvas() {
         zIndex: objects.length,
         ...(tool === 'text' && { text: 'Text', fontSize: 14 }),
         ...(tool === 'sticky' && { text: 'Note', fontSize: 13 }),
+        ...(tool === 'triangle' && { text: 'Triangle' }),
+        ...(tool === 'hexagon' && { text: 'Hexagon' }),
       })
     }
   }, [tool, pan, getCanvasPoint, findObjectAtPoint, selectedIds, setSelectedIds, getClosestPort, snapValue, objects])
@@ -485,7 +589,7 @@ export function DiagramCanvas() {
   const handleDoubleClick = useCallback((e: React.MouseEvent) => {
     const point = getCanvasPoint(e)
     const clickedObject = findObjectAtPoint(point)
-    if (clickedObject && ['rectangle', 'text', 'sticky', 'circle', 'diamond', 'arrow'].includes(clickedObject.type)) {
+    if (clickedObject && ['rectangle', 'text', 'sticky', 'circle', 'diamond', 'arrow', 'triangle', 'hexagon'].includes(clickedObject.type)) {
       const newText = prompt('Enter text:', clickedObject.text || '')
       if (newText !== null) updateObject(clickedObject.id, { text: newText })
     }
@@ -505,31 +609,100 @@ export function DiagramCanvas() {
     const { from, to, fromPort, toPort } = points
     const isSelected = selectedIds.includes(conn.id)
     const isBeingDragged = connectionDragHandle?.id === conn.id
-    const stroke = isSelected ? '#3B82F6' : (conn.stroke || (darkMode ? '#737373' : '#94A3B8'))
+    const stroke = isSelected ? '#3B82F6' : (conn.stroke || (darkMode ? '#a1a1aa' : '#64748b'))
 
-    const getDirVector = (p: Port) => {
+    // Smart curve calculation based on port directions and distance
+    const dx = to.x - from.x
+    const dy = to.y - from.y
+    const dist = Math.sqrt(dx * dx + dy * dy)
+    
+    // Adaptive curvature - more curve for longer distances, less for short
+    const baseCurvature = Math.min(Math.max(dist * 0.35, 30), 120)
+    
+    // Direction vectors for each port (8 ports including corners)
+    const getDirVector = (p: Port): { x: number; y: number } => {
+      const diag = 0.707 // 1/sqrt(2) for diagonal directions
       switch (p) {
         case 'n': return { x: 0, y: -1 }
+        case 'ne': return { x: diag, y: -diag }
         case 'e': return { x: 1, y: 0 }
+        case 'se': return { x: diag, y: diag }
         case 's': return { x: 0, y: 1 }
+        case 'sw': return { x: -diag, y: diag }
         case 'w': return { x: -1, y: 0 }
+        case 'nw': return { x: -diag, y: -diag }
       }
     }
 
     const dir1 = getDirVector(fromPort)
     const dir2 = getDirVector(toPort)
-    const dist = Math.sqrt((to.x - from.x) ** 2 + (to.y - from.y) ** 2)
-    const curvature = Math.min(dist * 0.4, 100)
-    const cp1 = { x: from.x + dir1.x * curvature, y: from.y + dir1.y * curvature }
-    const cp2 = { x: to.x + dir2.x * curvature, y: to.y + dir2.y * curvature }
+    
+    // Smart curvature adjustment based on relative positions
+    let curve1 = baseCurvature
+    let curve2 = baseCurvature
+    
+    // Check if using corner ports - they need slightly different handling
+    const isCornerPort = (p: Port) => ['ne', 'se', 'sw', 'nw'].includes(p)
+    const fromIsCorner = isCornerPort(fromPort)
+    const toIsCorner = isCornerPort(toPort)
+    
+    // If ports are facing each other, use less curvature
+    const facingEachOther = (
+      (fromPort === 'e' && toPort === 'w' && dx > 0) ||
+      (fromPort === 'w' && toPort === 'e' && dx < 0) ||
+      (fromPort === 's' && toPort === 'n' && dy > 0) ||
+      (fromPort === 'n' && toPort === 's' && dy < 0)
+    )
+    
+    if (facingEachOther) {
+      curve1 = Math.min(baseCurvature, Math.abs(dx) * 0.4 || Math.abs(dy) * 0.4)
+      curve2 = curve1
+    }
+    
+    // Corner ports need more curvature for smooth curves
+    if (fromIsCorner) curve1 = Math.max(curve1, 50)
+    if (toIsCorner) curve2 = Math.max(curve2, 50)
+    
+    // If going backwards (e.g., east port but target is to the west), need more curve
+    const goingBackwards = (
+      (fromPort === 'e' && dx < -20) ||
+      (fromPort === 'w' && dx > 20) ||
+      (fromPort === 's' && dy < -20) ||
+      (fromPort === 'n' && dy > 20)
+    )
+    
+    if (goingBackwards) {
+      curve1 = Math.max(baseCurvature, 80)
+      curve2 = Math.max(baseCurvature, 80)
+    }
+    
+    // Control points
+    const cp1 = { 
+      x: from.x + dir1.x * curve1, 
+      y: from.y + dir1.y * curve1 
+    }
+    const cp2 = { 
+      x: to.x + dir2.x * curve2, 
+      y: to.y + dir2.y * curve2 
+    }
+    
+    // Create smooth bezier path
     const pathData = `M ${from.x} ${from.y} C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${to.x} ${to.y}`
 
+    // Arrow head calculation - angle based on curve end direction
     const arrowAngle = Math.atan2(to.y - cp2.y, to.x - cp2.x)
-    const arrowLen = 10
-    const arrowPt1 = { x: to.x - arrowLen * Math.cos(arrowAngle - Math.PI / 6), y: to.y - arrowLen * Math.sin(arrowAngle - Math.PI / 6) }
-    const arrowPt2 = { x: to.x - arrowLen * Math.cos(arrowAngle + Math.PI / 6), y: to.y - arrowLen * Math.sin(arrowAngle + Math.PI / 6) }
+    const arrowLen = 8
+    const arrowWidth = Math.PI / 7
+    const arrowPt1 = { 
+      x: to.x - arrowLen * Math.cos(arrowAngle - arrowWidth), 
+      y: to.y - arrowLen * Math.sin(arrowAngle - arrowWidth) 
+    }
+    const arrowPt2 = { 
+      x: to.x - arrowLen * Math.cos(arrowAngle + arrowWidth), 
+      y: to.y - arrowLen * Math.sin(arrowAngle + arrowWidth) 
+    }
 
-    // Calculate midpoint for label
+    // Calculate midpoint for label using bezier formula
     const midT = 0.5
     const midX = (1-midT)**3 * from.x + 3*(1-midT)**2*midT * cp1.x + 3*(1-midT)*midT**2 * cp2.x + midT**3 * to.x
     const midY = (1-midT)**3 * from.y + 3*(1-midT)**2*midT * cp1.y + 3*(1-midT)*midT**2 * cp2.y + midT**3 * to.y
@@ -567,8 +740,24 @@ export function DiagramCanvas() {
           strokeWidth={isSelected ? 2.5 : (conn.strokeWidth || 1.5)} 
           fill="none" 
           strokeLinecap="round" 
+          strokeDasharray={conn.dashArray || undefined}
           style={{ pointerEvents: 'none', transition: 'all 0.15s ease' }}
         />
+        {/* Animated flow indicator */}
+        {conn.animated && (
+          <path 
+            d={pathData} 
+            stroke={stroke} 
+            strokeWidth={(conn.strokeWidth || 1.5) + 1} 
+            fill="none" 
+            strokeLinecap="round"
+            strokeDasharray="8 12"
+            style={{ 
+              pointerEvents: 'none',
+              animation: 'flowAnimation 1s linear infinite',
+            }}
+          />
+        )}
         {/* Arrow head */}
         {conn.type === 'arrow' && (
           <path 
@@ -776,12 +965,20 @@ export function DiagramCanvas() {
   const renderPorts = (obj: CanvasObject) => {
     const showPorts = hoveredObject === obj.id || selectedIds.includes(obj.id) || tool === 'connector' || tool === 'arrow' || isConnecting || connectionDragHandle
     if (!showPorts) return null
-    const ports: Port[] = ['n', 'e', 's', 'w']
+    
+    // 8 ports: cardinal (N, E, S, W) and corners (NE, SE, SW, NW)
+    const ports: Port[] = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
+    const isCorner = (p: Port) => ['ne', 'se', 'sw', 'nw'].includes(p)
+    
     return ports.map(port => {
       const point = getPortPoint(obj, port)
       const isHovered = hoveredPort?.objectId === obj.id && hoveredPort?.port === port
       const isValidTarget = (isConnecting && connectionStart?.objectId !== obj.id) || 
                            (connectionDragHandle && connections.find(c => c.id === connectionDragHandle.id)?.[connectionDragHandle.handle === 'from' ? 'to' : 'from'] !== obj.id)
+      
+      // Corner ports are smaller
+      const baseSize = isCorner(port) ? 4 : 5
+      const hoverSize = isCorner(port) ? 6 : 8
       
       return (
         <g key={`${obj.id}-${port}`}>
@@ -789,39 +986,50 @@ export function DiagramCanvas() {
           <circle 
             cx={point.x} 
             cy={point.y} 
-            r={14} 
+            r={12} 
             fill="transparent"
             style={{ cursor: 'crosshair', pointerEvents: 'auto' }}
             onMouseDown={(e) => handlePortMouseDown(obj.id, port, e)}
             onMouseEnter={() => {
-              if ((isConnecting || connectionDragHandle) && isValidTarget) {
-                setHoveredPort({ objectId: obj.id, port })
-              }
+              setHoveredPort({ objectId: obj.id, port })
             }}
             onMouseLeave={() => setHoveredPort(null)}
           />
-          {/* Visual port */}
+          {/* Visual port - subtle ring style */}
           <circle 
             cx={point.x} 
             cy={point.y} 
-            r={isHovered ? 8 : 5} 
-            fill={isHovered ? '#3B82F6' : 'white'} 
-            stroke="#3B82F6" 
-            strokeWidth={2}
-            style={{ pointerEvents: 'none', transition: 'all 0.15s ease' }}
+            r={isHovered ? hoverSize : baseSize} 
+            fill={isHovered ? '#3B82F6' : (darkMode ? '#262626' : '#ffffff')} 
+            stroke={isHovered ? '#3B82F6' : (darkMode ? '#525252' : '#94a3b8')} 
+            strokeWidth={isHovered ? 2 : 1.5}
+            style={{ 
+              pointerEvents: 'none', 
+              transition: 'all 0.15s ease',
+              filter: isHovered ? 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.5))' : 'none'
+            }}
           />
-          {/* Pulse effect when valid target */}
+          {/* Pulse ring when valid target */}
           {isValidTarget && isHovered && (
-            <circle 
-              cx={point.x} 
-              cy={point.y} 
-              r={14} 
-              fill="none"
-              stroke="#3B82F6" 
-              strokeWidth={2}
-              opacity={0.4}
-              style={{ pointerEvents: 'none' }}
-            />
+            <>
+              <circle 
+                cx={point.x} 
+                cy={point.y} 
+                r={16} 
+                fill="none"
+                stroke="#3B82F6" 
+                strokeWidth={2}
+                opacity={0.3}
+                style={{ pointerEvents: 'none' }}
+              />
+              <circle 
+                cx={point.x} 
+                cy={point.y} 
+                r={12} 
+                fill="rgba(59, 130, 246, 0.1)"
+                style={{ pointerEvents: 'none' }}
+              />
+            </>
           )}
         </g>
       )
@@ -836,11 +1044,12 @@ export function DiagramCanvas() {
         tool === 'hand' && 'cursor-grab',
         isPanning && 'cursor-grabbing',
         tool === 'connector' && 'cursor-crosshair',
-        ['rectangle', 'circle', 'diamond', 'text', 'sticky', 'arrow'].includes(tool) && 'cursor-crosshair'
+        ['rectangle', 'circle', 'diamond', 'text', 'sticky', 'arrow', 'triangle', 'hexagon', 'line'].includes(tool) && 'cursor-crosshair'
       )}
       style={{ backgroundColor: darkMode ? '#0a0a0a' : '#FAFBFC' }}
       onMouseDown={handleMouseDown}
       onDoubleClick={handleDoubleClick}
+      onContextMenu={handleContextMenu}
       onDrop={handleDrop}
       onDragOver={handleDragOver}
     >
@@ -856,23 +1065,6 @@ export function DiagramCanvas() {
           <rect width="100%" height="100%" fill="url(#dotGrid)" />
         </svg>
       )}
-
-      {/* SVG Layer for connections */}
-      <svg 
-        className="absolute inset-0" 
-        style={{ 
-          transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`, 
-          transformOrigin: '0 0', 
-          overflow: 'visible',
-          pointerEvents: 'none'
-        }}
-      >
-        <g style={{ pointerEvents: 'auto' }}>
-          {connections.map(renderConnection)}
-          {renderConnectionPreview()}
-          {objects.map(obj => renderPorts(obj))}
-        </g>
-      </svg>
 
       {/* Objects Layer - GPU accelerated */}
       <div 
@@ -894,6 +1086,23 @@ export function DiagramCanvas() {
         {tempObject && <CanvasNode obj={tempObject} isSelected={true} isDragging={false} isTemp />}
       </div>
 
+      {/* SVG Layer for connections - rendered ON TOP of objects for better visibility */}
+      <svg 
+        className="absolute inset-0" 
+        style={{ 
+          transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`, 
+          transformOrigin: '0 0', 
+          overflow: 'visible',
+          pointerEvents: 'none'
+        }}
+      >
+        <g style={{ pointerEvents: 'auto' }}>
+          {connections.map(renderConnection)}
+          {renderConnectionPreview()}
+          {objects.map(obj => renderPorts(obj))}
+        </g>
+      </svg>
+
       {/* Selection Box */}
       {selectionBox && (
         <div
@@ -910,6 +1119,90 @@ export function DiagramCanvas() {
       {/* Selection Handles */}
       {selectedIds.length === 1 && objects.find(o => o.id === selectedIds[0]) && (
         <SelectionHandles object={objects.find(o => o.id === selectedIds[0])!} zoom={zoom} pan={pan} onResize={(updates) => updateObject(selectedIds[0], updates)} />
+      )}
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <div
+          className="fixed z-[9999] min-w-[180px] rounded-lg border shadow-xl overflow-hidden"
+          style={{
+            left: contextMenu.x,
+            top: contextMenu.y,
+            backgroundColor: darkMode ? '#171717' : '#ffffff',
+            borderColor: darkMode ? '#262626' : '#e5e5e5',
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="py-1">
+            <button
+              className={cn(
+                "w-full px-3 py-2 text-left text-sm flex items-center gap-2 transition-colors",
+                darkMode ? "hover:bg-neutral-800 text-neutral-200" : "hover:bg-neutral-100 text-neutral-700"
+              )}
+              onClick={() => { bringToFront(contextMenu.objectIds); setContextMenu(null) }}
+            >
+              <Layers className="w-4 h-4" />
+              Bring to Front
+              <span className={cn("ml-auto text-xs", darkMode ? "text-neutral-500" : "text-neutral-400")}>⌘⇧]</span>
+            </button>
+            <button
+              className={cn(
+                "w-full px-3 py-2 text-left text-sm flex items-center gap-2 transition-colors",
+                darkMode ? "hover:bg-neutral-800 text-neutral-200" : "hover:bg-neutral-100 text-neutral-700"
+              )}
+              onClick={() => { bringForward(contextMenu.objectIds); setContextMenu(null) }}
+            >
+              <ArrowUp className="w-4 h-4" />
+              Bring Forward
+              <span className={cn("ml-auto text-xs", darkMode ? "text-neutral-500" : "text-neutral-400")}>⌘]</span>
+            </button>
+            <button
+              className={cn(
+                "w-full px-3 py-2 text-left text-sm flex items-center gap-2 transition-colors",
+                darkMode ? "hover:bg-neutral-800 text-neutral-200" : "hover:bg-neutral-100 text-neutral-700"
+              )}
+              onClick={() => { sendBackward(contextMenu.objectIds); setContextMenu(null) }}
+            >
+              <ArrowDown className="w-4 h-4" />
+              Send Backward
+              <span className={cn("ml-auto text-xs", darkMode ? "text-neutral-500" : "text-neutral-400")}>⌘[</span>
+            </button>
+            <button
+              className={cn(
+                "w-full px-3 py-2 text-left text-sm flex items-center gap-2 transition-colors",
+                darkMode ? "hover:bg-neutral-800 text-neutral-200" : "hover:bg-neutral-100 text-neutral-700"
+              )}
+              onClick={() => { sendToBack(contextMenu.objectIds); setContextMenu(null) }}
+            >
+              <Layers className="w-4 h-4 rotate-180" />
+              Send to Back
+              <span className={cn("ml-auto text-xs", darkMode ? "text-neutral-500" : "text-neutral-400")}>⌘⇧[</span>
+            </button>
+            <div className={cn("my-1 h-px", darkMode ? "bg-neutral-800" : "bg-neutral-200")} />
+            <button
+              className={cn(
+                "w-full px-3 py-2 text-left text-sm flex items-center gap-2 transition-colors",
+                darkMode ? "hover:bg-neutral-800 text-neutral-200" : "hover:bg-neutral-100 text-neutral-700"
+              )}
+              onClick={() => { duplicateObjects(contextMenu.objectIds); setContextMenu(null) }}
+            >
+              <Copy className="w-4 h-4" />
+              Duplicate
+              <span className={cn("ml-auto text-xs", darkMode ? "text-neutral-500" : "text-neutral-400")}>⌘D</span>
+            </button>
+            <button
+              className={cn(
+                "w-full px-3 py-2 text-left text-sm flex items-center gap-2 transition-colors text-red-500",
+                darkMode ? "hover:bg-red-950/50" : "hover:bg-red-50"
+              )}
+              onClick={() => { deleteObjects(contextMenu.objectIds); setContextMenu(null) }}
+            >
+              <Trash2 className="w-4 h-4" />
+              Delete
+              <span className={cn("ml-auto text-xs", darkMode ? "text-neutral-500" : "text-neutral-400")}>⌫</span>
+            </button>
+          </div>
+        </div>
       )}
     </div>
   )

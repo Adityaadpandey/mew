@@ -296,6 +296,9 @@ export function RightSidebarNew() {
             text?: string
             fontSize?: number
             fontFamily?: string
+            isGroup?: boolean
+            groupLabel?: string
+            groupColor?: string
           }) => {
             addObject(obj as Parameters<typeof addObject>[0])
           })
@@ -307,12 +310,14 @@ export function RightSidebarNew() {
             id: string
             from: string
             to: string
-            fromPort?: 'n' | 'e' | 's' | 'w'
-            toPort?: 'n' | 'e' | 's' | 'w'
+            fromPort?: 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
+            toPort?: 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
             type: 'line' | 'arrow'
             label?: string
             stroke?: string
             strokeWidth?: number
+            animated?: boolean
+            dashArray?: string
           }) => {
             addConnection(conn)
           })

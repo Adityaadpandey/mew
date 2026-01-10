@@ -1,6 +1,8 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { mergeBlocks, splitBlockAtCursor } from '@/lib/block-operations'
+import { parseMarkdown } from '@/lib/markdown-utils'
 import { useDocumentStore } from '@/lib/store'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
@@ -22,16 +24,16 @@ import {
     X
 } from 'lucide-react'
 import { nanoid } from 'nanoid'
-import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { EditorBlock } from './editor-block'
-import { Block, SlashCommandType } from './types'
+import { Block, BlockType, CursorPosition, RichTextSegment, segmentsToText, textToSegments } from './types'
 
 interface SlashCommand {
   id: string
   label: string
   description: string
   icon: React.ReactNode
-  type: SlashCommandType
+  type: BlockType
   calloutType?: Block['calloutType']
 }
 
@@ -52,10 +54,18 @@ const SLASH_COMMANDS: SlashCommand[] = [
   { id: 'error', label: 'Error Callout', description: 'Highlight an error', icon: <AlertCircle className="h-4 w-4 text-red-500" />, type: 'callout', calloutType: 'error' },
 ]
 
-const createBlock = (type: Block['type'] = 'paragraph', content = '', calloutType?: Block['calloutType']): Block => ({
+const createBlock = (
+  type: BlockType = 'paragraph',
+  content: RichTextSegment[] | string = '',
+  calloutType?: Block['calloutType'],
+  order: number = 0
+): Block => ({
   id: nanoid(),
   type,
-  content,
+  content: typeof content === 'string' ? textToSegments(content) : content,
+  parentId: null,
+  order,
+  indent: 0,
   checked: type === 'checkList' ? false : undefined,
   calloutType: type === 'callout' ? calloutType || 'info' : undefined,
 })
@@ -97,10 +107,21 @@ export function DocumentEditor() {
       lastDocumentIdRef.current = currentDocument.id
       const content = currentDocument.content || {}
 
-      const newBlocks = (content.blocks as Block[]) || [
+      const rawBlocks = (content.blocks as any[]) || [
         createBlock('heading1', currentDocument.title || 'Untitled Document'),
         createBlock('paragraph', ''),
       ]
+
+      // Normalize legacy blocks (convert string content to RichTextSegment[])
+      const newBlocks: Block[] = rawBlocks.map((block, i) => ({
+        ...block,
+        // Ensure content is always RichTextSegment[]
+        content: textToSegments(block.content),
+        // Ensure tree structure fields exist
+        parentId: block.parentId ?? null,
+        order: block.order ?? i,
+        indent: block.indent ?? 0,
+      }))
 
       setBlocks(newBlocks)
       setCoverImage((content.coverImage as string) || null)
@@ -124,36 +145,18 @@ export function DocumentEditor() {
       return () => document.removeEventListener('mousedown', handleClick)
   }, [])
 
-  // Save loop
+  // Save loop (Updates Store Only - useAutoSave handles DB)
   useEffect(() => {
-    if (!currentDocument?.id || isSavingRef.current) return
-
-    // Check if anything actually changed from what might be in store?
-    // Simplified: just save on any state change after debounce
+    if (!currentDocument?.id) return
 
     const timeout = setTimeout(async () => {
-      isSavingRef.current = true
-      setIsSaving(true)
-
-      try {
-        const content = { blocks, coverImage, icon }
-        updateContent(content)
-
-        await fetch(`/api/documents/${currentDocument.id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ content }),
-        })
-      } catch (error) {
-        console.error('Failed to save document:', error)
-      } finally {
-        isSavingRef.current = false
-        setIsSaving(false)
-      }
-    }, 1000)
+       // Just update the store. The unified useAutoSave hook in parent will handle the DB call.
+       const content = { blocks, coverImage, icon }
+       updateContent(content)
+    }, 500) // Reduced debounce since we just update store
 
     return () => clearTimeout(timeout)
-  }, [blocks, coverImage, icon, currentDocument?.id, updateContent, setIsSaving])
+  }, [blocks, coverImage, icon, currentDocument?.id, updateContent])
 
 
 
@@ -173,16 +176,17 @@ export function DocumentEditor() {
 
           // Generate Markdown
           const text = selectedBlocks.map(b => {
+              const t = segmentsToText(b.content)
               switch (b.type) {
-                  case 'heading1': return `# ${b.content}`
-                  case 'heading2': return `## ${b.content}`
-                  case 'heading3': return `### ${b.content}`
-                  case 'bulletList': return `- ${b.content}`
-                  case 'numberedList': return `1. ${b.content}` // Simplified
-                  case 'checkList': return `- [${b.checked ? 'x' : ' '}] ${b.content}`
-                  case 'quote': return `> ${b.content}`
-                  case 'code': return `\`\`\`\n${b.content}\n\`\`\``
-                  default: return b.content
+                  case 'heading1': return `# ${t}`
+                  case 'heading2': return `## ${t}`
+                  case 'heading3': return `### ${t}`
+                  case 'bulletList': return `- ${t}`
+                  case 'numberedList': return `1. ${t}` // Simplified
+                  case 'checkList': return `- [${b.checked ? 'x' : ' '}] ${t}`
+                  case 'quote': return `> ${t}`
+                  case 'code': return `\`\`\`\n${t}\n\`\`\``
+                  default: return t
               }
           }).join('\n\n')
 
@@ -194,31 +198,7 @@ export function DocumentEditor() {
       return () => document.removeEventListener('copy', handleCopy)
   }, [selectedBlockIds, blocks])
 
-  // Global Delete Handler for Multi-Selection
-  useEffect(() => {
-      const handleKeyDown = (e: any) => {
-          if (selectedBlockIds.size === 0) return
 
-          if (e.key === 'Backspace' || e.key === 'Delete') {
-              e.preventDefault()
-              saveToHistory()
-
-              setBlocks(prev => {
-                  const newBlocks = prev.filter(b => !selectedBlockIds.has(b.id))
-                  // Identify where to focus next
-                  // If we deleted everything, add a default block
-                  if (newBlocks.length === 0) {
-                      return [createBlock()]
-                  }
-                  return newBlocks
-              })
-              setSelectedBlockIds(new Set())
-          }
-      }
-
-      window.addEventListener('keydown', handleKeyDown)
-      return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedBlockIds, saveToHistory])
 
 
 
@@ -241,6 +221,41 @@ export function DocumentEditor() {
       setIcon(nextState.icon)
     }
   }, [history, historyIndex])
+
+  // Global Keyboard Shortcuts (Undo/Redo, Delete Selection)
+  // MOVED HERE TO FIX HOISTING ERROR
+  useEffect(() => {
+      const handleGlobalKeyDown = (e: KeyboardEvent) => {
+          // Undo / Redo
+          if ((e.metaKey || e.ctrlKey) && e.key === 'z') {
+              e.preventDefault()
+              if (e.shiftKey) {
+                  redo()
+              } else {
+                  undo()
+              }
+              return
+          }
+
+          // Delete Selection
+          if (selectedBlockIds.size > 0 && (e.key === 'Backspace' || e.key === 'Delete')) {
+              e.preventDefault()
+              saveToHistory()
+
+              setBlocks(prev => {
+                  const newBlocks = prev.filter(b => !selectedBlockIds.has(b.id))
+                  if (newBlocks.length === 0) {
+                      return [createBlock()]
+                  }
+                  return newBlocks
+              })
+              setSelectedBlockIds(new Set())
+          }
+      }
+
+      window.addEventListener('keydown', handleGlobalKeyDown as any)
+      return () => window.removeEventListener('keydown', handleGlobalKeyDown as any)
+  }, [selectedBlockIds, saveToHistory, undo, redo])
 
   const updateBlock = useCallback((id: string, updates: Partial<Block>) => {
     setBlocks(prev => prev.map(block => block.id === id ? { ...block, ...updates } : block))
@@ -327,66 +342,146 @@ export function DocumentEditor() {
       })
   }, [])
 
-  const handleKeyDown = useCallback((e: KeyboardEvent<HTMLTextAreaElement>, block: Block) => {
-    const textarea = e.currentTarget
+  const onPaste = useCallback((blockId: string, e: React.ClipboardEvent) => {
+    const text = e.clipboardData.getData('text/plain')
 
-    // CMD+A (Select All) Handling
-    if ((e.metaKey || e.ctrlKey) && e.key === 'a') {
-        const isFullSelection =
-            textarea.selectionStart === 0 &&
-            textarea.selectionEnd === textarea.value.length
+    // Only intercept if we have newlines (basic check for "structure")
+    // OR if it looks like markdown (headings, lists)
+    const hasStructure = text.includes('\n') ||
+                         text.startsWith('#') ||
+                         text.startsWith('- ') ||
+                         text.startsWith('* ') ||
+                         text.startsWith('> ') ||
+                         text.startsWith('[] ')
 
-        // If everything selected (or empty), trigger block selection
-        if (isFullSelection || block.content === '') {
-            e.preventDefault()
-            selectAllBlocks()
-            return
-        }
-    }
+    if (!hasStructure) return // Let default behavior handle single line plain text
 
-    // Trigger Slash Menu
-    if (e.key === '/' && block.content === '') {
-      e.preventDefault()
-      const rect = textarea.getBoundingClientRect()
-      // Fix position relative to viewport/container
-      setSlashMenuPosition({
-        top: rect.bottom + window.scrollY + 5,
-        left: rect.left + window.scrollX,
+    e.preventDefault()
+    saveToHistory()
+
+    // Parse the pasted text
+    const parsedLines = parseMarkdown(text)
+    if (parsedLines.length === 0) return
+
+    setBlocks(prev => {
+      const index = prev.findIndex(b => b.id === blockId)
+      if (index === -1) return prev
+
+      const newBlocks = [...prev]
+      const createdBlocks: Block[] = []
+
+      // Convert parsed lines to full blocks
+      parsedLines.forEach((line, i) => {
+        createdBlocks.push({
+          id: nanoid(),
+          type: line.type,
+          content: line.content, // RichTextSegment[]
+          parentId: null,
+          order: prev[index].order + i + 1, // Will be reordered anyway
+          indent: 0,
+          checked: line.checked,
+          language: line.language,
+          calloutType: line.calloutType
+        })
       })
-      setShowSlashMenu(true)
-      setSlashFilter('')
-      return
-    }
 
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      addBlockAfter(block.id)
-      return
-    }
+      // Insert after current block
+      // OPTION: If current block is empty, replace it with first pasted block?
+      // For now, let's just insert after to be safe and simple
+      newBlocks.splice(index + 1, 0, ...createdBlocks)
 
-    if (e.key === 'Backspace' && block.content === '' && blocks.length > 1) {
-      e.preventDefault()
-      deleteBlock(block.id)
-      return
-    }
+      // Re-index orders
+      return newBlocks.map((b, i) => ({ ...b, order: i }))
+    })
+  }, [saveToHistory])
 
-    // Navigation
-    if (e.key === 'ArrowUp' && textarea.selectionStart === 0) {
-      const index = blocks.findIndex(b => b.id === block.id)
-      if (index > 0) {
-        e.preventDefault()
-        setFocusedBlockId(blocks[index - 1].id)
+  // NEW: Handle Enter - splits block at cursor (tree mutation)
+  const onEnterSplit = useCallback((blockId: string, cursorPos: CursorPosition) => {
+    saveToHistory()
+
+    setBlocks(prev => {
+      const index = prev.findIndex(b => b.id === blockId)
+      if (index === -1) return prev
+
+      const block = prev[index]
+      const newBlockId = nanoid()
+
+      // Use the split operation from block-operations
+      const [updatedBlock, newBlock] = splitBlockAtCursor(block, cursorPos, newBlockId)
+
+      // Update orders for all subsequent blocks
+      const newBlocks = [...prev]
+      newBlocks[index] = updatedBlock
+      newBlocks.splice(index + 1, 0, newBlock)
+
+      // Reorder
+      return newBlocks.map((b, i) => ({ ...b, order: i }))
+    })
+
+    // Focus new block (use timeout to let render complete)
+    setTimeout(() => {
+      // Find the newly created block (it's right after the current one)
+      setBlocks(currentBlocks => {
+        const index = currentBlocks.findIndex(b => b.id === blockId)
+        if (index >= 0 && index + 1 < currentBlocks.length) {
+          setFocusedBlockId(currentBlocks[index + 1].id)
+        }
+        return currentBlocks
+      })
+    }, 10)
+  }, [saveToHistory])
+
+  // NEW: Handle Backspace at start - merges with previous block (tree mutation)
+  const onBackspaceMerge = useCallback((blockId: string) => {
+    saveToHistory()
+
+    setBlocks(prev => {
+      const index = prev.findIndex(b => b.id === blockId)
+      if (index <= 0) return prev // Can't merge first block
+
+      const currentBlock = prev[index]
+      const prevBlock = prev[index - 1]
+
+      // Special case: if previous block is divider, just delete it
+      if (prevBlock.type === 'divider') {
+        const newBlocks = prev.filter((_, i) => i !== index - 1)
+        setTimeout(() => setFocusedBlockId(blockId), 10)
+        return newBlocks.map((b, i) => ({ ...b, order: i }))
       }
-    }
 
-    if (e.key === 'ArrowDown' && textarea.selectionStart === block.content.length) {
-      const index = blocks.findIndex(b => b.id === block.id)
-      if (index < blocks.length - 1) {
-        e.preventDefault()
-        setFocusedBlockId(blocks[index + 1].id)
+      // Merge blocks using the operation from block-operations
+      const mergedBlock = mergeBlocks(prevBlock, currentBlock)
+
+      const newBlocks = prev.filter((_, i) => i !== index)
+      newBlocks[index - 1] = mergedBlock
+
+      // Focus the merged block
+      setTimeout(() => setFocusedBlockId(prevBlock.id), 10)
+
+      return newBlocks.map((b, i) => ({ ...b, order: i }))
+    })
+  }, [saveToHistory])
+
+  // Focus navigation helpers
+  const focusPreviousBlock = useCallback(() => {
+    setBlocks(currentBlocks => {
+      const currentIndex = currentBlocks.findIndex(b => b.id === focusedBlockId)
+      if (currentIndex > 0) {
+        setFocusedBlockId(currentBlocks[currentIndex - 1].id)
       }
-    }
-  }, [blocks, addBlockAfter, deleteBlock])
+      return currentBlocks
+    })
+  }, [focusedBlockId])
+
+  const focusNextBlock = useCallback(() => {
+    setBlocks(currentBlocks => {
+      const currentIndex = currentBlocks.findIndex(b => b.id === focusedBlockId)
+      if (currentIndex < currentBlocks.length - 1) {
+        setFocusedBlockId(currentBlocks[currentIndex + 1].id)
+      }
+      return currentBlocks
+    })
+  }, [focusedBlockId])
 
   const getBlockNumber = (block: Block, index: number) => {
       let count = 1
@@ -465,13 +560,16 @@ export function DocumentEditor() {
                             isSelected={selectedBlockIds.has(block.id)}
                             updateBlock={updateBlock}
                             addBlockAfter={addBlockAfter}
-                            addBlocksAfter={addBlocksAfter}
                             deleteBlock={deleteBlock}
                             duplicateBlock={duplicateBlock}
-                            onKeyDown={handleKeyDown}
+                            onEnterSplit={onEnterSplit}
+                            onBackspaceMerge={onBackspaceMerge}
+                            focusPreviousBlock={focusPreviousBlock}
+                            focusNextBlock={focusNextBlock}
                             setFocusedBlockId={setFocusedBlockId}
                             toggleSelection={toggleBlockSelection} // New Prop
                             getBlockNumber={getBlockNumber}
+                            onPaste={onPaste}
                         />
                     ))}
                 </AnimatePresence>
@@ -515,7 +613,7 @@ function CommandPopover({
     open: boolean,
     onOpenChange: (open: boolean) => void,
     position: { top: number, left: number },
-    onSelect: (type: SlashCommandType, calloutType?: Block['calloutType']) => void,
+    onSelect: (type: BlockType, calloutType?: Block['calloutType']) => void,
     isDark: boolean
 }) {
     if (!open) return null

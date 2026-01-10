@@ -134,3 +134,13 @@
 .animate-dash {
   animation: dash 0.5s linear infinite;
 }
+
+/* Animation for flowing connections */
+@keyframes flowAnimation {
+  0% {
+    stroke-dashoffset: 20;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
