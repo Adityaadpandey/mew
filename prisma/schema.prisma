@@ -1,0 +1,334 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  image         String?
+  avatar        String?
+  passwordHash  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  workspaces    WorkspaceMember[]
+  documents     Document[]
+  comments      Comment[]
+  activities    Activity[]
+  accounts      Account[]
+  sessions      Session[]
+  aiChats       AIChat[]
+  notes         Note[]
+  assignedTasks Task[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  icon      String?
+  plan      Plan     @default(FREE)
+  settings  Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members   WorkspaceMember[]
+  documents Document[]
+  folders   Folder[]
+  templates Template[]
+  projects  Project[]
+}
+
+enum Plan {
+  FREE
+  PRO
+  TEAM
+  ENTERPRISE
+}
+
+model WorkspaceMember {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id])
+  workspaceId String
+  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  role        MemberRole
+  joinedAt    DateTime   @default(now())
+
+  @@unique([userId, workspaceId])
+}
+
+enum MemberRole {
+  ADMIN
+  EDITOR
+  COMMENTER
+  VIEWER
+}
+
+model Folder {
+  id          String    @id @default(cuid())
+  name        String
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  parentId    String?
+  parent      Folder?   @relation("FolderHierarchy", fields: [parentId], references: [id])
+  children    Folder[]  @relation("FolderHierarchy")
+  documents   Document[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Document {
+  id          String    @id @default(cuid())
+  title       String
+  type        DocType
+  content     Json?
+  thumbnail   String?
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  folderId    String?
+  folder      Folder?   @relation(fields: [folderId], references: [id])
+  creatorId   String
+  creator     User      @relation(fields: [creatorId], references: [id])
+  isPublic    Boolean   @default(false)
+  publicSlug  String?   @unique
+  isArchived  Boolean   @default(false)
+  isFavorite  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  versions      Version[]
+  comments      Comment[]
+  permissions   Permission[]
+  collaborators Collaborator[]
+  aiChats       AIChat[]
+  notes         Note[]
+  snapshots     DocumentSnapshot[]
+  projectId     String?
+  project       Project?  @relation(fields: [projectId], references: [id])
+}
+
+model Project {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  documents   Document[]
+  tasks       Task[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([workspaceId])
+}
+
+model Task {
+  id          String       @id @default(cuid())
+  title       String
+  description String?
+  status      TaskStatus   @default(TODO)
+  priority    TaskPriority @default(MEDIUM)
+  projectId   String
+  project     Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assigneeId  String?
+  assignee    User?        @relation(fields: [assigneeId], references: [id])
+  position    Float        @default(0) // For Kanban ordering
+  dueDate     DateTime?
+  tags        String[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([projectId])
+  @@index([assigneeId])
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  DONE
+  BLOCKED
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum DocType {
+  DOCUMENT
+  DIAGRAM
+  CANVAS
+}
+
+model Version {
+  id          String   @id @default(cuid())
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  content     Json
+  createdBy   String
+  createdAt   DateTime @default(now())
+  description String?
+}
+
+model Comment {
+  id         String    @id @default(cuid())
+  documentId String
+  document   Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  content    String    @db.Text
+  position   Json?
+  resolved   Boolean   @default(false)
+  parentId   String?
+  parent     Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies    Comment[] @relation("CommentReplies")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Permission {
+  id         String         @id @default(cuid())
+  documentId String
+  document   Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId     String?
+  email      String?
+  role       PermissionRole
+  createdAt  DateTime       @default(now())
+
+  @@unique([documentId, userId])
+  @@unique([documentId, email])
+}
+
+enum PermissionRole {
+  OWNER
+  EDITOR
+  COMMENTER
+  VIEWER
+}
+
+model Collaborator {
+  id         String   @id @default(cuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId     String
+  cursor     Json?
+  selection  Json?
+  lastSeen   DateTime @default(now())
+
+  @@unique([documentId, userId])
+}
+
+model Template {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  thumbnail   String?
+  content     Json
+  category    String
+  workspaceId String?
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id])
+  isPublic    Boolean    @default(false)
+  usageCount  Int        @default(0)
+  createdAt   DateTime   @default(now())
+}
+
+model Activity {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  action     String
+  targetType String
+  targetId   String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+}
+
+model AIChat {
+  id          String   @id @default(cuid())
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  messages    AIMessage[]
+  title       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AIMessage {
+  id        String   @id @default(cuid())
+  chatId    String
+  chat      AIChat   @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  role      String   // "user" or "assistant"
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+}
+
+model Note {
+  id          String   @id @default(cuid())
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  content     String   @db.Text
+  position    Json?    // { x, y } for canvas position
+  color       String   @default("#FEF3C7")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DocumentSnapshot {
+  id          String   @id @default(cuid())
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  content     Json
+  description String?
+  createdBy   String
+  createdAt   DateTime @default(now())
+
+  @@index([documentId, createdAt])
+}
