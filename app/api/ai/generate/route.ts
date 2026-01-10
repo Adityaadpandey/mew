@@ -97,39 +97,41 @@ const THEMES = {
 }
 
 // ============================================================================
-// GROUP COLOR SCHEMES - Auto-detected from group names
+// GROUP COLOR SCHEMES - Eraser.io style (very subtle, almost transparent)
 // ============================================================================
 const GROUP_COLORS: Record<string, { bg: string; border: string; header: string }> = {
-  'features': { bg: '#1a1a1a', border: '#3f3f46', header: '#a1a1aa' },
-  'tech': { bg: '#172554', border: '#1e40af', header: '#60a5fa' },
-  'frontend': { bg: '#14532d', border: '#166534', header: '#4ade80' },
-  'backend': { bg: '#1e1b4b', border: '#3730a3', header: '#818cf8' },
-  'database': { bg: '#1c1917', border: '#44403c', header: '#a8a29e' },
-  'data': { bg: '#1c1917', border: '#44403c', header: '#a8a29e' },
-  'auth': { bg: '#3f3f46', border: '#52525b', header: '#d4d4d8' },
-  'security': { bg: '#3f1a1a', border: '#7f1d1d', header: '#fca5a5' },
-  'api': { bg: '#0c4a6e', border: '#0369a1', header: '#38bdf8' },
-  'ai': { bg: '#422006', border: '#92400e', header: '#fbbf24' },
-  'ml': { bg: '#422006', border: '#92400e', header: '#fbbf24' },
-  'users': { bg: '#1a1a1a', border: '#3f3f46', header: '#a1a1aa' },
-  'clients': { bg: '#1a1a1a', border: '#3f3f46', header: '#a1a1aa' },
-  'services': { bg: '#14532d', border: '#166534', header: '#4ade80' },
-  'microservices': { bg: '#14532d', border: '#166534', header: '#4ade80' },
-  'infrastructure': { bg: '#1e1b4b', border: '#3730a3', header: '#818cf8' },
-  'infra': { bg: '#1e1b4b', border: '#3730a3', header: '#818cf8' },
-  'cloud': { bg: '#0c4a6e', border: '#0369a1', header: '#38bdf8' },
-  'devops': { bg: '#0c4a6e', border: '#0369a1', header: '#38bdf8' },
-  'monitoring': { bg: '#14532d', border: '#166534', header: '#4ade80' },
-  'analytics': { bg: '#2d1f3d', border: '#5b21b6', header: '#a78bfa' },
-  'storage': { bg: '#1c1917', border: '#44403c', header: '#a8a29e' },
-  'cache': { bg: '#3f1a1a', border: '#7f1d1d', header: '#fca5a5' },
-  'queue': { bg: '#422006', border: '#92400e', header: '#fbbf24' },
-  'messaging': { bg: '#422006', border: '#92400e', header: '#fbbf24' },
-  'external': { bg: '#0f172a', border: '#1e293b', header: '#94a3b8' },
-  'third-party': { bg: '#0f172a', border: '#1e293b', header: '#94a3b8' },
-  'payment': { bg: '#2d1f3d', border: '#5b21b6', header: '#a78bfa' },
-  'notification': { bg: '#422006', border: '#92400e', header: '#fbbf24' },
-  'default': { bg: '#0a0a0a', border: '#262626', header: '#a1a1aa' },
+  'features': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
+  'tech': { bg: 'rgba(14, 74, 94, 0.15)', border: '#0e4a5e', header: '#22d3ee' },
+  'frontend': { bg: 'rgba(14, 74, 94, 0.15)', border: '#0e4a5e', header: '#22d3ee' },
+  'backend': { bg: 'rgba(59, 29, 110, 0.15)', border: '#3b1d6e', header: '#a78bfa' },
+  'database': { bg: 'rgba(30, 58, 95, 0.15)', border: '#1e3a5f', header: '#60a5fa' },
+  'data': { bg: 'rgba(30, 58, 95, 0.15)', border: '#1e3a5f', header: '#60a5fa' },
+  'auth': { bg: 'rgba(22, 101, 52, 0.15)', border: '#166534', header: '#4ade80' },
+  'security': { bg: 'rgba(22, 101, 52, 0.15)', border: '#166534', header: '#4ade80' },
+  'api': { bg: 'rgba(14, 74, 94, 0.15)', border: '#0e4a5e', header: '#22d3ee' },
+  'ai': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
+  'ml': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
+  'users': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
+  'clients': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
+  'services': { bg: 'rgba(59, 29, 110, 0.15)', border: '#3b1d6e', header: '#a78bfa' },
+  'microservices': { bg: 'rgba(59, 29, 110, 0.15)', border: '#3b1d6e', header: '#a78bfa' },
+  'infrastructure': { bg: 'rgba(51, 65, 85, 0.15)', border: '#334155', header: '#94a3b8' },
+  'infra': { bg: 'rgba(51, 65, 85, 0.15)', border: '#334155', header: '#94a3b8' },
+  'cloud': { bg: 'rgba(51, 65, 85, 0.15)', border: '#334155', header: '#94a3b8' },
+  'devops': { bg: 'rgba(14, 74, 94, 0.15)', border: '#0e4a5e', header: '#22d3ee' },
+  'monitoring': { bg: 'rgba(22, 101, 52, 0.15)', border: '#166534', header: '#4ade80' },
+  'analytics': { bg: 'rgba(91, 33, 182, 0.15)', border: '#5b21b6', header: '#a78bfa' },
+  'storage': { bg: 'rgba(30, 58, 95, 0.15)', border: '#1e3a5f', header: '#60a5fa' },
+  'cache': { bg: 'rgba(127, 29, 29, 0.15)', border: '#7f1d1d', header: '#f87171' },
+  'queue': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
+  'messaging': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
+  'external': { bg: 'rgba(30, 41, 59, 0.15)', border: '#1e293b', header: '#94a3b8' },
+  'third-party': { bg: 'rgba(30, 41, 59, 0.15)', border: '#1e293b', header: '#94a3b8' },
+  'payment': { bg: 'rgba(91, 33, 182, 0.15)', border: '#5b21b6', header: '#a78bfa' },
+  'notification': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
+  'usage': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
+  'getting started': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
+  'default': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
 }
 
 // ============================================================================
@@ -354,17 +356,17 @@ interface DiagramData {
 }
 
 // ============================================================================
-// LAYOUT CONSTANTS
+// LAYOUT CONSTANTS - Eraser.io style spacing
 // ============================================================================
 const LAYOUT = {
-  GROUP_PADDING: 24,
-  GROUP_HEADER_HEIGHT: 36,
-  NODE_WIDTH: 80,
-  NODE_HEIGHT: 80,
-  NODE_GAP: 16,
-  GROUP_GAP: 40,
-  START_X: 60,
-  START_Y: 60,
+  GROUP_PADDING: 20,
+  GROUP_HEADER_HEIGHT: 32,
+  NODE_WIDTH: 72,  // Compact icon-centric nodes
+  NODE_HEIGHT: 72,
+  NODE_GAP: 12,
+  GROUP_GAP: 32,
+  START_X: 80,
+  START_Y: 80,
 }
 
 const SIZE_MULTIPLIERS = {
@@ -994,7 +996,7 @@ function transformDiagram(data: DiagramData) {
 }
 
 // ============================================================================
-// SYSTEM PROMPT BUILDER - Gives AI full knowledge of all capabilities
+// SYSTEM PROMPT BUILDER - Eraser.io Style Diagram Generation
 // ============================================================================
 function buildSystemPrompt(canvasContext?: CanvasContext) {
   let canvasDescription = ''
@@ -1008,41 +1010,62 @@ CURRENT CANVAS STATE:
 `
   }
 
-  return `You are an EXPERT DIAGRAM ARCHITECT who thinks strategically before creating any diagram.
-You create stunning, professional diagrams like Eraser.io, Miro, and Lucidchart.
+  return `You are an EXPERT DIAGRAM ARCHITECT creating ERASER.IO STYLE diagrams.
+Your diagrams are clean, professional, icon-centric with nested groups.
 ${canvasDescription}
+
+═══════════════════════════════════════════════════════════════════════════════
+                         🎨 ERASER.IO DESIGN PRINCIPLES
+═══════════════════════════════════════════════════════════════════════════════
+
+**VISUAL STYLE:**
+• Icon-centric nodes: Large icon with small label below
+• Nested groups: Groups inside groups with header labels
+• Subtle backgrounds: Very low opacity (0.3-0.4) for groups
+• Clean connections: Smooth curves with subtle gray colors
+• Dark theme: Pure black/dark gray palette
+• Professional typography: Small, uppercase group labels
+
+**LAYOUT RULES:**
+• Groups arranged in logical flow (left-to-right or top-to-bottom)
+• Nodes inside groups in grid layout (3-4 per row)
+• Subgroups for related items within a group
+• Consistent spacing between all elements
+• NO overlapping - everything has clear boundaries
+
+**NODE DESIGN:**
+• Compact size (72x72 default) - icon-focused
+• Auto-detected icons based on text (Next.js, React, Database, etc.)
+• Subtle colored backgrounds matching the domain
+• Clean borders, no heavy shadows
+
+**CONNECTION DESIGN:**
+• Subtle gray lines (#52525b) by default
+• Smooth bezier curves between nodes
+• Labels only when necessary
+• Animated lines for data flow paths
 
 ═══════════════════════════════════════════════════════════════════════════════
                          🧠 ARCHITECT'S THINKING PROCESS
 ═══════════════════════════════════════════════════════════════════════════════
 
-Before generating ANY diagram, you MUST think through these steps:
+Before generating ANY diagram, think through:
 
-**STEP 1: UNDERSTAND THE DOMAIN**
-- What system/process is being described?
-- What is the primary purpose? (architecture, flow, process, comparison)
-- Who is the audience? (developers, stakeholders, users)
-- What level of detail is needed? (high-level overview vs detailed)
+**STEP 1: IDENTIFY MAIN GROUPS**
+- What are the major categories? (Features, Tech Stack, Usage, etc.)
+- How do they relate to each other?
 
-**STEP 2: IDENTIFY COMPONENTS**
-- What are the main actors/entities? (users, services, databases)
-- What are the logical groupings? (layers, domains, phases)
-- What are the relationships? (data flow, dependencies, sequences)
-- What are the critical paths? (main flow vs edge cases)
+**STEP 2: IDENTIFY SUBGROUPS**
+- Within each group, what are the subcategories?
+- Example: Tech Stack → Frontend, Backend, Database, AI Integration
 
-**STEP 3: CHOOSE ARCHITECTURE PATTERN**
-- Layered Architecture: Client → API → Services → Data (most common)
-- Pipeline/Flow: Source → Process → Transform → Output
-- Hub-and-Spoke: Central component with satellites
-- Hierarchical: Parent-child relationships
-- Mesh/Network: Many-to-many connections
-- Sequential: Step-by-step process flow
+**STEP 3: IDENTIFY NODES**
+- What specific items go in each subgroup?
+- Keep names SHORT (1-2 words): "Next.js", "React", "PostgreSQL"
 
-**STEP 4: PLAN THE LAYOUT**
-- Which layout best represents the data flow?
-- How should groups be ordered? (top-to-bottom, left-to-right)
-- What connections show the critical path?
-- What should be highlighted vs de-emphasized?
+**STEP 4: PLAN CONNECTIONS**
+- What flows between groups?
+- What are the main data/control paths?
 
 **STEP 5: DESIGN DECISIONS**
 - Group naming: Use domain-specific terms
