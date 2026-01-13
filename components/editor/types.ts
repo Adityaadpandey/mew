@@ -29,6 +29,7 @@ export type BlockType =
     | 'callout'
     | 'divider'
     | 'image'
+    | 'toggle'
 
 /** The core block interface - the atomic unit of the editor */
 export interface Block {
@@ -49,6 +50,7 @@ export interface Block {
     language?: string                                    // code block
     imageUrl?: string                                    // image
     align?: 'left' | 'center' | 'right'
+    collapsed?: boolean                                  // toggle
 }
 
 /** Precise cursor position within the block tree */
@@ -109,3 +111,51 @@ export function textToSegments(text: string | RichTextSegment[] | undefined): Ri
 }
 
 export type SlashCommandType = BlockType
+
+/** Serialize blocks for storage (convert RichTextSegment[] to string for DB) */
+export function serializeBlocksForStorage(blocks: Block[]): Array<{
+    id: string
+    type: string
+    content: string
+    checked?: boolean
+    calloutType?: string
+    imageUrl?: string
+    language?: string
+}> {
+    return blocks.map(block => ({
+        id: block.id,
+        type: block.type,
+        content: segmentsToText(block.content),
+        checked: block.checked,
+        calloutType: block.calloutType,
+        imageUrl: block.imageUrl,
+        language: block.language,
+    }))
+}
+
+/** Deserialize blocks from storage */
+export function deserializeBlocksFromStorage(rawBlocks: Array<{
+    id: string
+    type: string
+    content: string | RichTextSegment[]
+    checked?: boolean
+    calloutType?: string
+    imageUrl?: string
+    language?: string
+    parentId?: string | null
+    order?: number
+    indent?: number
+}>): Block[] {
+    return rawBlocks.map((block, i) => ({
+        id: block.id,
+        type: block.type as BlockType,
+        content: textToSegments(block.content as string | RichTextSegment[]),
+        parentId: block.parentId ?? null,
+        order: block.order ?? i,
+        indent: block.indent ?? 0,
+        checked: block.checked,
+        calloutType: block.calloutType as Block['calloutType'],
+        imageUrl: block.imageUrl,
+        language: block.language,
+    }))
+}

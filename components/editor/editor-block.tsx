@@ -9,8 +9,19 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 import { Reorder, useDragControls } from 'framer-motion'
-import { AlertCircle, AlertTriangle, Check, CheckCircle, Copy, GripVertical, Info, Trash2 } from 'lucide-react'
-import { useCallback } from 'react'
+import {
+  AlertCircle,
+  AlertTriangle,
+  Check,
+  CheckCircle,
+  ChevronRight,
+  Copy,
+  GripVertical,
+  Info,
+  Plus,
+  Trash2
+} from 'lucide-react'
+import { useCallback, useState } from 'react'
 import { RichTextContent } from './rich-text-content'
 import { Block, BlockType, CursorPosition, RichTextSegment, segmentsToText } from './types'
 
@@ -32,6 +43,8 @@ interface EditorBlockProps {
   focusNextBlock: () => void
   onPaste: (blockId: string, e: React.ClipboardEvent) => void
   getBlockNumber: (block: Block, index: number) => number
+  onSlashCommand?: (blockId: string, position: { top: number; left: number }) => void
+  onSelectionChange?: (hasSelection: boolean, rect?: DOMRect) => void
 }
 
 export function EditorBlock({
@@ -51,59 +64,52 @@ export function EditorBlock({
   focusPreviousBlock,
   focusNextBlock,
   onPaste,
-  getBlockNumber
+  getBlockNumber,
+  onSlashCommand,
+  onSelectionChange,
 }: EditorBlockProps) {
   const dragControls = useDragControls()
+  const [isHovered, setIsHovered] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
 
-  // Get plain text for display purposes
-  const plainText = segmentsToText(block.content)
-  const isEmpty = plainText === ''
-
-  // Handle content changes from RichTextContent
+  // Handle content changes
   const handleContentChange = useCallback((newContent: RichTextSegment[]) => {
-    // Check for markdown shortcuts (e.g., "# " for heading)
     const text = segmentsToText(newContent)
 
-    if (block.type === 'paragraph' && text.length < 5) {
-      // Heading shortcuts
-      if (text === '# ') {
-        updateBlock(block.id, { type: 'heading1', content: [{ text: '', marks: [] }] })
-        return
+    // Markdown shortcuts for paragraph blocks
+    if (block.type === 'paragraph' && text.length < 6) {
+      const shortcuts: Record<string, { type: BlockType; calloutType?: Block['calloutType'] }> = {
+        '# ': { type: 'heading1' },
+        '## ': { type: 'heading2' },
+        '### ': { type: 'heading3' },
+        '- ': { type: 'bulletList' },
+        '* ': { type: 'bulletList' },
+        '1. ': { type: 'numberedList' },
+        '[] ': { type: 'checkList' },
+        '[ ] ': { type: 'checkList' },
+        '> ': { type: 'quote' },
+        '---': { type: 'divider' },
       }
-      if (text === '## ') {
-        updateBlock(block.id, { type: 'heading2', content: [{ text: '', marks: [] }] })
-        return
+
+      for (const [prefix, config] of Object.entries(shortcuts)) {
+        if (text === prefix || (prefix === '---' && text === '---')) {
+          updateBlock(block.id, {
+            type: config.type,
+            content: [{ text: '', marks: [] }],
+            calloutType: config.calloutType,
+            checked: config.type === 'checkList' ? false : undefined,
+          })
+          return
+        }
       }
-      if (text === '### ') {
-        updateBlock(block.id, { type: 'heading3', content: [{ text: '', marks: [] }] })
-        return
-      }
-      // List shortcuts
-      if (text === '- ' || text === '* ') {
-        updateBlock(block.id, { type: 'bulletList', content: [{ text: '', marks: [] }] })
-        return
-      }
-      if (text === '1. ') {
-        updateBlock(block.id, { type: 'numberedList', content: [{ text: '', marks: [] }] })
-        return
-      }
-      if (text === '[] ') {
-        updateBlock(block.id, { type: 'checkList', content: [{ text: '', marks: [] }], checked: false })
-        return
-      }
-      // Quote
-      if (text === '> ') {
-        updateBlock(block.id, { type: 'quote', content: [{ text: '', marks: [] }] })
-        return
-      }
-      // Code block
+
+      // Code block shortcut
       if (text === '```') {
-        updateBlock(block.id, { type: 'code', content: [{ text: '', marks: [] }], language: 'typescript' })
-        return
-      }
-      // Divider
-      if (text === '---') {
-        updateBlock(block.id, { type: 'divider', content: [{ text: '', marks: [] }] })
+        updateBlock(block.id, {
+          type: 'code',
+          content: [{ text: '', marks: [] }],
+          language: 'typescript'
+        })
         return
       }
     }
@@ -111,42 +117,43 @@ export function EditorBlock({
     updateBlock(block.id, { content: newContent })
   }, [block.id, block.type, updateBlock])
 
-  // Handle Enter - split block
   const handleEnter = useCallback((cursorPos: CursorPosition) => {
     onEnterSplit(block.id, cursorPos)
   }, [block.id, onEnterSplit])
 
-  // Handle Backspace at start - merge with previous
   const handleBackspaceAtStart = useCallback(() => {
     onBackspaceMerge(block.id)
   }, [block.id, onBackspaceMerge])
 
-  // Notion-like typography based on block type
+  const handleSlashCommand = useCallback((position: { top: number; left: number }) => {
+    onSlashCommand?.(block.id, position)
+  }, [block.id, onSlashCommand])
+
+  // Block styles based on type
   const getBlockStyles = () => {
     const base = cn(
-      'transition-all',
-      isDark ? 'text-neutral-100' : 'text-[#37352f]'
+      'transition-colors duration-75',
+      isDark ? 'text-neutral-100' : 'text-neutral-800'
     )
 
     switch (block.type) {
       case 'heading1':
-        return cn(base, 'text-4xl font-bold leading-tight mt-8 mb-2')
+        return cn(base, 'text-[2rem] font-bold leading-tight tracking-tight')
       case 'heading2':
-        return cn(base, 'text-2xl font-semibold leading-snug mt-6 mb-2')
+        return cn(base, 'text-[1.5rem] font-semibold leading-snug')
       case 'heading3':
-        return cn(base, 'text-xl font-medium leading-snug mt-4 mb-1')
+        return cn(base, 'text-[1.25rem] font-medium leading-snug')
       case 'quote':
-        return cn(base, 'text-lg italic border-l-4 border-neutral-300 dark:border-neutral-600 pl-4 py-1')
+        return cn(base, 'text-lg italic')
       case 'code':
-        return cn(base, 'font-mono text-sm bg-neutral-100 dark:bg-neutral-900 p-4 rounded-lg')
-      case 'callout':
-        return cn(base, 'text-base')
+        return cn(base, 'font-mono text-sm')
       default:
         return cn(base, 'text-base leading-relaxed')
     }
   }
 
   const getPlaceholder = () => {
+    if (index === 0 && block.type === 'heading1') return 'Untitled'
     switch (block.type) {
       case 'heading1': return 'Heading 1'
       case 'heading2': return 'Heading 2'
@@ -157,16 +164,19 @@ export function EditorBlock({
       case 'numberedList':
       case 'checkList':
         return 'List item'
-      default: return "Type '/' for commands..."
+      case 'toggle':
+        return 'Toggle'
+      default:
+        return "Type '/' for commands..."
     }
   }
 
-  // Render block based on type
+  // Render block content based on type
   const renderBlockContent = () => {
-    // Divider is special - no editable content
+    // Divider
     if (block.type === 'divider') {
       return (
-        <div className="py-4">
+        <div className="py-3">
           <hr className={cn(
             'border-t',
             isDark ? 'border-neutral-700' : 'border-neutral-200'
@@ -175,24 +185,192 @@ export function EditorBlock({
       )
     }
 
-    // Callout has special wrapper
+    // Callout
     if (block.type === 'callout') {
-      const calloutStyles = {
-        info: { bg: 'bg-blue-50 dark:bg-blue-950/30', border: 'border-blue-200 dark:border-blue-800', icon: Info },
-        warning: { bg: 'bg-amber-50 dark:bg-amber-950/30', border: 'border-amber-200 dark:border-amber-800', icon: AlertTriangle },
-        success: { bg: 'bg-green-50 dark:bg-green-950/30', border: 'border-green-200 dark:border-green-800', icon: CheckCircle },
-        error: { bg: 'bg-red-50 dark:bg-red-950/30', border: 'border-red-200 dark:border-red-800', icon: AlertCircle },
+      const styles = {
+        info: { bg: 'bg-blue-50 dark:bg-blue-950/40', border: 'border-l-4 border-blue-400', icon: Info, iconColor: 'text-blue-500' },
+        warning: { bg: 'bg-amber-50 dark:bg-amber-950/40', border: 'border-l-4 border-amber-400', icon: AlertTriangle, iconColor: 'text-amber-500' },
+        success: { bg: 'bg-emerald-50 dark:bg-emerald-950/40', border: 'border-l-4 border-emerald-400', icon: CheckCircle, iconColor: 'text-emerald-500' },
+        error: { bg: 'bg-red-50 dark:bg-red-950/40', border: 'border-l-4 border-red-400', icon: AlertCircle, iconColor: 'text-red-500' },
       }
-      const style = calloutStyles[block.calloutType || 'info']
+      const style = styles[block.calloutType || 'info']
       const Icon = style.icon
 
       return (
-        <div className={cn('flex gap-3 p-4 rounded-lg border', style.bg, style.border)}>
-          <Icon className="w-5 h-5 mt-0.5 flex-shrink-0" />
+        <div className={cn('flex gap-3 p-4 rounded-r-lg', style.bg, style.border)}>
+          <Icon className={cn('w-5 h-5 mt-0.5 shrink-0', style.iconColor)} />
+          <div className="flex-1 min-w-0">
+            <RichTextContent
+              block={block}
+              className={getBlockStyles()}
+              placeholder="Callout text..."
+              isFocused={isFocused}
+              isDark={isDark}
+              onContentChange={handleContentChange}
+              onEnter={handleEnter}
+              onBackspaceAtStart={handleBackspaceAtStart}
+              onArrowUp={focusPreviousBlock}
+              onArrowDown={focusNextBlock}
+              onFocus={() => setFocusedBlockId(block.id)}
+              onBlur={() => {}}
+              onSlashCommand={handleSlashCommand}
+              onSelectionChange={onSelectionChange}
+            />
+          </div>
+        </div>
+      )
+    }
+
+    // Toggle
+    if (block.type === 'toggle') {
+      return (
+        <div className="flex items-start gap-1">
+          <button
+            onClick={() => updateBlock(block.id, { collapsed: !block.collapsed })}
+            className={cn(
+              'p-0.5 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-transform',
+              block.collapsed ? '' : 'rotate-90'
+            )}
+          >
+            <ChevronRight className="w-4 h-4 text-neutral-400" />
+          </button>
+          <div className="flex-1 min-w-0">
+            <RichTextContent
+              block={block}
+              className={getBlockStyles()}
+              placeholder={getPlaceholder()}
+              isFocused={isFocused}
+              isDark={isDark}
+              onContentChange={handleContentChange}
+              onEnter={handleEnter}
+              onBackspaceAtStart={handleBackspaceAtStart}
+              onArrowUp={focusPreviousBlock}
+              onArrowDown={focusNextBlock}
+              onFocus={() => setFocusedBlockId(block.id)}
+              onBlur={() => {}}
+              onSlashCommand={handleSlashCommand}
+              onSelectionChange={onSelectionChange}
+            />
+          </div>
+        </div>
+      )
+    }
+
+    // Bullet list
+    if (block.type === 'bulletList') {
+      return (
+        <div className="flex items-start gap-2">
+          <span className={cn(
+            'w-6 h-6 flex items-center justify-center shrink-0',
+            isDark ? 'text-neutral-500' : 'text-neutral-400'
+          )}>
+            •
+          </span>
+          <div className="flex-1 min-w-0">
+            <RichTextContent
+              block={block}
+              className={getBlockStyles()}
+              placeholder={getPlaceholder()}
+              isFocused={isFocused}
+              isDark={isDark}
+              onContentChange={handleContentChange}
+              onEnter={handleEnter}
+              onBackspaceAtStart={handleBackspaceAtStart}
+              onArrowUp={focusPreviousBlock}
+              onArrowDown={focusNextBlock}
+              onFocus={() => setFocusedBlockId(block.id)}
+              onBlur={() => {}}
+              onSlashCommand={handleSlashCommand}
+              onSelectionChange={onSelectionChange}
+            />
+          </div>
+        </div>
+      )
+    }
+
+    // Numbered list
+    if (block.type === 'numberedList') {
+      const num = getBlockNumber(block, index)
+      return (
+        <div className="flex items-start gap-2">
+          <span className={cn(
+            'w-6 h-6 flex items-center justify-center shrink-0 tabular-nums',
+            isDark ? 'text-neutral-500' : 'text-neutral-400'
+          )}>
+            {num}.
+          </span>
+          <div className="flex-1 min-w-0">
+            <RichTextContent
+              block={block}
+              className={getBlockStyles()}
+              placeholder={getPlaceholder()}
+              isFocused={isFocused}
+              isDark={isDark}
+              onContentChange={handleContentChange}
+              onEnter={handleEnter}
+              onBackspaceAtStart={handleBackspaceAtStart}
+              onArrowUp={focusPreviousBlock}
+              onArrowDown={focusNextBlock}
+              onFocus={() => setFocusedBlockId(block.id)}
+              onBlur={() => {}}
+              onSlashCommand={handleSlashCommand}
+              onSelectionChange={onSelectionChange}
+            />
+          </div>
+        </div>
+      )
+    }
+
+    // Check list
+    if (block.type === 'checkList') {
+      return (
+        <div className="flex items-start gap-2">
+          <button
+            onClick={() => updateBlock(block.id, { checked: !block.checked })}
+            className={cn(
+              'w-[18px] h-[18px] mt-[3px] rounded border-2 flex items-center justify-center transition-all shrink-0',
+              block.checked
+                ? 'bg-blue-500 border-blue-500'
+                : isDark
+                  ? 'border-neutral-600 hover:border-neutral-500'
+                  : 'border-neutral-300 hover:border-neutral-400'
+            )}
+          >
+            {block.checked && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
+          </button>
+          <div className={cn('flex-1 min-w-0', block.checked && 'opacity-50')}>
+            <RichTextContent
+              block={block}
+              className={cn(getBlockStyles(), block.checked && 'line-through')}
+              placeholder={getPlaceholder()}
+              isFocused={isFocused}
+              isDark={isDark}
+              onContentChange={handleContentChange}
+              onEnter={handleEnter}
+              onBackspaceAtStart={handleBackspaceAtStart}
+              onArrowUp={focusPreviousBlock}
+              onArrowDown={focusNextBlock}
+              onFocus={() => setFocusedBlockId(block.id)}
+              onBlur={() => {}}
+              onSlashCommand={handleSlashCommand}
+              onSelectionChange={onSelectionChange}
+            />
+          </div>
+        </div>
+      )
+    }
+
+    // Quote
+    if (block.type === 'quote') {
+      return (
+        <div className={cn(
+          'border-l-[3px] pl-4',
+          isDark ? 'border-neutral-600' : 'border-neutral-300'
+        )}>
           <RichTextContent
             block={block}
             className={getBlockStyles()}
-            placeholder="Callout text..."
+            placeholder={getPlaceholder()}
             isFocused={isFocused}
             isDark={isDark}
             onContentChange={handleContentChange}
@@ -201,97 +379,42 @@ export function EditorBlock({
             onArrowUp={focusPreviousBlock}
             onArrowDown={focusNextBlock}
             onFocus={() => setFocusedBlockId(block.id)}
-            onBlur={() => setFocusedBlockId(null)}
+            onBlur={() => {}}
+            onSlashCommand={handleSlashCommand}
+            onSelectionChange={onSelectionChange}
           />
         </div>
       )
     }
 
-    // Lists have special prefixes
-    if (block.type === 'bulletList') {
+    // Code block
+    if (block.type === 'code') {
       return (
-        <div className="flex items-start gap-2">
-          <span className="w-6 h-6 flex items-center justify-center text-neutral-400">•</span>
-          <div className="flex-1">
-            <RichTextContent
-              block={block}
-              className={getBlockStyles()}
-              placeholder={getPlaceholder()}
-              isFocused={isFocused}
-              isDark={isDark}
-              onContentChange={handleContentChange}
-              onEnter={handleEnter}
-              onBackspaceAtStart={handleBackspaceAtStart}
-              onArrowUp={focusPreviousBlock}
-              onArrowDown={focusNextBlock}
-              onFocus={() => setFocusedBlockId(block.id)}
-              onBlur={() => setFocusedBlockId(null)}
-            />
-          </div>
+        <div className={cn(
+          'rounded-lg p-4 font-mono text-sm overflow-x-auto',
+          isDark ? 'bg-neutral-900' : 'bg-neutral-100'
+        )}>
+          <RichTextContent
+            block={block}
+            className={getBlockStyles()}
+            placeholder={getPlaceholder()}
+            isFocused={isFocused}
+            isDark={isDark}
+            onContentChange={handleContentChange}
+            onEnter={handleEnter}
+            onBackspaceAtStart={handleBackspaceAtStart}
+            onArrowUp={focusPreviousBlock}
+            onArrowDown={focusNextBlock}
+            onFocus={() => setFocusedBlockId(block.id)}
+            onBlur={() => {}}
+            onSlashCommand={handleSlashCommand}
+            onSelectionChange={onSelectionChange}
+          />
         </div>
       )
     }
 
-    if (block.type === 'numberedList') {
-      const num = getBlockNumber(block, index)
-      return (
-        <div className="flex items-start gap-2">
-          <span className="w-6 h-6 flex items-center justify-center text-neutral-400 font-medium">{num}.</span>
-          <div className="flex-1">
-            <RichTextContent
-              block={block}
-              className={getBlockStyles()}
-              placeholder={getPlaceholder()}
-              isFocused={isFocused}
-              isDark={isDark}
-              onContentChange={handleContentChange}
-              onEnter={handleEnter}
-              onBackspaceAtStart={handleBackspaceAtStart}
-              onArrowUp={focusPreviousBlock}
-              onArrowDown={focusNextBlock}
-              onFocus={() => setFocusedBlockId(block.id)}
-              onBlur={() => setFocusedBlockId(null)}
-            />
-          </div>
-        </div>
-      )
-    }
-
-    if (block.type === 'checkList') {
-      return (
-        <div className="flex items-start gap-2">
-          <button
-            onClick={() => updateBlock(block.id, { checked: !block.checked })}
-            className={cn(
-              'w-5 h-5 mt-0.5 rounded border-2 flex items-center justify-center transition-colors',
-              block.checked
-                ? 'bg-blue-500 border-blue-500 text-white'
-                : 'border-neutral-300 dark:border-neutral-600 hover:border-blue-400'
-            )}
-          >
-            {block.checked && <Check className="w-3 h-3" />}
-          </button>
-          <div className={cn('flex-1', block.checked && 'opacity-50 line-through')}>
-            <RichTextContent
-              block={block}
-              className={getBlockStyles()}
-              placeholder={getPlaceholder()}
-              isFocused={isFocused}
-              isDark={isDark}
-              onContentChange={handleContentChange}
-              onEnter={handleEnter}
-              onBackspaceAtStart={handleBackspaceAtStart}
-              onArrowUp={focusPreviousBlock}
-              onArrowDown={focusNextBlock}
-              onFocus={() => setFocusedBlockId(block.id)}
-              onBlur={() => setFocusedBlockId(null)}
-            />
-          </div>
-        </div>
-      )
-    }
-
-    // Default: heading, paragraph, quote, code
+    // Default: paragraph, headings
     return (
       <RichTextContent
         block={block}
@@ -305,8 +428,10 @@ export function EditorBlock({
         onArrowUp={focusPreviousBlock}
         onArrowDown={focusNextBlock}
         onFocus={() => setFocusedBlockId(block.id)}
-        onBlur={() => setFocusedBlockId(null)}
+        onBlur={() => {}}
         onPaste={(e) => onPaste(block.id, e)}
+        onSlashCommand={handleSlashCommand}
+        onSelectionChange={onSelectionChange}
       />
     )
   }
@@ -317,22 +442,51 @@ export function EditorBlock({
       id={block.id}
       dragListener={false}
       dragControls={dragControls}
+      onDragStart={() => setIsDragging(true)}
+      onDragEnd={() => setIsDragging(false)}
       className={cn(
-        'group relative flex items-start gap-2 py-1 px-2 -mx-2 rounded-md transition-colors',
-        isSelected && 'bg-blue-50 dark:bg-blue-950/30',
-        isFocused && 'bg-neutral-50 dark:bg-neutral-900/50'
+        'group relative flex items-start py-[3px] rounded-sm transition-colors',
+        isSelected && 'bg-blue-100 dark:bg-blue-900/30',
+        isDragging && 'opacity-50 z-50'
       )}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       onClick={(e) => {
         if (e.metaKey || e.ctrlKey) {
+          e.preventDefault()
           toggleSelection(block.id, true)
         }
       }}
     >
-      {/* Drag handle + Menu */}
-      <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity pt-1">
+      {/* Left controls - drag handle + add button */}
+      <div 
+        className={cn(
+          'absolute -left-8 top-0 flex items-center gap-0.5 transition-opacity',
+          isHovered || isFocused ? 'opacity-100' : 'opacity-0'
+        )}
+      >
+        <button
+          onClick={() => addBlockAfter(block.id)}
+          className={cn(
+            'p-1 rounded transition-colors',
+            isDark ? 'hover:bg-neutral-800' : 'hover:bg-neutral-100'
+          )}
+        >
+          <Plus className="w-4 h-4 text-neutral-400" />
+        </button>
+        
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <button className="p-1 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800">
+            <button
+              onPointerDown={(e) => {
+                e.preventDefault()
+                dragControls.start(e)
+              }}
+              className={cn(
+                'p-1 rounded cursor-grab active:cursor-grabbing transition-colors',
+                isDark ? 'hover:bg-neutral-800' : 'hover:bg-neutral-100'
+              )}
+            >
               <GripVertical className="w-4 h-4 text-neutral-400" />
             </button>
           </DropdownMenuTrigger>
@@ -344,7 +498,7 @@ export function EditorBlock({
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={() => deleteBlock(block.id)}
-              className="text-red-600 focus:text-red-600"
+              className="text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
             >
               <Trash2 className="w-4 h-4 mr-2" />
               Delete
@@ -354,7 +508,7 @@ export function EditorBlock({
       </div>
 
       {/* Block content */}
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 pl-1">
         {renderBlockContent()}
       </div>
     </Reorder.Item>

@@ -125,7 +125,7 @@ export function EditorView() {
               </div>
 
               <div className="absolute right-3 bottom-3 pointer-events-auto">
-                <MiniMap width={140} height={85} />
+                <MiniMap width={240} height={160} />
               </div>
             </div>
           </>

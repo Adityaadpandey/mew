@@ -100,38 +100,24 @@ const THEMES = {
 // GROUP COLOR SCHEMES - Eraser.io style (very subtle, almost transparent)
 // ============================================================================
 const GROUP_COLORS: Record<string, { bg: string; border: string; header: string }> = {
-  'features': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
-  'tech': { bg: 'rgba(14, 74, 94, 0.15)', border: '#0e4a5e', header: '#22d3ee' },
-  'frontend': { bg: 'rgba(14, 74, 94, 0.15)', border: '#0e4a5e', header: '#22d3ee' },
-  'backend': { bg: 'rgba(59, 29, 110, 0.15)', border: '#3b1d6e', header: '#a78bfa' },
-  'database': { bg: 'rgba(30, 58, 95, 0.15)', border: '#1e3a5f', header: '#60a5fa' },
-  'data': { bg: 'rgba(30, 58, 95, 0.15)', border: '#1e3a5f', header: '#60a5fa' },
-  'auth': { bg: 'rgba(22, 101, 52, 0.15)', border: '#166534', header: '#4ade80' },
-  'security': { bg: 'rgba(22, 101, 52, 0.15)', border: '#166534', header: '#4ade80' },
-  'api': { bg: 'rgba(14, 74, 94, 0.15)', border: '#0e4a5e', header: '#22d3ee' },
-  'ai': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
-  'ml': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
-  'users': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
-  'clients': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
-  'services': { bg: 'rgba(59, 29, 110, 0.15)', border: '#3b1d6e', header: '#a78bfa' },
-  'microservices': { bg: 'rgba(59, 29, 110, 0.15)', border: '#3b1d6e', header: '#a78bfa' },
-  'infrastructure': { bg: 'rgba(51, 65, 85, 0.15)', border: '#334155', header: '#94a3b8' },
-  'infra': { bg: 'rgba(51, 65, 85, 0.15)', border: '#334155', header: '#94a3b8' },
-  'cloud': { bg: 'rgba(51, 65, 85, 0.15)', border: '#334155', header: '#94a3b8' },
-  'devops': { bg: 'rgba(14, 74, 94, 0.15)', border: '#0e4a5e', header: '#22d3ee' },
-  'monitoring': { bg: 'rgba(22, 101, 52, 0.15)', border: '#166534', header: '#4ade80' },
-  'analytics': { bg: 'rgba(91, 33, 182, 0.15)', border: '#5b21b6', header: '#a78bfa' },
-  'storage': { bg: 'rgba(30, 58, 95, 0.15)', border: '#1e3a5f', header: '#60a5fa' },
-  'cache': { bg: 'rgba(127, 29, 29, 0.15)', border: '#7f1d1d', header: '#f87171' },
-  'queue': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
-  'messaging': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
-  'external': { bg: 'rgba(30, 41, 59, 0.15)', border: '#1e293b', header: '#94a3b8' },
-  'third-party': { bg: 'rgba(30, 41, 59, 0.15)', border: '#1e293b', header: '#94a3b8' },
-  'payment': { bg: 'rgba(91, 33, 182, 0.15)', border: '#5b21b6', header: '#a78bfa' },
-  'notification': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
-  'usage': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
-  'getting started': { bg: 'rgba(133, 77, 14, 0.15)', border: '#854d0e', header: '#fbbf24' },
-  'default': { bg: 'rgba(23, 23, 23, 0.3)', border: '#262626', header: '#71717a' },
+  // Eraser.io Specific Palettes (Vibrant Dark Mode)
+  'features': { bg: 'rgba(23, 23, 23, 0.4)', border: '#404040', header: '#a1a1aa' },
+  'tech': { bg: 'rgba(56, 189, 248, 0.08)', border: '#0ea5e9', header: '#38bdf8' }, // Sky Blue
+  'frontend': { bg: 'rgba(45, 212, 191, 0.08)', border: '#14b8a6', header: '#2dd4bf' }, // Teal
+  'backend': { bg: 'rgba(167, 139, 250, 0.08)', border: '#8b5cf6', header: '#a78bfa' }, // Violet
+  'database': { bg: 'rgba(96, 165, 250, 0.08)', border: '#3b82f6', header: '#60a5fa' }, // Blue
+  'data': { bg: 'rgba(96, 165, 250, 0.08)', border: '#3b82f6', header: '#60a5fa' },
+  'auth': { bg: 'rgba(74, 222, 128, 0.08)', border: '#22c55e', header: '#4ade80' }, // Green
+  'security': { bg: 'rgba(74, 222, 128, 0.08)', border: '#22c55e', header: '#4ade80' },
+  'api': { bg: 'rgba(251, 146, 60, 0.08)', border: '#f97316', header: '#fb923c' }, // Orange
+  'ai': { bg: 'rgba(250, 204, 21, 0.08)', border: '#eab308', header: '#facc15' }, // Yellow
+  'ml': { bg: 'rgba(250, 204, 21, 0.08)', border: '#eab308', header: '#facc15' },
+  'users': { bg: 'rgba(23, 23, 23, 0.4)', border: '#404040', header: '#a1a1aa' },
+  'clients': { bg: 'rgba(23, 23, 23, 0.4)', border: '#404040', header: '#a1a1aa' },
+  'services': { bg: 'rgba(167, 139, 250, 0.08)', border: '#8b5cf6', header: '#a78bfa' },
+  'infrastructure': { bg: 'rgba(148, 163, 184, 0.08)', border: '#64748b', header: '#94a3b8' }, // Slate
+  'cloud': { bg: 'rgba(148, 163, 184, 0.08)', border: '#64748b', header: '#94a3b8' },
+  'default': { bg: 'rgba(23, 23, 23, 0.4)', border: '#404040', header: '#a1a1aa' },
 }
 
 // ============================================================================
@@ -148,7 +134,7 @@ const NODE_COLORS: Record<string, { bg: string; icon: string }> = {
   'css': { bg: '#1e40af', icon: '#60a5fa' },
   'typescript': { bg: '#1e3a5f', icon: '#3178c6' },
   'javascript': { bg: '#422006', icon: '#f7df1e' },
-  
+
   // Backend
   'node': { bg: '#14532d', icon: '#4ade80' },
   'express': { bg: '#1a1a1a', icon: '#ffffff' },
@@ -162,7 +148,7 @@ const NODE_COLORS: Record<string, { bg: string; icon: string }> = {
   'api': { bg: '#1e1b4b', icon: '#818cf8' },
   'grpc': { bg: '#0c4a6e', icon: '#38bdf8' },
   'websocket': { bg: '#14532d', icon: '#4ade80' },
-  
+
   // Database
   'postgres': { bg: '#1e3a5f', icon: '#60a5fa' },
   'mysql': { bg: '#1e3a5f', icon: '#4479a1' },
@@ -174,7 +160,7 @@ const NODE_COLORS: Record<string, { bg: string; icon: string }> = {
   'supabase': { bg: '#14532d', icon: '#3ecf8e' },
   'firebase': { bg: '#422006', icon: '#ffca28' },
   'planetscale': { bg: '#1a1a1a', icon: '#ffffff' },
-  
+
   // Auth
   'auth': { bg: '#1a1a1a', icon: '#a1a1aa' },
   'nextauth': { bg: '#1a1a1a', icon: '#ffffff' },
@@ -183,7 +169,7 @@ const NODE_COLORS: Record<string, { bg: string; icon: string }> = {
   'jwt': { bg: '#422006', icon: '#fbbf24' },
   'oauth': { bg: '#1e3a5f', icon: '#60a5fa' },
   'passport': { bg: '#14532d', icon: '#4ade80' },
-  
+
   // AI/ML
   'openai': { bg: '#1a3a2a', icon: '#4ade80' },
   'ai': { bg: '#422006', icon: '#fbbf24' },
@@ -194,7 +180,7 @@ const NODE_COLORS: Record<string, { bg: string; icon: string }> = {
   'langchain': { bg: '#14532d', icon: '#4ade80' },
   'pinecone': { bg: '#0c4a6e', icon: '#38bdf8' },
   'huggingface': { bg: '#422006', icon: '#fbbf24' },
-  
+
   // Infrastructure
   'docker': { bg: '#0c4a6e', icon: '#38bdf8' },
   'kubernetes': { bg: '#1e40af', icon: '#60a5fa' },
@@ -206,21 +192,21 @@ const NODE_COLORS: Record<string, { bg: string; icon: string }> = {
   'cloudflare': { bg: '#422006', icon: '#f38020' },
   'terraform': { bg: '#2d1f3d', icon: '#7b42bc' },
   'nginx': { bg: '#14532d', icon: '#009639' },
-  
+
   // Messaging/Queue
   'kafka': { bg: '#1a1a1a', icon: '#ffffff' },
   'rabbitmq': { bg: '#422006', icon: '#ff6600' },
   'sqs': { bg: '#422006', icon: '#fb923c' },
   'sns': { bg: '#422006', icon: '#fb923c' },
   'pubsub': { bg: '#0c4a6e', icon: '#38bdf8' },
-  
+
   // Monitoring
   'prometheus': { bg: '#422006', icon: '#e6522c' },
   'grafana': { bg: '#422006', icon: '#f46800' },
   'datadog': { bg: '#2d1f3d', icon: '#632ca6' },
   'sentry': { bg: '#2d1f3d', icon: '#362d59' },
   'newrelic': { bg: '#14532d', icon: '#008c99' },
-  
+
   // Generic
   'server': { bg: '#1e1b4b', icon: '#818cf8' },
   'database': { bg: '#1e3a5f', icon: '#60a5fa' },
@@ -235,14 +221,14 @@ const NODE_COLORS: Record<string, { bg: string; icon: string }> = {
   'storage': { bg: '#1c1917', icon: '#a8a29e' },
   'bucket': { bg: '#14532d', icon: '#4ade80' },
   's3': { bg: '#14532d', icon: '#4ade80' },
-  
+
   // Flowchart
   'start': { bg: '#14532d', icon: '#4ade80' },
   'end': { bg: '#3f1a1a', icon: '#ef4444' },
   'process': { bg: '#0c4a6e', icon: '#38bdf8' },
   'decision': { bg: '#422006', icon: '#fbbf24' },
   'condition': { bg: '#422006', icon: '#fbbf24' },
-  
+
   'default': { bg: '#27272a', icon: '#a1a1aa' },
 }
 
@@ -359,14 +345,14 @@ interface DiagramData {
 // LAYOUT CONSTANTS - Eraser.io style spacing
 // ============================================================================
 const LAYOUT = {
-  GROUP_PADDING: 20,
-  GROUP_HEADER_HEIGHT: 32,
-  NODE_WIDTH: 72,  // Compact icon-centric nodes
-  NODE_HEIGHT: 72,
-  NODE_GAP: 12,
-  GROUP_GAP: 32,
-  START_X: 80,
-  START_Y: 80,
+  GROUP_PADDING: 24, // Tighter padding
+  GROUP_HEADER_HEIGHT: 36,
+  NODE_WIDTH: 180,
+  NODE_HEIGHT: 64, // Sleeker height
+  NODE_GAP: 24,    // Tighter node gap (was 40)
+  GROUP_GAP: 60,   // Tighter group gap (was 80)
+  START_X: 100,
+  START_Y: 100,
 }
 
 const SIZE_MULTIPLIERS = {
@@ -426,7 +412,7 @@ export async function POST(req: NextRequest) {
       model: "gpt-4o",
     });
 
-    const fullPrompt = historyContext 
+    const fullPrompt = historyContext
       ? `Previous conversation:\n${historyContext}\n\nCurrent request: ${prompt}`
       : prompt
 
@@ -434,8 +420,8 @@ export async function POST(req: NextRequest) {
 
     let content = '';
     if (result.finalOutput) {
-      content = typeof result.finalOutput === 'string' 
-        ? result.finalOutput 
+      content = typeof result.finalOutput === 'string'
+        ? result.finalOutput
         : JSON.stringify(result.finalOutput);
     }
 
@@ -505,7 +491,7 @@ function getGroupColor(groupName: string, theme?: string): { bg: string; border:
     const t = THEMES[theme as keyof typeof THEMES]
     return { bg: t.groupBg, border: t.groupBorder, header: t.groupHeader }
   }
-  
+
   const lower = groupName.toLowerCase()
   for (const [key, colors] of Object.entries(GROUP_COLORS)) {
     if (lower.includes(key)) return colors
@@ -531,15 +517,19 @@ function getConnectionStyle(style?: string): { stroke: string; strokeWidth: numb
 function getShapeType(node: RawNode): string {
   const shape = node.shape || node.type || 'rectangle'
   const text = (node.name || node.label || node.text || '').toLowerCase()
-  
+
   // Auto-detect shape from text
+  if (text.includes('database') || text.includes('db') || text.includes('sql') || text.includes('storage') || text.includes('redis')) return 'cylinder'
+  if (text.includes('cloud') || text.includes('aws') || text.includes('gcp') || text.includes('azure') || text.includes('internet')) return 'cloud'
+  if (text.includes('input') || text.includes('output') || text.includes('data')) return 'parallelogram'
+
   if (text.includes('start') || text.includes('begin')) return 'circle'
   if (text.includes('end') || text.includes('finish') || text.includes('stop')) return 'circle'
   if (text.includes('decision') || text.includes('condition') || text.includes('if') || text.includes('?')) return 'diamond'
   if (text.includes('process') || text.includes('action')) return 'rectangle'
   if (text.includes('note') || text.includes('comment')) return 'sticky'
   if (text.includes('prepare') || text.includes('setup')) return 'hexagon'
-  
+
   return shape
 }
 
@@ -557,7 +547,7 @@ function getNodeSize(size?: string): { width: number; height: number } {
 function transformDiagram(data: DiagramData) {
   const config = data.config || {}
   const spacingMult = SPACING_MULTIPLIERS[config.spacing as keyof typeof SPACING_MULTIPLIERS] || 1
-  
+
   const objects: Array<{
     id: string
     type: string
@@ -596,7 +586,7 @@ function transformDiagram(data: DiagramData) {
 
   const groups = data.groups || data.sections || data.layers || []
   const flatNodes = data.nodes || data.items || []
-  
+
   let currentX = LAYOUT.START_X
   let currentY = LAYOUT.START_Y
   let globalIndex = 0
@@ -607,318 +597,351 @@ function transformDiagram(data: DiagramData) {
   const nodeGap = Math.round(LAYOUT.NODE_GAP * spacingMult)
   const groupGap = Math.round(LAYOUT.GROUP_GAP * spacingMult)
 
-  // Process groups
-  if (groups.length > 0) {
-    groups.forEach((group, groupIndex) => {
-      const groupName = group.name || group.label || group.title || `Group ${groupIndex + 1}`
-      const groupId = group.id || `group-${groupIndex}`
+  // =========================================================================
+  // SMART LAYOUT ENGINE
+  // =========================================================================
+  // 1. Build Dependency Graph for Groups
+  const groupDependencies = new Map<string, Set<string>>()
+  const groupById = new Map<string, any>()
+
+  groups.forEach(g => {
+    const gid = g.id || ''
+    if (gid) {
+      groupDependencies.set(gid, new Set())
+      groupById.set(gid, g)
+    }
+  })
+
+  // Helper to find which group a node belongs to
+  const nodeToGroupMap = new Map<string, string>()
+  groups.forEach(g => {
+    const gid = g.id || ''
+    if (!gid) return
+    const allItems = [...(g.items || []), ...(g.nodes || []), ...(g.children || [])]
+    allItems.forEach(item => {
+      if (item.id) nodeToGroupMap.set(item.id, gid)
+    })
+    // Also map subgroups
+    const subgroups = g.subgroups || g.groups || []
+    subgroups.forEach(sg => {
+      const sgItems = sg.items || sg.nodes || []
+      sgItems.forEach(item => {
+        if (item.id) nodeToGroupMap.set(item.id, gid)
+      })
+    })
+  })
+
+  // Analyze connections to determine group dependencies
+  const rawConnections = data.connections || data.edges || data.links || []
+  rawConnections.forEach(conn => {
+    const fromGroup = nodeToGroupMap.get(conn.from || conn.source || '')
+    const toGroup = nodeToGroupMap.get(conn.to || conn.target || '')
+
+    if (fromGroup && toGroup && fromGroup !== toGroup) {
+      groupDependencies.get(fromGroup)?.add(toGroup)
+    }
+  })
+
+  // 2. Topological Sort / Layer Assignment (Longest Path)
+  const groupLayers = new Map<string, number>()
+  groups.forEach(g => {
+    if (g.id) groupLayers.set(g.id, 0)
+  })
+
+  // Simple relaxation to assign ranks (layers)
+  // Run N times where N is num groups to propagate depths
+  for (let i = 0; i < groups.length; i++) {
+    groups.forEach(g => {
+      const gid = g.id
+      if (!gid) return
+      const currentDepth = groupLayers.get(gid) || 0
+      const deps = groupDependencies.get(gid)
+      deps?.forEach(targetId => {
+        const targetDepth = groupLayers.get(targetId) || 0
+        if (targetDepth <= currentDepth) {
+          groupLayers.set(targetId, currentDepth + 1)
+        }
+      })
+    })
+  }
+
+  // Group groups by layer
+  const layoutLayers: any[][] = []
+  groups.forEach(g => {
+    const gid = g.id
+    if (!gid) return
+    const layer = groupLayers.get(gid) || 0
+    if (!layoutLayers[layer]) layoutLayers[layer] = []
+    layoutLayers[layer].push(g)
+  })
+
+  // Remove empty layers (rare but possible if gaps)
+  const compactLayers = layoutLayers.filter(l => l && l.length > 0)
+
+  // 3. Render Groups Layout
+  let layerX = LAYOUT.START_X
+
+  // Calculate total diagram height to determine center
+  const layerDimensions = compactLayers.map(layerGroups => {
+    let height = 0
+    let width = 0
+    layerGroups.forEach(g => {
+      const items = g.items || g.nodes || g.children || []
+      const subgroups = g.subgroups || g.groups || []
+
+      // --- Adaptive Grid Calculation ---
+      // Prefer 2 columns max for most groups to keep them narrow and readable like Eraser
+      // If > 6 items, maybe 3 columns.
+      let itemsPerRow = 2
+      if (items.length <= 4) itemsPerRow = 1 // Stack vertically for small lists (standard Eraser look)
+      if (items.length > 8) itemsPerRow = 3
+
+      const itemRows = Math.ceil(items.length / itemsPerRow)
+
+      // Simpler Subgroup calculation (stack vertical)
+      let subgroupHeight = 0
+      let subgroupWidth = 0
+
+      subgroups.forEach((sg: any) => {
+        const sgItems = sg.items || sg.nodes || []
+        // Subgroups usually small lists
+        const sgRows = sgItems.length
+        const sgW = (LAYOUT.NODE_WIDTH + nodeGap) + LAYOUT.GROUP_PADDING * 2
+        const sgH = sgRows * (LAYOUT.NODE_HEIGHT + nodeGap) - nodeGap + LAYOUT.GROUP_PADDING * 2 + LAYOUT.GROUP_HEADER_HEIGHT
+
+        subgroupWidth = Math.max(subgroupWidth, sgW)
+        subgroupHeight += sgH + nodeGap
+      })
+
+      const itemsWidth = (Math.min(items.length, itemsPerRow) * (LAYOUT.NODE_WIDTH + nodeGap)) - nodeGap
+      const contentWidth = Math.max(itemsWidth, subgroupWidth, 220) // Min width for aesthetics
+
+      const itemsHeight = items.length > 0 ? (itemRows * (LAYOUT.NODE_HEIGHT + nodeGap)) - nodeGap : 0
+      const contentHeight = itemsHeight + (subgroups.length > 0 ? subgroupHeight + 20 : 0)
+
+      const gWidth = contentWidth + LAYOUT.GROUP_PADDING * 2
+      const gHeight = contentHeight + LAYOUT.GROUP_PADDING * 2 + LAYOUT.GROUP_HEADER_HEIGHT
+
+      width = Math.max(width, gWidth)
+      height += gHeight + groupGap
+
+      // Store calculated props on the group object for the render pass
+      g._layout = { width: gWidth, height: gHeight, itemsPerRow, contentHeight }
+    })
+    return { width, height: height - groupGap } // Remove last gap
+  })
+
+  const maxDiagramHeight = Math.max(...layerDimensions.map(d => d.height))
+
+  // Iterate through computed layers (Rank 0 -> Rank N)
+  compactLayers.forEach((layerGroups, layerIndex) => {
+    const layerDims = layerDimensions[layerIndex]
+
+    // Vertical Center Alignment:
+    // Start Y = Center of Diagram - Half of Layer Height
+    let layerY = LAYOUT.START_Y + (maxDiagramHeight - layerDims.height) / 2
+
+    layerGroups.forEach((group) => {
+      const layoutProps = group._layout || { width: 200, height: 200, itemsPerRow: 2 }
+      const groupWidth = layoutProps.width
+      const groupHeight = layoutProps.height
+      const itemsPerRow = layoutProps.itemsPerRow
+
+      const groupName = group.name || group.label || group.title || 'Group'
+      const groupId = group.id
       const groupColors = getGroupColor(groupName, group.theme)
-      // Default group opacity to 0.6 for subtle background, user can override
       const groupOpacity = group.opacity ?? 0.6
-      
+
       const items = group.items || group.nodes || group.children || []
       const subgroups = group.subgroups || group.groups || []
-      
-      // Calculate items per row based on layout
-      let itemsPerRow = 4
-      if (layout === 'horizontal') itemsPerRow = 10
-      if (layout === 'vertical') itemsPerRow = 1
-      
-      const itemRows = Math.ceil(items.length / itemsPerRow)
-      
-      // Calculate subgroup dimensions
-      let subgroupTotalWidth = 0
-      let subgroupMaxHeight = 0
-      if (subgroups.length > 0) {
-        subgroups.forEach(sg => {
-          const sgItems = sg.items || sg.nodes || []
-          const sgItemsPerRow = Math.min(sgItems.length, 3)
-          const sgWidth = Math.max(sgItemsPerRow * (LAYOUT.NODE_WIDTH + nodeGap) - nodeGap + LAYOUT.GROUP_PADDING * 2, 160)
-          subgroupTotalWidth += sgWidth + groupGap
-          const sgRows = Math.ceil(sgItems.length / 3)
-          const sgHeight = sgRows * (LAYOUT.NODE_HEIGHT + nodeGap) - nodeGap + LAYOUT.GROUP_PADDING * 2 + LAYOUT.GROUP_HEADER_HEIGHT
-          subgroupMaxHeight = Math.max(subgroupMaxHeight, sgHeight)
-        })
-        subgroupTotalWidth -= groupGap // Remove last gap
-      }
-      
-      const contentWidth = Math.max(
-        itemsPerRow * (LAYOUT.NODE_WIDTH + nodeGap) - nodeGap,
-        subgroupTotalWidth,
-        200
-      )
-      const itemsHeight = items.length > 0 ? itemRows * (LAYOUT.NODE_HEIGHT + nodeGap) - nodeGap : 0
-      const contentHeight = itemsHeight + (subgroups.length > 0 ? subgroupMaxHeight + nodeGap : 0)
-      
-      const groupWidth = contentWidth + LAYOUT.GROUP_PADDING * 2
-      const groupHeight = contentHeight + LAYOUT.GROUP_PADDING * 2 + LAYOUT.GROUP_HEADER_HEIGHT
 
-      // Add group container
+      // --- Render Group ---
       objects.push({
-        id: groupId,
+        id: groupId || `group-${Math.random()}`,
         type: 'rectangle',
-        x: currentX,
-        y: currentY,
+        x: layerX,
+        y: layerY,
         width: groupWidth,
         height: groupHeight,
         fill: groupColors.bg,
         stroke: groupColors.border,
-        strokeWidth: 1,
+        strokeWidth: 1.5,
         rotation: 0,
         opacity: groupOpacity,
-        borderRadius: 12,
+        borderRadius: 12, // Slightly tighter radius
         zIndex: globalIndex++,
         isGroup: true,
-        groupLabel: groupName.toUpperCase(),
+        groupLabel: (groupName || 'Group').toUpperCase(),
         groupColor: groupColors.header,
       })
+      nodePositions.set(groupId, { x: layerX, y: layerY, width: groupWidth, height: groupHeight })
 
-      // Add items inside group
-      let itemX = currentX + LAYOUT.GROUP_PADDING
-      let itemY = currentY + LAYOUT.GROUP_PADDING + LAYOUT.GROUP_HEADER_HEIGHT
-      
-      items.forEach((item, itemIndex) => {
+      // --- Render Items ---
+      let itemX = layerX + LAYOUT.GROUP_PADDING
+      let itemY = layerY + LAYOUT.GROUP_PADDING + LAYOUT.GROUP_HEADER_HEIGHT
+
+      items.forEach((item: any, itemIndex: number) => {
         const itemName = item.name || item.label || item.text || `Item ${itemIndex + 1}`
         const itemId = item.id || `${groupId}-item-${itemIndex}`
-        const nodeColors = getNodeColor(itemName)
-        const nodeSize = getNodeSize(item.size)
+        const nodeColors = getNodeColor(itemName || 'Item')
+        const nodeSize = getNodeSize(item.size) // Should use constant usually
         const shapeType = getShapeType(item)
-        const itemOpacity = item.opacity ?? 1
-        const highlighted = item.highlighted ?? false
-        
-        // Wrap to next row
+
+        // Grid Wrap Logic
         if (itemIndex > 0 && itemIndex % itemsPerRow === 0) {
-          itemX = currentX + LAYOUT.GROUP_PADDING
+          itemX = layerX + LAYOUT.GROUP_PADDING
           itemY += LAYOUT.NODE_HEIGHT + nodeGap
         }
 
         objects.push({
-          id: itemId,
+          id: itemId || `item-${Math.random()}`,
           type: shapeType,
           x: itemX,
           y: itemY,
-          width: nodeSize.width,
-          height: nodeSize.height,
+          width: LAYOUT.NODE_WIDTH, // Force uniform width for clean grid
+          height: LAYOUT.NODE_HEIGHT,
           fill: item.color || nodeColors.bg,
-          stroke: highlighted ? '#3b82f6' : nodeColors.bg,
-          strokeWidth: highlighted ? 2 : 0,
+          stroke: item.highlighted ? '#38bdf8' : nodeColors.border, // Highlight color
+          strokeWidth: item.highlighted ? 2 : 1, // Subtle border
           rotation: 0,
-          opacity: itemOpacity,
-          borderRadius: shapeType === 'circle' ? 50 : 8,
+          opacity: 1,
+          borderRadius: 6,
           zIndex: globalIndex++,
           text: itemName,
-          fontSize: 11,
+          fontSize: 12,
           fontFamily: 'Inter',
         })
+        nodePositions.set(itemId, { x: itemX, y: itemY, width: LAYOUT.NODE_WIDTH, height: LAYOUT.NODE_HEIGHT })
 
-        nodePositions.set(itemId, {
-          x: itemX,
-          y: itemY,
-          width: nodeSize.width,
-          height: nodeSize.height
-        })
-
-        itemX += nodeSize.width + nodeGap
+        itemX += LAYOUT.NODE_WIDTH + nodeGap
       })
 
-      // Process subgroups
-      if (subgroups.length > 0) {
-        let subX = currentX + LAYOUT.GROUP_PADDING
-        const subY = currentY + LAYOUT.GROUP_PADDING + LAYOUT.GROUP_HEADER_HEIGHT + (items.length > 0 ? itemsHeight + nodeGap : 0)
-        
-        subgroups.forEach((subgroup, subIndex) => {
-          const subName = subgroup.name || subgroup.label || `Subgroup ${subIndex + 1}`
-          const subId = subgroup.id || `${groupId}-sub-${subIndex}`
-          const subColors = getGroupColor(subName, subgroup.theme)
-          const subItems = subgroup.items || subgroup.nodes || []
-          // Default subgroup opacity to 0.7 for subtle background
-          const subOpacity = subgroup.opacity ?? 0.7
-          
-          const subItemsPerRow = Math.min(subItems.length, 3)
-          const subItemRows = Math.ceil(subItems.length / 3)
-          const subWidth = Math.max(subItemsPerRow * (LAYOUT.NODE_WIDTH + nodeGap) - nodeGap + LAYOUT.GROUP_PADDING * 2, 160)
-          const subHeight = subItemRows * (LAYOUT.NODE_HEIGHT + nodeGap) - nodeGap + LAYOUT.GROUP_PADDING * 2 + LAYOUT.GROUP_HEADER_HEIGHT
+      // --- Render Subgroups (Stacked below items) ---
+      let currentY = itemY + (items.length > 0 ? LAYOUT.NODE_HEIGHT + nodeGap : 0)
 
-          // Add subgroup container
+      if (subgroups.length > 0) {
+        subgroups.forEach((sg: any, sgIndex: number) => {
+          const sgItems = sg.items || sg.nodes || []
+          // Render Subgroup Container
+          const sgRows = sgItems.length
+          const sgHeight = sgRows * (LAYOUT.NODE_HEIGHT + nodeGap) - nodeGap + LAYOUT.GROUP_PADDING * 2 + LAYOUT.GROUP_HEADER_HEIGHT
+          const sgWidth = groupWidth - LAYOUT.GROUP_PADDING * 2 // Full width minus padding
+
+          const subX = layerX + LAYOUT.GROUP_PADDING
+          const subY = currentY
+
+          const sgName = sg.name || sg.title || 'Subgroup'
+          const sgColors = getGroupColor(sgName, sg.theme)
+
           objects.push({
-            id: subId,
+            id: sg.id || `${groupId}-sg-${sgIndex}`,
             type: 'rectangle',
             x: subX,
             y: subY,
-            width: subWidth,
-            height: subHeight,
-            fill: subColors.bg,
-            stroke: subColors.border,
+            width: sgWidth,
+            height: sgHeight,
+            fill: sgColors.bg,
+            stroke: sgColors.border,
             strokeWidth: 1,
-            rotation: 0,
-            opacity: subOpacity,
             borderRadius: 8,
+            opacity: 0.8,
             zIndex: globalIndex++,
             isGroup: true,
-            groupLabel: subName.toUpperCase(),
-            groupColor: subColors.header,
+            groupLabel: sgName.toUpperCase(),
+            groupColor: sgColors.header
           })
 
-          // Add subgroup items
-          let subItemX = subX + LAYOUT.GROUP_PADDING
-          let subItemY = subY + LAYOUT.GROUP_PADDING + LAYOUT.GROUP_HEADER_HEIGHT
-          
-          subItems.forEach((subItem, subItemIndex) => {
-            const subItemName = subItem.name || subItem.label || subItem.text || `Item ${subItemIndex + 1}`
-            const subItemId = subItem.id || `${subId}-item-${subItemIndex}`
-            const subNodeColors = getNodeColor(subItemName)
-            const subNodeSize = getNodeSize(subItem.size)
-            const subShapeType = getShapeType(subItem)
-            const subItemOpacity = subItem.opacity ?? 1
-            
-            if (subItemIndex > 0 && subItemIndex % 3 === 0) {
-              subItemX = subX + LAYOUT.GROUP_PADDING
-              subItemY += LAYOUT.NODE_HEIGHT + nodeGap
-            }
+          // Render Subgroup Items (Single Column for density)
+          let sgItemY = subY + LAYOUT.GROUP_HEADER_HEIGHT + LAYOUT.GROUP_PADDING
+          let sgItemX = subX + LAYOUT.GROUP_PADDING
+
+          sgItems.forEach((item: any, idx: number) => {
+            const iName = item.name || item.text
+            const iId = item.id || `${groupId}-sg-${sgIndex}-item-${idx}`
+            const iColors = getNodeColor(iName)
 
             objects.push({
-              id: subItemId,
-              type: subShapeType,
-              x: subItemX,
-              y: subItemY,
-              width: subNodeSize.width,
-              height: subNodeSize.height,
-              fill: subItem.color || subNodeColors.bg,
-              stroke: subNodeColors.bg,
-              strokeWidth: 0,
-              rotation: 0,
-              opacity: subItemOpacity,
-              borderRadius: subShapeType === 'circle' ? 50 : 8,
-              zIndex: globalIndex++,
-              text: subItemName,
-              fontSize: 11,
-              fontFamily: 'Inter',
+              id: iId, text: iName,
+              type: 'rectangle',
+              x: sgItemX, y: sgItemY,
+              width: LAYOUT.NODE_WIDTH, height: LAYOUT.NODE_HEIGHT,
+              fill: iColors.bg, stroke: iColors.border,
+              opacity: 1, zIndex: globalIndex++, borderRadius: 6,
+              fontSize: 11, fontFamily: 'Inter'
             })
+            nodePositions.set(iId, { x: sgItemX, y: sgItemY, width: LAYOUT.NODE_WIDTH, height: LAYOUT.NODE_HEIGHT })
 
-            nodePositions.set(subItemId, {
-              x: subItemX,
-              y: subItemY,
-              width: subNodeSize.width,
-              height: subNodeSize.height
-            })
-
-            subItemX += subNodeSize.width + nodeGap
+            sgItemY += LAYOUT.NODE_HEIGHT + nodeGap
           })
 
-          subX += subWidth + groupGap
+          currentY += sgHeight + nodeGap
         })
       }
 
-      // Move to next group position based on layout
-      if (layout === 'vertical') {
-        // Stack groups vertically
-        currentY += groupHeight + groupGap
-      } else if (layout === 'horizontal') {
-        // Arrange groups horizontally
-        currentX += groupWidth + groupGap
-      } else {
-        // Layered layout - smart wrapping based on canvas width
-        // Track max height in current row for proper row wrapping
-        currentX += groupWidth + groupGap
-        
-        // Wrap to next row after ~800px width or 3 groups
-        const maxRowWidth = 900
-        if (currentX > maxRowWidth || (groupIndex + 1) % 3 === 0) {
-          currentX = LAYOUT.START_X
-          currentY += groupHeight + groupGap
-        }
-      }
-    })
-  }
+      // Move Y for next group in same layer
+      layerY += groupHeight + groupGap
+    }) // End groups in layer
 
-  // Handle flat nodes (no groups)
+    // Move X for next layer
+    layerX += layerDims.width + 100 // Tighter layer gap (was 120)
+  })
+
+
+  // Handle flat nodes (no groups) - Keep as is but position after last group
   if (groups.length === 0 && flatNodes.length > 0) {
+    // ... (Existing flat node logic if needed, but usually we have groups)
+    // For safety, just use grid starting at 100,100
     flatNodes.forEach((node, index) => {
+      // ... standard grid layout ...
       const nodeName = node.name || node.label || node.text || `Node ${index + 1}`
       const nodeId = node.id || `node-${index}`
       const nodeColors = getNodeColor(nodeName)
       const nodeSize = getNodeSize(node.size)
       const shapeType = getShapeType(node)
-      const nodeOpacity = node.opacity ?? 1
-      
-      let x: number, y: number
-      
-      if (layout === 'horizontal') {
-        x = LAYOUT.START_X + index * (nodeSize.width + nodeGap)
-        y = LAYOUT.START_Y
-      } else if (layout === 'vertical') {
-        x = LAYOUT.START_X
-        y = LAYOUT.START_Y + index * (nodeSize.height + nodeGap)
-      } else {
-        // Grid layout
-        const col = index % 4
-        const row = Math.floor(index / 4)
-        x = LAYOUT.START_X + col * (nodeSize.width + nodeGap)
-        y = LAYOUT.START_Y + row * (nodeSize.height + nodeGap)
-      }
 
-      objects.push({
-        id: nodeId,
-        type: shapeType,
-        x,
-        y,
-        width: nodeSize.width,
-        height: nodeSize.height,
-        fill: node.color || nodeColors.bg,
-        stroke: nodeColors.bg,
-        strokeWidth: 0,
-        rotation: 0,
-        opacity: nodeOpacity,
-        borderRadius: shapeType === 'circle' ? 50 : 8,
-        zIndex: index,
-        text: nodeName,
-        fontSize: 11,
-        fontFamily: 'Inter',
-      })
+      const col = index % 4
+      const row = Math.floor(index / 4)
+      const x = LAYOUT.START_X + col * (nodeSize.width + nodeGap)
+      const y = LAYOUT.START_Y + row * (nodeSize.height + nodeGap)
 
+      objects.push({ id: nodeId, type: shapeType, x, y, width: nodeSize.width, height: nodeSize.height, fill: node.color || nodeColors.bg, stroke: nodeColors.bg, strokeWidth: 0, rotation: 0, opacity: 1, borderRadius: shapeType === 'circle' ? 50 : 8, zIndex: index, text: nodeName, fontSize: 11, fontFamily: 'Inter' })
       nodePositions.set(nodeId, { x, y, width: nodeSize.width, height: nodeSize.height })
     })
   }
 
-  // Process connections with smart routing (8 ports: n, ne, e, se, s, sw, w, nw)
-  const rawConnections = data.connections || data.edges || data.links || []
+  // 4. Process connections (Standard)
   rawConnections.forEach((conn, index) => {
     const fromId = conn.from || conn.source || ''
     const toId = conn.to || conn.target || ''
-    
+
     const fromPos = nodePositions.get(fromId)
     const toPos = nodePositions.get(toId)
-    
+
     if (!fromPos || !toPos) return
 
     const connStyle = getConnectionStyle(conn.style)
-    
+
     // Calculate centers
     const fromCenterX = fromPos.x + fromPos.width / 2
     const fromCenterY = fromPos.y + fromPos.height / 2
     const toCenterX = toPos.x + toPos.width / 2
     const toCenterY = toPos.y + toPos.height / 2
-    
+
     const dx = toCenterX - fromCenterX
     const dy = toCenterY - fromCenterY
     const absDx = Math.abs(dx)
     const absDy = Math.abs(dy)
-    
-    // Smart port selection with 8 ports for smoother curves
+
+    // Smart port selection with 8 ports
     type Port8 = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
     let fromPort: Port8
     let toPort: Port8
-    
+
     // Calculate angle from source to target
     const angle = Math.atan2(dy, dx) * 180 / Math.PI
-    
-    // Select best port based on angle (8 directions, 45° each)
+
     const selectPort = (ang: number, isSource: boolean): Port8 => {
-      // Normalize angle to 0-360
       const normAngle = ((ang % 360) + 360) % 360
-      
-      // For source, we want the port facing the target
-      // For target, we want the port facing the source (opposite)
       if (isSource) {
         if (normAngle >= 337.5 || normAngle < 22.5) return 'e'
         if (normAngle >= 22.5 && normAngle < 67.5) return 'se'
@@ -929,7 +952,6 @@ function transformDiagram(data: DiagramData) {
         if (normAngle >= 247.5 && normAngle < 292.5) return 'n'
         return 'ne'
       } else {
-        // Target port - opposite direction
         if (normAngle >= 337.5 || normAngle < 22.5) return 'w'
         if (normAngle >= 22.5 && normAngle < 67.5) return 'nw'
         if (normAngle >= 67.5 && normAngle < 112.5) return 'n'
@@ -940,18 +962,14 @@ function transformDiagram(data: DiagramData) {
         return 'sw'
       }
     }
-    
-    // For very horizontal or vertical connections, prefer cardinal ports
+
     if (absDy < 30 && absDx > 60) {
-      // Strongly horizontal
       fromPort = dx > 0 ? 'e' : 'w'
       toPort = dx > 0 ? 'w' : 'e'
     } else if (absDx < 30 && absDy > 60) {
-      // Strongly vertical
       fromPort = dy > 0 ? 's' : 'n'
       toPort = dy > 0 ? 'n' : 's'
     } else {
-      // Use angle-based selection for diagonal connections
       fromPort = selectPort(angle, true)
       toPort = selectPort(angle, false)
     }
@@ -970,12 +988,10 @@ function transformDiagram(data: DiagramData) {
       dashArray: connStyle.dashArray,
     })
 
-    // Handle bidirectional connections
     if (conn.bidirectional) {
-      // For bidirectional, offset the reverse connection slightly
       const reverseFromPort = toPort
       const reverseToPort = fromPort
-      
+
       connections.push({
         id: `conn-${index}-reverse`,
         from: toId,
@@ -1000,7 +1016,7 @@ function transformDiagram(data: DiagramData) {
 // ============================================================================
 function buildSystemPrompt(canvasContext?: CanvasContext) {
   let canvasDescription = ''
-  
+
   if (canvasContext && canvasContext.objects && canvasContext.objects.length > 0) {
     canvasDescription = `
 CURRENT CANVAS STATE:
@@ -1010,7 +1026,7 @@ CURRENT CANVAS STATE:
 `
   }
 
-  return `You are an EXPERT DIAGRAM ARCHITECT creating ERASER.IO STYLE diagrams.
+  return ` You are an EXPERT DIAGRAM ARCHITECT creating ERASER.IO STYLE diagrams.
 Your diagrams are clean, professional, icon-centric with nested groups.
 ${canvasDescription}
 
@@ -1027,7 +1043,7 @@ ${canvasDescription}
 • Professional typography: Small, uppercase group labels
 
 **LAYOUT RULES:**
-• Groups arranged in logical flow (left-to-right or top-to-bottom)
+• Groups arranged in logical flow (Left-to-Right is PREFERRED)
 • Nodes inside groups in grid layout (3-4 per row)
 • Subgroups for related items within a group
 • Consistent spacing between all elements
@@ -1307,7 +1323,7 @@ Node names are auto-colored based on keywords:
         {
           "id": "item-id",
           "name": "Item Name",
-          "shape": "rectangle",
+          "shape": "rectangle" | "cylinder" | "cloud" | "diamond" | "circle" | "parallelogram",
           "size": "medium",
           "opacity": 1,
           "highlighted": false,
@@ -1341,116 +1357,69 @@ Node names are auto-colored based on keywords:
 \`\`\`
 
 ═══════════════════════════════════════════════════════════════════════════════
-                         🏗️ ARCHITECTURE PATTERNS
+                         🏗️ ARCHITECTURE PATTERNS(CRITICAL)
 ═══════════════════════════════════════════════════════════════════════════════
 
-**PATTERN 1: Layered Architecture (Most Common)**
-Best for: System architecture, microservices, full-stack apps
-Layout: "layered"
-Flow: Top-to-bottom (Clients → Gateway → Services → Data)
-\`\`\`
-┌─────────────────────────────────────────┐
-│              CLIENTS                     │
-│  [Web App]  [Mobile]  [Desktop]         │
-└─────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────┐
-│            API GATEWAY                   │
-│  [Load Balancer]  [Auth]  [Rate Limit]  │
-└─────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────┐
-│            SERVICES                      │
-│  [User Svc]  [Order Svc]  [Payment Svc] │
-└─────────────────────────────────────────┘
-                    ↓
-┌─────────────────────────────────────────┐
-│            DATA LAYER                    │
-│  [PostgreSQL]  [Redis]  [S3]            │
-└─────────────────────────────────────────┘
+** DEFAULT PATTERN: HORIZONTAL FLOW(Left - to - Right) **
+    All architecture diagrams MUST follow a strict Left - to - Right flow.
+      Clients → Load Balancer → Frontend → API Gateway → Services → Database
+
+        \`\`\`
+[CLIENTS] ➔ [CDN/LB] ➔ [FRONTEND] ➔ [API] ➔ [SERVICES] ➔ [DB/CACHE]
 \`\`\`
 
-**PATTERN 2: Pipeline/ETL Flow**
-Best for: Data pipelines, CI/CD, processing workflows
-Layout: "horizontal"
-Flow: Left-to-right (Source → Transform → Load)
-\`\`\`
-[Sources] → [Ingestion] → [Processing] → [Storage] → [Analytics]
+        ** LAYOUT RULES:**
+          1. ** Flow **: ALWAYS Left - to - Right.Never Top - to - Bottom blocks for architecture.
+2. ** Density **: Keep groups TIGHT.Do not add empty space.
+3. ** Nesting **: Avoid deep nesting.Max 1 level of subgroups(e.g., "AWS Region" > "VPC").
+4. ** Ordering **:
+  - Left: Users, Clients, Browsers, Mobile Apps
+    - Center - Left: CDNs, Load Balancers, API Gateways
+      - Center: Frontend App, Backend Services, Workers
+        - Center - Right: Databases, Caches, Queues
+          - Right: Third - party APIs, Analytics, Logging
+
+            ** PATTERN 1: Layered Architecture(Standard) **
+              Layout: "layered"
+                \`\`\`
+┌───────────┐    ┌─────────────┐    ┌────────────┐    ┌──────────┐
+│  CLIENTS  │ →  │ API GATEWAY │ →  │  SERVICES  │ →  │   DATA   │
+│ (Mobile)  │    │  (GraphQL)  │    │ (Auth,Pay) │    │ (Postgres)│
+└───────────┘    └─────────────┘    └────────────┘    └──────────┘
 \`\`\`
 
-**PATTERN 3: Process/Flowchart**
-Best for: Business processes, decision trees, user flows
-Layout: "vertical"
-Flow: Top-to-bottom with decision branches
-\`\`\`
-    [Start]
-       ↓
-    [Input]
-       ↓
-   ◇ Valid? ◇
-   ↓ Yes  ↓ No
-[Process] [Error]
-   ↓         ↓
-  [End]  [Retry]
-\`\`\`
-
-**PATTERN 4: Hub-and-Spoke**
-Best for: Central services, event-driven, message brokers
-Layout: "layered" with central highlighted node
-\`\`\`
-[Service A] ←→ [Message Broker] ←→ [Service B]
-                     ↕
-               [Service C]
-\`\`\`
-
-**PATTERN 5: Comparison/Matrix**
-Best for: Feature comparisons, technology choices
-Layout: "grid"
-\`\`\`
-[Option A]  [Option B]  [Option C]
-[Feature 1] [Feature 1] [Feature 1]
-[Feature 2] [Feature 2] [Feature 2]
+                ** PATTERN 2: Data Pipeline **
+                  Layout: "horizontal"
+                    \`\`\`
+[Sources] ➔ [Ingest] ➔ [Process] ➔ [Store] ➔ [Analyze]
 \`\`\`
 
 ═══════════════════════════════════════════════════════════════════════════════
-                              EXAMPLES
+                          🎨 DESIGN BEST PRACTICES
 ═══════════════════════════════════════════════════════════════════════════════
 
-EXAMPLE 1 - Full Stack Architecture (with advanced styling):
-\`\`\`json
+** 1. High Density & Compactness:**
+    - Do not create single - item groups unless necessary.
+- Combine related items into one group(e.g., "Databases" group containing Redis + Postgres).
+- Use "layered" layout to automatically enforce the Left - to - Right flow.
+
+** 2. Visual Hierarchy:**
+- Use ** badges ** for counts or versions("v2", "x3").
+- Use ** icons ** for every node(e.g., "react", "aws", "postgres").
+- Use ** status ** colors for meaningful states(Green = Active, Red = Error).
+
+** 3. Connection Logic:**
+          - Connect Layers, not just adjacent nodes.
+- E.g., Frontend connects to API, API connects to Auth & Database.
+- Use "bidirectional": true only when data flows both ways equally.
+      { "id": "auth-svc", "name": "Auth Service", "badge": "v2", "status": "active" },
+  { "id": "user-svc", "name": "User Service", "status": "active" },
+  { "id": "order-svc", "name": "Order Service", "badge": "3x", "importance": "high" }
+      ]
+},
 {
-  "config": { "layout": "layered", "spacing": "normal", "style": "modern" },
-  "groups": [
-    {
-      "id": "clients",
-      "name": "Clients",
-      "shadow": "md",
-      "items": [
-        { "id": "web", "name": "Web App", "badge": "React", "status": "active" },
-        { "id": "mobile", "name": "Mobile App", "badge": "RN" }
-      ]
-    },
-    {
-      "id": "api-layer",
-      "name": "API Gateway",
-      "theme": "cyan",
-      "items": [
-        { "id": "gateway", "name": "API Gateway", "highlighted": true, "glow": true, "size": "large" }
-      ]
-    },
-    {
-      "id": "services",
-      "name": "Microservices",
-      "theme": "purple",
-      "items": [
-        { "id": "auth-svc", "name": "Auth Service", "badge": "v2", "status": "active" },
-        { "id": "user-svc", "name": "User Service", "status": "active" },
-        { "id": "order-svc", "name": "Order Service", "badge": "3x", "importance": "high" }
-      ]
-    },
-    {
-      "id": "data-layer",
-      "name": "Data Layer",
+  "id": "data-layer",
+    "name": "Data Layer",
       "subgroups": [
         {
           "id": "databases",
@@ -1469,19 +1438,19 @@ EXAMPLE 1 - Full Stack Architecture (with advanced styling):
           ]
         }
       ]
-    }
+}
   ],
-  "connections": [
-    { "from": "web", "to": "gateway", "style": "data" },
-    { "from": "mobile", "to": "gateway", "style": "data" },
-    { "from": "gateway", "to": "auth-svc", "style": "bold", "label": "Auth" },
-    { "from": "gateway", "to": "user-svc", "style": "animated" },
-    { "from": "gateway", "to": "order-svc", "style": "critical" },
-    { "from": "auth-svc", "to": "postgres", "style": "sync" },
-    { "from": "user-svc", "to": "postgres" },
-    { "from": "order-svc", "to": "mongo" },
-    { "from": "order-svc", "to": "redis", "style": "async", "label": "Cache" }
-  ]
+"connections": [
+  { "from": "web", "to": "gateway", "style": "data" },
+  { "from": "mobile", "to": "gateway", "style": "data" },
+  { "from": "gateway", "to": "auth-svc", "style": "bold", "label": "Auth" },
+  { "from": "gateway", "to": "user-svc", "style": "animated" },
+  { "from": "gateway", "to": "order-svc", "style": "critical" },
+  { "from": "auth-svc", "to": "postgres", "style": "sync" },
+  { "from": "user-svc", "to": "postgres" },
+  { "from": "order-svc", "to": "mongo" },
+  { "from": "order-svc", "to": "redis", "style": "async", "label": "Cache" }
+]
 }
 \`\`\`
 

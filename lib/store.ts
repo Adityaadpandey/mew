@@ -265,7 +265,10 @@ interface DocumentContent {
     checked?: boolean
     calloutType?: string
     imageUrl?: string
+    language?: string
   }>
+  coverImage?: string | null
+  icon?: string | null
   [key: string]: unknown
 }
 

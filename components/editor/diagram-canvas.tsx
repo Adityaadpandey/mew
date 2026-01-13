@@ -47,6 +47,7 @@ export function DiagramCanvas() {
   const [panStart, setPanStart] = useState<Point | null>(null)
   const [selectionBox, setSelectionBox] = useState<{ start: Point; end: Point } | null>(null)
   const [hoveredObject, setHoveredObject] = useState<string | null>(null)
+  const [isSpacePanning, setIsSpacePanning] = useState(false) // Track if spacebar is held
 
   // Close context menu when clicking elsewhere
   useEffect(() => {
@@ -109,7 +110,7 @@ export function DiagramCanvas() {
     e.preventDefault()
     const point = getCanvasPoint(e)
     const clickedObject = findObjectAtPoint(point)
-    
+
     if (clickedObject) {
       // If clicked object is not in selection, select only it
       const targetIds = selectedIds.includes(clickedObject.id) ? selectedIds : [clickedObject.id]
@@ -154,7 +155,7 @@ export function DiagramCanvas() {
     if (!shapeType) return
 
     const point = getCanvasPoint(e as unknown as MouseEvent)
-    
+
     // Map shape types to their proper canvas object types
     const getObjectType = (shape: string): CanvasObject['type'] => {
       // Basic shapes that have their own type
@@ -229,7 +230,7 @@ export function DiagramCanvas() {
   // Optimized mouse move with RAF for smooth dragging
   const handleGlobalMouseMove = useCallback((e: MouseEvent) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current)
-    
+
     rafRef.current = requestAnimationFrame(() => {
       const point = getCanvasPoint(e)
 
@@ -279,11 +280,11 @@ export function DiagramCanvas() {
       if (isDragging && dragDataRef.current) {
         const dx = point.x - dragDataRef.current.startX
         const dy = point.y - dragDataRef.current.startY
-        
+
         dragDataRef.current.objects.forEach(({ id, x, y }) => {
-          updateObject(id, { 
-            x: snapValue(x + dx), 
-            y: snapValue(y + dy) 
+          updateObject(id, {
+            x: snapValue(x + dx),
+            y: snapValue(y + dy)
           })
         })
         return
@@ -303,20 +304,83 @@ export function DiagramCanvas() {
     })
   }, [isPanning, panStart, isConnecting, connectionStart, connectionDragHandle, selectionBox, isDragging, isDrawing, drawStart, tempObject, getCanvasPoint, setPan, findObjectAtPoint, connections, objects, getClosestPort, updateConnection, updateObject, snapValue])
 
+  // Handle Wheel Events for Zoom and Pan
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+
+    const handleWheel = (e: WheelEvent) => {
+      // Prevent browser zoom/navigation
+      e.preventDefault()
+
+      // Ctrl/Cmd + Wheel (or Trackpad Pinch) = Zoom
+      if (e.ctrlKey || e.metaKey) {
+        // Use a multiplicative factor for smooth zoom
+        // e.deltaY is usually small for trackpad (e.g., 1-10) and larger for mouse (e.g., 100)
+        // We clamp the delta to avoid massive jumps
+        const delta = e.deltaY
+        const sensitivity = 0.006
+        const zoomFactor = 1 - Math.max(Math.min(delta, 50), -50) * sensitivity
+
+        const newZoom = Math.max(0.1, Math.min(8, zoom * zoomFactor))
+
+        // Zoom towards mouse pointer
+        const rect = canvas.getBoundingClientRect()
+        const mouseX = e.clientX - rect.left
+        const mouseY = e.clientY - rect.top
+
+        // Calculate world point under mouse BEFORE zoom
+        // Screen = World * Zoom + Pan
+        // World = (Screen - Pan) / Zoom
+        const worldX = (mouseX - pan.x) / zoom
+        const worldY = (mouseY - pan.y) / zoom
+
+        // Calculate new pan to keep world point under mouse AFTER zoom
+        // Screen = World * newZoom + newPan
+        // newPan = Screen - World * newZoom
+        const newPanX = mouseX - worldX * newZoom
+        const newPanY = mouseY - worldY * newZoom
+
+        useCanvasStore.getState().setZoom(newZoom)
+        setPan({ x: newPanX, y: newPanY })
+      } else {
+        // Regular Wheel = Pan
+        // Trackpad 2-finger scroll usually sends deltaX/deltaY
+        // We want "Natural Scrolling" feel?
+        // Usually: panning the camera means moving the viewport.
+        // If I swipe fingers LEFT on trackpad, e.deltaX is positive (content moves left, viewport moves right).
+        // Standard expected behavior: Swipe Left -> Viewport moves right -> Content moves Left.
+        // Pan.x should DECREASE.
+
+        // Check for "Pinch" gesture on Force Touch trackpads which might appear as regular wheel with unusual deltas?
+        // No, usually it's just X/Y.
+
+        // Apply damping/sensitivity if needed, generally 1:1 matches native feel
+        setPan({
+          x: pan.x - e.deltaX,
+          y: pan.y - e.deltaY
+        })
+      }
+    }
+
+    canvas.addEventListener('wheel', handleWheel, { passive: false })
+    return () => canvas.removeEventListener('wheel', handleWheel)
+  }, [zoom, pan, setPan])
+
   // Global mouse up handler
   const handleGlobalMouseUp = useCallback((e: MouseEvent) => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current)
     const point = getCanvasPoint(e)
 
     if (isPanning) { setIsPanning(false); setPanStart(null) }
-    
+
     // Handle connection endpoint dragging (reconnection)
     if (connectionDragHandle) {
       const conn = connections.find(c => c.id === connectionDragHandle.id)
       if (conn) {
         const targetObj = findObjectAtPoint(point)
         const sourceId = connectionDragHandle.handle === 'from' ? conn.to : conn.from
-        
+
         if (targetObj && targetObj.id !== sourceId) {
           // Reconnect to new target
           const newPort = getClosestPort(point, targetObj)
@@ -368,7 +432,7 @@ export function DiagramCanvas() {
       setSelectionBox(null)
     }
 
-    if (isDragging) { 
+    if (isDragging) {
       setIsDragging(false)
       dragDataRef.current = null
     }
@@ -423,8 +487,15 @@ export function DiagramCanvas() {
         return
       }
 
+      // Spacebar for panning
+      if (key === ' ' && !isSpacePanning) {
+        e.preventDefault() // Prevent scrolling
+        setIsSpacePanning(true)
+        return
+      }
+
       // Tool shortcuts (single keys)
-      if (!e.metaKey && !e.ctrlKey && !e.altKey) {
+      if (!e.metaKey && !e.ctrlKey && !e.altKey && !isSpacePanning) {
         switch (key) {
           case 'v': case '1': e.preventDefault(); setTool('select'); break
           case 'h': case '2': e.preventDefault(); setTool('hand'); break
@@ -510,12 +581,26 @@ export function DiagramCanvas() {
       }
     }
 
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === ' ') {
+        setIsSpacePanning(false)
+        if (isPanning) {
+          setIsPanning(false)
+          setPanStart(null)
+        }
+      }
+    }
+
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedIds, objects, deleteObjects, setSelectedIds, setTool, duplicateObjects, bringToFront, sendToBack, bringForward, sendBackward])
+    window.addEventListener('keyup', handleKeyUp)
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('keyup', handleKeyUp)
+    }
+  }, [selectedIds, objects, deleteObjects, setSelectedIds, setTool, duplicateObjects, bringToFront, sendToBack, bringForward, sendBackward, isSpacePanning, isPanning])
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (e.button === 1 || (e.button === 0 && tool === 'hand')) {
+    if (e.button === 1 || (e.button === 0 && (tool === 'hand' || isSpacePanning))) {
       setIsPanning(true)
       setPanStart({ x: e.clientX - pan.x, y: e.clientY - pan.y })
       return
@@ -531,10 +616,10 @@ export function DiagramCanvas() {
             ? selectedIds.filter(id => id !== clickedObject.id)
             : [...selectedIds, clickedObject.id])
           : (selectedIds.includes(clickedObject.id) ? selectedIds : [clickedObject.id])
-        
+
         setSelectedIds(newSelection)
         setIsDragging(true)
-        
+
         // Store initial positions for smooth dragging
         const objectsToMove = newSelection.length > 0 ? newSelection : [clickedObject.id]
         dragDataRef.current = {
@@ -615,10 +700,10 @@ export function DiagramCanvas() {
     const dx = to.x - from.x
     const dy = to.y - from.y
     const dist = Math.sqrt(dx * dx + dy * dy)
-    
+
     // Adaptive curvature - more curve for longer distances, less for short
     const baseCurvature = Math.min(Math.max(dist * 0.35, 30), 120)
-    
+
     // Direction vectors for each port (8 ports including corners)
     const getDirVector = (p: Port): { x: number; y: number } => {
       const diag = 0.707 // 1/sqrt(2) for diagonal directions
@@ -636,70 +721,46 @@ export function DiagramCanvas() {
 
     const dir1 = getDirVector(fromPort)
     const dir2 = getDirVector(toPort)
-    
-    // Smart curvature adjustment based on relative positions
-    let curve1 = baseCurvature
-    let curve2 = baseCurvature
-    
-    // Check if using corner ports - they need slightly different handling
-    const isCornerPort = (p: Port) => ['ne', 'se', 'sw', 'nw'].includes(p)
-    const fromIsCorner = isCornerPort(fromPort)
-    const toIsCorner = isCornerPort(toPort)
-    
-    // If ports are facing each other, use less curvature
-    const facingEachOther = (
-      (fromPort === 'e' && toPort === 'w' && dx > 0) ||
-      (fromPort === 'w' && toPort === 'e' && dx < 0) ||
-      (fromPort === 's' && toPort === 'n' && dy > 0) ||
-      (fromPort === 'n' && toPort === 's' && dy < 0)
-    )
-    
-    if (facingEachOther) {
-      curve1 = Math.min(baseCurvature, Math.abs(dx) * 0.4 || Math.abs(dy) * 0.4)
-      curve2 = curve1
+
+    // Smart Manhattan-like Bezier curves
+    // Instead of simple bezier, we use a path that tries to go orthogonal first
+    const controlDist = Math.max(Math.abs(dx) * 0.5, Math.abs(dy) * 0.5, 60)
+
+    // Calculate control points based on port direction to ensure lines exit/enter straight
+    const cp1 = {
+      x: from.x + dir1.x * controlDist,
+      y: from.y + dir1.y * controlDist
     }
-    
-    // Corner ports need more curvature for smooth curves
-    if (fromIsCorner) curve1 = Math.max(curve1, 50)
-    if (toIsCorner) curve2 = Math.max(curve2, 50)
-    
-    // If going backwards (e.g., east port but target is to the west), need more curve
-    const goingBackwards = (
-      (fromPort === 'e' && dx < -20) ||
-      (fromPort === 'w' && dx > 20) ||
-      (fromPort === 's' && dy < -20) ||
-      (fromPort === 'n' && dy > 20)
-    )
-    
-    if (goingBackwards) {
-      curve1 = Math.max(baseCurvature, 80)
-      curve2 = Math.max(baseCurvature, 80)
+    const cp2 = {
+      x: to.x + dir2.x * controlDist,
+      y: to.y + dir2.y * controlDist
     }
-    
-    // Control points
-    const cp1 = { 
-      x: from.x + dir1.x * curve1, 
-      y: from.y + dir1.y * curve1 
+
+    // Determine path based on alignment
+    let pathData = ''
+
+    // If aligned horizontally or vertically, draw straight line
+    const isAlignedX = Math.abs(dy) < 5 && (fromPort === 'e' || fromPort === 'w')
+    const isAlignedY = Math.abs(dx) < 5 && (fromPort === 'n' || fromPort === 's')
+
+    if (isAlignedX || isAlignedY) {
+       pathData = `M ${from.x} ${from.y} L ${to.x} ${to.y}`
+    } else {
+       // Standard smooth bezier with strong control points
+       pathData = `M ${from.x} ${from.y} C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${to.x} ${to.y}`
     }
-    const cp2 = { 
-      x: to.x + dir2.x * curve2, 
-      y: to.y + dir2.y * curve2 
-    }
-    
-    // Create smooth bezier path
-    const pathData = `M ${from.x} ${from.y} C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${to.x} ${to.y}`
 
     // Arrow head calculation - angle based on curve end direction
     const arrowAngle = Math.atan2(to.y - cp2.y, to.x - cp2.x)
     const arrowLen = 8
     const arrowWidth = Math.PI / 7
-    const arrowPt1 = { 
-      x: to.x - arrowLen * Math.cos(arrowAngle - arrowWidth), 
-      y: to.y - arrowLen * Math.sin(arrowAngle - arrowWidth) 
+    const arrowPt1 = {
+      x: to.x - arrowLen * Math.cos(arrowAngle - arrowWidth),
+      y: to.y - arrowLen * Math.sin(arrowAngle - arrowWidth)
     }
-    const arrowPt2 = { 
-      x: to.x - arrowLen * Math.cos(arrowAngle + arrowWidth), 
-      y: to.y - arrowLen * Math.sin(arrowAngle + arrowWidth) 
+    const arrowPt2 = {
+      x: to.x - arrowLen * Math.cos(arrowAngle + arrowWidth),
+      y: to.y - arrowLen * Math.sin(arrowAngle + arrowWidth)
     }
 
     // Calculate midpoint for label using bezier formula
@@ -710,49 +771,49 @@ export function DiagramCanvas() {
     return (
       <g key={conn.id} style={{ cursor: 'pointer' }}>
         {/* Invisible wider path for easier clicking */}
-        <path 
-          d={pathData} 
-          stroke="transparent" 
-          strokeWidth={24} 
-          fill="none" 
+        <path
+          d={pathData}
+          stroke="transparent"
+          strokeWidth={24}
+          fill="none"
           style={{ pointerEvents: 'stroke', cursor: 'pointer' }}
-          onClick={(e) => { 
+          onClick={(e) => {
             e.stopPropagation()
-            setSelectedIds([conn.id]) 
+            setSelectedIds([conn.id])
           }}
         />
         {/* Glow effect on hover/select */}
         {(isSelected || isBeingDragged) && (
-          <path 
-            d={pathData} 
-            stroke="#3B82F6" 
-            strokeWidth={6} 
-            fill="none" 
-            strokeLinecap="round" 
+          <path
+            d={pathData}
+            stroke="#3B82F6"
+            strokeWidth={6}
+            fill="none"
+            strokeLinecap="round"
             opacity={0.2}
             style={{ pointerEvents: 'none' }}
           />
         )}
         {/* Main path */}
-        <path 
-          d={pathData} 
-          stroke={stroke} 
-          strokeWidth={isSelected ? 2.5 : (conn.strokeWidth || 1.5)} 
-          fill="none" 
-          strokeLinecap="round" 
+        <path
+          d={pathData}
+          stroke={stroke}
+          strokeWidth={isSelected ? 2.5 : (conn.strokeWidth || 1.5)}
+          fill="none"
+          strokeLinecap="round"
           strokeDasharray={conn.dashArray || undefined}
           style={{ pointerEvents: 'none', transition: 'all 0.15s ease' }}
         />
         {/* Animated flow indicator */}
         {conn.animated && (
-          <path 
-            d={pathData} 
-            stroke={stroke} 
-            strokeWidth={(conn.strokeWidth || 1.5) + 1} 
-            fill="none" 
+          <path
+            d={pathData}
+            stroke={stroke}
+            strokeWidth={(conn.strokeWidth || 1.5) + 1}
+            fill="none"
             strokeLinecap="round"
             strokeDasharray="8 12"
-            style={{ 
+            style={{
               pointerEvents: 'none',
               animation: 'flowAnimation 1s linear infinite',
             }}
@@ -760,30 +821,30 @@ export function DiagramCanvas() {
         )}
         {/* Arrow head */}
         {conn.type === 'arrow' && (
-          <path 
-            d={`M ${to.x} ${to.y} L ${arrowPt1.x} ${arrowPt1.y} L ${arrowPt2.x} ${arrowPt2.y} Z`} 
-            fill={stroke} 
+          <path
+            d={`M ${to.x} ${to.y} L ${arrowPt1.x} ${arrowPt1.y} L ${arrowPt2.x} ${arrowPt2.y} Z`}
+            fill={stroke}
             style={{ pointerEvents: 'none' }}
           />
         )}
         {/* Label */}
         {conn.label && (
           <g transform={`translate(${midX}, ${midY})`} style={{ pointerEvents: 'none' }}>
-            <rect 
-              x={-conn.label.length * 3.5 - 8} 
-              y="-12" 
-              width={conn.label.length * 7 + 16} 
-              height="24" 
-              rx="6" 
-              fill={darkMode ? '#171717' : 'white'} 
-              stroke={darkMode ? '#262626' : '#E2E8F0'} 
+            <rect
+              x={-conn.label.length * 3.5 - 8}
+              y="-12"
+              width={conn.label.length * 7 + 16}
+              height="24"
+              rx="6"
+              fill={darkMode ? '#171717' : 'white'}
+              stroke={darkMode ? '#262626' : '#E2E8F0'}
             />
-            <text 
-              x="0" 
-              y="5" 
-              textAnchor="middle" 
-              fontSize={11} 
-              fill={darkMode ? '#a3a3a3' : '#64748B'} 
+            <text
+              x="0"
+              y="5"
+              textAnchor="middle"
+              fontSize={11}
+              fill={darkMode ? '#a3a3a3' : '#64748B'}
               fontFamily="Inter"
             >
               {conn.label}
@@ -794,53 +855,53 @@ export function DiagramCanvas() {
         {isSelected && (
           <>
             {/* From handle */}
-            <circle 
-              cx={from.x} 
-              cy={from.y} 
-              r={10} 
+            <circle
+              cx={from.x}
+              cy={from.y}
+              r={10}
               fill="transparent"
               style={{ cursor: 'grab', pointerEvents: 'auto' }}
-              onMouseDown={(e) => { 
+              onMouseDown={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
                 setConnectionDragHandle({ id: conn.id, handle: 'from' })
                 setConnectionPreview(from)
-              }} 
+              }}
             />
-            <circle 
-              cx={from.x} 
-              cy={from.y} 
-              r={6} 
-              fill="#3B82F6" 
-              stroke="white" 
-              strokeWidth={2} 
+            <circle
+              cx={from.x}
+              cy={from.y}
+              r={6}
+              fill="#3B82F6"
+              stroke="white"
+              strokeWidth={2}
               style={{ pointerEvents: 'none' }}
             />
             {/* To handle */}
-            <circle 
-              cx={to.x} 
-              cy={to.y} 
-              r={10} 
+            <circle
+              cx={to.x}
+              cy={to.y}
+              r={10}
               fill="transparent"
               style={{ cursor: 'grab', pointerEvents: 'auto' }}
-              onMouseDown={(e) => { 
+              onMouseDown={(e) => {
                 e.stopPropagation()
                 e.preventDefault()
                 setConnectionDragHandle({ id: conn.id, handle: 'to' })
                 setConnectionPreview(to)
-              }} 
+              }}
             />
-            <circle 
-              cx={to.x} 
-              cy={to.y} 
-              r={6} 
-              fill="#3B82F6" 
-              stroke="white" 
-              strokeWidth={2} 
+            <circle
+              cx={to.x}
+              cy={to.y}
+              r={6}
+              fill="#3B82F6"
+              stroke="white"
+              strokeWidth={2}
               style={{ pointerEvents: 'none' }}
             />
             {/* Delete button at midpoint */}
-            <g 
+            <g
               transform={`translate(${midX}, ${midY - 24})`}
               style={{ cursor: 'pointer', pointerEvents: 'auto' }}
               onClick={(e) => { e.stopPropagation(); deleteConnection(conn.id) }}
@@ -856,13 +917,13 @@ export function DiagramCanvas() {
 
   const renderConnectionPreview = () => {
     if (!connectionPreview) return null
-    
+
     // For new connections
     if (isConnecting && connectionStart) {
       const fromObj = objects.find(o => o.id === connectionStart.objectId)
       if (!fromObj) return null
       const from = getPortPoint(fromObj, connectionStart.port)
-      
+
       // If hovering over a valid target port, snap to it
       let toPoint = connectionPreview
       if (hoveredPort && hoveredPort.objectId !== connectionStart.objectId) {
@@ -871,34 +932,34 @@ export function DiagramCanvas() {
           toPoint = getPortPoint(targetObj, hoveredPort.port)
         }
       }
-      
+
       return (
         <g className="pointer-events-none">
           {/* Animated dashed line */}
-          <line 
-            x1={from.x} 
-            y1={from.y} 
-            x2={toPoint.x} 
-            y2={toPoint.y} 
-            stroke="#3B82F6" 
-            strokeWidth={2} 
+          <line
+            x1={from.x}
+            y1={from.y}
+            x2={toPoint.x}
+            y2={toPoint.y}
+            stroke="#3B82F6"
+            strokeWidth={2}
             strokeDasharray="8 4"
             className="animate-dash"
           />
           {/* End point indicator */}
-          <circle 
-            cx={toPoint.x} 
-            cy={toPoint.y} 
-            r={hoveredPort ? 8 : 4} 
-            fill={hoveredPort ? '#3B82F6' : '#3B82F6'} 
+          <circle
+            cx={toPoint.x}
+            cy={toPoint.y}
+            r={hoveredPort ? 8 : 4}
+            fill={hoveredPort ? '#3B82F6' : '#3B82F6'}
             opacity={hoveredPort ? 0.3 : 0.5}
           />
           {hoveredPort && (
-            <circle 
-              cx={toPoint.x} 
-              cy={toPoint.y} 
-              r={5} 
-              fill="#3B82F6" 
+            <circle
+              cx={toPoint.x}
+              cy={toPoint.y}
+              r={5}
+              fill="#3B82F6"
               stroke="white"
               strokeWidth={2}
             />
@@ -906,19 +967,19 @@ export function DiagramCanvas() {
         </g>
       )
     }
-    
+
     // For dragging existing connection endpoints
     if (connectionDragHandle) {
       const conn = connections.find(c => c.id === connectionDragHandle.id)
       if (!conn) return null
-      
+
       const sourceId = connectionDragHandle.handle === 'from' ? conn.to : conn.from
       const sourceObj = objects.find(o => o.id === sourceId)
       if (!sourceObj) return null
-      
+
       const sourcePort = connectionDragHandle.handle === 'from' ? conn.toPort : conn.fromPort
       const from = getPortPoint(sourceObj, sourcePort || 'n')
-      
+
       let toPoint = connectionPreview
       if (hoveredPort) {
         const targetObj = objects.find(o => o.id === hoveredPort.objectId)
@@ -926,31 +987,31 @@ export function DiagramCanvas() {
           toPoint = getPortPoint(targetObj, hoveredPort.port)
         }
       }
-      
+
       return (
         <g className="pointer-events-none">
-          <line 
-            x1={from.x} 
-            y1={from.y} 
-            x2={toPoint.x} 
-            y2={toPoint.y} 
-            stroke="#3B82F6" 
-            strokeWidth={2} 
+          <line
+            x1={from.x}
+            y1={from.y}
+            x2={toPoint.x}
+            y2={toPoint.y}
+            stroke="#3B82F6"
+            strokeWidth={2}
             strokeDasharray="8 4"
           />
-          <circle 
-            cx={toPoint.x} 
-            cy={toPoint.y} 
-            r={hoveredPort ? 8 : 4} 
-            fill="#3B82F6" 
+          <circle
+            cx={toPoint.x}
+            cy={toPoint.y}
+            r={hoveredPort ? 8 : 4}
+            fill="#3B82F6"
             opacity={hoveredPort ? 0.3 : 0.5}
           />
           {hoveredPort && (
-            <circle 
-              cx={toPoint.x} 
-              cy={toPoint.y} 
-              r={5} 
-              fill="#3B82F6" 
+            <circle
+              cx={toPoint.x}
+              cy={toPoint.y}
+              r={5}
+              fill="#3B82F6"
               stroke="white"
               strokeWidth={2}
             />
@@ -958,35 +1019,35 @@ export function DiagramCanvas() {
         </g>
       )
     }
-    
+
     return null
   }
 
   const renderPorts = (obj: CanvasObject) => {
     const showPorts = hoveredObject === obj.id || selectedIds.includes(obj.id) || tool === 'connector' || tool === 'arrow' || isConnecting || connectionDragHandle
     if (!showPorts) return null
-    
+
     // 8 ports: cardinal (N, E, S, W) and corners (NE, SE, SW, NW)
     const ports: Port[] = ['n', 'ne', 'e', 'se', 's', 'sw', 'w', 'nw']
     const isCorner = (p: Port) => ['ne', 'se', 'sw', 'nw'].includes(p)
-    
+
     return ports.map(port => {
       const point = getPortPoint(obj, port)
       const isHovered = hoveredPort?.objectId === obj.id && hoveredPort?.port === port
-      const isValidTarget = (isConnecting && connectionStart?.objectId !== obj.id) || 
+      const isValidTarget = (isConnecting && connectionStart?.objectId !== obj.id) ||
                            (connectionDragHandle && connections.find(c => c.id === connectionDragHandle.id)?.[connectionDragHandle.handle === 'from' ? 'to' : 'from'] !== obj.id)
-      
+
       // Corner ports are smaller
       const baseSize = isCorner(port) ? 4 : 5
       const hoverSize = isCorner(port) ? 6 : 8
-      
+
       return (
         <g key={`${obj.id}-${port}`}>
           {/* Larger invisible hit area */}
-          <circle 
-            cx={point.x} 
-            cy={point.y} 
-            r={12} 
+          <circle
+            cx={point.x}
+            cy={point.y}
+            r={12}
             fill="transparent"
             style={{ cursor: 'crosshair', pointerEvents: 'auto' }}
             onMouseDown={(e) => handlePortMouseDown(obj.id, port, e)}
@@ -996,15 +1057,15 @@ export function DiagramCanvas() {
             onMouseLeave={() => setHoveredPort(null)}
           />
           {/* Visual port - subtle ring style */}
-          <circle 
-            cx={point.x} 
-            cy={point.y} 
-            r={isHovered ? hoverSize : baseSize} 
-            fill={isHovered ? '#3B82F6' : (darkMode ? '#262626' : '#ffffff')} 
-            stroke={isHovered ? '#3B82F6' : (darkMode ? '#525252' : '#94a3b8')} 
+          <circle
+            cx={point.x}
+            cy={point.y}
+            r={isHovered ? hoverSize : baseSize}
+            fill={isHovered ? '#3B82F6' : (darkMode ? '#262626' : '#ffffff')}
+            stroke={isHovered ? '#3B82F6' : (darkMode ? '#525252' : '#94a3b8')}
             strokeWidth={isHovered ? 2 : 1.5}
-            style={{ 
-              pointerEvents: 'none', 
+            style={{
+              pointerEvents: 'none',
               transition: 'all 0.15s ease',
               filter: isHovered ? 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.5))' : 'none'
             }}
@@ -1012,20 +1073,20 @@ export function DiagramCanvas() {
           {/* Pulse ring when valid target */}
           {isValidTarget && isHovered && (
             <>
-              <circle 
-                cx={point.x} 
-                cy={point.y} 
-                r={16} 
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r={16}
                 fill="none"
-                stroke="#3B82F6" 
+                stroke="#3B82F6"
                 strokeWidth={2}
                 opacity={0.3}
                 style={{ pointerEvents: 'none' }}
               />
-              <circle 
-                cx={point.x} 
-                cy={point.y} 
-                r={12} 
+              <circle
+                cx={point.x}
+                cy={point.y}
+                r={12}
                 fill="rgba(59, 130, 246, 0.1)"
                 style={{ pointerEvents: 'none' }}
               />
@@ -1041,10 +1102,10 @@ export function DiagramCanvas() {
       ref={canvasRef}
       className={cn(
         'relative h-full w-full overflow-hidden select-none',
-        tool === 'hand' && 'cursor-grab',
+        (tool === 'hand' || isSpacePanning) && 'cursor-grab',
         isPanning && 'cursor-grabbing',
-        tool === 'connector' && 'cursor-crosshair',
-        ['rectangle', 'circle', 'diamond', 'text', 'sticky', 'arrow', 'triangle', 'hexagon', 'line'].includes(tool) && 'cursor-crosshair'
+        tool === 'connector' && !isSpacePanning && 'cursor-crosshair',
+        ['rectangle', 'circle', 'diamond', 'text', 'sticky', 'arrow', 'triangle', 'hexagon', 'line'].includes(tool) && !isSpacePanning && 'cursor-crosshair'
       )}
       style={{ backgroundColor: darkMode ? '#0a0a0a' : '#FAFBFC' }}
       onMouseDown={handleMouseDown}
@@ -1067,31 +1128,31 @@ export function DiagramCanvas() {
       )}
 
       {/* Objects Layer - GPU accelerated */}
-      <div 
+      <div
         className="absolute inset-0"
-        style={{ 
-          transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`, 
+        style={{
+          transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
           transformOrigin: '0 0',
           willChange: isDragging ? 'transform' : 'auto'
         }}
       >
         {objects.map(obj => (
-          <CanvasNode 
-            key={obj.id} 
-            obj={obj} 
-            isSelected={selectedIds.includes(obj.id)} 
-            isDragging={isDragging && selectedIds.includes(obj.id)} 
+          <CanvasNode
+            key={obj.id}
+            obj={obj}
+            isSelected={selectedIds.includes(obj.id)}
+            isDragging={isDragging && selectedIds.includes(obj.id)}
           />
         ))}
         {tempObject && <CanvasNode obj={tempObject} isSelected={true} isDragging={false} isTemp />}
       </div>
 
       {/* SVG Layer for connections - rendered ON TOP of objects for better visibility */}
-      <svg 
-        className="absolute inset-0" 
-        style={{ 
-          transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`, 
-          transformOrigin: '0 0', 
+      <svg
+        className="absolute inset-0"
+        style={{
+          transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
+          transformOrigin: '0 0',
           overflow: 'visible',
           pointerEvents: 'none'
         }}
