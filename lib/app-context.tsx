@@ -32,9 +32,9 @@ interface Project {
   id: string
   name: string
   description: string | null
-  createdAt: string
   updatedAt: string
   _count?: { documents: number; tasks: number }
+  workspace?: { id: string; name: string; slug: string }
 }
 
 interface Folder {
@@ -101,7 +101,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     try {
       const [docsRes, projectsRes, foldersRes] = await Promise.all([
         fetch(`/api/documents?workspaceId=${currentWorkspace.id}`),
-        fetch(`/api/projects?workspaceId=${currentWorkspace.id}`),
+        // Fetch projects from ALL workspaces where user is a member
+        fetch(`/api/projects`),
         fetch(`/api/folders?workspaceId=${currentWorkspace.id}`),
       ])
 
@@ -120,7 +121,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setFolders(data)
       }
     } catch (error) {
-      console.error('Failed to fetch documents:', error)
+      console.error('Failed to fetch data:', error)
     }
   }, [session?.user, currentWorkspace])
 

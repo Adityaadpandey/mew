@@ -329,6 +329,42 @@ exports.Prisma.DocumentSnapshotScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.InvitationScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  token: 'token',
+  type: 'type',
+  status: 'status',
+  role: 'role',
+  workspaceId: 'workspaceId',
+  projectId: 'projectId',
+  senderId: 'senderId',
+  receiverId: 'receiverId',
+  expiresAt: 'expiresAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProjectMemberScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  projectId: 'projectId',
+  role: 'role',
+  joinedAt: 'joinedAt'
+};
+
+exports.Prisma.NotificationScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  type: 'type',
+  title: 'title',
+  message: 'message',
+  link: 'link',
+  read: 'read',
+  metadata: 'metadata',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -399,6 +435,35 @@ exports.PermissionRole = exports.$Enums.PermissionRole = {
   VIEWER: 'VIEWER'
 };
 
+exports.InvitationType = exports.$Enums.InvitationType = {
+  WORKSPACE: 'WORKSPACE',
+  PROJECT: 'PROJECT'
+};
+
+exports.InvitationStatus = exports.$Enums.InvitationStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
+  DECLINED: 'DECLINED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.ProjectMemberRole = exports.$Enums.ProjectMemberRole = {
+  OWNER: 'OWNER',
+  ADMIN: 'ADMIN',
+  MEMBER: 'MEMBER',
+  VIEWER: 'VIEWER'
+};
+
+exports.NotificationType = exports.$Enums.NotificationType = {
+  INVITATION: 'INVITATION',
+  TASK_ASSIGNED: 'TASK_ASSIGNED',
+  TASK_COMPLETED: 'TASK_COMPLETED',
+  COMMENT_MENTION: 'COMMENT_MENTION',
+  PROJECT_UPDATE: 'PROJECT_UPDATE',
+  DOCUMENT_SHARED: 'DOCUMENT_SHARED',
+  WORKSPACE_INVITE: 'WORKSPACE_INVITE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Account: 'Account',
@@ -419,7 +484,10 @@ exports.Prisma.ModelName = {
   AIChat: 'AIChat',
   AIMessage: 'AIMessage',
   Note: 'Note',
-  DocumentSnapshot: 'DocumentSnapshot'
+  DocumentSnapshot: 'DocumentSnapshot',
+  Invitation: 'Invitation',
+  ProjectMember: 'ProjectMember',
+  Notification: 'Notification'
 };
 
 /**

@@ -1,110 +1,389 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { useTheme } from '@/lib/theme-provider'
+import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
-import { ArrowRight, CheckCircle2, Clock, FileText } from 'lucide-react'
+import {
+  Activity,
+  Calendar,
+  CheckCircle2,
+  Clock,
+  FileText,
+  GitBranch,
+  ListTodo,
+  TrendingUp
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import { getStatusColor } from '@/lib/design-system'
 
-export function ProjectOverview({ projectId }: { projectId: string }) {
-  const [stats, setStats] = useState([
-    { label: 'Pending Tasks', value: '0', icon: <Clock className="h-4 w-4 text-orange-500" />, change: 'No recent activity' },
-    { label: 'Completed', value: '0%', icon: <CheckCircle2 className="h-4 w-4 text-green-500" />, change: 'No data' },
-    { label: 'Total Files', value: '0', icon: <FileText className="h-4 w-4 text-blue-500" />, change: 'Docs & Designs' },
-  ])
+interface ProjectOverviewProps {
+  projectId: string
+  project: {
+    id: string
+    name: string
+    description: string | null
+    createdAt: string
+    updatedAt: string
+  }
+}
+
+interface Task {
+  id: string
+  title: string
+  status: 'TODO' | 'IN_PROGRESS' | 'DONE' | 'BLOCKED'
+  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT'
+  updatedAt: string
+}
+
+interface Document {
+  id: string
+  title: string
+  type: 'DOCUMENT' | 'DIAGRAM' | 'CANVAS'
+  updatedAt: string
+}
+
+export function ProjectOverview({ projectId, project }: ProjectOverviewProps) {
+  const [tasks, setTasks] = useState<Task[]>([])
+  const [documents, setDocuments] = useState<Document[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
 
   useEffect(() => {
-    async function fetchStats() {
+    const fetchData = async () => {
       try {
-        const res = await fetch(`/api/projects/${projectId}`)
-        const tasksRes = await fetch(`/api/projects/${projectId}/tasks`)
+        const [tasksRes, docsRes] = await Promise.all([
+          fetch(`/api/tasks?projectId=${projectId}&limit=5`),
+          fetch(`/api/documents?projectId=${projectId}&limit=5`),
+        ])
 
-        if (res.ok && tasksRes.ok) {
-          const projectData = await res.json()
-          const tasks: any[] = await tasksRes.json()
+        if (tasksRes.ok) {
+          const data = await tasksRes.json()
+          setTasks(data.data || [])
+        }
 
-          const totalPromise = tasks.length
-          const completed = tasks.filter((t: any) => t.status === 'DONE').length
-          const todo = tasks.filter((t: any) => t.status !== 'DONE').length
-          const percentage = totalPromise > 0 ? Math.round((completed / totalPromise) * 100) : 0
-
-          const docCount = projectData._count?.documents || 0
-
-          setStats([
-            { label: 'Pending Tasks', value: todo.toString(), icon: <Clock className="h-4 w-4 text-orange-500" />, change: `Total: ${totalPromise}` },
-            { label: 'Completed', value: `${percentage}%`, icon: <CheckCircle2 className="h-4 w-4 text-green-500" />, change: `${completed} tasks done` },
-            { label: 'Total Files', value: docCount.toString(), icon: <FileText className="h-4 w-4 text-blue-500" />, change: 'Docs & Designs' },
-          ])
+        if (docsRes.ok) {
+          const data = await docsRes.json()
+          setDocuments(data)
         }
       } catch (error) {
-        console.error('Failed to fetch stats:', error)
+        console.error('Failed to fetch overview data:', error)
+      } finally {
+        setIsLoading(false)
       }
     }
-    fetchStats()
+
+    fetchData()
   }, [projectId])
 
+  const taskStats = {
+    total: tasks.length,
+    done: tasks.filter(t => t.status === 'DONE').length,
+    inProgress: tasks.filter(t => t.status === 'IN_PROGRESS').length,
+    todo: tasks.filter(t => t.status === 'TODO').length,
+  }
+
+  const progress = taskStats.total > 0 ? Math.round((taskStats.done / taskStats.total) * 100) : 0
+
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {stats.map((stat, i) => (
+    <ScrollArea className="h-full">
+      <div className="max-w-7xl mx-auto px-8 py-8 space-y-6">
+        {/* Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <motion.div
-            key={stat.label}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.1 }}
+            transition={{ delay: 0.1 }}
           >
-            <Card className="hover:shadow-md transition-shadow dark:bg-zinc-900/50 dark:border-white/10">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {stat.label}
-                </CardTitle>
-                {stat.icon}
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {stat.change}
-                </p>
+            <Card className={cn(
+              "border-l-4 border-l-blue-500",
+              isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
+            )}>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className={cn("text-sm font-medium", isDark ? "text-neutral-400" : "text-slate-500")}>
+                      Total Tasks
+                    </p>
+                    <p className={cn("text-3xl font-bold mt-2", isDark ? "text-white" : "text-slate-900")}>
+                      {taskStats.total}
+                    </p>
+                  </div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10">
+                    <ListTodo className="h-6 w-6 text-blue-500" />
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
-        ))}
-      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Activity */}
-        <div className="lg:col-span-2 space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Recent Activity</h2>
-            <Button variant="ghost" size="sm" className="text-xs">View All</Button>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            <Card className={cn(
+              "border-l-4 border-l-green-500",
+              isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
+            )}>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className={cn("text-sm font-medium", isDark ? "text-neutral-400" : "text-slate-500")}>
+                      Completed
+                    </p>
+                    <p className={cn("text-3xl font-bold mt-2", isDark ? "text-white" : "text-slate-900")}>
+                      {taskStats.done}
+                    </p>
+                  </div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-green-500/10">
+                    <CheckCircle2 className="h-6 w-6 text-green-500" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
 
-          <Card className="dark:bg-zinc-900/50 dark:border-white/10">
-            <CardContent className="p-0">
-               <div className="p-8 text-center text-muted-foreground text-sm">
-                 No recent activity data available
-               </div>
-            </CardContent>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <Card className={cn(
+              "border-l-4 border-l-orange-500",
+              isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
+            )}>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className={cn("text-sm font-medium", isDark ? "text-neutral-400" : "text-slate-500")}>
+                      In Progress
+                    </p>
+                    <p className={cn("text-3xl font-bold mt-2", isDark ? "text-white" : "text-slate-900")}>
+                      {taskStats.inProgress}
+                    </p>
+                  </div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/10">
+                    <Activity className="h-6 w-6 text-orange-500" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+          >
+            <Card className={cn(
+              "border-l-4 border-l-purple-500",
+              isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
+            )}>
+              <CardContent className="p-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className={cn("text-sm font-medium", isDark ? "text-neutral-400" : "text-slate-500")}>
+                      Progress
+                    </p>
+                    <p className={cn("text-3xl font-bold mt-2", isDark ? "text-white" : "text-slate-900")}>
+                      {progress}%
+                    </p>
+                  </div>
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/10">
+                    <TrendingUp className="h-6 w-6 text-purple-500" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         </div>
 
-        {/* Quick Access */}
-        <div className="space-y-4">
-          <h2 className="text-lg font-semibold">Quick Access</h2>
-          <Card className="dark:bg-zinc-900/50 dark:border-white/10">
-            <CardContent className="p-2 space-y-1">
-              {['Product Requirements', 'Q1 Roadmap', 'Design System', 'User Personas'].map((item) => (
-                 <Button key={item} variant="ghost" className="w-full justify-start h-10 font-normal">
-                   <FileText className="mr-2 h-4 w-4 text-muted-foreground" />
-                   {item}
-                   <ArrowRight className="ml-auto h-3 w-3 opacity-0 group-hover:opacity-50" />
-                 </Button>
-              ))}
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Recent Tasks */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <Card className={cn(
+              isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
+            )}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <ListTodo className="h-5 w-5" />
+                  Recent Tasks
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {tasks.length === 0 ? (
+                  <p className={cn("text-sm text-center py-8", isDark ? "text-neutral-500" : "text-slate-400")}>
+                    No tasks yet
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {tasks.slice(0, 5).map((task) => {
+                      const statusColor = getStatusColor(task.status)
+                      return (
+                        <div
+                          key={task.id}
+                          className={cn(
+                            "flex items-center gap-3 p-3 rounded-lg border transition-colors",
+                            isDark
+                              ? "border-neutral-800 hover:bg-neutral-800/50"
+                              : "border-slate-200 hover:bg-slate-50"
+                          )}
+                        >
+                          <div className={cn("h-2 w-2 rounded-full", statusColor.dot)} />
+                          <div className="flex-1 min-w-0">
+                            <p className={cn(
+                              "text-sm font-medium truncate",
+                              isDark ? "text-white" : "text-slate-900"
+                            )}>
+                              {task.title}
+                            </p>
+                            <p className={cn("text-xs", isDark ? "text-neutral-500" : "text-slate-500")}>
+                              {formatDistanceToNow(new Date(task.updatedAt), { addSuffix: true })}
+                            </p>
+                          </div>
+                          <div className={cn(
+                            "px-2 py-1 rounded text-xs font-medium",
+                            statusColor.bg,
+                            statusColor.text
+                          )}>
+                            {task.status.replace('_', ' ')}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          {/* Recent Documents */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <Card className={cn(
+              isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
+            )}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  Recent Documents
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {documents.length === 0 ? (
+                  <p className={cn("text-sm text-center py-8", isDark ? "text-neutral-500" : "text-slate-400")}>
+                    No documents yet
+                  </p>
+                ) : (
+                  <div className="space-y-3">
+                    {documents.slice(0, 5).map((doc) => (
+                      <div
+                        key={doc.id}
+                        className={cn(
+                          "flex items-center gap-3 p-3 rounded-lg border transition-colors cursor-pointer",
+                          isDark
+                            ? "border-neutral-800 hover:bg-neutral-800/50"
+                            : "border-slate-200 hover:bg-slate-50"
+                        )}
+                      >
+                        <div className={cn(
+                          "flex h-10 w-10 items-center justify-center rounded-lg",
+                          doc.type === 'DIAGRAM'
+                            ? "bg-blue-500/10 text-blue-500"
+                            : "bg-purple-500/10 text-purple-500"
+                        )}>
+                          {doc.type === 'DIAGRAM' ? (
+                            <GitBranch className="h-5 w-5" />
+                          ) : (
+                            <FileText className="h-5 w-5" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className={cn(
+                            "text-sm font-medium truncate",
+                            isDark ? "text-white" : "text-slate-900"
+                          )}>
+                            {doc.title}
+                          </p>
+                          <p className={cn("text-xs", isDark ? "text-neutral-500" : "text-slate-500")}>
+                            {formatDistanceToNow(new Date(doc.updatedAt), { addSuffix: true })}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
+
+        {/* Project Timeline */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7 }}
+        >
+          <Card className={cn(
+            isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
+          )}>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Calendar className="h-5 w-5" />
+                Project Timeline
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-full",
+                    isDark ? "bg-neutral-800" : "bg-slate-100"
+                  )}>
+                    <Clock className={cn("h-5 w-5", isDark ? "text-neutral-400" : "text-slate-500")} />
+                  </div>
+                  <div>
+                    <p className={cn("text-sm font-medium", isDark ? "text-white" : "text-slate-900")}>
+                      Created
+                    </p>
+                    <p className={cn("text-xs", isDark ? "text-neutral-500" : "text-slate-500")}>
+                      {formatDistanceToNow(new Date(project.createdAt), { addSuffix: true })}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className={cn(
+                    "flex h-10 w-10 items-center justify-center rounded-full",
+                    isDark ? "bg-neutral-800" : "bg-slate-100"
+                  )}>
+                    <Activity className={cn("h-5 w-5", isDark ? "text-neutral-400" : "text-slate-500")} />
+                  </div>
+                  <div>
+                    <p className={cn("text-sm font-medium", isDark ? "text-white" : "text-slate-900")}>
+                      Last Updated
+                    </p>
+                    <p className={cn("text-xs", isDark ? "text-neutral-500" : "text-slate-500")}>
+                      {formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true })}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </CardContent>
           </Card>
-        </div>
+        </motion.div>
       </div>
-    </div>
+    </ScrollArea>
   )
 }

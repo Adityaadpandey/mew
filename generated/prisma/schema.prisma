@@ -18,15 +18,19 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  workspaces    WorkspaceMember[]
-  documents     Document[]
-  comments      Comment[]
-  activities    Activity[]
-  accounts      Account[]
-  sessions      Session[]
-  aiChats       AIChat[]
-  notes         Note[]
-  assignedTasks Task[]
+  workspaces          WorkspaceMember[]
+  documents           Document[]
+  comments            Comment[]
+  activities          Activity[]
+  accounts            Account[]
+  sessions            Session[]
+  aiChats             AIChat[]
+  notes               Note[]
+  assignedTasks       Task[]
+  sentInvitations     Invitation[]      @relation("InvitationSender")
+  receivedInvitations Invitation[]      @relation("InvitationReceiver")
+  projectMembers      ProjectMember[]
+  notifications       Notification[]
 }
 
 model Account {
@@ -74,11 +78,12 @@ model Workspace {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  members   WorkspaceMember[]
-  documents Document[]
-  folders   Folder[]
-  templates Template[]
-  projects  Project[]
+  members     WorkspaceMember[]
+  documents   Document[]
+  folders     Folder[]
+  templates   Template[]
+  projects    Project[]
+  invitations Invitation[]
 }
 
 enum Plan {
@@ -151,15 +156,17 @@ model Document {
 }
 
 model Project {
-  id          String     @id @default(cuid())
+  id          String          @id @default(cuid())
   name        String
   description String?
   workspaceId String
-  workspace   Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  workspace   Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   documents   Document[]
   tasks       Task[]
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  members     ProjectMember[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  invitations Invitation[]
 
   @@index([workspaceId])
 }
@@ -331,4 +338,94 @@ model DocumentSnapshot {
   createdAt   DateTime @default(now())
 
   @@index([documentId, createdAt])
+}
+
+// Collaboration Models
+
+model Invitation {
+  id     String           @id @default(cuid())
+  email  String
+  token  String           @unique
+  type   InvitationType
+  status InvitationStatus @default(PENDING)
+  role   MemberRole       @default(EDITOR)
+
+  // Relations
+  workspaceId String?
+  workspace   Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  projectId   String?
+  project     Project?   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  senderId   String
+  sender     User    @relation("InvitationSender", fields: [senderId], references: [id])
+  receiverId String?
+  receiver   User?   @relation("InvitationReceiver", fields: [receiverId], references: [id])
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email])
+  @@index([token])
+  @@index([workspaceId])
+  @@index([projectId])
+}
+
+enum InvitationType {
+  WORKSPACE
+  PROJECT
+}
+
+enum InvitationStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  EXPIRED
+}
+
+model ProjectMember {
+  id        String            @id @default(cuid())
+  userId    String
+  user      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  role      ProjectMemberRole @default(MEMBER)
+  joinedAt  DateTime          @default(now())
+
+  @@unique([userId, projectId])
+  @@index([projectId])
+  @@index([userId])
+}
+
+enum ProjectMemberRole {
+  OWNER
+  ADMIN
+  MEMBER
+  VIEWER
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  message   String
+  link      String?
+  read      Boolean          @default(false)
+  metadata  Json?
+  createdAt DateTime         @default(now())
+
+  @@index([userId, read])
+  @@index([createdAt])
+}
+
+enum NotificationType {
+  INVITATION
+  TASK_ASSIGNED
+  TASK_COMPLETED
+  COMMENT_MENTION
+  PROJECT_UPDATE
+  DOCUMENT_SHARED
+  WORKSPACE_INVITE
 }

@@ -16,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Eraser - Collaborative Documentation & Diagrams",
-  description: "The collaborative documentation and diagramming tool for engineering teams",
+  title: "Mew - Collaborative Workspace for Teams",
+  description: "The modern collaborative workspace for documentation, diagrams, and project management",
   icons: {
     icon: '/favicon.ico',
   },

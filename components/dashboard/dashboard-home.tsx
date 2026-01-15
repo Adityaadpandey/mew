@@ -13,30 +13,22 @@ import { cn } from '@/lib/utils'
 import { formatDistanceToNow } from 'date-fns'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  ArrowRight,
   Calendar,
-  CheckCircle2,
   ChevronRight,
   Clock,
   FileText,
   Filter,
   Folder,
   FolderOpen,
-  GitBranch,
-  Grid3X3,
   LayoutGrid,
   List,
   ListTodo,
   MoreHorizontal,
-  Plus,
   Search,
-  Sparkles,
-  Star,
-  TrendingUp,
-  Users
+  Sparkles
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { CreateProjectDialog } from './create-project-dialog'
 import {
   DropdownMenu,
@@ -48,14 +40,6 @@ import {
 
 // ============================================================================
 // Types
-// ============================================================================
-interface Stats {
-  totalDocuments: number
-  totalProjects: number
-  totalTasks: number
-  completedTasks: number
-}
-
 // ============================================================================
 // Animated Background Component
 // ============================================================================
@@ -99,6 +83,7 @@ function ProjectCard({
     description: string | null
     updatedAt: string
     _count?: { documents: number; tasks: number }
+    workspace?: { id: string; name: string; slug: string }
   }
   index: number
   onClick: () => void
@@ -176,6 +161,19 @@ function ProjectCard({
           )}>
             {project.name}
           </h3>
+          
+          {/* Workspace Badge */}
+          {project.workspace && (
+            <div className="mb-2">
+              <Badge variant="secondary" className={cn(
+                "text-xs",
+                isDark ? "bg-neutral-800 text-neutral-300" : "bg-slate-100 text-slate-600"
+              )}>
+                {project.workspace.name}
+              </Badge>
+            </div>
+          )}
+          
           <p className={cn(
             "text-sm line-clamp-2 min-h-[40px] mb-4",
             isDark ? "text-neutral-400" : "text-slate-500"
@@ -279,8 +277,7 @@ export function DashboardHome() {
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [search, setSearch] = useState('')
   const [sortBy, setSortBy] = useState<'recent' | 'name' | 'created'>('recent')
-  const [stats, setStats] = useState<Stats>({ totalDocuments: 0, totalProjects: 0, totalTasks: 0, completedTasks: 0 })
-  const { projects, documents, user, isLoading, currentWorkspace } = useApp()
+  const { projects, isLoading } = useApp()
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
   const router = useRouter()
@@ -290,45 +287,13 @@ export function DashboardHome() {
     .filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
     .sort((a, b) => {
       if (sortBy === 'name') return a.name.localeCompare(b.name)
-      if (sortBy === 'created') return new Date(b.createdAt || b.updatedAt).getTime() - new Date(a.createdAt || a.updatedAt).getTime()
+      if (sortBy === 'created') return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
       return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
     })
-
-  const getGreeting = () => {
-    const hour = new Date().getHours()
-    if (hour < 12) return 'Good morning'
-    if (hour < 18) return 'Good afternoon'
-    return 'Good evening'
-  }
-
-  // Load stats
-  useEffect(() => {
-    const fetchStats = async () => {
-      if (!currentWorkspace) return
-      try {
-        const tasksRes = await fetch(`/api/tasks?limit=1000`)
-        if (tasksRes.ok) {
-          const data = await tasksRes.json()
-          const tasks = data.data || []
-          setStats({
-            totalDocuments: documents.length,
-            totalProjects: projects.length,
-            totalTasks: tasks.length,
-            completedTasks: tasks.filter((t: { status: string }) => t.status === 'DONE').length
-          })
-        }
-      } catch (error) {
-        console.error('Failed to fetch stats:', error)
-      }
-    }
-    fetchStats()
-  }, [currentWorkspace, documents.length, projects.length])
 
   const handleOpenProject = (projectId: string) => {
     router.push(`/projects/${projectId}`)
   }
-
-  const taskProgress = stats.totalTasks > 0 ? Math.round((stats.completedTasks / stats.totalTasks) * 100) : 0
 
   if (isLoading) {
     return (
@@ -353,99 +318,6 @@ export function DashboardHome() {
   return (
     <div className={cn("flex h-full flex-col relative", isDark ? "bg-black" : "bg-slate-50")}>
       <AnimatedBackground isDark={isDark} />
-
-      {/* Hero Header */}
-      <div className={cn(
-        "relative z-10 px-8 py-10 border-b",
-        isDark ? "border-neutral-800/50" : "border-slate-200/50"
-      )}>
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-start justify-between">
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex items-center gap-3 mb-2"
-              >
-                <div className={cn(
-                  "flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-600"
-                )}>
-                  <Sparkles className="h-5 w-5 text-white" />
-                </div>
-                <Badge variant="secondary" className={cn(
-                  "px-3 py-1",
-                  isDark ? "bg-neutral-800/50 text-neutral-300" : "bg-slate-100 text-slate-600"
-                )}>
-                  {currentWorkspace?.name || 'Workspace'}
-                </Badge>
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className={cn("text-3xl font-bold tracking-tight", isDark ? "text-white" : "text-slate-900")}
-              >
-                {getGreeting()}{user?.name ? `, ${user.name.split(' ')[0]}` : ''}
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className={cn("mt-2", isDark ? "text-neutral-400" : "text-slate-500")}
-              >
-                Welcome back! Here's what's happening with your projects.
-              </motion.p>
-            </div>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 }}
-            >
-              <CreateProjectDialog />
-            </motion.div>
-          </div>
-
-          {/* Quick Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="grid grid-cols-4 gap-4 mt-8"
-          >
-            {[
-              { label: 'Projects', value: stats.totalProjects, icon: Folder, color: 'text-purple-500', bg: 'bg-purple-500/10' },
-              { label: 'Documents', value: stats.totalDocuments, icon: FileText, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-              { label: 'Tasks', value: stats.totalTasks, icon: ListTodo, color: 'text-orange-500', bg: 'bg-orange-500/10' },
-              { label: 'Completed', value: `${taskProgress}%`, icon: CheckCircle2, color: 'text-green-500', bg: 'bg-green-500/10' }
-            ].map((stat, i) => (
-              <div
-                key={stat.label}
-                className={cn(
-                  "flex items-center gap-4 p-4 rounded-xl border transition-all hover:shadow-md",
-                  isDark
-                    ? "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700"
-                    : "bg-white/70 border-slate-200 hover:border-slate-300"
-                )}
-              >
-                <div className={cn("flex items-center justify-center h-10 w-10 rounded-lg", stat.bg)}>
-                  <stat.icon className={cn("h-5 w-5", stat.color)} />
-                </div>
-                <div>
-                  <p className={cn("text-2xl font-bold", isDark ? "text-white" : "text-slate-900")}>
-                    {stat.value}
-                  </p>
-                  <p className={cn("text-sm", isDark ? "text-neutral-500" : "text-slate-500")}>
-                    {stat.label}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </div>
 
       {/* Projects Section */}
       <div className="relative z-10 flex-1 overflow-hidden">
@@ -591,9 +463,19 @@ export function DashboardHome() {
                         <h3 className={cn("font-semibold truncate", isDark ? "text-white" : "text-slate-900")}>
                           {project.name}
                         </h3>
-                        <p className={cn("text-sm truncate", isDark ? "text-neutral-400" : "text-slate-500")}>
-                          {project.description || "No description"}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          {project.workspace && (
+                            <Badge variant="secondary" className={cn(
+                              "text-xs",
+                              isDark ? "bg-neutral-800 text-neutral-400" : "bg-slate-100 text-slate-500"
+                            )}>
+                              {project.workspace.name}
+                            </Badge>
+                          )}
+                          <p className={cn("text-sm truncate", isDark ? "text-neutral-400" : "text-slate-500")}>
+                            {project.description || "No description"}
+                          </p>
+                        </div>
                       </div>
 
                       <div className="flex items-center gap-6">

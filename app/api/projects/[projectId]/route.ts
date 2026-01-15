@@ -1,104 +1,98 @@
-
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function GET(
-    req: NextRequest,
-    { params }: { params: Promise<{ projectId: string }> }
+  request: NextRequest,
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
+  try {
     const session = await auth()
-    if (!session?.user?.id) return new NextResponse('Unauthorized', { status: 401 })
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
     const { projectId } = await params
 
     const project = await db.project.findUnique({
-        where: { id: projectId },
-        include: {
-            workspace: {
-                include: {
-                    members: {
-                        include: {
-                            user: true,
-                        },
-                    },
-                },
-            },
-            _count: {
-                select: { documents: true, tasks: true },
-            },
+      where: { id: projectId },
+      include: {
+        _count: {
+          select: {
+            documents: true,
+            tasks: true,
+          },
         },
+      },
     })
 
-    if (!project) return new NextResponse('Project not found', { status: 404 })
-
-    // Verify access
-    const hasAccess = project.workspace.members.some(m => m.userId === session.user.id)
-    if (!hasAccess) return new NextResponse('Forbidden', { status: 403 })
+    if (!project) {
+      return NextResponse.json({ error: 'Project not found' }, { status: 404 })
+    }
 
     return NextResponse.json(project)
+  } catch (error) {
+    console.error('Failed to fetch project:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }
 
 export async function PATCH(
-    req: NextRequest,
-    { params }: { params: Promise<{ projectId: string }> }
+  request: NextRequest,
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
+  try {
     const session = await auth()
-    if (!session?.user?.id) return new NextResponse('Unauthorized', { status: 401 })
-
-    const { projectId } = await params
-    const body = await req.json()
-    const { name, description } = body
-
-    const project = await db.project.findUnique({
-        where: { id: projectId },
-        include: { workspace: { include: { members: true } } },
-    })
-
-    if (!project) return new NextResponse('Project not found', { status: 404 })
-
-    // Verify access (only admins/editors)
-    const member = project.workspace.members.find(m => m.userId === session.user.id)
-    if (!member || !['ADMIN', 'EDITOR'].includes(member.role)) {
-        return new NextResponse('Forbidden', { status: 403 })
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const updatedProject = await db.project.update({
-        where: { id: projectId },
-        data: {
-            name,
-            description,
+    const { projectId } = await params
+    const body = await request.json()
+    const { name, description } = body
+
+    const project = await db.project.update({
+      where: { id: projectId },
+      data: {
+        ...(name && { name }),
+        ...(description !== undefined && { description }),
+      },
+      include: {
+        _count: {
+          select: {
+            documents: true,
+            tasks: true,
+          },
         },
+      },
     })
 
-    return NextResponse.json(updatedProject)
+    return NextResponse.json(project)
+  } catch (error) {
+    console.error('Failed to update project:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }
 
 export async function DELETE(
-    req: NextRequest,
-    { params }: { params: Promise<{ projectId: string }> }
+  request: NextRequest,
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
+  try {
     const session = await auth()
-    if (!session?.user?.id) return new NextResponse('Unauthorized', { status: 401 })
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
     const { projectId } = await params
 
-    const project = await db.project.findUnique({
-        where: { id: projectId },
-        include: { workspace: { include: { members: true } } },
-    })
-
-    if (!project) return new NextResponse('Project not found', { status: 404 })
-
-    // Verify access (only admins)
-    const member = project.workspace.members.find(m => m.userId === session.user.id)
-    if (!member || member.role !== 'ADMIN') {
-        return new NextResponse('Forbidden', { status: 403 })
-    }
-
     await db.project.delete({
-        where: { id: projectId },
+      where: { id: projectId },
     })
 
-    return new NextResponse(null, { status: 204 })
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('Failed to delete project:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
 }

@@ -1,47 +1,64 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { useTheme } from '@/lib/theme-provider'
+import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
-import { FileText, LayoutTemplate, MoreHorizontal, Plus, Search } from 'lucide-react'
+import {
+  FileText,
+  GitBranch,
+  Grid3X3,
+  List,
+  MoreHorizontal,
+  Plus,
+  Search
+} from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { formatDistanceToNow } from 'date-fns'
+import { useRouter } from 'next/navigation'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 
 interface Document {
   id: string
   title: string
-  type: string
+  type: 'DOCUMENT' | 'DIAGRAM' | 'CANVAS'
   updatedAt: string
-  creator: {
-    name: string
-    avatar: string | null
-  }
+  createdAt: string
 }
 
 interface ProjectDocumentsProps {
   projectId: string
-  type: 'DOCUMENT' | 'DIAGRAM'
+  filterType?: 'DOCUMENT' | 'DIAGRAM'
 }
 
-export function ProjectDocuments({ projectId, type }: ProjectDocumentsProps) {
+export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProps) {
   const [documents, setDocuments] = useState<Document[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid')
   const [search, setSearch] = useState('')
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+  const router = useRouter()
 
   useEffect(() => {
-    async function fetchDocuments() {
+    const fetchDocuments = async () => {
       try {
-        const res = await fetch(`/api/documents?projectId=${projectId}&type=${type}`)
+        const res = await fetch(`/api/documents?projectId=${projectId}`)
         if (res.ok) {
           const data = await res.json()
-          setDocuments(data)
+          let filtered = data
+          if (filterType) {
+            filtered = data.filter((d: Document) => d.type === filterType)
+          }
+          setDocuments(filtered)
         }
       } catch (error) {
         console.error('Failed to fetch documents:', error)
@@ -49,96 +66,256 @@ export function ProjectDocuments({ projectId, type }: ProjectDocumentsProps) {
         setIsLoading(false)
       }
     }
-    fetchDocuments()
-  }, [projectId, type])
 
-  const filteredDocs = documents.filter(doc =>
-    doc.title.toLowerCase().includes(search.toLowerCase())
+    fetchDocuments()
+  }, [projectId, filterType])
+
+  const filteredDocs = documents.filter(d =>
+    d.title.toLowerCase().includes(search.toLowerCase())
   )
 
-  const emptyLabel = type === 'DOCUMENT' ? 'No documents found' : 'No designs found'
-  const createLabel = type === 'DOCUMENT' ? 'New Document' : 'New Design'
-  const icon = type === 'DOCUMENT' ? <FileText className="h-8 w-8 text-muted-foreground mb-4" /> : <LayoutTemplate className="h-8 w-8 text-muted-foreground mb-4" />
+  const handleCreateDocument = async () => {
+    try {
+      const res = await fetch('/api/documents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: filterType === 'DIAGRAM' ? 'Untitled Diagram' : 'Untitled Document',
+          type: filterType || 'DOCUMENT',
+          projectId,
+        }),
+      })
 
-  if (isLoading) {
-      return <div className="p-8 text-center text-muted-foreground">Loading...</div>
+      if (res.ok) {
+        const doc = await res.json()
+        router.push(`/?documentId=${doc.id}`)
+      }
+    } catch (error) {
+      console.error('Failed to create document:', error)
+    }
   }
 
   return (
-    <div className="h-full flex flex-col p-8 space-y-6">
-      {/* Toolbar */}
-      <div className="flex items-center justify-between">
-        <div className="relative w-72">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder={`Search ${type === 'DOCUMENT' ? 'docs' : 'designs'}...`}
-            className="pl-9 bg-background/50 border-white/10 focus-visible:ring-primary/20"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-        </div>
-        <Button className="gap-2 shadow-lg shadow-primary/20 hover:shadow-primary/40">
-          <Plus className="h-4 w-4" /> {createLabel}
-        </Button>
-      </div>
+    <ScrollArea className="h-full">
+      <div className="max-w-7xl mx-auto px-8 py-8">
+        {/* Toolbar */}
+        <div className="flex items-center justify-between gap-4 mb-6">
+          <div className="relative flex-1 max-w-md">
+            <Search className={cn(
+              "absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2",
+              isDark ? "text-neutral-500" : "text-slate-400"
+            )} />
+            <Input
+              placeholder="Search documents..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className={cn(
+                "pl-10",
+                isDark
+                  ? "bg-neutral-900/50 border-neutral-800"
+                  : "bg-white/70 border-slate-200"
+              )}
+            />
+          </div>
 
-      {/* Grid */}
-      {filteredDocs.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-          {filteredDocs.map((doc, i) => (
-            <motion.div
-              key={doc.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: i * 0.05 }}
+          <div className="flex items-center gap-2">
+            {/* View Mode Toggle */}
+            <div className={cn(
+              "flex rounded-lg border p-1",
+              isDark ? "border-neutral-800 bg-neutral-900/50" : "border-slate-200 bg-white/70"
+            )}>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "h-8 w-8",
+                  viewMode === 'grid' && (isDark ? "bg-neutral-800" : "bg-slate-100")
+                )}
+                onClick={() => setViewMode('grid')}
+              >
+                <Grid3X3 className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn(
+                  "h-8 w-8",
+                  viewMode === 'list' && (isDark ? "bg-neutral-800" : "bg-slate-100")
+                )}
+                onClick={() => setViewMode('list')}
+              >
+                <List className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <Button
+              onClick={handleCreateDocument}
+              className="gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
             >
-              <Card className="group relative overflow-hidden border border-white/5 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all cursor-pointer">
-                <div className="aspect-[4/3] bg-gradient-to-br from-white/5 to-transparent p-4 flex flex-col justify-between">
-                   <div className="flex justify-between items-start">
-                     <div className={`p-2 rounded-lg ${type === 'DOCUMENT' ? 'bg-blue-500/20 text-blue-500' : 'bg-purple-500/20 text-purple-500'}`}>
-                       {type === 'DOCUMENT' ? <FileText className="h-4 w-4" /> : <LayoutTemplate className="h-4 w-4" />}
-                     </div>
-                     <DropdownMenu>
-                       <DropdownMenuTrigger asChild>
-                         <Button variant="ghost" size="icon" className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                           <MoreHorizontal className="h-4 w-4" />
-                         </Button>
-                       </DropdownMenuTrigger>
-                       <DropdownMenuContent align="end">
-                         <DropdownMenuItem>Rename</DropdownMenuItem>
-                         <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
-                       </DropdownMenuContent>
-                     </DropdownMenu>
-                   </div>
+              <Plus className="h-4 w-4" />
+              New {filterType === 'DIAGRAM' ? 'Diagram' : 'Document'}
+            </Button>
+          </div>
+        </div>
+
+        {/* Documents Grid/List */}
+        {filteredDocs.length === 0 ? (
+          <div className={cn(
+            "flex flex-col items-center justify-center rounded-2xl py-20 px-8",
+            isDark ? "bg-neutral-900/50" : "bg-white/50"
+          )}>
+            <div className={cn(
+              "flex h-20 w-20 items-center justify-center rounded-2xl mb-6",
+              isDark ? "bg-neutral-800" : "bg-slate-100"
+            )}>
+              {filterType === 'DIAGRAM' ? (
+                <GitBranch className={cn("h-10 w-10", isDark ? "text-neutral-600" : "text-slate-400")} />
+              ) : (
+                <FileText className={cn("h-10 w-10", isDark ? "text-neutral-600" : "text-slate-400")} />
+              )}
+            </div>
+            <h3 className={cn("text-xl font-semibold mb-2", isDark ? "text-white" : "text-slate-900")}>
+              No {filterType === 'DIAGRAM' ? 'diagrams' : 'documents'} yet
+            </h3>
+            <p className={cn("text-center max-w-md mb-6", isDark ? "text-neutral-400" : "text-slate-500")}>
+              Create your first {filterType === 'DIAGRAM' ? 'diagram' : 'document'} to get started
+            </p>
+            <Button
+              onClick={handleCreateDocument}
+              className="gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
+            >
+              <Plus className="h-4 w-4" />
+              Create {filterType === 'DIAGRAM' ? 'Diagram' : 'Document'}
+            </Button>
+          </div>
+        ) : viewMode === 'grid' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredDocs.map((doc, index) => (
+              <motion.div
+                key={doc.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ y: -4 }}
+                onClick={() => router.push(`/?documentId=${doc.id}`)}
+                className={cn(
+                  "group cursor-pointer rounded-xl border p-6 transition-all hover:shadow-lg",
+                  isDark
+                    ? "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700"
+                    : "bg-white/70 border-slate-200 hover:border-slate-300"
+                )}
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className={cn(
+                    "flex h-12 w-12 items-center justify-center rounded-xl",
+                    doc.type === 'DIAGRAM'
+                      ? "bg-blue-500/10 text-blue-500"
+                      : "bg-purple-500/10 text-purple-500"
+                  )}>
+                    {doc.type === 'DIAGRAM' ? (
+                      <GitBranch className="h-6 w-6" />
+                    ) : (
+                      <FileText className="h-6 w-6" />
+                    )}
+                  </div>
+
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem>Open</DropdownMenuItem>
+                      <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
 
-                <div className="p-3 border-t border-white/5 bg-background/40 backdrop-blur-sm">
-                  <h3 className="font-medium text-sm truncate mb-2">{doc.title}</h3>
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <div className="flex items-center gap-1.5">
-                       <Avatar className="h-4 w-4">
-                         <AvatarImage src={doc.creator.avatar || undefined} />
-                         <AvatarFallback className="text-[9px]">{doc.creator.name[0]}</AvatarFallback>
-                       </Avatar>
-                       <span className="truncate max-w-[80px]">{doc.creator.name}</span>
-                    </div>
-                    <span>{new Date(doc.updatedAt).toLocaleDateString()}</span>
-                  </div>
+                <h3 className={cn(
+                  "font-semibold text-lg mb-2 truncate",
+                  isDark ? "text-white" : "text-slate-900"
+                )}>
+                  {doc.title}
+                </h3>
+
+                <p className={cn("text-sm", isDark ? "text-neutral-500" : "text-slate-500")}>
+                  Updated {formatDistanceToNow(new Date(doc.updatedAt), { addSuffix: true })}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-2">
+            {filteredDocs.map((doc, index) => (
+              <motion.div
+                key={doc.id}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.03 }}
+                onClick={() => router.push(`/?documentId=${doc.id}`)}
+                className={cn(
+                  "group flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all hover:shadow-md",
+                  isDark
+                    ? "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700"
+                    : "bg-white/70 border-slate-200 hover:border-slate-300"
+                )}
+              >
+                <div className={cn(
+                  "flex h-12 w-12 items-center justify-center rounded-xl",
+                  doc.type === 'DIAGRAM'
+                    ? "bg-blue-500/10 text-blue-500"
+                    : "bg-purple-500/10 text-purple-500"
+                )}>
+                  {doc.type === 'DIAGRAM' ? (
+                    <GitBranch className="h-6 w-6" />
+                  ) : (
+                    <FileText className="h-6 w-6" />
+                  )}
                 </div>
-              </Card>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        <div className="flex-1 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-xl bg-white/5">
-          {icon}
-          <h3 className="text-lg font-medium text-muted-foreground">{emptyLabel}</h3>
-          <p className="text-sm text-muted-foreground/60 mt-1 mb-4">Create a new item to get started</p>
-          <Button variant="outline" className="gap-2">
-            <Plus className="h-4 w-4" /> {createLabel}
-          </Button>
-        </div>
-      )}
-    </div>
+
+                <div className="flex-1 min-w-0">
+                  <h3 className={cn(
+                    "font-semibold truncate",
+                    isDark ? "text-white" : "text-slate-900"
+                  )}>
+                    {doc.title}
+                  </h3>
+                  <p className={cn("text-sm", isDark ? "text-neutral-500" : "text-slate-500")}>
+                    Updated {formatDistanceToNow(new Date(doc.updatedAt), { addSuffix: true })}
+                  </p>
+                </div>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 opacity-0 group-hover:opacity-100"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem>Open</DropdownMenuItem>
+                    <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
+    </ScrollArea>
   )
 }

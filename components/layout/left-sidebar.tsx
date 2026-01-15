@@ -129,6 +129,7 @@ export function LeftSidebar() {
   // Navigation items
   const mainNavItems: NavItem[] = [
     { id: 'home', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" />, href: '/' },
+    { id: 'invitations', label: 'Invitations', icon: <Star className="h-4 w-4" />, href: '/invitations' },
     { id: 'api-docs', label: 'API Docs', icon: <BookOpen className="h-4 w-4" />, href: '/api-docs' },
   ]
 
@@ -235,10 +236,10 @@ export function LeftSidebar() {
               <div className="flex items-center justify-between p-4 border-b border-border/50">
                 <div className="flex items-center gap-2">
                   <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-blue-600 text-white font-bold shadow-lg shadow-primary/20">
-                    {currentWorkspace?.name?.charAt(0) || 'E'}
+                    {currentWorkspace?.name?.charAt(0) || 'M'}
                   </div>
                   <span className="font-semibold text-sm tracking-tight truncate max-w-[120px]">
-                    {currentWorkspace?.name || 'Erasor'}
+                    {currentWorkspace?.name || 'Mew'}
                   </span>
                 </div>
                 <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={toggleLeftSidebarCollapse}>
