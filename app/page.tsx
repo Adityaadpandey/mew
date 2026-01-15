@@ -1,6 +1,6 @@
 'use client'
 
-import { EditorView } from '@/components/editor/editor-view'
+import { DashboardView } from '@/components/dashboard/dashboard-view'
 import { KeyboardShortcuts } from '@/components/keyboard-shortcuts'
 import { LandingPage } from '@/components/landing/landing-page'
 import { DashboardLayout } from '@/components/layout/dashboard-layout'
@@ -65,7 +65,7 @@ export default function Home() {
       <SearchModal />
       <KeyboardShortcuts />
       <DashboardLayout>
-        <EditorView />
+        <DashboardView />
       </DashboardLayout>
     </>
   )

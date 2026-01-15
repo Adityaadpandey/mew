@@ -19,8 +19,14 @@ import { ZoomControls } from './zoom-controls'
 
 type EditorMode = 'document' | 'diagram'
 
-export function EditorView() {
-  const [mode, setMode] = useState<EditorMode>('diagram')
+export function EditorView({
+  documentId: propDocumentId,
+  forcedMode
+}: {
+  documentId?: string
+  forcedMode?: EditorMode
+}) {
+  const [mode, setMode] = useState<EditorMode>(forcedMode || 'diagram')
   const { currentDocument, setCurrentDocument } = useDocumentStore()
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
@@ -29,7 +35,11 @@ export function EditorView() {
   useLoadDocument()
 
   const searchParams = useSearchParams()
-  const documentId = searchParams.get('documentId')
+  const documentId = propDocumentId || searchParams.get('documentId')
+
+  useEffect(() => {
+    if (forcedMode) setMode(forcedMode)
+  }, [forcedMode])
 
   useEffect(() => {
     if (documentId && documentId !== currentDocument?.id) {
@@ -57,8 +67,9 @@ export function EditorView() {
         isDark ? "bg-neutral-950 border-neutral-800" : "bg-white border-slate-200"
       )}>
         <div className="flex items-center gap-4">
-          {/* Mode Switcher */}
-          <div className={cn("flex items-center rounded-lg p-0.5", isDark ? "bg-neutral-900" : "bg-slate-100")}>
+          {/* Mode Switcher - Only show if not forced */}
+          {!forcedMode && (
+            <div className={cn("flex items-center rounded-lg p-0.5", isDark ? "bg-neutral-900" : "bg-slate-100")}>
             <button
               onClick={() => setMode('document')}
               className={cn(
@@ -84,6 +95,7 @@ export function EditorView() {
               Diagram
             </button>
           </div>
+          )}
         </div>
 
         <div className="flex items-center gap-2">

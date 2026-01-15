@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
       ...(workspaceId && { workspaceId }),
       ...(projectId && { projectId }),
       ...(folderId && { folderId }),
-      ...(type && { type: type as 'DOCUMENT' | 'DIAGRAM' | 'CANVAS' }),
+      ...(type && { type: { in: type.split(',') as any[] } }),
       isArchived: archived,
       ...(favorites && { isFavorite: true }),
     },
