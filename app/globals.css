@@ -396,3 +396,206 @@ a[href] {
 .dark .notion-editor ::selection {
   background-color: rgba(46, 170, 220, 0.3);
 }
+
+/* Page icon styling */
+.page-icon {
+  user-select: none;
+  transition: transform 0.2s ease, filter 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.page-icon:hover {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+}
+
+/* Cover image styling */
+.cover-image {
+  background-size: cover;
+  background-position: center;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Block menu animation */
+.notion-menu {
+  animation: menuSlideIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes menuSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Emoji picker grid */
+.emoji-grid button {
+  transition: all 0.1s ease;
+}
+
+.emoji-grid button:hover {
+  transform: scale(1.15);
+}
+
+.emoji-grid button:active {
+  transform: scale(0.95);
+}
+
+/* Color picker styling */
+.color-picker-swatch {
+  transition: all 0.1s ease;
+  cursor: pointer;
+}
+
+.color-picker-swatch:hover {
+  transform: scale(1.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Block indent levels */
+.notion-block[data-indent="1"] {
+  padding-left: 1.5rem;
+}
+
+.notion-block[data-indent="2"] {
+  padding-left: 3rem;
+}
+
+.notion-block[data-indent="3"] {
+  padding-left: 4.5rem;
+}
+
+.notion-block[data-indent="4"] {
+  padding-left: 6rem;
+}
+
+/* Link dialog overlay */
+.link-dialog-overlay {
+  animation: fadeIn 0.15s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.link-dialog-content {
+  animation: dialogSlideIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dialogSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Image block placeholder */
+.image-placeholder {
+  border: 2px dashed;
+  transition: all 0.2s ease;
+}
+
+.image-placeholder:hover {
+  border-color: #2383e2;
+  background-color: rgba(35, 131, 226, 0.05);
+}
+
+/* Drag handle visibility */
+.block-handle {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.notion-block:hover .block-handle,
+.notion-block:focus-within .block-handle {
+  opacity: 1;
+}
+
+/* Enhanced checkbox animation */
+.checkbox-container input:checked + span {
+  animation: checkmark 0.2s ease forwards;
+}
+
+@keyframes checkmark {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Toggle arrow rotation */
+.toggle-arrow {
+  transition: transform 0.2s ease;
+}
+
+.toggle-arrow.expanded {
+  transform: rotate(90deg);
+}
+
+/* Callout type indicator */
+.callout-icon {
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.callout-icon:hover {
+  transform: scale(1.1);
+}
+
+/* Quote block styling */
+.quote-block {
+  position: relative;
+}
+
+.quote-block::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to bottom, #e0e0e0, #bdbdbd);
+  border-radius: 2px;
+}
+
+.dark .quote-block::before {
+  background: linear-gradient(to bottom, #525252, #404040);
+}
+
+/* Code block enhanced styling */
+.code-block-container {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-block-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.03), transparent);
+}
+
+.dark .code-block-container::before {
+  background: linear-gradient(to bottom, rgba(255,255,255,0.03), transparent);
+}
+
+/* Smooth focus transitions */
+.notion-editor textarea:focus {
+  caret-color: #2383e2;
+}
+
+.dark .notion-editor textarea:focus {
+  caret-color: #5c9eff;
+}
