@@ -2,13 +2,13 @@
 
 import { Button } from '@/components/ui/button'
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -18,8 +18,17 @@ import { Loader2, Plus, Sparkles } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-export function CreateProjectDialog() {
-  const [open, setOpen] = useState(false)
+interface Props {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+export function CreateProjectDialog({ open: controlledOpen, onOpenChange: setControlledOpen }: Props = {}) {
+  const [internalOpen, setInternalOpen] = useState(false)
+
+  const isControlled = controlledOpen !== undefined
+  const open = isControlled ? controlledOpen : internalOpen
+  const setOpen = isControlled ? setControlledOpen! : setInternalOpen
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [isCreating, setIsCreating] = useState(false)
@@ -79,7 +88,7 @@ export function CreateProjectDialog() {
             </div>
           </div>
         </DialogHeader>
-        
+
         <div className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="name">Project Name *</Label>
@@ -92,7 +101,7 @@ export function CreateProjectDialog() {
               autoFocus
             />
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea

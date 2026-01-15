@@ -1,48 +1,61 @@
 /**
  * Mew Design System
- * World-class design tokens and utilities for consistent UI
+ * Custom brand colors and design tokens
  */
 
 export const colors = {
   // Brand Colors
   brand: {
-    primary: 'hsl(243 75% 59%)',      // Vibrant purple
-    secondary: 'hsl(262 83% 58%)',    // Deep purple
-    accent: 'hsl(204 94% 94%)',       // Light blue
-    success: 'hsl(142 76% 36%)',      // Green
-    warning: 'hsl(38 92% 50%)',       // Orange
-    error: 'hsl(0 84% 60%)',          // Red
-    info: 'hsl(199 89% 48%)',         // Blue
+    orange: '#E85002',        // Primary Orange
+    black: '#000000',         // Pure Black
+    offWhite: '#F9F9F9',      // Off White
+    darkGray: '#333333',      // Dark Gray
+    mediumGray: '#A7A7A7',    // Medium Gray
+    gray: '#646464',          // Gray
+    gradientFrom: '#C10801',  // Gradient Start (Dark Red)
+    gradientTo: '#F16001',    // Gradient End (Orange)
+    beige: '#D9C3AB',         // Accent Beige
   },
   
-  // Project Colors (for cards and visual distinction)
+  // Semantic Colors
+  success: '#10B981',
+  warning: '#F59E0B',
+  error: '#EF4444',
+  info: '#3B82F6',
+  
+  // Project Colors (using variations of brand colors)
   projects: [
-    { name: 'violet', gradient: 'from-violet-500 to-purple-600', bg: 'bg-violet-500/10', text: 'text-violet-500', border: 'border-violet-500/20' },
-    { name: 'blue', gradient: 'from-blue-500 to-cyan-600', bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/20' },
-    { name: 'emerald', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/20' },
-    { name: 'orange', gradient: 'from-orange-500 to-amber-600', bg: 'bg-orange-500/10', text: 'text-orange-500', border: 'border-orange-500/20' },
-    { name: 'pink', gradient: 'from-pink-500 to-rose-600', bg: 'bg-pink-500/10', text: 'text-pink-500', border: 'border-pink-500/20' },
-    { name: 'indigo', gradient: 'from-indigo-500 to-blue-600', bg: 'bg-indigo-500/10', text: 'text-indigo-500', border: 'border-indigo-500/20' },
-    { name: 'cyan', gradient: 'from-cyan-500 to-blue-500', bg: 'bg-cyan-500/10', text: 'text-cyan-500', border: 'border-cyan-500/20' },
-    { name: 'fuchsia', gradient: 'from-fuchsia-500 to-purple-600', bg: 'bg-fuchsia-500/10', text: 'text-fuchsia-500', border: 'border-fuchsia-500/20' },
+    { name: 'orange', gradient: 'from-[#E85002] to-[#F16001]', bg: 'bg-[#E85002]/10', text: 'text-[#E85002]', border: 'border-[#E85002]/20' },
+    { name: 'red', gradient: 'from-[#C10801] to-[#E85002]', bg: 'bg-[#C10801]/10', text: 'text-[#C10801]', border: 'border-[#C10801]/20' },
+    { name: 'beige', gradient: 'from-[#D9C3AB] to-[#E85002]', bg: 'bg-[#D9C3AB]/10', text: 'text-[#D9C3AB]', border: 'border-[#D9C3AB]/20' },
+    { name: 'gray', gradient: 'from-[#646464] to-[#333333]', bg: 'bg-[#646464]/10', text: 'text-[#646464]', border: 'border-[#646464]/20' },
+    { name: 'darkOrange', gradient: 'from-[#C10801] to-[#F16001]', bg: 'bg-[#F16001]/10', text: 'text-[#F16001]', border: 'border-[#F16001]/20' },
+    { name: 'lightGray', gradient: 'from-[#A7A7A7] to-[#646464]', bg: 'bg-[#A7A7A7]/10', text: 'text-[#A7A7A7]', border: 'border-[#A7A7A7]/20' },
   ],
   
   // Task Priority Colors
   priority: {
-    low: { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-600 dark:text-slate-400', border: 'border-slate-200 dark:border-slate-700' },
-    medium: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-600 dark:text-blue-400', border: 'border-blue-200 dark:border-blue-800' },
-    high: { bg: 'bg-orange-100 dark:bg-orange-900/30', text: 'text-orange-600 dark:text-orange-400', border: 'border-orange-200 dark:border-orange-800' },
-    urgent: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-600 dark:text-red-400', border: 'border-red-200 dark:border-red-800' },
+    low: { bg: 'bg-[#A7A7A7]/10', text: 'text-[#646464]', border: 'border-[#A7A7A7]/20' },
+    medium: { bg: 'bg-[#E85002]/10', text: 'text-[#E85002]', border: 'border-[#E85002]/20' },
+    high: { bg: 'bg-[#F16001]/10', text: 'text-[#F16001]', border: 'border-[#F16001]/20' },
+    urgent: { bg: 'bg-[#C10801]/10', text: 'text-[#C10801]', border: 'border-[#C10801]/20' },
   },
   
   // Task Status Colors
   status: {
-    TODO: { bg: 'bg-slate-100 dark:bg-slate-800', text: 'text-slate-700 dark:text-slate-300', dot: 'bg-slate-400' },
-    IN_PROGRESS: { bg: 'bg-blue-100 dark:bg-blue-900/30', text: 'text-blue-700 dark:text-blue-300', dot: 'bg-blue-500' },
-    DONE: { bg: 'bg-green-100 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', dot: 'bg-green-500' },
-    BLOCKED: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-300', dot: 'bg-red-500' },
+    TODO: { bg: 'bg-[#A7A7A7]/10', text: 'text-[#646464]', dot: 'bg-[#A7A7A7]' },
+    IN_PROGRESS: { bg: 'bg-[#E85002]/10', text: 'text-[#E85002]', dot: 'bg-[#E85002]' },
+    DONE: { bg: 'bg-[#10B981]/10', text: 'text-[#10B981]', dot: 'bg-[#10B981]' },
+    BLOCKED: { bg: 'bg-[#C10801]/10', text: 'text-[#C10801]', dot: 'bg-[#C10801]' },
   },
 } as const
+
+export const gradients = {
+  primary: 'linear-gradient(135deg, #C10801 0%, #F16001 100%)',
+  primaryHover: 'linear-gradient(135deg, #A00701 0%, #D15001 100%)',
+  subtle: 'linear-gradient(135deg, rgba(193, 8, 1, 0.1) 0%, rgba(241, 96, 1, 0.1) 100%)',
+  orangeGlow: 'linear-gradient(135deg, #E85002 0%, #F16001 100%)',
+}
 
 export const spacing = {
   xs: '0.25rem',    // 4px
@@ -69,7 +82,8 @@ export const shadows = {
   lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
   xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
   '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
-  glow: '0 0 20px rgb(139 92 246 / 0.3)',
+  orange: '0 10px 30px -5px rgba(232, 80, 2, 0.3)',
+  glow: '0 0 20px rgba(232, 80, 2, 0.3)',
 } as const
 
 export const transitions = {
@@ -170,13 +184,13 @@ export function getStatusColor(status: 'TODO' | 'IN_PROGRESS' | 'DONE' | 'BLOCKE
 
 // Glass morphism utility
 export const glassMorphism = {
-  light: 'bg-white/70 backdrop-blur-xl border border-slate-200/50',
-  dark: 'bg-neutral-900/70 backdrop-blur-xl border border-neutral-800/50',
-  card: 'bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl border border-slate-200/50 dark:border-neutral-800/50',
+  light: 'bg-white/70 backdrop-blur-xl border border-[#A7A7A7]/20',
+  dark: 'bg-[#333333]/70 backdrop-blur-xl border border-[#646464]/50',
+  card: 'bg-white/80 dark:bg-[#333333]/80 backdrop-blur-xl border border-[#A7A7A7]/20 dark:border-[#646464]/50',
 } as const
 
 // Card hover effects
 export const cardHover = {
   base: 'transition-all duration-200 hover:shadow-lg hover:-translate-y-1',
-  premium: 'transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 hover:scale-[1.02]',
+  premium: 'transition-all duration-300 hover:shadow-orange hover:-translate-y-2 hover:scale-[1.02]',
 } as const

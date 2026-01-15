@@ -70,7 +70,12 @@ export function LeftSidebar() {
   const handleSelectDocument = (doc: { id: string; title: string; type: string }) => {
     setSelectedId(doc.id)
     setCurrentDocument({ id: doc.id, title: doc.title, type: doc.type as 'DOCUMENT' | 'DIAGRAM' | 'CANVAS', content: {} })
-    router.push(`/?documentId=${doc.id}`)
+    // Use proper routes based on document type
+    if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
+      router.push(`/designs/${doc.id}`)
+    } else {
+      router.push(`/documents/${doc.id}`)
+    }
   }
 
   const handleDuplicate = async (docId: string) => {
@@ -232,21 +237,7 @@ export function LeftSidebar() {
               exit={{ opacity: 0 }}
               className="flex flex-col h-full w-full"
             >
-              {/* Header */}
-              <div className="flex items-center justify-between p-4 border-b border-border/50">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-blue-600 text-white font-bold shadow-lg shadow-primary/20">
-                    {currentWorkspace?.name?.charAt(0) || 'M'}
-                  </div>
-                  <span className="font-semibold text-sm tracking-tight truncate max-w-[120px]">
-                    {currentWorkspace?.name || 'Mew'}
-                  </span>
-                </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground" onClick={toggleLeftSidebarCollapse}>
-                  <PanelLeftClose className="h-4 w-4" />
-                </Button>
-              </div>
-
+          
               {/* Search & New */}
               <div className="p-4 space-y-3">
                  <div className="relative">
@@ -260,21 +251,21 @@ export function LeftSidebar() {
                  </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button className="w-full justify-start gap-2 bg-gradient-to-r from-primary to-blue-600 hover:opacity-90 transition-opacity shadow-md shadow-primary/20" disabled={isCreating || !currentWorkspace}>
+                      <Button className="w-full justify-start gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001] transition-all shadow-md shadow-[#E85002]/20" disabled={isCreating || !currentWorkspace}>
                         {isCreating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
                         <span className="font-semibold">Create New</span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start" className="w-56 p-2">
                       <DropdownMenuItem onClick={() => createDocument('DOCUMENT')} className="gap-2 p-2 cursor-pointer">
-                        <div className="p-1.5 rounded bg-purple-500/10 text-purple-500"><FileText className="h-4 w-4" /></div>
+                        <div className="p-1.5 rounded bg-[#E85002]/10 text-[#E85002]"><FileText className="h-4 w-4" /></div>
                         <div className="flex flex-col">
                            <span className="font-medium">Document</span>
                            <span className="text-xs text-muted-foreground">Rich text & notes</span>
                         </div>
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => createDocument('DIAGRAM')} className="gap-2 p-2 cursor-pointer mt-1">
-                        <div className="p-1.5 rounded bg-blue-500/10 text-blue-500"><GitBranch className="h-4 w-4" /></div>
+                        <div className="p-1.5 rounded bg-[#E85002]/10 text-[#E85002]"><GitBranch className="h-4 w-4" /></div>
                           <div className="flex flex-col">
                            <span className="font-medium">Diagram</span>
                            <span className="text-xs text-muted-foreground">Flowcharts & diagrams</span>

@@ -101,11 +101,11 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className={cn(
           "absolute -top-40 -right-40 w-80 h-80 rounded-full blur-3xl opacity-10",
-          isDark ? "bg-purple-500" : "bg-purple-300"
+          isDark ? "bg-[#E85002]" : "bg-[#F16001]"
         )} />
         <div className={cn(
           "absolute -bottom-40 -left-40 w-80 h-80 rounded-full blur-3xl opacity-10",
-          isDark ? "bg-blue-500" : "bg-blue-300"
+          isDark ? "bg-[#E85002]" : "bg-[#F16001]"
         )} />
       </div>
 

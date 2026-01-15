@@ -25,6 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
+import { useApp } from '@/lib/app-context'
 
 interface Document {
   id: string
@@ -47,6 +48,7 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
   const router = useRouter()
+  const { currentWorkspace } = useApp()
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -75,6 +77,11 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
   )
 
   const handleCreateDocument = async () => {
+    if (!currentWorkspace) {
+      console.error('No workspace selected')
+      return
+    }
+
     try {
       const res = await fetch('/api/documents', {
         method: 'POST',
@@ -82,13 +89,22 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
         body: JSON.stringify({
           title: filterType === 'DIAGRAM' ? 'Untitled Diagram' : 'Untitled Document',
           type: filterType || 'DOCUMENT',
+          workspaceId: currentWorkspace.id,
           projectId,
         }),
       })
 
       if (res.ok) {
         const doc = await res.json()
-        router.push(`/?documentId=${doc.id}`)
+        // Use proper routes based on document type
+        if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
+          router.push(`/designs/${doc.id}`)
+        } else {
+          router.push(`/documents/${doc.id}`)
+        }
+      } else {
+        const error = await res.json()
+        console.error('Failed to create document:', error)
       }
     } catch (error) {
       console.error('Failed to create document:', error)
@@ -150,7 +166,7 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
 
             <Button
               onClick={handleCreateDocument}
-              className="gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
+              className="gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]"
             >
               <Plus className="h-4 w-4" />
               New {filterType === 'DIAGRAM' ? 'Diagram' : 'Document'}
@@ -182,7 +198,7 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
             </p>
             <Button
               onClick={handleCreateDocument}
-              className="gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
+              className="gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]"
             >
               <Plus className="h-4 w-4" />
               Create {filterType === 'DIAGRAM' ? 'Diagram' : 'Document'}
@@ -197,7 +213,13 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
                 whileHover={{ y: -4 }}
-                onClick={() => router.push(`/?documentId=${doc.id}`)}
+                onClick={() => {
+                  if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
+                    router.push(`/designs/${doc.id}`)
+                  } else {
+                    router.push(`/documents/${doc.id}`)
+                  }
+                }}
                 className={cn(
                   "group cursor-pointer rounded-xl border p-6 transition-all hover:shadow-lg",
                   isDark
@@ -209,8 +231,8 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                   <div className={cn(
                     "flex h-12 w-12 items-center justify-center rounded-xl",
                     doc.type === 'DIAGRAM'
-                      ? "bg-blue-500/10 text-blue-500"
-                      : "bg-purple-500/10 text-purple-500"
+                      ? "bg-[#E85002]/10 text-[#E85002]"
+                      : "bg-[#F16001]/10 text-[#F16001]"
                   )}>
                     {doc.type === 'DIAGRAM' ? (
                       <GitBranch className="h-6 w-6" />
@@ -260,7 +282,13 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.03 }}
-                onClick={() => router.push(`/?documentId=${doc.id}`)}
+                onClick={() => {
+                  if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
+                    router.push(`/designs/${doc.id}`)
+                  } else {
+                    router.push(`/documents/${doc.id}`)
+                  }
+                }}
                 className={cn(
                   "group flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all hover:shadow-md",
                   isDark
@@ -271,8 +299,8 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                 <div className={cn(
                   "flex h-12 w-12 items-center justify-center rounded-xl",
                   doc.type === 'DIAGRAM'
-                    ? "bg-blue-500/10 text-blue-500"
-                    : "bg-purple-500/10 text-purple-500"
+                    ? "bg-[#E85002]/10 text-[#E85002]"
+                    : "bg-[#F16001]/10 text-[#F16001]"
                 )}>
                   {doc.type === 'DIAGRAM' ? (
                     <GitBranch className="h-6 w-6" />

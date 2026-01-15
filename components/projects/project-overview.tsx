@@ -99,7 +99,7 @@ export function ProjectOverview({ projectId, project }: ProjectOverviewProps) {
             transition={{ delay: 0.1 }}
           >
             <Card className={cn(
-              "border-l-4 border-l-blue-500",
+              "border-l-4 border-l-[#E85002]",
               isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
             )}>
               <CardContent className="p-6">
@@ -112,8 +112,8 @@ export function ProjectOverview({ projectId, project }: ProjectOverviewProps) {
                       {taskStats.total}
                     </p>
                   </div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10">
-                    <ListTodo className="h-6 w-6 text-blue-500" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#E85002]/10">
+                    <ListTodo className="h-6 w-6 text-[#E85002]" />
                   </div>
                 </div>
               </CardContent>
@@ -180,7 +180,7 @@ export function ProjectOverview({ projectId, project }: ProjectOverviewProps) {
             transition={{ delay: 0.4 }}
           >
             <Card className={cn(
-              "border-l-4 border-l-purple-500",
+              "border-l-4 border-l-[#E85002]",
               isDark ? "bg-neutral-900/50 border-neutral-800" : "bg-white/70 border-slate-200"
             )}>
               <CardContent className="p-6">
@@ -193,8 +193,8 @@ export function ProjectOverview({ projectId, project }: ProjectOverviewProps) {
                       {progress}%
                     </p>
                   </div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/10">
-                    <TrendingUp className="h-6 w-6 text-purple-500" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#E85002]/10">
+                    <TrendingUp className="h-6 w-6 text-[#E85002]" />
                   </div>
                 </div>
               </CardContent>
@@ -301,8 +301,8 @@ export function ProjectOverview({ projectId, project }: ProjectOverviewProps) {
                         <div className={cn(
                           "flex h-10 w-10 items-center justify-center rounded-lg",
                           doc.type === 'DIAGRAM'
-                            ? "bg-blue-500/10 text-blue-500"
-                            : "bg-purple-500/10 text-purple-500"
+                            ? "bg-[#E85002]/10 text-[#E85002]"
+                            : "bg-[#F16001]/10 text-[#F16001]"
                         )}>
                           {doc.type === 'DIAGRAM' ? (
                             <GitBranch className="h-5 w-5" />

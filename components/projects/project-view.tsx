@@ -85,22 +85,31 @@ export function ProjectView({ project }: ProjectViewProps) {
       if (res.ok) {
         const newDoc = await res.json()
         await refreshDocuments()
-        router.push(`/?documentId=${newDoc.id}`)
+        // Use proper routes based on document type
+        if (type === 'DIAGRAM') {
+          router.push(`/designs/${newDoc.id}`)
+        } else {
+          router.push(`/documents/${newDoc.id}`)
+        }
       }
     } catch (error) {
       console.error('Failed to create doc', error)
     }
   }
 
-  const handleOpenDocument = (docId: string) => {
-    router.push(`/?documentId=${docId}`)
+  const handleOpenDocument = (docId: string, docType: string) => {
+    if (docType === 'DIAGRAM' || docType === 'CANVAS') {
+      router.push(`/designs/${docId}`)
+    } else {
+      router.push(`/documents/${docId}`)
+    }
   }
 
   const getDocIcon = (type: string) => {
     if (type === 'DIAGRAM' || type === 'CANVAS') {
-      return <GitBranch className="h-4 w-4 text-blue-500" />
+      return <GitBranch className="h-4 w-4 text-[#E85002]" />
     }
-    return <FileText className="h-4 w-4 text-purple-500" />
+    return <FileText className="h-4 w-4 text-[#F16001]" />
   }
 
   return (
@@ -109,8 +118,8 @@ export function ProjectView({ project }: ProjectViewProps) {
       <div className={cn(
         "border-b px-8 py-6",
         isDark
-          ? "bg-gradient-to-br from-neutral-950 via-neutral-950 to-purple-950/10 border-neutral-800"
-          : "bg-gradient-to-br from-white via-purple-50/30 to-indigo-50/20 border-slate-200"
+          ? "bg-gradient-to-br from-neutral-950 via-neutral-950 to-[#E85002]/5 border-neutral-800"
+          : "bg-gradient-to-br from-white via-[#E85002]/5 to-[#F16001]/5 border-slate-200"
       )}>
         <div className="flex items-start justify-between">
           <div className="flex items-start gap-4">
@@ -128,9 +137,9 @@ export function ProjectView({ project }: ProjectViewProps) {
             <div className="flex items-start gap-4">
               <div className={cn(
                 "flex h-14 w-14 items-center justify-center rounded-xl shrink-0",
-                isDark ? "bg-purple-500/10" : "bg-purple-100"
+                isDark ? "bg-[#E85002]/10" : "bg-[#E85002]/20"
               )}>
-                <Folder className="h-7 w-7 text-purple-500 fill-purple-500/20" />
+                <Folder className="h-7 w-7 text-[#E85002] fill-[#E85002]/20" />
               </div>
 
               <div>
@@ -164,18 +173,18 @@ export function ProjectView({ project }: ProjectViewProps) {
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]">
                   <Plus className="h-4 w-4 mr-2" />
                   New
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className={isDark ? "bg-neutral-900 border-neutral-800" : ""}>
                 <DropdownMenuItem onClick={() => handleCreateDocument('DIAGRAM')}>
-                  <GitBranch className="h-4 w-4 mr-2 text-blue-500" />
+                  <GitBranch className="h-4 w-4 mr-2 text-[#E85002]" />
                   New Diagram
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => handleCreateDocument('DOCUMENT')}>
-                  <FileText className="h-4 w-4 mr-2 text-purple-500" />
+                  <FileText className="h-4 w-4 mr-2 text-[#F16001]" />
                   New Document
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -200,7 +209,7 @@ export function ProjectView({ project }: ProjectViewProps) {
                 value="documents"
                 className={cn(
                   "data-[state=active]:bg-transparent data-[state=active]:shadow-none rounded-none h-12 px-4",
-                  "data-[state=active]:border-b-2 data-[state=active]:border-blue-500",
+                  "data-[state=active]:border-b-2 data-[state=active]:border-[#E85002]",
                   isDark ? "data-[state=active]:text-white" : ""
                 )}
               >
@@ -214,7 +223,7 @@ export function ProjectView({ project }: ProjectViewProps) {
                 value="tasks"
                 className={cn(
                   "data-[state=active]:bg-transparent data-[state=active]:shadow-none rounded-none h-12 px-4",
-                  "data-[state=active]:border-b-2 data-[state=active]:border-blue-500",
+                  "data-[state=active]:border-b-2 data-[state=active]:border-[#E85002]",
                   isDark ? "data-[state=active]:text-white" : ""
                 )}
               >
@@ -289,7 +298,7 @@ export function ProjectView({ project }: ProjectViewProps) {
                     </p>
                     {!search && (
                       <div className="flex gap-3">
-                        <Button onClick={() => handleCreateDocument('DIAGRAM')} className="bg-blue-600 hover:bg-blue-700">
+                        <Button onClick={() => handleCreateDocument('DIAGRAM')} className="bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]">
                           <GitBranch className="h-4 w-4 mr-2" />
                           New Diagram
                         </Button>
@@ -316,7 +325,7 @@ export function ProjectView({ project }: ProjectViewProps) {
                               ? "bg-neutral-900 border-neutral-800 hover:border-neutral-700"
                               : "bg-white border-slate-200 hover:border-slate-300"
                           )}
-                          onClick={() => handleOpenDocument(doc.id)}
+                          onClick={() => handleOpenDocument(doc.id, doc.type)}
                         >
                           {/* Thumbnail */}
                           <div className={cn(
@@ -326,13 +335,13 @@ export function ProjectView({ project }: ProjectViewProps) {
                             <div className={cn(
                               "p-4 rounded-xl transition-transform group-hover:scale-110",
                               doc.type === 'DIAGRAM' || doc.type === 'CANVAS'
-                                ? isDark ? "bg-blue-500/10" : "bg-blue-50"
-                                : isDark ? "bg-purple-500/10" : "bg-purple-50"
+                                ? isDark ? "bg-[#E85002]/10" : "bg-[#E85002]/20"
+                                : isDark ? "bg-[#F16001]/10" : "bg-[#F16001]/20"
                             )}>
                               {doc.type === 'DIAGRAM' || doc.type === 'CANVAS' ? (
-                                <GitBranch className="h-8 w-8 text-blue-500" />
+                                <GitBranch className="h-8 w-8 text-[#E85002]" />
                               ) : (
-                                <FileText className="h-8 w-8 text-purple-500" />
+                                <FileText className="h-8 w-8 text-[#F16001]" />
                               )}
                             </div>
                           </div>
@@ -353,8 +362,8 @@ export function ProjectView({ project }: ProjectViewProps) {
                                   <Badge variant="outline" className={cn(
                                     "text-[10px]",
                                     doc.type === 'DIAGRAM' || doc.type === 'CANVAS'
-                                      ? "border-blue-500/20 text-blue-500"
-                                      : "border-purple-500/20 text-purple-500"
+                                      ? "border-[#E85002]/20 text-[#E85002]"
+                                      : "border-[#F16001]/20 text-[#F16001]"
                                   )}>
                                     {doc.type}
                                   </Badge>
@@ -383,7 +392,7 @@ export function ProjectView({ project }: ProjectViewProps) {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.03 }}
-                        onClick={() => handleOpenDocument(doc.id)}
+                        onClick={() => handleOpenDocument(doc.id, doc.type)}
                         className={cn(
                           "group flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-all",
                           "hover:shadow-md",
@@ -395,8 +404,8 @@ export function ProjectView({ project }: ProjectViewProps) {
                         <div className={cn(
                           "p-2 rounded-lg shrink-0",
                           doc.type === 'DIAGRAM' || doc.type === 'CANVAS'
-                            ? isDark ? "bg-blue-500/10" : "bg-blue-50"
-                            : isDark ? "bg-purple-500/10" : "bg-purple-50"
+                            ? isDark ? "bg-[#E85002]/10" : "bg-[#E85002]/20"
+                            : isDark ? "bg-[#F16001]/10" : "bg-[#F16001]/20"
                         )}>
                           {getDocIcon(doc.type)}
                         </div>
@@ -410,8 +419,8 @@ export function ProjectView({ project }: ProjectViewProps) {
                         <Badge variant="outline" className={cn(
                           "text-[10px] shrink-0",
                           doc.type === 'DIAGRAM' || doc.type === 'CANVAS'
-                            ? "border-blue-500/20 text-blue-500"
-                            : "border-purple-500/20 text-purple-500"
+                            ? "border-[#E85002]/20 text-[#E85002]"
+                            : "border-[#F16001]/20 text-[#F16001]"
                         )}>
                           {doc.type}
                         </Badge>

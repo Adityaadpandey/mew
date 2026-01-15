@@ -168,7 +168,7 @@ export function NotificationsBell() {
                     </p>
                   </div>
                   {!notification.read && (
-                    <div className="flex-shrink-0 h-2 w-2 rounded-full bg-blue-500 mt-1" />
+                    <div className="flex-shrink-0 h-2 w-2 rounded-full bg-[#E85002] mt-1" />
                   )}
                 </div>
                 <span className={cn(

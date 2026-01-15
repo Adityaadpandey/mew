@@ -172,11 +172,11 @@ export default function InvitationsPage() {
             <div className="flex items-center gap-3 mb-2">
               <div className={cn(
                 "flex h-10 w-10 items-center justify-center rounded-lg",
-                invitation.type === 'WORKSPACE' ? "bg-purple-500/10" : "bg-blue-500/10"
+                invitation.type === 'WORKSPACE' ? "bg-[#E85002]/10" : "bg-[#F16001]/10"
               )}>
                 <Mail className={cn(
                   "h-5 w-5",
-                  invitation.type === 'WORKSPACE' ? "text-purple-500" : "text-blue-500"
+                  invitation.type === 'WORKSPACE' ? "text-[#E85002]" : "text-[#F16001]"
                 )} />
               </div>
               <div>
@@ -236,7 +236,7 @@ export default function InvitationsPage() {
                 size="sm"
                 onClick={() => handleAccept(invitation.id)}
                 disabled={isProcessing}
-                className="gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
+                className="gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]"
               >
                 {isProcessing ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
                 Accept
@@ -283,7 +283,7 @@ export default function InvitationsPage() {
                     <Inbox className="h-4 w-4" />
                     Received
                     {receivedInvitations.length > 0 && (
-                      <span className="ml-1 px-1.5 py-0.5 rounded-full bg-violet-500 text-white text-xs">
+                      <span className="ml-1 px-1.5 py-0.5 rounded-full bg-[#E85002] text-white text-xs">
                         {receivedInvitations.length}
                       </span>
                     )}

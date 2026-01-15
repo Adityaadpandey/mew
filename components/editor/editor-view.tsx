@@ -102,7 +102,7 @@ export function EditorView({
           <Button variant="ghost" size="sm" className={cn("h-8 w-8 px-0", isDark && "hover:bg-neutral-800")}>
             <Share2 className="h-4 w-4" />
           </Button>
-          <Button size="sm" className="h-8 bg-blue-600 hover:bg-blue-700 text-white gap-2 px-3">
+          <Button size="sm" className="h-8 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001] text-white gap-2 px-3">
             <Play className="h-3.5 w-3.5 fill-current" />
             Present
           </Button>

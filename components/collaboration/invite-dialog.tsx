@@ -84,7 +84,7 @@ export function InviteDialog({ type, targetId, targetName, onInviteSent }: Invit
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm" className="gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700">
+        <Button size="sm" className="gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]">
           <UserPlus className="h-4 w-4" />
           Invite Member
         </Button>
@@ -92,7 +92,7 @@ export function InviteDialog({ type, targetId, targetName, onInviteSent }: Invit
       <DialogContent className={cn("sm:max-w-[500px]", isDark && "bg-neutral-900 border-neutral-800")}>
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#C10801] to-[#F16001]">
               <Mail className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -154,7 +154,7 @@ export function InviteDialog({ type, targetId, targetName, onInviteSent }: Invit
           <Button
             onClick={handleInvite}
             disabled={!email.trim() || isInviting}
-            className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
+            className="bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]"
           >
             {isInviting ? (
               <>

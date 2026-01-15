@@ -56,8 +56,8 @@ const ROLE_CONFIG = {
   ADMIN: {
     label: 'Admin',
     icon: Shield,
-    color: 'text-blue-500',
-    bg: 'bg-blue-500/10',
+    color: 'text-[#E85002]',
+    bg: 'bg-[#E85002]/10',
     description: 'Can manage members and settings',
   },
   MEMBER: {

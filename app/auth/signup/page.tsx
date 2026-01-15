@@ -6,41 +6,50 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { Github, Mail, Sparkles, ArrowRight, Zap, Users, Shield } from 'lucide-react'
+import { Github, Mail, Sparkles, Zap, Users, Shield } from 'lucide-react'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
-export default function SignInPage() {
+export default function SignUpPage() {
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
-  const handleCredentialsSignIn = async (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
     try {
-      const result = await signIn('credentials', {
+      // Create user account
+      const res = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        toast.error(data.error || 'Failed to create account')
+        setIsLoading(false)
+        return
+      }
+
+      toast.success('Account created! Signing you in...')
+
+      // Sign in automatically
+      await signIn('credentials', {
         email,
         password,
         callbackUrl: '/',
-        redirect: false,
       })
-
-      if (result?.error) {
-        toast.error('Invalid email or password')
-        setIsLoading(false)
-      } else {
-        toast.success('Welcome back!')
-        window.location.href = '/'
-      }
     } catch (error) {
-      console.error('Sign in error:', error)
-      toast.error('Failed to sign in')
+      console.error('Signup error:', error)
+      toast.error('Failed to create account')
       setIsLoading(false)
     }
   }
@@ -74,10 +83,10 @@ export default function SignInPage() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-5xl font-bold mb-6">
-              Welcome back to Mew
+              Welcome to Mew
             </h1>
             <p className="text-xl text-white/90 mb-12 leading-relaxed">
-              Continue where you left off. Your workspace is waiting for you.
+              The modern workspace for teams that move fast. Create, collaborate, and ship better work together.
             </p>
 
             <div className="space-y-6">
@@ -100,7 +109,7 @@ export default function SignInPage() {
         </div>
       </div>
 
-      {/* Right Side - Sign In Form */}
+      {/* Right Side - Sign Up Form */}
       <div className="flex w-full lg:w-1/2 items-center justify-center p-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -124,14 +133,14 @@ export default function SignInPage() {
                   "text-2xl font-bold",
                   isDark ? "text-white" : "text-slate-900"
                 )}>
-                  Welcome back
+                  Create account
                 </h2>
               </div>
               <p className={cn(
                 "text-sm",
                 isDark ? "text-neutral-400" : "text-slate-600"
               )}>
-                Sign in to your account to continue
+                Start your journey with Mew today
               </p>
             </div>
 
@@ -181,8 +190,28 @@ export default function SignInPage() {
               </div>
             </div>
 
-            {/* Sign In Form */}
-            <form onSubmit={handleCredentialsSignIn} className="space-y-4">
+            {/* Sign Up Form */}
+            <form onSubmit={handleSignUp} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="name" className={isDark ? "text-neutral-300" : "text-slate-700"}>
+                  Full Name
+                </Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="John Doe"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className={cn(
+                    "h-11",
+                    isDark
+                      ? "bg-neutral-800 border-neutral-700 placeholder:text-neutral-500"
+                      : "bg-white border-slate-300"
+                  )}
+                  required
+                />
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="email" className={isDark ? "text-neutral-300" : "text-slate-700"}>
                   Email
@@ -204,17 +233,9 @@ export default function SignInPage() {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password" className={isDark ? "text-neutral-300" : "text-slate-700"}>
-                    Password
-                  </Label>
-                  <a
-                    href="#"
-                    className="text-xs text-[#E85002] hover:text-[#F16001] hover:underline"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
+                <Label htmlFor="password" className={isDark ? "text-neutral-300" : "text-slate-700"}>
+                  Password
+                </Label>
                 <Input
                   id="password"
                   type="password"
@@ -228,36 +249,51 @@ export default function SignInPage() {
                       : "bg-white border-slate-300"
                   )}
                   required
+                  minLength={8}
                 />
+                <p className={cn(
+                  "text-xs",
+                  isDark ? "text-neutral-500" : "text-slate-500"
+                )}>
+                  Must be at least 8 characters
+                </p>
               </div>
 
               <Button
                 type="submit"
-                className="w-full h-11 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001] text-white font-medium group"
+                className="w-full h-11 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001] text-white font-medium"
                 disabled={isLoading}
               >
-                {isLoading ? (
-                  'Signing in...'
-                ) : (
-                  <>
-                    Sign in
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </>
-                )}
+                {isLoading ? 'Creating account...' : 'Create account'}
               </Button>
             </form>
 
-            {/* Sign Up Link */}
+            {/* Sign In Link */}
             <p className={cn(
               "mt-6 text-center text-sm",
               isDark ? "text-neutral-400" : "text-slate-600"
             )}>
-              Don&apos;t have an account?{' '}
+              Already have an account?{' '}
               <a
-                href="/auth/signup"
-                className="font-medium text-[#E85002] hover:text-[#F16001] hover:underline"
+                href="/auth/signin"
+                className="font-medium text-violet-600 hover:text-violet-700 hover:underline"
               >
-                Sign up for free
+                Sign in
+              </a>
+            </p>
+
+            {/* Terms */}
+            <p className={cn(
+              "mt-6 text-center text-xs",
+              isDark ? "text-neutral-500" : "text-slate-500"
+            )}>
+              By signing up, you agree to our{' '}
+              <a href="#" className="underline hover:text-[#E85002]">
+                Terms of Service
+              </a>{' '}
+              and{' '}
+              <a href="#" className="underline hover:text-[#E85002]">
+                Privacy Policy
               </a>
             </p>
           </div>
