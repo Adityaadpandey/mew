@@ -694,15 +694,19 @@ export function DiagramCanvas() {
     const { from, to, fromPort, toPort } = points
     const isSelected = selectedIds.includes(conn.id)
     const isBeingDragged = connectionDragHandle?.id === conn.id
-    const stroke = isSelected ? '#3B82F6' : (conn.stroke || (darkMode ? '#a1a1aa' : '#64748b'))
+    
+    // Enhanced color palette for connections
+    const getConnectionColor = () => {
+      if (isSelected) return '#3B82F6'
+      if (conn.stroke) return conn.stroke
+      // Default to a subtle gray that works in both themes
+      return darkMode ? '#52525b' : '#94a3b8'
+    }
+    const stroke = getConnectionColor()
 
-    // Smart curve calculation based on port directions and distance
+    // Smart curve calculation based on port directions and distance - Enhanced smoothness
     const dx = to.x - from.x
     const dy = to.y - from.y
-    const dist = Math.sqrt(dx * dx + dy * dy)
-
-    // Adaptive curvature - more curve for longer distances, less for short
-    const baseCurvature = Math.min(Math.max(dist * 0.35, 30), 120)
 
     // Direction vectors for each port (8 ports including corners)
     const getDirVector = (p: Port): { x: number; y: number } => {
@@ -722,9 +726,9 @@ export function DiagramCanvas() {
     const dir1 = getDirVector(fromPort)
     const dir2 = getDirVector(toPort)
 
-    // Smart Manhattan-like Bezier curves
-    // Instead of simple bezier, we use a path that tries to go orthogonal first
-    const controlDist = Math.max(Math.abs(dx) * 0.5, Math.abs(dy) * 0.5, 60)
+    // Premium smooth Bezier curves with adaptive control points
+    const distance = Math.sqrt(dx * dx + dy * dy)
+    const controlDist = Math.max(Math.min(distance * 0.4, 150), 40)
 
     // Calculate control points based on port direction to ensure lines exit/enter straight
     const cp1 = {
@@ -746,14 +750,14 @@ export function DiagramCanvas() {
     if (isAlignedX || isAlignedY) {
        pathData = `M ${from.x} ${from.y} L ${to.x} ${to.y}`
     } else {
-       // Standard smooth bezier with strong control points
+       // Premium smooth bezier with strong control points
        pathData = `M ${from.x} ${from.y} C ${cp1.x} ${cp1.y}, ${cp2.x} ${cp2.y}, ${to.x} ${to.y}`
     }
 
-    // Arrow head calculation - angle based on curve end direction
+    // Enhanced arrow head calculation - sleeker, more modern arrows
     const arrowAngle = Math.atan2(to.y - cp2.y, to.x - cp2.x)
-    const arrowLen = 8
-    const arrowWidth = Math.PI / 7
+    const arrowLen = isSelected ? 11 : 10
+    const arrowWidth = Math.PI / 6.5 // Slightly narrower for elegance
     const arrowPt1 = {
       x: to.x - arrowLen * Math.cos(arrowAngle - arrowWidth),
       y: to.y - arrowLen * Math.sin(arrowAngle - arrowWidth)
@@ -762,11 +766,19 @@ export function DiagramCanvas() {
       x: to.x - arrowLen * Math.cos(arrowAngle + arrowWidth),
       y: to.y - arrowLen * Math.sin(arrowAngle + arrowWidth)
     }
+    // Back point for filled arrow - more refined shape
+    const arrowBack = {
+      x: to.x - (arrowLen * 0.55) * Math.cos(arrowAngle),
+      y: to.y - (arrowLen * 0.55) * Math.sin(arrowAngle)
+    }
 
     // Calculate midpoint for label using bezier formula
     const midT = 0.5
     const midX = (1-midT)**3 * from.x + 3*(1-midT)**2*midT * cp1.x + 3*(1-midT)*midT**2 * cp2.x + midT**3 * to.x
     const midY = (1-midT)**3 * from.y + 3*(1-midT)**2*midT * cp1.y + 3*(1-midT)*midT**2 * cp2.y + midT**3 * to.y
+
+    // Determine stroke width based on state - enhanced
+    const strokeWidth = isSelected ? 2.5 : (conn.strokeWidth || 1.5)
 
     return (
       <g key={conn.id} style={{ cursor: 'pointer' }}>
@@ -782,29 +794,54 @@ export function DiagramCanvas() {
             setSelectedIds([conn.id])
           }}
         />
-        {/* Glow effect on hover/select */}
+        {/* Premium glow effect on hover/select */}
         {(isSelected || isBeingDragged) && (
-          <path
-            d={pathData}
-            stroke="#3B82F6"
-            strokeWidth={6}
-            fill="none"
-            strokeLinecap="round"
-            opacity={0.2}
-            style={{ pointerEvents: 'none' }}
-          />
+          <>
+            <path
+              d={pathData}
+              stroke="#3B82F6"
+              strokeWidth={10}
+              fill="none"
+              strokeLinecap="round"
+              opacity={0.1}
+              style={{ pointerEvents: 'none' }}
+            />
+            <path
+              d={pathData}
+              stroke="#3B82F6"
+              strokeWidth={6}
+              fill="none"
+              strokeLinecap="round"
+              opacity={0.2}
+              style={{ pointerEvents: 'none' }}
+            />
+            <path
+              d={pathData}
+              stroke="#3B82F6"
+              strokeWidth={4}
+              fill="none"
+              strokeLinecap="round"
+              opacity={0.3}
+              style={{ pointerEvents: 'none' }}
+            />
+          </>
         )}
-        {/* Main path */}
+        {/* Main path with premium styling */}
         <path
           d={pathData}
           stroke={stroke}
-          strokeWidth={isSelected ? 2.5 : (conn.strokeWidth || 1.5)}
+          strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"
+          strokeLinejoin="round"
           strokeDasharray={conn.dashArray || undefined}
-          style={{ pointerEvents: 'none', transition: 'all 0.15s ease' }}
+          style={{
+            pointerEvents: 'none',
+            transition: 'all 0.15s ease',
+            filter: isSelected ? 'drop-shadow(0 0 3px rgba(59, 130, 246, 0.4))' : 'none'
+          }}
         />
-        {/* Animated flow indicator */}
+        {/* Animated flow indicator - enhanced */}
         {conn.animated && (
           <path
             d={pathData}
@@ -819,12 +856,18 @@ export function DiagramCanvas() {
             }}
           />
         )}
-        {/* Arrow head */}
+        {/* Arrow head - premium filled style with subtle shadow */}
         {conn.type === 'arrow' && (
           <path
-            d={`M ${to.x} ${to.y} L ${arrowPt1.x} ${arrowPt1.y} L ${arrowPt2.x} ${arrowPt2.y} Z`}
+            d={`M ${to.x} ${to.y} L ${arrowPt1.x} ${arrowPt1.y} Q ${arrowBack.x} ${arrowBack.y} ${arrowPt2.x} ${arrowPt2.y} Z`}
             fill={stroke}
-            style={{ pointerEvents: 'none' }}
+            stroke={stroke}
+            strokeWidth={0.5}
+            strokeLinejoin="round"
+            style={{
+              pointerEvents: 'none',
+              filter: isSelected ? 'drop-shadow(0 0 3px rgba(59, 130, 246, 0.4))' : 'drop-shadow(0 1px 2px rgba(0, 0, 0, 0.15))'
+            }}
           />
         )}
         {/* Label */}
@@ -1039,7 +1082,7 @@ export function DiagramCanvas() {
 
       // Corner ports are smaller
       const baseSize = isCorner(port) ? 4 : 5
-      const hoverSize = isCorner(port) ? 6 : 8
+      const hoverSize = isCorner(port) ? 7 : 9
 
       return (
         <g key={`${obj.id}-${port}`}>
@@ -1047,7 +1090,7 @@ export function DiagramCanvas() {
           <circle
             cx={point.x}
             cy={point.y}
-            r={12}
+            r={14}
             fill="transparent"
             style={{ cursor: 'crosshair', pointerEvents: 'auto' }}
             onMouseDown={(e) => handlePortMouseDown(obj.id, port, e)}
@@ -1056,37 +1099,60 @@ export function DiagramCanvas() {
             }}
             onMouseLeave={() => setHoveredPort(null)}
           />
-          {/* Visual port - subtle ring style */}
+          {/* Outer glow ring on hover */}
+          {isHovered && (
+            <circle
+              cx={point.x}
+              cy={point.y}
+              r={hoverSize + 4}
+              fill="none"
+              stroke="#3B82F6"
+              strokeWidth={1.5}
+              opacity={0.3}
+              style={{ pointerEvents: 'none' }}
+            />
+          )}
+          {/* Visual port - premium ring style */}
           <circle
             cx={point.x}
             cy={point.y}
             r={isHovered ? hoverSize : baseSize}
-            fill={isHovered ? '#3B82F6' : (darkMode ? '#262626' : '#ffffff')}
-            stroke={isHovered ? '#3B82F6' : (darkMode ? '#525252' : '#94a3b8')}
+            fill={isHovered ? '#3B82F6' : (darkMode ? '#1a1a1a' : '#ffffff')}
+            stroke={isHovered ? '#3B82F6' : (darkMode ? '#52525b' : '#a1a1aa')}
             strokeWidth={isHovered ? 2 : 1.5}
             style={{
               pointerEvents: 'none',
               transition: 'all 0.15s ease',
-              filter: isHovered ? 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.5))' : 'none'
+              filter: isHovered ? 'drop-shadow(0 0 6px rgba(59, 130, 246, 0.5))' : 'none'
             }}
           />
+          {/* Inner dot when hovered */}
+          {isHovered && (
+            <circle
+              cx={point.x}
+              cy={point.y}
+              r={3}
+              fill="white"
+              style={{ pointerEvents: 'none' }}
+            />
+          )}
           {/* Pulse ring when valid target */}
           {isValidTarget && isHovered && (
             <>
               <circle
                 cx={point.x}
                 cy={point.y}
-                r={16}
+                r={18}
                 fill="none"
                 stroke="#3B82F6"
                 strokeWidth={2}
-                opacity={0.3}
+                opacity={0.2}
                 style={{ pointerEvents: 'none' }}
               />
               <circle
                 cx={point.x}
                 cy={point.y}
-                r={12}
+                r={14}
                 fill="rgba(59, 130, 246, 0.1)"
                 style={{ pointerEvents: 'none' }}
               />

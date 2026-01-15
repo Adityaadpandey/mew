@@ -97,139 +97,161 @@ const THEMES = {
 }
 
 // ============================================================================
-// GROUP COLOR SCHEMES - Eraser.io style (very subtle, almost transparent)
+// GROUP COLOR SCHEMES - Vibrant eraser.io style (colorful, eye-catching)
 // ============================================================================
 const GROUP_COLORS: Record<string, { bg: string; border: string; header: string }> = {
-  // Eraser.io Specific Palettes (Vibrant Dark Mode)
-  'features': { bg: 'rgba(23, 23, 23, 0.4)', border: '#404040', header: '#a1a1aa' },
-  'tech': { bg: 'rgba(56, 189, 248, 0.08)', border: '#0ea5e9', header: '#38bdf8' }, // Sky Blue
-  'frontend': { bg: 'rgba(45, 212, 191, 0.08)', border: '#14b8a6', header: '#2dd4bf' }, // Teal
-  'backend': { bg: 'rgba(167, 139, 250, 0.08)', border: '#8b5cf6', header: '#a78bfa' }, // Violet
-  'database': { bg: 'rgba(96, 165, 250, 0.08)', border: '#3b82f6', header: '#60a5fa' }, // Blue
-  'data': { bg: 'rgba(96, 165, 250, 0.08)', border: '#3b82f6', header: '#60a5fa' },
-  'auth': { bg: 'rgba(74, 222, 128, 0.08)', border: '#22c55e', header: '#4ade80' }, // Green
-  'security': { bg: 'rgba(74, 222, 128, 0.08)', border: '#22c55e', header: '#4ade80' },
-  'api': { bg: 'rgba(251, 146, 60, 0.08)', border: '#f97316', header: '#fb923c' }, // Orange
-  'ai': { bg: 'rgba(250, 204, 21, 0.08)', border: '#eab308', header: '#facc15' }, // Yellow
-  'ml': { bg: 'rgba(250, 204, 21, 0.08)', border: '#eab308', header: '#facc15' },
-  'users': { bg: 'rgba(23, 23, 23, 0.4)', border: '#404040', header: '#a1a1aa' },
-  'clients': { bg: 'rgba(23, 23, 23, 0.4)', border: '#404040', header: '#a1a1aa' },
-  'services': { bg: 'rgba(167, 139, 250, 0.08)', border: '#8b5cf6', header: '#a78bfa' },
-  'infrastructure': { bg: 'rgba(148, 163, 184, 0.08)', border: '#64748b', header: '#94a3b8' }, // Slate
-  'cloud': { bg: 'rgba(148, 163, 184, 0.08)', border: '#64748b', header: '#94a3b8' },
-  'default': { bg: 'rgba(23, 23, 23, 0.4)', border: '#404040', header: '#a1a1aa' },
+  // Vibrant Color Palettes - More saturated for visual impact
+  'features': { bg: 'rgba(30, 30, 30, 0.5)', border: '#525252', header: '#a1a1aa' },
+  'tech': { bg: 'rgba(56, 189, 248, 0.12)', border: '#0ea5e9', header: '#38bdf8' },
+  'frontend': { bg: 'rgba(45, 212, 191, 0.12)', border: '#14b8a6', header: '#2dd4bf' },
+  'backend': { bg: 'rgba(167, 139, 250, 0.12)', border: '#8b5cf6', header: '#a78bfa' },
+  'database': { bg: 'rgba(96, 165, 250, 0.12)', border: '#3b82f6', header: '#60a5fa' },
+  'data': { bg: 'rgba(96, 165, 250, 0.12)', border: '#3b82f6', header: '#60a5fa' },
+  'auth': { bg: 'rgba(74, 222, 128, 0.12)', border: '#22c55e', header: '#4ade80' },
+  'security': { bg: 'rgba(251, 113, 133, 0.12)', border: '#f43f5e', header: '#fb7185' },
+  'api': { bg: 'rgba(251, 146, 60, 0.12)', border: '#f97316', header: '#fb923c' },
+  'ai': { bg: 'rgba(250, 204, 21, 0.12)', border: '#eab308', header: '#facc15' },
+  'ml': { bg: 'rgba(250, 204, 21, 0.12)', border: '#eab308', header: '#facc15' },
+  'users': { bg: 'rgba(148, 163, 184, 0.12)', border: '#64748b', header: '#94a3b8' },
+  'clients': { bg: 'rgba(148, 163, 184, 0.12)', border: '#64748b', header: '#94a3b8' },
+  'services': { bg: 'rgba(167, 139, 250, 0.12)', border: '#8b5cf6', header: '#a78bfa' },
+  'infrastructure': { bg: 'rgba(129, 140, 248, 0.12)', border: '#6366f1', header: '#818cf8' },
+  'cloud': { bg: 'rgba(56, 189, 248, 0.12)', border: '#0ea5e9', header: '#38bdf8' },
+  'infra': { bg: 'rgba(129, 140, 248, 0.12)', border: '#6366f1', header: '#818cf8' },
+  'cache': { bg: 'rgba(248, 113, 113, 0.12)', border: '#ef4444', header: '#f87171' },
+  'queue': { bg: 'rgba(251, 191, 36, 0.12)', border: '#f59e0b', header: '#fbbf24' },
+  'messaging': { bg: 'rgba(251, 191, 36, 0.12)', border: '#f59e0b', header: '#fbbf24' },
+  'storage': { bg: 'rgba(34, 197, 94, 0.12)', border: '#16a34a', header: '#22c55e' },
+  'monitoring': { bg: 'rgba(236, 72, 153, 0.12)', border: '#db2777', header: '#ec4899' },
+  'devops': { bg: 'rgba(129, 140, 248, 0.12)', border: '#6366f1', header: '#818cf8' },
+  'payment': { bg: 'rgba(139, 92, 246, 0.12)', border: '#7c3aed', header: '#8b5cf6' },
+  'external': { bg: 'rgba(100, 116, 139, 0.12)', border: '#475569', header: '#64748b' },
+  'default': { bg: 'rgba(39, 39, 42, 0.5)', border: '#3f3f46', header: '#a1a1aa' },
 }
 
 // ============================================================================
-// NODE COLOR SCHEMES - Auto-detected from node names
+// NODE COLOR SCHEMES - Vibrant auto-detected colors from node names
 // ============================================================================
-const NODE_COLORS: Record<string, { bg: string; icon: string }> = {
-  // Frontend
-  'next': { bg: '#000000', icon: '#ffffff' },
-  'react': { bg: '#1e3a5f', icon: '#61dafb' },
-  'vue': { bg: '#1a3a2a', icon: '#42b883' },
-  'angular': { bg: '#3f1a1a', icon: '#dd0031' },
-  'svelte': { bg: '#3f2a1a', icon: '#ff3e00' },
-  'tailwind': { bg: '#0f172a', icon: '#38bdf8' },
-  'css': { bg: '#1e40af', icon: '#60a5fa' },
-  'typescript': { bg: '#1e3a5f', icon: '#3178c6' },
-  'javascript': { bg: '#422006', icon: '#f7df1e' },
+const NODE_COLORS: Record<string, { bg: string; icon: string; border?: string }> = {
+  // Frontend - Vibrant tech colors
+  'next': { bg: '#0a0a0a', icon: '#ffffff', border: '#404040' },
+  'react': { bg: '#0d2137', icon: '#61dafb', border: '#1e4a6d' },
+  'vue': { bg: '#1a3a2a', icon: '#42b883', border: '#2d5a42' },
+  'angular': { bg: '#3f1a1a', icon: '#dd0031', border: '#6b2828' },
+  'svelte': { bg: '#3f2a1a', icon: '#ff3e00', border: '#6b4428' },
+  'tailwind': { bg: '#0c2638', icon: '#38bdf8', border: '#164e6d' },
+  'css': { bg: '#1e40af', icon: '#60a5fa', border: '#2563eb' },
+  'typescript': { bg: '#0d2847', icon: '#3178c6', border: '#1e4a7d' },
+  'javascript': { bg: '#3d3000', icon: '#f7df1e', border: '#5c4a00' },
 
-  // Backend
-  'node': { bg: '#14532d', icon: '#4ade80' },
-  'express': { bg: '#1a1a1a', icon: '#ffffff' },
-  'fastify': { bg: '#1a1a1a', icon: '#ffffff' },
-  'nest': { bg: '#3f1a1a', icon: '#e0234e' },
-  'django': { bg: '#14532d', icon: '#092e20' },
-  'flask': { bg: '#1a1a1a', icon: '#ffffff' },
-  'spring': { bg: '#14532d', icon: '#6db33f' },
-  'graphql': { bg: '#2d1f3d', icon: '#e535ab' },
-  'rest': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'api': { bg: '#1e1b4b', icon: '#818cf8' },
-  'grpc': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'websocket': { bg: '#14532d', icon: '#4ade80' },
+  // Backend - Rich purples and greens
+  'node': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
+  'express': { bg: '#1a1a1a', icon: '#ffffff', border: '#333333' },
+  'fastify': { bg: '#1a1a1a', icon: '#ffffff', border: '#333333' },
+  'nest': { bg: '#3f1a1a', icon: '#e0234e', border: '#6b2828' },
+  'django': { bg: '#0f3d1f', icon: '#092e20', border: '#1a5c30' },
+  'flask': { bg: '#1a1a1a', icon: '#ffffff', border: '#333333' },
+  'fastapi': { bg: '#0f3d3d', icon: '#009688', border: '#1a5c5c' },
+  'spring': { bg: '#0f3d1f', icon: '#6db33f', border: '#1a5c30' },
+  'graphql': { bg: '#2d1f3d', icon: '#e535ab', border: '#4a3363' },
+  'rest': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'api': { bg: '#1e1b4b', icon: '#818cf8', border: '#312e81' },
+  'grpc': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'websocket': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
 
-  // Database
-  'postgres': { bg: '#1e3a5f', icon: '#60a5fa' },
-  'mysql': { bg: '#1e3a5f', icon: '#4479a1' },
-  'mongo': { bg: '#1a3a2a', icon: '#4ade80' },
-  'redis': { bg: '#3f1a1a', icon: '#ef4444' },
-  'elastic': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'dynamodb': { bg: '#422006', icon: '#fb923c' },
-  'prisma': { bg: '#1a1a2e', icon: '#5a67d8' },
-  'supabase': { bg: '#14532d', icon: '#3ecf8e' },
-  'firebase': { bg: '#422006', icon: '#ffca28' },
-  'planetscale': { bg: '#1a1a1a', icon: '#ffffff' },
+  // Database - Blues and specialized colors
+  'postgres': { bg: '#0d2847', icon: '#60a5fa', border: '#1e4a7d' },
+  'postgresql': { bg: '#0d2847', icon: '#60a5fa', border: '#1e4a7d' },
+  'mysql': { bg: '#0d2847', icon: '#4479a1', border: '#1e4a7d' },
+  'mongo': { bg: '#1a3a2a', icon: '#4ade80', border: '#2d5a42' },
+  'mongodb': { bg: '#1a3a2a', icon: '#4ade80', border: '#2d5a42' },
+  'redis': { bg: '#3f1a1a', icon: '#f87171', border: '#6b2828' },
+  'elastic': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'dynamodb': { bg: '#3d2800', icon: '#fb923c', border: '#5c4000' },
+  'prisma': { bg: '#1a1a3d', icon: '#5a67d8', border: '#2d2d63' },
+  'supabase': { bg: '#0f3d1f', icon: '#3ecf8e', border: '#1a5c30' },
+  'firebase': { bg: '#3d2800', icon: '#ffca28', border: '#5c4000' },
+  'planetscale': { bg: '#1a1a1a', icon: '#ffffff', border: '#333333' },
 
-  // Auth
-  'auth': { bg: '#1a1a1a', icon: '#a1a1aa' },
-  'nextauth': { bg: '#1a1a1a', icon: '#ffffff' },
-  'clerk': { bg: '#2d1f3d', icon: '#a78bfa' },
-  'auth0': { bg: '#3f1a1a', icon: '#eb5424' },
-  'jwt': { bg: '#422006', icon: '#fbbf24' },
-  'oauth': { bg: '#1e3a5f', icon: '#60a5fa' },
-  'passport': { bg: '#14532d', icon: '#4ade80' },
+  // Auth - Greens and security colors
+  'auth': { bg: '#1a1a1a', icon: '#a1a1aa', border: '#333333' },
+  'nextauth': { bg: '#1a1a1a', icon: '#ffffff', border: '#333333' },
+  'clerk': { bg: '#2d1f3d', icon: '#a78bfa', border: '#4a3363' },
+  'auth0': { bg: '#3f1a1a', icon: '#eb5424', border: '#6b2828' },
+  'jwt': { bg: '#3d2800', icon: '#fbbf24', border: '#5c4000' },
+  'oauth': { bg: '#0d2847', icon: '#60a5fa', border: '#1e4a7d' },
+  'passport': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
 
-  // AI/ML
-  'openai': { bg: '#1a3a2a', icon: '#4ade80' },
-  'ai': { bg: '#422006', icon: '#fbbf24' },
-  'gpt': { bg: '#1a3a2a', icon: '#4ade80' },
-  'llm': { bg: '#2d1f3d', icon: '#a78bfa' },
-  'vector': { bg: '#1e1b4b', icon: '#818cf8' },
-  'embedding': { bg: '#1e1b4b', icon: '#818cf8' },
-  'langchain': { bg: '#14532d', icon: '#4ade80' },
-  'pinecone': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'huggingface': { bg: '#422006', icon: '#fbbf24' },
+  // AI/ML - Warm amber/gold tones
+  'openai': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
+  'ai': { bg: '#3d2800', icon: '#fbbf24', border: '#5c4000' },
+  'gpt': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
+  'claude': { bg: '#3d2800', icon: '#d97706', border: '#5c4000' },
+  'llm': { bg: '#2d1f3d', icon: '#a78bfa', border: '#4a3363' },
+  'vector': { bg: '#1e1b4b', icon: '#818cf8', border: '#312e81' },
+  'embedding': { bg: '#1e1b4b', icon: '#818cf8', border: '#312e81' },
+  'langchain': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
+  'pinecone': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'huggingface': { bg: '#3d2800', icon: '#fbbf24', border: '#5c4000' },
 
-  // Infrastructure
-  'docker': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'kubernetes': { bg: '#1e40af', icon: '#60a5fa' },
-  'aws': { bg: '#422006', icon: '#fb923c' },
-  'gcp': { bg: '#1e3a5f', icon: '#4285f4' },
-  'azure': { bg: '#0c4a6e', icon: '#0078d4' },
-  'vercel': { bg: '#000000', icon: '#ffffff' },
-  'netlify': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'cloudflare': { bg: '#422006', icon: '#f38020' },
-  'terraform': { bg: '#2d1f3d', icon: '#7b42bc' },
-  'nginx': { bg: '#14532d', icon: '#009639' },
+  // Infrastructure - Blues and purples
+  'docker': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'kubernetes': { bg: '#0d2847', icon: '#60a5fa', border: '#1e4a7d' },
+  'k8s': { bg: '#0d2847', icon: '#60a5fa', border: '#1e4a7d' },
+  'aws': { bg: '#3d2800', icon: '#fb923c', border: '#5c4000' },
+  'gcp': { bg: '#0d2847', icon: '#4285f4', border: '#1e4a7d' },
+  'azure': { bg: '#0c4a6e', icon: '#0078d4', border: '#1671a5' },
+  'vercel': { bg: '#0a0a0a', icon: '#ffffff', border: '#404040' },
+  'netlify': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'cloudflare': { bg: '#3d2800', icon: '#f38020', border: '#5c4000' },
+  'terraform': { bg: '#2d1f3d', icon: '#7b42bc', border: '#4a3363' },
+  'nginx': { bg: '#0f3d1f', icon: '#009639', border: '#1a5c30' },
 
-  // Messaging/Queue
-  'kafka': { bg: '#1a1a1a', icon: '#ffffff' },
-  'rabbitmq': { bg: '#422006', icon: '#ff6600' },
-  'sqs': { bg: '#422006', icon: '#fb923c' },
-  'sns': { bg: '#422006', icon: '#fb923c' },
-  'pubsub': { bg: '#0c4a6e', icon: '#38bdf8' },
+  // Messaging/Queue - Warm tones
+  'kafka': { bg: '#1a1a1a', icon: '#ffffff', border: '#333333' },
+  'rabbitmq': { bg: '#3d2800', icon: '#ff6600', border: '#5c4000' },
+  'sqs': { bg: '#3d2800', icon: '#fb923c', border: '#5c4000' },
+  'sns': { bg: '#3d2800', icon: '#fb923c', border: '#5c4000' },
+  'pubsub': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
 
-  // Monitoring
-  'prometheus': { bg: '#422006', icon: '#e6522c' },
-  'grafana': { bg: '#422006', icon: '#f46800' },
-  'datadog': { bg: '#2d1f3d', icon: '#632ca6' },
-  'sentry': { bg: '#2d1f3d', icon: '#362d59' },
-  'newrelic': { bg: '#14532d', icon: '#008c99' },
+  // Monitoring - Vibrant pinks and oranges
+  'prometheus': { bg: '#3d2800', icon: '#e6522c', border: '#5c4000' },
+  'grafana': { bg: '#3d2800', icon: '#f46800', border: '#5c4000' },
+  'datadog': { bg: '#2d1f3d', icon: '#632ca6', border: '#4a3363' },
+  'sentry': { bg: '#2d1f3d', icon: '#362d59', border: '#4a3363' },
+  'newrelic': { bg: '#0c4a6e', icon: '#008c99', border: '#1671a5' },
 
-  // Generic
-  'server': { bg: '#1e1b4b', icon: '#818cf8' },
-  'database': { bg: '#1e3a5f', icon: '#60a5fa' },
-  'service': { bg: '#14532d', icon: '#4ade80' },
-  'user': { bg: '#1a1a1a', icon: '#a1a1aa' },
-  'client': { bg: '#1a1a1a', icon: '#a1a1aa' },
-  'gateway': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'load balancer': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'cdn': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'cache': { bg: '#3f1a1a', icon: '#ef4444' },
-  'queue': { bg: '#422006', icon: '#fbbf24' },
-  'storage': { bg: '#1c1917', icon: '#a8a29e' },
-  'bucket': { bg: '#14532d', icon: '#4ade80' },
-  's3': { bg: '#14532d', icon: '#4ade80' },
+  // Payments - Purple/violet
+  'stripe': { bg: '#2d1f3d', icon: '#635bff', border: '#4a3363' },
+  'paypal': { bg: '#0d2847', icon: '#003087', border: '#1e4a7d' },
+
+  // Generic - Solid defaults
+  'server': { bg: '#1e1b4b', icon: '#818cf8', border: '#312e81' },
+  'database': { bg: '#0d2847', icon: '#60a5fa', border: '#1e4a7d' },
+  'service': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
+  'user': { bg: '#27272a', icon: '#a1a1aa', border: '#3f3f46' },
+  'client': { bg: '#27272a', icon: '#a1a1aa', border: '#3f3f46' },
+  'gateway': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'load balancer': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'cdn': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'cache': { bg: '#3f1a1a', icon: '#f87171', border: '#6b2828' },
+  'queue': { bg: '#3d2800', icon: '#fbbf24', border: '#5c4000' },
+  'storage': { bg: '#27272a', icon: '#a8a29e', border: '#3f3f46' },
+  'bucket': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
+  's3': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
+  'web': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'mobile': { bg: '#27272a', icon: '#a1a1aa', border: '#3f3f46' },
+  'worker': { bg: '#2d1f3d', icon: '#a78bfa', border: '#4a3363' },
+  'lambda': { bg: '#3d2800', icon: '#fb923c', border: '#5c4000' },
 
   // Flowchart
-  'start': { bg: '#14532d', icon: '#4ade80' },
-  'end': { bg: '#3f1a1a', icon: '#ef4444' },
-  'process': { bg: '#0c4a6e', icon: '#38bdf8' },
-  'decision': { bg: '#422006', icon: '#fbbf24' },
-  'condition': { bg: '#422006', icon: '#fbbf24' },
+  'start': { bg: '#0f3d1f', icon: '#68d391', border: '#1a5c30' },
+  'end': { bg: '#3f1a1a', icon: '#f87171', border: '#6b2828' },
+  'process': { bg: '#0c4a6e', icon: '#38bdf8', border: '#1671a5' },
+  'decision': { bg: '#3d2800', icon: '#fbbf24', border: '#5c4000' },
+  'condition': { bg: '#3d2800', icon: '#fbbf24', border: '#5c4000' },
 
-  'default': { bg: '#27272a', icon: '#a1a1aa' },
+  'default': { bg: '#27272a', icon: '#a1a1aa', border: '#3f3f46' },
 }
 
 // ============================================================================
@@ -342,17 +364,17 @@ interface DiagramData {
 }
 
 // ============================================================================
-// LAYOUT CONSTANTS - Eraser.io style spacing
+// LAYOUT CONSTANTS - Eraser.io premium style spacing
 // ============================================================================
 const LAYOUT = {
-  GROUP_PADDING: 24, // Tighter padding
-  GROUP_HEADER_HEIGHT: 36,
-  NODE_WIDTH: 180,
-  NODE_HEIGHT: 64, // Sleeker height
-  NODE_GAP: 24,    // Tighter node gap (was 40)
-  GROUP_GAP: 60,   // Tighter group gap (was 80)
-  START_X: 100,
-  START_Y: 100,
+  GROUP_PADDING: 28,        // Comfortable padding
+  GROUP_HEADER_HEIGHT: 40,  // Taller header for elegance
+  NODE_WIDTH: 160,          // Slightly narrower for cleaner look
+  NODE_HEIGHT: 58,          // Sleeker height
+  NODE_GAP: 20,             // Tighter node gap for density
+  GROUP_GAP: 70,            // Comfortable group gap
+  START_X: 80,
+  START_Y: 80,
 }
 
 const SIZE_MULTIPLIERS = {
@@ -363,9 +385,10 @@ const SIZE_MULTIPLIERS = {
 }
 
 const SPACING_MULTIPLIERS = {
-  compact: 0.7,
+  compact: 0.75,
   normal: 1,
-  spacious: 1.5,
+  spacious: 1.4,
+  'ultra-spacious': 1.8,
 }
 
 // ============================================================================
@@ -499,12 +522,23 @@ function getGroupColor(groupName: string, theme?: string): { bg: string; border:
   return GROUP_COLORS.default
 }
 
-function getNodeColor(nodeName: string): { bg: string; icon: string } {
+function getNodeColor(nodeName: string): { bg: string; icon: string; border: string } {
   const lower = nodeName.toLowerCase()
   for (const [key, colors] of Object.entries(NODE_COLORS)) {
-    if (lower.includes(key)) return colors
+    if (lower.includes(key)) {
+      return {
+        bg: colors.bg,
+        icon: colors.icon,
+        border: colors.border || colors.icon
+      }
+    }
   }
-  return NODE_COLORS.default
+  const defaultColors = NODE_COLORS.default
+  return {
+    bg: defaultColors.bg,
+    icon: defaultColors.icon,
+    border: defaultColors.border || defaultColors.icon
+  }
 }
 
 function getConnectionStyle(style?: string): { stroke: string; strokeWidth: number; animated?: boolean; dashArray?: string } {
@@ -755,7 +789,7 @@ function transformDiagram(data: DiagramData) {
       const items = group.items || group.nodes || group.children || []
       const subgroups = group.subgroups || group.groups || []
 
-      // --- Render Group ---
+      // --- Render Group - Premium eraser.io style ---
       objects.push({
         id: groupId || `group-${Math.random()}`,
         type: 'rectangle',
@@ -768,7 +802,7 @@ function transformDiagram(data: DiagramData) {
         strokeWidth: 1.5,
         rotation: 0,
         opacity: groupOpacity,
-        borderRadius: 12, // Slightly tighter radius
+        borderRadius: 14,
         zIndex: globalIndex++,
         isGroup: true,
         groupLabel: (groupName || 'Group').toUpperCase(),
@@ -798,14 +832,14 @@ function transformDiagram(data: DiagramData) {
           type: shapeType,
           x: itemX,
           y: itemY,
-          width: LAYOUT.NODE_WIDTH, // Force uniform width for clean grid
+          width: LAYOUT.NODE_WIDTH,
           height: LAYOUT.NODE_HEIGHT,
           fill: item.color || nodeColors.bg,
-          stroke: item.highlighted ? '#38bdf8' : nodeColors.border, // Highlight color
-          strokeWidth: item.highlighted ? 2 : 1, // Subtle border
+          stroke: item.highlighted ? '#3B82F6' : nodeColors.border,
+          strokeWidth: item.highlighted ? 2.5 : 1.5,
           rotation: 0,
           opacity: 1,
-          borderRadius: 6,
+          borderRadius: 12,
           zIndex: globalIndex++,
           text: itemName,
           fontSize: 12,
@@ -842,9 +876,9 @@ function transformDiagram(data: DiagramData) {
             height: sgHeight,
             fill: sgColors.bg,
             stroke: sgColors.border,
-            strokeWidth: 1,
-            borderRadius: 8,
-            opacity: 0.8,
+            strokeWidth: 1.5,
+            borderRadius: 10,
+            opacity: 0.7,
             zIndex: globalIndex++,
             isGroup: true,
             groupLabel: sgName.toUpperCase(),
@@ -866,7 +900,8 @@ function transformDiagram(data: DiagramData) {
               x: sgItemX, y: sgItemY,
               width: LAYOUT.NODE_WIDTH, height: LAYOUT.NODE_HEIGHT,
               fill: iColors.bg, stroke: iColors.border,
-              opacity: 1, zIndex: globalIndex++, borderRadius: 6,
+              strokeWidth: 1.5,
+              opacity: 1, zIndex: globalIndex++, borderRadius: 12,
               fontSize: 11, fontFamily: 'Inter'
             })
             nodePositions.set(iId, { x: sgItemX, y: sgItemY, width: LAYOUT.NODE_WIDTH, height: LAYOUT.NODE_HEIGHT })
@@ -904,7 +939,7 @@ function transformDiagram(data: DiagramData) {
       const x = LAYOUT.START_X + col * (nodeSize.width + nodeGap)
       const y = LAYOUT.START_Y + row * (nodeSize.height + nodeGap)
 
-      objects.push({ id: nodeId, type: shapeType, x, y, width: nodeSize.width, height: nodeSize.height, fill: node.color || nodeColors.bg, stroke: nodeColors.bg, strokeWidth: 0, rotation: 0, opacity: 1, borderRadius: shapeType === 'circle' ? 50 : 8, zIndex: index, text: nodeName, fontSize: 11, fontFamily: 'Inter' })
+      objects.push({ id: nodeId, type: shapeType, x, y, width: nodeSize.width, height: nodeSize.height, fill: node.color || nodeColors.bg, stroke: nodeColors.bg, strokeWidth: 1.5, rotation: 0, opacity: 1, borderRadius: shapeType === 'circle' ? 50 : 12, zIndex: index, text: nodeName, fontSize: 11, fontFamily: 'Inter' })
       nodePositions.set(nodeId, { x, y, width: nodeSize.width, height: nodeSize.height })
     })
   }
@@ -1026,612 +1061,227 @@ CURRENT CANVAS STATE:
 `
   }
 
-  return ` You are an EXPERT DIAGRAM ARCHITECT creating ERASER.IO STYLE diagrams.
-Your diagrams are clean, professional, icon-centric with nested groups.
+  return `You are an ELITE DIAGRAM ARCHITECT creating STUNNING, VISUALLY RICH diagrams like eraser.io.
+Your diagrams are COLORFUL, MODERN, and use REAL TECH BRAND ICONS with vibrant styling.
 ${canvasDescription}
 
 ═══════════════════════════════════════════════════════════════════════════════
-                         🎨 ERASER.IO DESIGN PRINCIPLES
+                    🎨 CRITICAL: VISUAL EXCELLENCE RULES
 ═══════════════════════════════════════════════════════════════════════════════
 
-**VISUAL STYLE:**
-• Icon-centric nodes: Large icon with small label below
-• Nested groups: Groups inside groups with header labels
-• Subtle backgrounds: Very low opacity (0.3-0.4) for groups
-• Clean connections: Smooth curves with subtle gray colors
-• Dark theme: Pure black/dark gray palette
-• Professional typography: Small, uppercase group labels
+**YOU MUST CREATE VISUALLY STUNNING DIAGRAMS - NOT BORING ONES!**
 
-**LAYOUT RULES:**
-• Groups arranged in logical flow (Left-to-Right is PREFERRED)
-• Nodes inside groups in grid layout (3-4 per row)
-• Subgroups for related items within a group
-• Consistent spacing between all elements
-• NO overlapping - everything has clear boundaries
+✅ DO THIS:
+• Use REAL tech names that trigger brand icons: "React", "Next.js", "PostgreSQL", "Docker", "AWS", "Kubernetes", "Redis", "MongoDB", "GraphQL", "Vercel", "Prisma", "Supabase", "Firebase", "Kafka", "Stripe"
+• Use COLORFUL group themes: "cyan", "purple", "amber", "emerald", "rose", "indigo"
+• Add visual interest: badges, glow effects, status indicators, animated connections
+• Mix connection styles: "animated", "bold", "data", "sync", "critical", "success"
+• Use multiple groups with DIFFERENT themes for color variety
+• Highlight important nodes with glow: true and highlighted: true
 
-**NODE DESIGN:**
-• Compact size (72x72 default) - icon-focused
-• Auto-detected icons based on text (Next.js, React, Database, etc.)
-• Subtle colored backgrounds matching the domain
-• Clean borders, no heavy shadows
-
-**CONNECTION DESIGN:**
-• Subtle gray lines (#52525b) by default
-• Smooth bezier curves between nodes
-• Labels only when necessary
-• Animated lines for data flow paths
+❌ DON'T DO THIS:
+• Don't use generic names like "Service", "Database", "Component" - be SPECIFIC
+• Don't make everything the same color
+• Don't use only "arrow" style connections
+• Don't create boring single-color diagrams
 
 ═══════════════════════════════════════════════════════════════════════════════
-                         🧠 ARCHITECT'S THINKING PROCESS
+                    🔥 REAL BRAND ICON KEYWORDS (USE THESE!)
 ═══════════════════════════════════════════════════════════════════════════════
 
-Before generating ANY diagram, think through:
+The system has REAL SVG brand icons. Use these EXACT names to get beautiful icons:
 
-**STEP 1: IDENTIFY MAIN GROUPS**
-- What are the major categories? (Features, Tech Stack, Usage, etc.)
-- How do they relate to each other?
-
-**STEP 2: IDENTIFY SUBGROUPS**
-- Within each group, what are the subcategories?
-- Example: Tech Stack → Frontend, Backend, Database, AI Integration
-
-**STEP 3: IDENTIFY NODES**
-- What specific items go in each subgroup?
-- Keep names SHORT (1-2 words): "Next.js", "React", "PostgreSQL"
-
-**STEP 4: PLAN CONNECTIONS**
-- What flows between groups?
-- What are the main data/control paths?
-
-**STEP 5: DESIGN DECISIONS**
-- Group naming: Use domain-specific terms
-- Node naming: Keep concise (1-3 words)
-- Connection styles: Bold for critical, dashed for optional
-- Visual hierarchy: Size, color, opacity for emphasis
+**Frontend:** React, Next.js, Vue, Angular, Svelte, Tailwind, TypeScript, JavaScript
+**Backend:** Node.js, Express, NestJS, Django, Flask, FastAPI, GraphQL, REST API
+**Database:** PostgreSQL, MySQL, MongoDB, Redis, DynamoDB, Prisma, Supabase, Firebase, PlanetScale
+**Cloud:** AWS, Vercel, Netlify, Cloudflare, Docker, Kubernetes, Terraform, Nginx
+**AI/ML:** OpenAI, GPT-4, LangChain, Pinecone, Hugging Face, Claude
+**Messaging:** Kafka, RabbitMQ, SQS, Redis Queue
+**Payments:** Stripe, PayPal
+**Monitoring:** Prometheus, Grafana, Datadog, Sentry
+**Auth:** Auth0, Clerk, NextAuth, JWT
 
 ═══════════════════════════════════════════════════════════════════════════════
-                         📋 RESPONSE FORMAT
+                    🎨 VIBRANT GROUP THEMES
 ═══════════════════════════════════════════════════════════════════════════════
 
-Your response MUST follow this structure:
+Each group should have a DIFFERENT theme for visual variety:
 
-**🧠 Architecture Analysis:**
-[Brief analysis of what you're building - 2-3 sentences explaining your thinking]
+• "cyan" - For Frontend/UI (vibrant teal-blue)
+• "purple" - For Backend/API (rich violet)
+• "blue" - For Database/Data (classic blue)
+• "amber" - For AI/ML (warm golden)
+• "emerald" - For Auth/Security (fresh green)
+• "rose" - For Critical/Alerts (attention pink)
+• "indigo" - For Infrastructure (deep blue-purple)
+• "slate" - For External/Third-party (neutral)
 
-**📐 Design Decisions:**
-- Layout: [chosen layout and why]
-- Groups: [how you're organizing components]
-- Flow: [direction of data/control flow]
+═══════════════════════════════════════════════════════════════════════════════
+                    ✨ VISUAL EFFECTS TO USE
+═══════════════════════════════════════════════════════════════════════════════
+
+Make diagrams EXCITING with these effects:
+
+**Node Effects:**
+• "highlighted": true - Blue glow border on important nodes
+• "glow": true - Soft glow effect
+• "badge": "NEW" or "v2" or "Hot" or "⚡" - Status badges
+• "status": "active" - Green status dot
+• "size": "large" - Bigger for important nodes
+
+**Connection Effects:**
+• "style": "animated" - Flowing animation (use for data flows)
+• "style": "bold" - Thick important connection
+• "style": "data" - Cyan animated (for data pipelines)
+• "style": "sync" - Purple animated (for sync operations)
+• "style": "critical" - Orange animated (for critical paths)
+• "style": "success" - Green (for success paths)
+• "label": "API" - Labels on connections
+
+═══════════════════════════════════════════════════════════════════════════════
+                    📋 RESPONSE FORMAT
+═══════════════════════════════════════════════════════════════════════════════
+
+Your response MUST have:
+1. Brief explanation (2-3 sentences)
+2. JSON diagram in code block
 
 **✨ Diagram:**
 \`\`\`json
-{ ... your diagram JSON ... }
+{ ... your VISUALLY STUNNING diagram JSON ... }
 \`\`\`
 
 ═══════════════════════════════════════════════════════════════════════════════
-                              FULL CAPABILITIES
-═══════════════════════════════════════════════════════════════════════════════
-
-📐 LAYOUTS (config.layout):
-• "layered" - Eraser.io style grouped boxes (DEFAULT, best for architecture)
-• "horizontal" - Left-to-right flow (great for pipelines, processes)
-• "vertical" - Top-to-bottom flow (great for hierarchies, org charts)
-• "grid" - Organized grid layout (great for comparisons, matrices)
-• "tree" - Hierarchical tree structure
-• "radial" - Circular/radial arrangement
-
-🎨 THEMES (config.theme or group.theme):
-• "dark" - Pure black/gray (default)
-• "blue" - Blue tones (tech, cloud)
-• "green" - Green tones (success, growth)
-• "purple" - Purple tones (AI, premium)
-• "amber" - Amber/orange tones (warnings, energy)
-• "cyan" - Cyan/teal tones (data, streams)
-• "rose" - Rose/pink tones (alerts, important)
-• "slate" - Slate gray (neutral, professional)
-• "emerald" - Emerald green (eco, success)
-• "indigo" - Indigo blue (deep tech)
-
-📏 SPACING (config.spacing):
-• "compact" - Tight spacing (more content)
-• "normal" - Balanced (default)
-• "spacious" - Lots of breathing room
-• "ultra-spacious" - Maximum whitespace
-
-🎭 GLOBAL STYLES (config.style):
-• "modern" - Clean, contemporary look (default)
-• "minimal" - Ultra-clean, less visual noise
-• "bold" - Strong colors, thick borders
-• "elegant" - Subtle gradients, refined
-• "tech" - Techy, futuristic feel
-• "playful" - Rounded, colorful
-
-═══════════════════════════════════════════════════════════════════════════════
-                              SHAPES & NODES
-═══════════════════════════════════════════════════════════════════════════════
-
-🔷 SHAPE TYPES (node.shape or node.type):
-ALL shapes are fully supported and render correctly:
-
-• "rectangle" - Standard box (default) - Use for: services, components, processes
-• "circle" - Round shape - Use for: start/end points, terminals, states
-• "diamond" - Decision/condition - Use for: if/else, branching, conditions
-• "hexagon" - Preparation step - Use for: setup, initialization, config
-• "triangle" - Direction indicator - Use for: flow direction, pointers
-• "sticky" - Sticky note (yellow) - Use for: comments, notes, annotations
-• "text" - Plain text label - Use for: labels, titles, descriptions
-
-💡 AUTO-SHAPE DETECTION:
-The system automatically detects shapes from node text:
-• "Start", "Begin" → circle (green)
-• "End", "Finish", "Stop" → circle (red)
-• "Decision", "Condition", "If", "?" → diamond (amber)
-• "Process", "Action" → rectangle
-• "Note", "Comment" → sticky
-• "Prepare", "Setup" → hexagon
-
-📊 NODE SIZES (node.size):
-• "small" - 60x60 (compact)
-• "medium" - 80x80 (default)
-• "large" - 120x120 (emphasis)
-• "xl" - 160x160 (major focus)
-
-✨ NODE STYLING:
-• opacity: 0.0-1.0 (transparency)
-• highlighted: true/false (blue border highlight)
-• color: "#hexcode" (custom background color)
-
-🏷️ NODE BADGES & STATUS:
-• badge: "NEW" | "v2" | "3x" | "!" | "★" - Small badge on node
-• badgeColor: "#hexcode" - Badge background color
-• status: "active" | "inactive" | "warning" | "error" | "success" - Status dot
-• importance: "low" | "normal" | "high" | "critical" - Visual weight
-
-💫 NODE EFFECTS:
-• glow: true/false - Soft glow effect around node
-• pulse: true/false - Subtle pulse animation
-• shadow: "none" | "sm" | "md" | "lg" | "glow" - Shadow intensity
-• gradient: true/false - Gradient background
-• borderStyle: "solid" | "dashed" | "dotted" | "double"
-• borderColor: "#hexcode" - Custom border color
-
-═══════════════════════════════════════════════════════════════════════════════
-                              CONNECTIONS
-═══════════════════════════════════════════════════════════════════════════════
-
-🔗 CONNECTION STYLES (connection.style):
-• "arrow" - Standard arrow (default)
-• "dashed" - Dashed line (optional/async)
-• "bold" - Thick blue line (important)
-• "animated" - Animated green line (data flow)
-• "subtle" - Thin gray line (secondary)
-• "error" - Red line (error path)
-• "success" - Green line (success path)
-• "gradient" - Purple gradient line (premium)
-• "glow" - Glowing blue line (highlight)
-• "critical" - Orange animated (critical path)
-• "data" - Cyan animated (data flow)
-• "sync" - Purple animated (sync operations)
-• "async" - Amber dashed (async operations)
-
-🎯 CONNECTION OPTIONS:
-• label: "text" - Label on the connection
-• color: "#hexcode" - Custom color
-• animated: true/false - Animate the line
-• bidirectional: true/false - Arrows both ways
-• thickness: "thin" | "normal" | "thick" | "heavy" - Line weight
-• pulse: true/false - Pulse animation on line
-
-═══════════════════════════════════════════════════════════════════════════════
-                              GROUP STYLING (NEW!)
-═══════════════════════════════════════════════════════════════════════════════
-
-🗂️ GROUP OPTIONS:
-• style: "default" | "minimal" | "bordered" | "filled" | "gradient"
-• headerStyle: "default" | "accent" | "minimal" | "bold"
-• shadow: "none" | "sm" | "md" | "lg"
-• cornerRadius: "sm" | "md" | "lg" | "xl"
-• badge: "3 items" | "NEW" | "v2" - Group badge
-• badgeColor: "#hexcode" - Badge color
-• icon: "folder" | "database" | "cloud" | "server" - Group icon hint
-
-═══════════════════════════════════════════════════════════════════════════════
-                           AUTO-COLORED GROUPS
-═══════════════════════════════════════════════════════════════════════════════
-
-Group names are auto-colored based on keywords:
-• "features", "users", "clients" → Dark gray
-• "tech", "stack" → Blue
-• "frontend", "ui" → Green
-• "backend", "server" → Purple
-• "database", "data", "storage" → Brown/gray
-• "auth", "security" → Gray/red
-• "api", "gateway" → Cyan
-• "ai", "ml" → Amber
-• "services", "microservices" → Green
-• "infrastructure", "infra", "cloud", "devops" → Blue/purple
-• "cache" → Red
-• "queue", "messaging" → Amber
-• "external", "third-party" → Slate
-• "payment" → Purple
-• "monitoring", "analytics" → Green/purple
-
-═══════════════════════════════════════════════════════════════════════════════
-                           AUTO-COLORED NODES
-═══════════════════════════════════════════════════════════════════════════════
-
-Node names are auto-colored based on keywords:
-• Frontend: Next.js, React, Vue, Angular, Svelte, Tailwind, TypeScript
-• Backend: Node.js, Express, NestJS, Django, Flask, GraphQL, REST, API
-• Database: PostgreSQL, MySQL, MongoDB, Redis, Prisma, Supabase, Firebase
-• Auth: NextAuth, Clerk, Auth0, JWT, OAuth
-• AI/ML: OpenAI, GPT, LLM, LangChain, Pinecone, Vector
-• Infra: Docker, Kubernetes, AWS, GCP, Azure, Vercel, Terraform
-• Messaging: Kafka, RabbitMQ, SQS, SNS
-• Monitoring: Prometheus, Grafana, Datadog, Sentry
-
-═══════════════════════════════════════════════════════════════════════════════
-                         🎨 DESIGN BEST PRACTICES
-═══════════════════════════════════════════════════════════════════════════════
-
-**Visual Hierarchy:**
-• Use size to show importance (xl for main components, small for utilities)
-• Use highlighted: true for the most critical nodes
-• Use status indicators for real-time state (active, error, warning)
-• Use badges for version info, counts, or alerts
-
-**Color Strategy:**
-• Use consistent theme across related groups
-• Use contrasting colors for different domains (frontend=green, backend=purple)
-• Use status colors meaningfully (green=success, red=error, amber=warning)
-• Keep opacity at 0.6 for groups, 1.0 for nodes
-
-**Connection Design:**
-• Use "bold" or "animated" for primary data flows
-• Use "dashed" for optional or async connections
-• Use "error" style for failure paths
-• Use "data" or "sync" for real-time data flows
-• Add labels to clarify what flows between nodes
-
-**Professional Polish:**
-• Add badges to show versions ("v2"), counts ("3x"), or status ("NEW")
-• Use glow effects sparingly on critical components
-• Use shadows to create depth (md for groups, sm for nodes)
-• Keep node names short (1-3 words max)
-
-═══════════════════════════════════════════════════════════════════════════════
-                              JSON STRUCTURE
+                    🚀 EXAMPLE: STUNNING MODERN WEB APP
 ═══════════════════════════════════════════════════════════════════════════════
 
 \`\`\`json
 {
-  "config": {
-    "layout": "layered",
-    "theme": "dark",
-    "spacing": "normal",
-    "style": "modern"
-  },
+  "config": { "layout": "layered", "spacing": "normal" },
   "groups": [
     {
-      "id": "unique-id",
-      "name": "Group Name",
-      "theme": "blue",
-      "opacity": 0.6,
-      "style": "default",
-      "shadow": "md",
+      "id": "frontend",
+      "name": "Frontend Layer",
+      "theme": "cyan",
       "items": [
-        {
-          "id": "item-id",
-          "name": "Item Name",
-          "shape": "rectangle" | "cylinder" | "cloud" | "diamond" | "circle" | "parallelogram",
-          "size": "medium",
-          "opacity": 1,
-          "highlighted": false,
-          "color": "#custom",
-          "badge": "NEW",
-          "status": "active",
-          "glow": false,
-          "shadow": "sm"
-        }
-      ],
-      "subgroups": [
-        {
-          "id": "subgroup-id",
-          "name": "Subgroup",
-          "items": [...]
-        }
-      ]
-    }
-  ],
-  "connections": [
-    {
-      "from": "source-id",
-      "to": "target-id",
-      "label": "optional label",
-      "style": "arrow",
-      "animated": false,
-      "bidirectional": false
-    }
-  ]
-}
-\`\`\`
-
-═══════════════════════════════════════════════════════════════════════════════
-                         🏗️ ARCHITECTURE PATTERNS(CRITICAL)
-═══════════════════════════════════════════════════════════════════════════════
-
-** DEFAULT PATTERN: HORIZONTAL FLOW(Left - to - Right) **
-    All architecture diagrams MUST follow a strict Left - to - Right flow.
-      Clients → Load Balancer → Frontend → API Gateway → Services → Database
-
-        \`\`\`
-[CLIENTS] ➔ [CDN/LB] ➔ [FRONTEND] ➔ [API] ➔ [SERVICES] ➔ [DB/CACHE]
-\`\`\`
-
-        ** LAYOUT RULES:**
-          1. ** Flow **: ALWAYS Left - to - Right.Never Top - to - Bottom blocks for architecture.
-2. ** Density **: Keep groups TIGHT.Do not add empty space.
-3. ** Nesting **: Avoid deep nesting.Max 1 level of subgroups(e.g., "AWS Region" > "VPC").
-4. ** Ordering **:
-  - Left: Users, Clients, Browsers, Mobile Apps
-    - Center - Left: CDNs, Load Balancers, API Gateways
-      - Center: Frontend App, Backend Services, Workers
-        - Center - Right: Databases, Caches, Queues
-          - Right: Third - party APIs, Analytics, Logging
-
-            ** PATTERN 1: Layered Architecture(Standard) **
-              Layout: "layered"
-                \`\`\`
-┌───────────┐    ┌─────────────┐    ┌────────────┐    ┌──────────┐
-│  CLIENTS  │ →  │ API GATEWAY │ →  │  SERVICES  │ →  │   DATA   │
-│ (Mobile)  │    │  (GraphQL)  │    │ (Auth,Pay) │    │ (Postgres)│
-└───────────┘    └─────────────┘    └────────────┘    └──────────┘
-\`\`\`
-
-                ** PATTERN 2: Data Pipeline **
-                  Layout: "horizontal"
-                    \`\`\`
-[Sources] ➔ [Ingest] ➔ [Process] ➔ [Store] ➔ [Analyze]
-\`\`\`
-
-═══════════════════════════════════════════════════════════════════════════════
-                          🎨 DESIGN BEST PRACTICES
-═══════════════════════════════════════════════════════════════════════════════
-
-** 1. High Density & Compactness:**
-    - Do not create single - item groups unless necessary.
-- Combine related items into one group(e.g., "Databases" group containing Redis + Postgres).
-- Use "layered" layout to automatically enforce the Left - to - Right flow.
-
-** 2. Visual Hierarchy:**
-- Use ** badges ** for counts or versions("v2", "x3").
-- Use ** icons ** for every node(e.g., "react", "aws", "postgres").
-- Use ** status ** colors for meaningful states(Green = Active, Red = Error).
-
-** 3. Connection Logic:**
-          - Connect Layers, not just adjacent nodes.
-- E.g., Frontend connects to API, API connects to Auth & Database.
-- Use "bidirectional": true only when data flows both ways equally.
-      { "id": "auth-svc", "name": "Auth Service", "badge": "v2", "status": "active" },
-  { "id": "user-svc", "name": "User Service", "status": "active" },
-  { "id": "order-svc", "name": "Order Service", "badge": "3x", "importance": "high" }
-      ]
-},
-{
-  "id": "data-layer",
-    "name": "Data Layer",
-      "subgroups": [
-        {
-          "id": "databases",
-          "name": "Databases",
-          "items": [
-            { "id": "postgres", "name": "PostgreSQL", "badge": "Primary" },
-            { "id": "mongo", "name": "MongoDB" }
-          ]
-        },
-        {
-          "id": "cache-layer",
-          "name": "Cache",
-          "theme": "rose",
-          "items": [
-            { "id": "redis", "name": "Redis", "status": "active", "glow": true }
-          ]
-        }
-      ]
-}
-  ],
-"connections": [
-  { "from": "web", "to": "gateway", "style": "data" },
-  { "from": "mobile", "to": "gateway", "style": "data" },
-  { "from": "gateway", "to": "auth-svc", "style": "bold", "label": "Auth" },
-  { "from": "gateway", "to": "user-svc", "style": "animated" },
-  { "from": "gateway", "to": "order-svc", "style": "critical" },
-  { "from": "auth-svc", "to": "postgres", "style": "sync" },
-  { "from": "user-svc", "to": "postgres" },
-  { "from": "order-svc", "to": "mongo" },
-  { "from": "order-svc", "to": "redis", "style": "async", "label": "Cache" }
-]
-}
-\`\`\`
-
-EXAMPLE 2 - Flowchart with Decision (with status indicators):
-\`\`\`json
-{
-  "config": { "layout": "vertical", "style": "elegant" },
-  "nodes": [
-    { "id": "start", "name": "Start", "shape": "circle", "status": "success", "glow": true },
-    { "id": "input", "name": "Get Input", "shadow": "sm" },
-    { "id": "validate", "name": "Valid?", "shape": "diamond", "importance": "high" },
-    { "id": "process", "name": "Process Data", "badge": "AI", "status": "active" },
-    { "id": "error", "name": "Show Error", "status": "error", "color": "#3f1a1a" },
-    { "id": "save", "name": "Save to DB", "badge": "Async" },
-    { "id": "end", "name": "End", "shape": "circle", "status": "success" }
-  ],
-  "connections": [
-    { "from": "start", "to": "input", "style": "animated" },
-    { "from": "input", "to": "validate" },
-    { "from": "validate", "to": "process", "label": "Yes", "style": "success" },
-    { "from": "validate", "to": "error", "label": "No", "style": "error" },
-    { "from": "process", "to": "save", "style": "data" },
-    { "from": "error", "to": "input", "style": "async" },
-    { "from": "save", "to": "end", "style": "success" }
-  ]
-}
-\`\`\`
-
-EXAMPLE 3 - Data Pipeline (with real-time indicators):
-\`\`\`json
-{
-  "config": { "layout": "horizontal", "style": "tech" },
-  "groups": [
-    {
-      "id": "sources",
-      "name": "Data Sources",
-      "badge": "3 sources",
-      "items": [
-        { "id": "api-data", "name": "REST API", "status": "active" },
-        { "id": "db-data", "name": "Database", "status": "active" },
-        { "id": "stream", "name": "Kafka", "highlighted": true, "glow": true, "badge": "Real-time" }
+        { "id": "nextjs", "name": "Next.js", "highlighted": true, "glow": true, "badge": "v14" },
+        { "id": "react", "name": "React", "status": "active" },
+        { "id": "tailwind", "name": "Tailwind CSS" },
+        { "id": "typescript", "name": "TypeScript" }
       ]
     },
     {
-      "id": "processing",
-      "name": "Processing",
+      "id": "backend",
+      "name": "API Layer",
       "theme": "purple",
-      "badge": "GPU",
       "items": [
-        { "id": "transform", "name": "Transform", "status": "active", "pulse": true },
-        { "id": "validate", "name": "Validate" },
-        { "id": "enrich", "name": "Enrich", "badge": "ML" }
+        { "id": "graphql", "name": "GraphQL", "highlighted": true, "badge": "⚡" },
+        { "id": "nodejs", "name": "Node.js", "status": "active" },
+        { "id": "prisma", "name": "Prisma ORM" }
       ]
     },
     {
-      "id": "storage",
-      "name": "Storage",
+      "id": "data",
+      "name": "Data Layer",
+      "theme": "blue",
       "items": [
-        { "id": "warehouse", "name": "Data Warehouse", "size": "large", "importance": "critical" },
-        { "id": "lake", "name": "Data Lake" }
+        { "id": "postgres", "name": "PostgreSQL", "glow": true, "badge": "Primary" },
+        { "id": "redis", "name": "Redis", "status": "active", "badge": "Cache" }
+      ]
+    },
+    {
+      "id": "infra",
+      "name": "Infrastructure",
+      "theme": "indigo",
+      "items": [
+        { "id": "vercel", "name": "Vercel", "status": "active" },
+        { "id": "docker", "name": "Docker" },
+        { "id": "aws", "name": "AWS S3" }
       ]
     }
   ],
   "connections": [
-    { "from": "api-data", "to": "transform", "style": "data" },
-    { "from": "db-data", "to": "transform", "style": "sync" },
-    { "from": "stream", "to": "transform", "style": "critical", "label": "Stream" },
-    { "from": "transform", "to": "validate", "style": "animated" },
-    { "from": "validate", "to": "enrich", "style": "animated" },
-    { "from": "enrich", "to": "warehouse", "style": "bold", "label": "Primary" },
-    { "from": "enrich", "to": "lake", "style": "async", "label": "Archive" }
+    { "from": "nextjs", "to": "graphql", "style": "data", "label": "Queries" },
+    { "from": "react", "to": "graphql", "style": "animated" },
+    { "from": "graphql", "to": "prisma", "style": "bold" },
+    { "from": "prisma", "to": "postgres", "style": "sync", "label": "SQL" },
+    { "from": "nodejs", "to": "redis", "style": "critical", "label": "Cache" },
+    { "from": "nextjs", "to": "vercel", "style": "success" }
   ]
 }
 \`\`\`
 
-EXAMPLE 4 - AI/ML System (showcasing all features):
+═══════════════════════════════════════════════════════════════════════════════
+                    🚀 EXAMPLE: AI-POWERED PLATFORM
+═══════════════════════════════════════════════════════════════════════════════
+
 \`\`\`json
 {
-  "config": { "layout": "layered", "theme": "dark", "style": "tech" },
+  "config": { "layout": "layered", "spacing": "normal" },
   "groups": [
     {
-      "id": "input",
-      "name": "Input Layer",
+      "id": "clients",
+      "name": "Client Apps",
       "theme": "slate",
       "items": [
-        { "id": "user-input", "name": "User Query", "status": "active" },
-        { "id": "context", "name": "Context", "badge": "RAG" }
+        { "id": "web", "name": "Web App", "badge": "React" },
+        { "id": "mobile", "name": "Mobile App" },
+        { "id": "api-client", "name": "API Client" }
       ]
     },
     {
       "id": "ai-core",
-      "name": "AI Core",
+      "name": "AI Engine",
       "theme": "amber",
-      "badge": "GPT-4",
-      "shadow": "lg",
       "items": [
-        { "id": "embeddings", "name": "Embeddings", "status": "active", "pulse": true },
-        { "id": "vector-db", "name": "Pinecone", "badge": "Vector", "glow": true },
-        { "id": "llm", "name": "LLM", "size": "xl", "highlighted": true, "importance": "critical", "glow": true }
+        { "id": "openai", "name": "OpenAI GPT-4", "highlighted": true, "glow": true, "badge": "Core" },
+        { "id": "langchain", "name": "LangChain", "status": "active" },
+        { "id": "pinecone", "name": "Pinecone", "badge": "Vector DB" }
       ]
     },
     {
-      "id": "output",
-      "name": "Output",
-      "theme": "emerald",
+      "id": "backend",
+      "name": "Backend Services",
+      "theme": "purple",
       "items": [
-        { "id": "response", "name": "Response", "status": "success" },
-        { "id": "actions", "name": "Actions", "badge": "Tools" }
+        { "id": "fastapi", "name": "FastAPI", "status": "active" },
+        { "id": "celery", "name": "Celery Worker" },
+        { "id": "redis-queue", "name": "Redis Queue" }
+      ]
+    },
+    {
+      "id": "storage",
+      "name": "Data Storage",
+      "theme": "blue",
+      "items": [
+        { "id": "postgres", "name": "PostgreSQL", "badge": "Primary" },
+        { "id": "s3", "name": "AWS S3", "badge": "Files" }
       ]
     }
   ],
   "connections": [
-    { "from": "user-input", "to": "embeddings", "style": "data" },
-    { "from": "context", "to": "embeddings", "style": "sync" },
-    { "from": "embeddings", "to": "vector-db", "style": "animated", "label": "Search" },
-    { "from": "vector-db", "to": "llm", "style": "critical", "label": "Context" },
-    { "from": "user-input", "to": "llm", "style": "bold", "label": "Query" },
-    { "from": "llm", "to": "response", "style": "success", "label": "Generate" },
-    { "from": "llm", "to": "actions", "style": "async", "label": "Execute" }
+    { "from": "web", "to": "fastapi", "style": "data", "label": "REST" },
+    { "from": "mobile", "to": "fastapi", "style": "animated" },
+    { "from": "fastapi", "to": "openai", "style": "critical", "label": "Prompts" },
+    { "from": "openai", "to": "langchain", "style": "sync" },
+    { "from": "langchain", "to": "pinecone", "style": "data", "label": "Embed" },
+    { "from": "fastapi", "to": "celery", "style": "async" },
+    { "from": "celery", "to": "redis-queue", "style": "bold" },
+    { "from": "fastapi", "to": "postgres", "style": "sync" }
   ]
 }
 \`\`\`
 
 ═══════════════════════════════════════════════════════════════════════════════
-                              LAYOUT BEST PRACTICES
+                    📝 KEY RULES
 ═══════════════════════════════════════════════════════════════════════════════
 
-📐 CHOOSING THE RIGHT LAYOUT:
-• "layered" → Architecture diagrams, system overviews (groups arranged in rows)
-• "vertical" → Flowcharts, processes, sequences (top-to-bottom flow)
-• "horizontal" → Pipelines, data flows, timelines (left-to-right flow)
-• "grid" → Comparisons, feature matrices, catalogs
+1. ALWAYS use real tech brand names for icons (React, PostgreSQL, Docker, etc.)
+2. ALWAYS use different themes for each group (cyan, purple, blue, amber, etc.)
+3. ALWAYS add visual effects: glow, badges, status, highlighted on key nodes
+4. ALWAYS use varied connection styles (animated, bold, data, sync, critical)
+5. ALWAYS add connection labels to explain data flow
+6. Make it COLORFUL and VISUALLY EXCITING!
 
-🔗 CONNECTION BEST PRACTICES:
-• Connect items that have direct relationships
-• Use "style": "bold" for primary/critical paths
-• Use "style": "dashed" for optional or async connections
-• Use "style": "animated" for data flow visualization
-• Use "style": "error" for error/failure paths
-• Use "style": "success" for success/happy paths
-• Add labels to clarify what flows between nodes
-• Connections automatically curve smoothly between nodes
-
-📊 GROUP ORGANIZATION:
-• Order groups by data flow (e.g., Clients → API → Services → Database)
-• Use subgroups for related categories (e.g., Frontend/Backend inside Tech Stack)
-• Keep 2-4 items per group for clean layouts
-• Groups auto-arrange in rows, wrapping after ~3 groups
-
-═══════════════════════════════════════════════════════════════════════════════
-                         🎯 ARCHITECT'S CHECKLIST
-═══════════════════════════════════════════════════════════════════════════════
-
-Before finalizing your diagram, verify:
-
-☐ **Clarity**: Can someone understand the system at a glance?
-☐ **Completeness**: Are all major components represented?
-☐ **Flow**: Is the data/control flow direction clear?
-☐ **Hierarchy**: Are groups ordered logically (top→bottom or left→right)?
-☐ **Connections**: Do connections show meaningful relationships?
-☐ **Emphasis**: Are critical paths highlighted (bold, animated)?
-☐ **Balance**: Is the visual weight distributed well?
-☐ **Naming**: Are names concise and domain-appropriate?
-
-═══════════════════════════════════════════════════════════════════════════════
-                              RULES
-═══════════════════════════════════════════════════════════════════════════════
-
-✓ ALWAYS think through the architecture before generating JSON
-✓ ALWAYS explain your design decisions briefly in the response
-✓ ALWAYS respond with: 1) Architecture Analysis, 2) Design Decisions, 3) JSON in code block
-✓ Use groups for organized, layered diagrams
-✓ Use meaningful IDs (kebab-case)
-✓ Keep node names short (1-3 words)
-✓ Use connections to show data/control flow - connections auto-curve smoothly
-✓ Use appropriate shapes for flowcharts (circle=start/end, diamond=decision)
-✓ Use styles to emphasize important paths (bold, animated, highlighted)
-✓ Use opacity for de-emphasized elements (groups default to 0.45)
-✓ Match layout to diagram type (layered=architecture, vertical=flowchart, horizontal=pipeline)
-✓ Order groups logically by data flow direction
-✓ Connect from source items to destination items (not groups)
-
-Think like an architect. Design with intention. Create BEAUTIFUL, PROFESSIONAL diagrams!`
+Think like a designer. Make BEAUTIFUL diagrams!`
 }

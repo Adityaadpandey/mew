@@ -15,6 +15,7 @@ import {
     Wallet, Wand2, Warehouse, Webhook, X, Zap
 } from 'lucide-react';
 import { memo, useMemo } from 'react';
+import { getTechIcon } from './tech-icons';
 
 // ============================================================================
 // ERASER.IO STYLE ICON MAPPING - Large icons with labels below
@@ -115,10 +116,14 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string; strokeW
   'default': Square,
 }
 
-// Get icon for text - searches for keywords
-const getIconForText = (text?: string): React.ComponentType<{ className?: string; strokeWidth?: number }> => {
+// Get icon for text - searches for keywords, prioritizes real tech brand icons
+const getIconForText = (text?: string): React.ComponentType<{ className?: string; strokeWidth?: number; size?: number }> => {
   if (!text) return Square;
   const lower = text.toLowerCase();
+
+  // First check for real tech brand SVG icons
+  const techIcon = getTechIcon(lower);
+  if (techIcon) return techIcon;
 
   // Check exact match first, then partial
   for (const [key, icon] of Object.entries(ICON_MAP)) {
@@ -130,15 +135,113 @@ const getIconForText = (text?: string): React.ComponentType<{ className?: string
   return Square;
 }
 
+// Check if text matches a real tech brand (for special styling)
+const isTechBrand = (text?: string): boolean => {
+  if (!text) return false;
+  return getTechIcon(text.toLowerCase()) !== null;
+}
+
 // ============================================================================
-// ERASER.IO STYLE COLORS - Dark theme with accent colors
+// ERASER.IO STYLE COLORS - Dark theme with accent colors + Tech Brand Colors
 // ============================================================================
 const getNodeColors = (text?: string): { bg: string; border: string; iconBg: string; iconColor: string } => {
   if (!text) return { bg: '#171717', border: '#262626', iconBg: '#262626', iconColor: '#a1a1aa' };
   const lower = text.toLowerCase();
 
+  // Tech Brand Specific Colors (Real brand colors)
+  if (['aws', 'amazon'].some(k => lower.includes(k))) {
+    return { bg: '#1a1408', border: '#ff9900', iconBg: '#2d1f0a', iconColor: '#ff9900' };
+  }
+  if (['docker'].some(k => lower.includes(k))) {
+    return { bg: '#0a1628', border: '#2496ed', iconBg: '#0d2137', iconColor: '#2496ed' };
+  }
+  if (['kubernetes', 'k8s'].some(k => lower.includes(k))) {
+    return { bg: '#0a1628', border: '#326ce5', iconBg: '#0d2137', iconColor: '#326ce5' };
+  }
+  if (['react'].some(k => lower.includes(k))) {
+    return { bg: '#0a1a1f', border: '#61dafb', iconBg: '#0c2a32', iconColor: '#61dafb' };
+  }
+  if (['next', 'vercel'].some(k => lower.includes(k))) {
+    return { bg: '#0a0a0a', border: '#ffffff', iconBg: '#171717', iconColor: '#ffffff' };
+  }
+  if (['vue'].some(k => lower.includes(k))) {
+    return { bg: '#0a1f14', border: '#42b883', iconBg: '#0d2a1a', iconColor: '#42b883' };
+  }
+  if (['angular'].some(k => lower.includes(k))) {
+    return { bg: '#1f0a0a', border: '#dd0031', iconBg: '#2d0d0d', iconColor: '#dd0031' };
+  }
+  if (['tailwind'].some(k => lower.includes(k))) {
+    return { bg: '#0a1a1f', border: '#38bdf8', iconBg: '#0c2a32', iconColor: '#38bdf8' };
+  }
+  if (['postgres', 'postgresql'].some(k => lower.includes(k))) {
+    return { bg: '#0a1628', border: '#336791', iconBg: '#0d2137', iconColor: '#336791' };
+  }
+  if (['mongo', 'mongodb'].some(k => lower.includes(k))) {
+    return { bg: '#0a1f14', border: '#47a248', iconBg: '#0d2a1a', iconColor: '#47a248' };
+  }
+  if (['redis'].some(k => lower.includes(k))) {
+    return { bg: '#1f0a0a', border: '#dc382d', iconBg: '#2d0d0d', iconColor: '#dc382d' };
+  }
+  if (['supabase'].some(k => lower.includes(k))) {
+    return { bg: '#0a1f14', border: '#3ecf8e', iconBg: '#0d2a1a', iconColor: '#3ecf8e' };
+  }
+  if (['firebase'].some(k => lower.includes(k))) {
+    return { bg: '#1a1408', border: '#ffca28', iconBg: '#2d1f0a', iconColor: '#ffca28' };
+  }
+  if (['graphql'].some(k => lower.includes(k))) {
+    return { bg: '#1a0a1f', border: '#e535ab', iconBg: '#2d0d2a', iconColor: '#e535ab' };
+  }
+  if (['typescript', 'ts'].some(k => lower.includes(k))) {
+    return { bg: '#0a1628', border: '#3178c6', iconBg: '#0d2137', iconColor: '#3178c6' };
+  }
+  if (['python'].some(k => lower.includes(k))) {
+    return { bg: '#1a1408', border: '#3776ab', iconBg: '#2d1f0a', iconColor: '#ffd43b' };
+  }
+  if (['kafka'].some(k => lower.includes(k))) {
+    return { bg: '#0a0a0a', border: '#231f20', iconBg: '#171717', iconColor: '#ffffff' };
+  }
+  if (['stripe'].some(k => lower.includes(k))) {
+    return { bg: '#1a0a2e', border: '#635bff', iconBg: '#2d0d4a', iconColor: '#635bff' };
+  }
+  if (['slack'].some(k => lower.includes(k))) {
+    return { bg: '#1a0a1f', border: '#e01e5a', iconBg: '#2d0d2a', iconColor: '#e01e5a' };
+  }
+  if (['openai', 'gpt', 'chatgpt'].some(k => lower.includes(k))) {
+    return { bg: '#0a1f14', border: '#10a37f', iconBg: '#0d2a1a', iconColor: '#10a37f' };
+  }
+  if (['github'].some(k => lower.includes(k))) {
+    return { bg: '#0a0a0a', border: '#ffffff', iconBg: '#171717', iconColor: '#ffffff' };
+  }
+  if (['terraform'].some(k => lower.includes(k))) {
+    return { bg: '#1a0a2e', border: '#7b42bc', iconBg: '#2d0d4a', iconColor: '#7b42bc' };
+  }
+  if (['nginx'].some(k => lower.includes(k))) {
+    return { bg: '#0a1f14', border: '#009639', iconBg: '#0d2a1a', iconColor: '#009639' };
+  }
+  if (['elastic', 'elasticsearch'].some(k => lower.includes(k))) {
+    return { bg: '#0a1a1f', border: '#00bfb3', iconBg: '#0c2a32', iconColor: '#00bfb3' };
+  }
+  if (['prometheus'].some(k => lower.includes(k))) {
+    return { bg: '#1a1408', border: '#e6522c', iconBg: '#2d1f0a', iconColor: '#e6522c' };
+  }
+  if (['grafana'].some(k => lower.includes(k))) {
+    return { bg: '#1a1408', border: '#f46800', iconBg: '#2d1f0a', iconColor: '#f46800' };
+  }
+  if (['sentry'].some(k => lower.includes(k))) {
+    return { bg: '#1a0a2e', border: '#362d59', iconBg: '#2d0d4a', iconColor: '#fb4226' };
+  }
+  if (['datadog'].some(k => lower.includes(k))) {
+    return { bg: '#1a0a2e', border: '#632ca6', iconBg: '#2d0d4a', iconColor: '#632ca6' };
+  }
+  if (['cloudflare'].some(k => lower.includes(k))) {
+    return { bg: '#1a1408', border: '#f38020', iconBg: '#2d1f0a', iconColor: '#f38020' };
+  }
+  if (['prisma'].some(k => lower.includes(k))) {
+    return { bg: '#0a1628', border: '#2d3748', iconBg: '#0d2137', iconColor: '#ffffff' };
+  }
+
   // Frontend - Cyan/Teal
-  if (['next', 'react', 'vue', 'angular', 'svelte', 'frontend', 'web', 'tailwind', 'css'].some(k => lower.includes(k))) {
+  if (['frontend', 'web', 'css'].some(k => lower.includes(k))) {
     return { bg: '#0a1a1f', border: '#0e4a5e', iconBg: '#0c3a4a', iconColor: '#22d3ee' };
   }
   // Backend - Purple
@@ -146,7 +249,7 @@ const getNodeColors = (text?: string): { bg: string; border: string; iconBg: str
     return { bg: '#1a0a2e', border: '#3b1d6e', iconBg: '#2d1a4a', iconColor: '#a78bfa' };
   }
   // Database - Blue
-  if (['database', 'db', 'postgres', 'mysql', 'mongo', 'prisma', 'supabase'].some(k => lower.includes(k))) {
+  if (['database', 'db'].some(k => lower.includes(k))) {
     return { bg: '#0a1628', border: '#1e3a5f', iconBg: '#152238', iconColor: '#60a5fa' };
   }
   // Auth/Security - Green
@@ -154,11 +257,11 @@ const getNodeColors = (text?: string): { bg: string; border: string; iconBg: str
     return { bg: '#0a1f14', border: '#166534', iconBg: '#14532d', iconColor: '#4ade80' };
   }
   // AI/ML - Amber/Gold
-  if (['ai', 'ml', 'openai', 'gpt', 'llm', 'model', 'agent', 'vector'].some(k => lower.includes(k))) {
+  if (['ai', 'ml', 'model', 'agent', 'vector', 'llm'].some(k => lower.includes(k))) {
     return { bg: '#1a1408', border: '#854d0e', iconBg: '#422006', iconColor: '#fbbf24' };
   }
   // Infrastructure - Slate
-  if (['server', 'cloud', 'aws', 'docker', 'k8s', 'vercel', 'infra'].some(k => lower.includes(k))) {
+  if (['server', 'cloud', 'infra'].some(k => lower.includes(k))) {
     return { bg: '#0f1419', border: '#334155', iconBg: '#1e293b', iconColor: '#94a3b8' };
   }
   // Error/Warning - Red
@@ -233,7 +336,7 @@ export const CanvasNode = memo(function CanvasNode({
   ) : null
 
   // ═══════════════════════════════════════════════════════════════════════════
-  // ERASER.IO STYLE GROUP - Container with header label
+  // ERASER.IO STYLE GROUP - Premium container with header label
   // ═══════════════════════════════════════════════════════════════════════════
   if (obj.type === 'rectangle' && obj.isGroup) {
     const groupColor = obj.groupColor || '#71717a'
@@ -241,39 +344,44 @@ export const CanvasNode = memo(function CanvasNode({
     return (
       <div style={{
         ...baseStyle,
-        backgroundColor: obj.fill || (darkMode ? 'rgba(10, 10, 10, 0.4)' : 'rgba(250, 250, 250, 0.4)'),
-        border: `1px solid ${obj.stroke || (darkMode ? '#333333' : '#e5e5e5')}`,
-        borderRadius: obj.borderRadius || 16,
+        backgroundColor: obj.fill || (darkMode ? 'rgba(10, 10, 10, 0.5)' : 'rgba(250, 250, 250, 0.5)'),
+        border: `1.5px solid ${obj.stroke || (darkMode ? '#2a2a2a' : '#e5e5e5')}`,
+        borderRadius: obj.borderRadius || 14,
         boxShadow: isSelected
-          ? '0 0 0 2px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.3)'
+          ? '0 0 0 2px #3B82F6, 0 0 25px rgba(59, 130, 246, 0.2)'
           : isDraggingNode
-            ? '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-            : '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-        backdropFilter: 'blur(12px)',
+            ? '0 30px 60px -12px rgba(0, 0, 0, 0.4)'
+            : '0 4px 12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04)',
+        backdropFilter: 'blur(16px)',
       }}>
         {zIndexBadge}
+        {/* Group header label - Enhanced eraser.io style */}
         <div style={{
           position: 'absolute',
-          top: -12, // Positioned on the border/outside
-          left: 16,
+          top: -11,
+          left: 14,
           display: 'flex',
           alignItems: 'center',
           gap: 6,
-          backgroundColor: darkMode ? '#171717' : '#ffffff',
-          padding: '2px 8px',
-          borderRadius: 4,
-          border: `1px solid ${darkMode ? '#333333' : '#e5e5e5'}`,
+          backgroundColor: darkMode ? '#0f0f0f' : '#ffffff',
+          padding: '3px 10px',
+          borderRadius: 6,
+          border: `1.5px solid ${darkMode ? '#2a2a2a' : '#e5e5e5'}`,
+          boxShadow: '0 2px 4px rgba(0, 0, 0, 0.06)',
         }}>
-          {/* Small icon indicator */}
+          {/* Color indicator dot */}
           <div style={{
-            width: 6, height: 6, borderRadius: 2,
+            width: 7,
+            height: 7,
+            borderRadius: 2,
             backgroundColor: groupColor,
+            boxShadow: `0 0 6px ${groupColor}40`,
           }} />
           <span style={{
             fontSize: 10,
             fontFamily: 'Inter, system-ui, sans-serif',
             fontWeight: 700,
-            letterSpacing: '0.08em',
+            letterSpacing: '0.06em',
             color: groupColor,
             textTransform: 'uppercase',
           }}>
@@ -295,60 +403,62 @@ export const CanvasNode = memo(function CanvasNode({
     const isCompact = obj.width <= 100 || obj.height <= 100
 
     if (isCompact) {
-      // ERASER STYLE: Icon-centric compact node
+      // ERASER STYLE: Icon-centric compact node - Premium quality
       return (
         <div style={{
           ...baseStyle,
-          backgroundColor: darkMode ? '#111111' : '#ffffff',
+          backgroundColor: darkMode ? '#0f0f0f' : '#ffffff',
           border: isSelected
             ? '2px solid #3B82F6'
-            : `1px solid ${darkMode ? '#333333' : '#e5e5e5'}`,
-          borderRadius: 16, // Softer corners
+            : `1.5px solid ${darkMode ? colors.border : '#e5e5e5'}`,
+          borderRadius: 14,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 6,
-          padding: 8,
+          gap: 8,
+          padding: 12,
           boxShadow: isDraggingNode
-            ? '0 25px 50px -12px rgba(0, 0, 0, 0.4)'
+            ? `0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px ${colors.border}`
             : isSelected
-              ? '0 0 0 2px #3B82F6'
-              : 'none',
+              ? `0 0 0 2px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255,255,255,0.05)`
+              : `0 2px 8px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.03)`,
         }}>
           {zIndexBadge}
-          {/* Icon container */}
+          {/* Icon container - Enhanced with better glow */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: 48,
-            height: 48,
-            borderRadius: 12,
-            backgroundColor: darkMode ? (colors.bg === '#171717' ? '#1f1f1f' : colors.bg) : colors.iconBg + '20',
+            width: 44,
+            height: 44,
+            borderRadius: 10,
+            backgroundColor: darkMode ? colors.bg : colors.iconBg + '15',
             color: colors.iconColor,
-            border: `1px solid ${darkMode ? colors.border : 'transparent'}`,
-            boxShadow: `0 0 15px ${colors.iconColor}15`, // Subtle glow matching icon color
+            border: `1.5px solid ${darkMode ? colors.border : colors.iconColor + '30'}`,
+            boxShadow: `0 0 20px ${colors.iconColor}20, inset 0 1px 0 rgba(255,255,255,0.1)`,
+            transition: 'all 0.2s ease',
           }}>
             <Icon
               className="w-5 h-5"
               strokeWidth={1.5}
+              size={22}
             />
           </div>
-          {/* Label */}
+          {/* Label - Improved typography */}
           {obj.text && (
             <span style={{
               fontSize: 11,
               fontFamily: 'Inter, system-ui, sans-serif',
-              fontWeight: 500,
-              color: darkMode ? '#a1a1aa' : '#525252',
+              fontWeight: 600,
+              color: darkMode ? '#d4d4d8' : '#3f3f46',
               textAlign: 'center',
-              lineHeight: 1.3,
+              lineHeight: 1.2,
               maxWidth: '100%',
               overflow: 'hidden',
               textOverflow: 'ellipsis',
               whiteSpace: 'nowrap',
-              marginTop: 4,
+              letterSpacing: '-0.01em',
             }}>
               {obj.text}
             </span>
@@ -357,47 +467,49 @@ export const CanvasNode = memo(function CanvasNode({
       )
     }
 
-    // ERASER STYLE: Larger node with icon + text side by side
+    // ERASER STYLE: Larger node with icon + text side by side - Premium quality
     return (
       <div style={{
         ...baseStyle,
-        backgroundColor: darkMode ? '#111111' : '#ffffff',
+        backgroundColor: darkMode ? '#0f0f0f' : '#ffffff',
         border: isSelected
           ? '2px solid #3B82F6'
-          : `1px solid ${darkMode ? '#333333' : '#e5e5e5'}`,
-        borderRadius: 14,
+          : `1.5px solid ${darkMode ? colors.border : '#e5e5e5'}`,
+        borderRadius: 12,
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 12,
-        padding: '12px 16px',
+        gap: 14,
+        padding: '14px 18px',
         boxShadow: isDraggingNode
-          ? '0 25px 50px -12px rgba(0, 0, 0, 0.4)'
+          ? `0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px ${colors.border}`
           : isSelected
-            ? '0 0 0 2px #3B82F6'
-            : '0 1px 3px rgba(0,0,0,0.1)',
+            ? `0 0 0 2px #3B82F6, 0 0 20px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255,255,255,0.05)`
+            : `0 2px 8px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255,255,255,0.03)`,
       }}>
         {zIndexBadge}
-        {/* Icon */}
+        {/* Icon - Enhanced with premium glow */}
         <div style={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: 40,
-          height: 40,
-          minWidth: 40,
-          borderRadius: 12,
-          backgroundColor: darkMode ? (colors.bg === '#171717' ? '#1f1f1f' : colors.bg) : colors.iconBg + '20',
+          width: 38,
+          height: 38,
+          minWidth: 38,
+          borderRadius: 10,
+          backgroundColor: darkMode ? colors.bg : colors.iconBg + '15',
           color: colors.iconColor,
-          border: `1px solid ${darkMode ? colors.border : 'transparent'}`,
-          boxShadow: `0 0 15px ${colors.iconColor}15`, // Subtle glow
+          border: `1.5px solid ${darkMode ? colors.border : colors.iconColor + '30'}`,
+          boxShadow: `0 0 20px ${colors.iconColor}20, inset 0 1px 0 rgba(255,255,255,0.1)`,
+          transition: 'all 0.2s ease',
         }}>
           <Icon
             className="w-5 h-5"
             strokeWidth={1.5}
+            size={20}
           />
         </div>
-        {/* Text */}
+        {/* Text - Improved typography */}
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -409,12 +521,12 @@ export const CanvasNode = memo(function CanvasNode({
             fontSize: 13,
             fontFamily: 'Inter, system-ui, sans-serif',
             fontWeight: 600,
-            color: darkMode ? '#fafafa' : '#171717',
+            color: darkMode ? '#f4f4f5' : '#18181b',
             lineHeight: 1.3,
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            letterSpacing: '-0.01em',
+            letterSpacing: '-0.015em',
           }}>
             {obj.text || 'Node'}
           </span>
@@ -505,6 +617,7 @@ export const CanvasNode = memo(function CanvasNode({
         <Icon
           className="w-5 h-5"
           strokeWidth={1.5}
+          size={20}
           style={{ color: iconColor }}
         />
         {obj.text && (
@@ -824,6 +937,7 @@ export const CanvasNode = memo(function CanvasNode({
           <Icon
             className="w-5 h-5"
             strokeWidth={1.5}
+            size={20}
           />
         </div>
         {obj.text && (

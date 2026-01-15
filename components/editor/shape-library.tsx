@@ -4,26 +4,22 @@ import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
 import {
   Activity,
-  Archive, ArrowRight, BarChart3, Bell, Binary, Blocks,
-  Box, Briefcase, Bug,
-  Check, ChevronDown, ChevronRight,
-  Circle, CircleDot, Cloud, Code2,
-  Container, Cpu, CreditCard, Database,
+  Archive, BarChart3, Bell, Binary, Blocks,
+  Briefcase,
+  ChevronDown, ChevronRight,
+  Circle, Cloud, Container,
+  CreditCard, Database,
   Diamond,
-  Eye, FileCode2, FileText,
   FolderGit2,
-  GitBranch, Globe, HardDrive, Hash,
+  GitBranch, Globe, Hash,
   Hexagon,
-  Key, Laptop, Layers,
-  LayoutGrid, Link,
-  Lock, Mail,
-  MessageCircle, MessageSquare,
+  Key, Laptop,
+  Lock,
+  MessageSquare,
   Monitor,
-  Network, Octagon, Package,
-  Phone, PieChart,
-  Plug,
-  Radio, RefreshCw, Rocket,
-  Send, Server,
+  Octagon, Package,
+  Rocket,
+  Server,
   Shield,
   ShoppingCart,
   Smartphone, Sparkles,
@@ -31,12 +27,19 @@ import {
   StickyNote,
   Tablet,
   Target, Terminal,
-  Triangle, Truck, Tv, Type,
+  Triangle, Truck, Type,
   User, UserCheck, Users,
-  Video, Wallet, Wand2, Wifi,
-  Zap
+  Wallet, Wand2
 } from 'lucide-react'
 import { useState } from 'react'
+import {
+  AWSIcon, DockerIcon, KubernetesIcon, ReactIcon, NextJSIcon, NodeJSIcon,
+  PostgreSQLIcon, MongoDBIcon, RedisIcon, GitHubIcon, VercelIcon, GraphQLIcon,
+  TerraformIcon, TypeScriptIcon, PythonIcon, KafkaIcon, StripeIcon, SlackIcon,
+  OpenAIIcon, SupabaseIcon, FirebaseIcon, CloudflareIcon, VueIcon, AngularIcon,
+  TailwindIcon, PrismaIcon, NginxIcon, ElasticIcon, PrometheusIcon, GrafanaIcon,
+  SentryIcon, DatadogIcon
+} from './tech-icons'
 
 interface Shape {
   id: string
@@ -67,33 +70,102 @@ const shapeCategories: ShapeCategory[] = [
     ],
   },
   {
-    name: 'Cloud & Infra',
+    name: 'Cloud Providers',
     icon: <Cloud className="h-3 w-3" />,
     shapes: [
-      { id: 'server', name: 'Server', icon: <Server className="h-4 w-4" /> },
-      { id: 'database', name: 'DB', icon: <Database className="h-4 w-4" /> },
-      { id: 'cloud', name: 'Cloud', icon: <Cloud className="h-4 w-4" /> },
-      { id: 'container', name: 'Container', icon: <Container className="h-4 w-4" /> },
-      { id: 'storage', name: 'Storage', icon: <HardDrive className="h-4 w-4" /> },
-      { id: 'cache', name: 'Cache', icon: <Layers className="h-4 w-4" /> },
-      { id: 'lambda', name: 'Lambda', icon: <Zap className="h-4 w-4" /> },
-      { id: 'cpu', name: 'CPU', icon: <Cpu className="h-4 w-4" /> },
-      { id: 'network', name: 'Network', icon: <Network className="h-4 w-4" /> },
-      { id: 'cdn', name: 'CDN', icon: <Globe className="h-4 w-4" /> },
+      { id: 'aws', name: 'AWS', icon: <AWSIcon className="h-4 w-4" /> },
+      { id: 'vercel', name: 'Vercel', icon: <VercelIcon className="h-4 w-4" /> },
+      { id: 'cloudflare', name: 'Cloudflare', icon: <CloudflareIcon className="h-4 w-4" /> },
+      { id: 'firebase', name: 'Firebase', icon: <FirebaseIcon className="h-4 w-4" /> },
+      { id: 'supabase', name: 'Supabase', icon: <SupabaseIcon className="h-4 w-4" /> },
     ],
   },
   {
-    name: 'API & Services',
-    icon: <Globe className="h-3 w-3" />,
+    name: 'Containers',
+    icon: <Container className="h-3 w-3" />,
     shapes: [
+      { id: 'docker', name: 'Docker', icon: <DockerIcon className="h-4 w-4" /> },
+      { id: 'kubernetes', name: 'K8s', icon: <KubernetesIcon className="h-4 w-4" /> },
+      { id: 'nginx', name: 'Nginx', icon: <NginxIcon className="h-4 w-4" /> },
+      { id: 'terraform', name: 'Terraform', icon: <TerraformIcon className="h-4 w-4" /> },
+    ],
+  },
+  {
+    name: 'Frontend',
+    icon: <Monitor className="h-3 w-3" />,
+    shapes: [
+      { id: 'react', name: 'React', icon: <ReactIcon className="h-4 w-4" /> },
+      { id: 'nextjs', name: 'Next.js', icon: <NextJSIcon className="h-4 w-4" /> },
+      { id: 'vue', name: 'Vue', icon: <VueIcon className="h-4 w-4" /> },
+      { id: 'angular', name: 'Angular', icon: <AngularIcon className="h-4 w-4" /> },
+      { id: 'tailwind', name: 'Tailwind', icon: <TailwindIcon className="h-4 w-4" /> },
+      { id: 'typescript', name: 'TypeScript', icon: <TypeScriptIcon className="h-4 w-4" /> },
+    ],
+  },
+  {
+    name: 'Backend',
+    icon: <Server className="h-3 w-3" />,
+    shapes: [
+      { id: 'nodejs', name: 'Node.js', icon: <NodeJSIcon className="h-4 w-4" /> },
+      { id: 'python', name: 'Python', icon: <PythonIcon className="h-4 w-4" /> },
+      { id: 'graphql', name: 'GraphQL', icon: <GraphQLIcon className="h-4 w-4" /> },
+      { id: 'server', name: 'Server', icon: <Server className="h-4 w-4" /> },
       { id: 'api', name: 'API', icon: <Globe className="h-4 w-4" /> },
       { id: 'gateway', name: 'Gateway', icon: <Blocks className="h-4 w-4" /> },
+    ],
+  },
+  {
+    name: 'Databases',
+    icon: <Database className="h-3 w-3" />,
+    shapes: [
+      { id: 'postgres', name: 'Postgres', icon: <PostgreSQLIcon className="h-4 w-4" /> },
+      { id: 'mongodb', name: 'MongoDB', icon: <MongoDBIcon className="h-4 w-4" /> },
+      { id: 'redis', name: 'Redis', icon: <RedisIcon className="h-4 w-4" /> },
+      { id: 'prisma', name: 'Prisma', icon: <PrismaIcon className="h-4 w-4" /> },
+      { id: 'elastic', name: 'Elastic', icon: <ElasticIcon className="h-4 w-4" /> },
+      { id: 'database', name: 'Database', icon: <Database className="h-4 w-4" /> },
+    ],
+  },
+  {
+    name: 'Messaging',
+    icon: <MessageSquare className="h-3 w-3" />,
+    shapes: [
+      { id: 'kafka', name: 'Kafka', icon: <KafkaIcon className="h-4 w-4" /> },
+      { id: 'slack', name: 'Slack', icon: <SlackIcon className="h-4 w-4" /> },
       { id: 'queue', name: 'Queue', icon: <MessageSquare className="h-4 w-4" /> },
-      { id: 'webhook', name: 'Webhook', icon: <Link className="h-4 w-4" /> },
-      { id: 'graphql', name: 'GraphQL', icon: <CircleDot className="h-4 w-4" /> },
-      { id: 'rest', name: 'REST', icon: <ArrowRight className="h-4 w-4" /> },
-      { id: 'grpc', name: 'gRPC', icon: <Plug className="h-4 w-4" /> },
-      { id: 'socket', name: 'Socket', icon: <Radio className="h-4 w-4" /> },
+      { id: 'notification', name: 'Notify', icon: <Bell className="h-4 w-4" /> },
+    ],
+  },
+  {
+    name: 'AI & ML',
+    icon: <Sparkles className="h-3 w-3" />,
+    shapes: [
+      { id: 'openai', name: 'OpenAI', icon: <OpenAIIcon className="h-4 w-4" /> },
+      { id: 'ai', name: 'AI', icon: <Sparkles className="h-4 w-4" /> },
+      { id: 'ml', name: 'ML', icon: <Binary className="h-4 w-4" /> },
+      { id: 'model', name: 'Model', icon: <Wand2 className="h-4 w-4" /> },
+      { id: 'vector', name: 'Vector', icon: <Target className="h-4 w-4" /> },
+    ],
+  },
+  {
+    name: 'Monitoring',
+    icon: <Activity className="h-3 w-3" />,
+    shapes: [
+      { id: 'prometheus', name: 'Prometheus', icon: <PrometheusIcon className="h-4 w-4" /> },
+      { id: 'grafana', name: 'Grafana', icon: <GrafanaIcon className="h-4 w-4" /> },
+      { id: 'sentry', name: 'Sentry', icon: <SentryIcon className="h-4 w-4" /> },
+      { id: 'datadog', name: 'Datadog', icon: <DatadogIcon className="h-4 w-4" /> },
+      { id: 'analytics', name: 'Analytics', icon: <BarChart3 className="h-4 w-4" /> },
+    ],
+  },
+  {
+    name: 'DevOps',
+    icon: <GitBranch className="h-3 w-3" />,
+    shapes: [
+      { id: 'github', name: 'GitHub', icon: <GitHubIcon className="h-4 w-4" /> },
+      { id: 'git', name: 'Git', icon: <FolderGit2 className="h-4 w-4" /> },
+      { id: 'cicd', name: 'CI/CD', icon: <Rocket className="h-4 w-4" /> },
+      { id: 'terminal', name: 'Terminal', icon: <Terminal className="h-4 w-4" /> },
     ],
   },
   {
@@ -104,7 +176,6 @@ const shapeCategories: ShapeCategory[] = [
       { id: 'firewall', name: 'Firewall', icon: <Lock className="h-4 w-4" /> },
       { id: 'key', name: 'Key', icon: <Key className="h-4 w-4" /> },
       { id: 'token', name: 'Token', icon: <Hash className="h-4 w-4" /> },
-      { id: 'ssl', name: 'SSL', icon: <Lock className="h-4 w-4" /> },
       { id: 'vault', name: 'Vault', icon: <Archive className="h-4 w-4" /> },
     ],
   },
@@ -120,78 +191,24 @@ const shapeCategories: ShapeCategory[] = [
       { id: 'mobile', name: 'Mobile', icon: <Smartphone className="h-4 w-4" /> },
       { id: 'tablet', name: 'Tablet', icon: <Tablet className="h-4 w-4" /> },
       { id: 'laptop', name: 'Laptop', icon: <Laptop className="h-4 w-4" /> },
-      { id: 'tv', name: 'TV', icon: <Tv className="h-4 w-4" /> },
-      { id: 'iot', name: 'IoT', icon: <Wifi className="h-4 w-4" /> },
-    ],
-  },
-  {
-    name: 'Dev Tools',
-    icon: <Code2 className="h-3 w-3" />,
-    shapes: [
-      { id: 'git', name: 'Git', icon: <FolderGit2 className="h-4 w-4" /> },
-      { id: 'github', name: 'GitHub', icon: <GitBranch className="h-4 w-4" /> },
-      { id: 'cicd', name: 'CI/CD', icon: <Rocket className="h-4 w-4" /> },
-      { id: 'terminal', name: 'Terminal', icon: <Terminal className="h-4 w-4" /> },
-      { id: 'code', name: 'Code', icon: <FileCode2 className="h-4 w-4" /> },
-      { id: 'package', name: 'Package', icon: <Package className="h-4 w-4" /> },
-      { id: 'docker', name: 'Docker', icon: <Box className="h-4 w-4" /> },
-      { id: 'k8s', name: 'K8s', icon: <LayoutGrid className="h-4 w-4" /> },
-      { id: 'test', name: 'Test', icon: <Check className="h-4 w-4" /> },
-      { id: 'bug', name: 'Bug', icon: <Bug className="h-4 w-4" /> },
-    ],
-  },
-  {
-    name: 'Analytics',
-    icon: <BarChart3 className="h-3 w-3" />,
-    shapes: [
-      { id: 'analytics', name: 'Analytics', icon: <BarChart3 className="h-4 w-4" /> },
-      { id: 'chart', name: 'Chart', icon: <PieChart className="h-4 w-4" /> },
-      { id: 'metrics', name: 'Metrics', icon: <Activity className="h-4 w-4" /> },
-      { id: 'logs', name: 'Logs', icon: <FileText className="h-4 w-4" /> },
-      { id: 'monitor', name: 'Monitor', icon: <Eye className="h-4 w-4" /> },
-      { id: 'alert', name: 'Alert', icon: <Bell className="h-4 w-4" /> },
-    ],
-  },
-  {
-    name: 'Communication',
-    icon: <MessageCircle className="h-3 w-3" />,
-    shapes: [
-      { id: 'email', name: 'Email', icon: <Mail className="h-4 w-4" /> },
-      { id: 'chat', name: 'Chat', icon: <MessageCircle className="h-4 w-4" /> },
-      { id: 'sms', name: 'SMS', icon: <Phone className="h-4 w-4" /> },
-      { id: 'notification', name: 'Notify', icon: <Bell className="h-4 w-4" /> },
-      { id: 'push', name: 'Push', icon: <Send className="h-4 w-4" /> },
-      { id: 'video', name: 'Video', icon: <Video className="h-4 w-4" /> },
     ],
   },
   {
     name: 'Business',
     icon: <Briefcase className="h-3 w-3" />,
     shapes: [
+      { id: 'stripe', name: 'Stripe', icon: <StripeIcon className="h-4 w-4" /> },
       { id: 'payment', name: 'Payment', icon: <CreditCard className="h-4 w-4" /> },
       { id: 'cart', name: 'Cart', icon: <ShoppingCart className="h-4 w-4" /> },
       { id: 'order', name: 'Order', icon: <Package className="h-4 w-4" /> },
-      { id: 'invoice', name: 'Invoice', icon: <FileText className="h-4 w-4" /> },
       { id: 'wallet', name: 'Wallet', icon: <Wallet className="h-4 w-4" /> },
       { id: 'shipping', name: 'Shipping', icon: <Truck className="h-4 w-4" /> },
-    ],
-  },
-  {
-    name: 'AI & ML',
-    icon: <Sparkles className="h-3 w-3" />,
-    shapes: [
-      { id: 'ai', name: 'AI', icon: <Sparkles className="h-4 w-4" /> },
-      { id: 'ml', name: 'ML', icon: <Binary className="h-4 w-4" /> },
-      { id: 'model', name: 'Model', icon: <Wand2 className="h-4 w-4" /> },
-      { id: 'training', name: 'Training', icon: <RefreshCw className="h-4 w-4" /> },
-      { id: 'inference', name: 'Inference', icon: <Zap className="h-4 w-4" /> },
-      { id: 'vector', name: 'Vector', icon: <Target className="h-4 w-4" /> },
     ],
   },
 ]
 
 export function ShapeLibrary() {
-  const [expanded, setExpanded] = useState<string[]>(['Basic', 'Cloud & Infra'])
+  const [expanded, setExpanded] = useState<string[]>(['Basic', 'Cloud Providers', 'Frontend'])
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
