@@ -128,7 +128,7 @@ export function ProjectView({ project }: ProjectViewProps) {
               variant="ghost"
               size="icon"
               className={cn("h-10 w-10 shrink-0", isDark ? "hover:bg-neutral-800" : "")}
-              onClick={() => router.push('/')}
+              onClick={() => router.push('/dashboard')}
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>

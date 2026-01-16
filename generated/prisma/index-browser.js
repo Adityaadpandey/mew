@@ -230,6 +230,16 @@ exports.Prisma.TaskScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.SubtaskScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  completed: 'completed',
+  position: 'position',
+  taskId: 'taskId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.VersionScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
@@ -475,6 +485,7 @@ exports.Prisma.ModelName = {
   Document: 'Document',
   Project: 'Project',
   Task: 'Task',
+  Subtask: 'Subtask',
   Version: 'Version',
   Comment: 'Comment',
   Permission: 'Permission',

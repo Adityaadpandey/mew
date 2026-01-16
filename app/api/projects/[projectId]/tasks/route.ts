@@ -28,7 +28,7 @@ export async function GET(
         orderBy: { position: 'asc' }, // For Kanban
         include: {
             assignee: {
-                select: { id: true, name: true, image: true }
+                select: { id: true, name: true, image: true, email: true }
             }
         }
     })
@@ -45,7 +45,7 @@ export async function POST(
 
     const { projectId } = await params
     const body = await req.json()
-    const { title, description, status, priority, assigneeId } = body
+    const { title, description, status, priority, assigneeId, dueDate, tags } = body
 
     if (!title) return new NextResponse('Title required', { status: 400 })
 
@@ -60,6 +60,13 @@ export async function POST(
     const hasAccess = project.workspace.members.some(m => m.userId === session.user.id)
     if (!hasAccess) return new NextResponse('Forbidden', { status: 403 })
 
+    // Get the highest position in the target status column
+    const lastTask = await db.task.findFirst({
+        where: { projectId, status: status || 'TODO' },
+        orderBy: { position: 'desc' },
+        select: { position: true }
+    })
+
     const task = await db.task.create({
         data: {
             title,
@@ -68,11 +75,13 @@ export async function POST(
             priority: priority || 'MEDIUM',
             projectId,
             assigneeId,
-            position: 65535, // Append to end (simplified)
+            dueDate: dueDate ? new Date(dueDate) : null,
+            tags: tags || [],
+            position: lastTask ? lastTask.position + 1 : 0,
         },
         include: {
             assignee: {
-                select: { id: true, name: true, image: true }
+                select: { id: true, name: true, image: true, email: true }
             }
         }
     })

@@ -184,11 +184,25 @@ model Task {
   position    Float        @default(0) // For Kanban ordering
   dueDate     DateTime?
   tags        String[]
+  subtasks    Subtask[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
   @@index([projectId])
   @@index([assigneeId])
+}
+
+model Subtask {
+  id          String   @id @default(cuid())
+  title       String
+  completed   Boolean  @default(false)
+  position    Float    @default(0)
+  taskId      String
+  task        Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([taskId])
 }
 
 enum TaskStatus {

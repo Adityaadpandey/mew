@@ -1,6 +1,10 @@
 import { auth } from '@/lib/auth'
+import { cache, cacheKeys, TTL } from '@/lib/cache'
 import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
+
+// Revalidate tasks every 15 seconds
+export const revalidate = 15
 
 export async function GET(request: NextRequest) {
   try {
@@ -14,17 +18,28 @@ export async function GET(request: NextRequest) {
     const limit = searchParams.get('limit')
     const assigneeId = searchParams.get('assigneeId')
 
+    // Check cache for project-specific tasks
+    if (projectId) {
+      const cacheKey = cacheKeys.tasks(projectId)
+      const cached = cache.get(cacheKey)
+      if (cached) {
+        return NextResponse.json({ data: cached }, {
+          headers: {
+            'X-Cache': 'HIT',
+            'Cache-Control': 'private, max-age=15, stale-while-revalidate=30',
+          },
+        })
+      }
+    }
+
     const whereClause: any = {}
     if (projectId) whereClause.projectId = projectId
     if (assigneeId) whereClause.assigneeId = assigneeId
 
     // Ensure user has access to these tasks by filtering through projects they are members of
-    // fetching all projects user is member of first
     const userProjects = await db.project.findMany({
       where: {
-        workspace: {
-          members: { some: { userId: session.user.id } }
-        }
+        members: { some: { userId: session.user.id } }
       },
       select: { id: true }
     })
@@ -50,6 +65,15 @@ export async function GET(request: NextRequest) {
             image: true,
           },
         },
+        project: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        subtasks: {
+          orderBy: { position: 'asc' },
+        },
       },
       orderBy: [
         { position: 'asc' },
@@ -58,7 +82,17 @@ export async function GET(request: NextRequest) {
       ...(limit && { take: parseInt(limit) }),
     })
 
-    return NextResponse.json({ data: tasks })
+    // Cache project-specific results
+    if (projectId) {
+      cache.set(cacheKeys.tasks(projectId), tasks, TTL.SHORT)
+    }
+
+    return NextResponse.json({ data: tasks }, {
+      headers: {
+        'X-Cache': 'MISS',
+        'Cache-Control': 'private, max-age=15, stale-while-revalidate=30',
+      },
+    })
   } catch (error) {
     console.error('Failed to fetch tasks:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -106,8 +140,20 @@ export async function POST(request: NextRequest) {
             image: true,
           },
         },
+        project: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        subtasks: {
+          orderBy: { position: 'asc' },
+        },
       },
     })
+
+    // Invalidate tasks cache for this project
+    cache.delete(cacheKeys.tasks(projectId))
 
     return NextResponse.json(task)
   } catch (error) {

@@ -1,5 +1,5 @@
 import { auth } from '@/lib/auth'
-import { prisma } from '@/lib/db'
+import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function PATCH(
@@ -17,7 +17,7 @@ export async function PATCH(
     const { role } = body
 
     // Check if requester is admin or owner
-    const requesterMember = await prisma.projectMember.findUnique({
+    const requesterMember = await db.projectMember.findUnique({
       where: {
         userId_projectId: {
           userId: session.user.id,
@@ -30,7 +30,7 @@ export async function PATCH(
       return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 })
     }
 
-    const member = await prisma.projectMember.update({
+    const member = await db.projectMember.update({
       where: { id: memberId },
       data: { role },
       include: {
@@ -64,7 +64,7 @@ export async function DELETE(
 
     const { projectId, memberId } = await params
 
-    const member = await prisma.projectMember.findUnique({
+    const member = await db.projectMember.findUnique({
       where: { id: memberId },
     })
 
@@ -73,7 +73,7 @@ export async function DELETE(
     }
 
     // Check if requester is admin/owner or removing themselves
-    const requesterMember = await prisma.projectMember.findUnique({
+    const requesterMember = await db.projectMember.findUnique({
       where: {
         userId_projectId: {
           userId: session.user.id,
@@ -91,7 +91,7 @@ export async function DELETE(
 
     // Prevent removing the last owner
     if (member.role === 'OWNER') {
-      const ownerCount = await prisma.projectMember.count({
+      const ownerCount = await db.projectMember.count({
         where: {
           projectId,
           role: 'OWNER',
@@ -103,7 +103,7 @@ export async function DELETE(
       }
     }
 
-    await prisma.projectMember.delete({
+    await db.projectMember.delete({
       where: { id: memberId },
     })
 

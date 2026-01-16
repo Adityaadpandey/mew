@@ -27,7 +27,7 @@ export default function SignInPage() {
       const result = await signIn('credentials', {
         email,
         password,
-        callbackUrl: '/',
+        callbackUrl: '/dashboard',
         redirect: false,
       })
 
@@ -36,7 +36,7 @@ export default function SignInPage() {
         setIsLoading(false)
       } else {
         toast.success('Welcome back!')
-        window.location.href = '/'
+        window.location.href = '/dashboard'
       }
     } catch (error) {
       console.error('Sign in error:', error)
@@ -145,7 +145,7 @@ export default function SignInPage() {
                     ? "border-neutral-700 hover:bg-neutral-800"
                     : "border-slate-300 hover:bg-slate-50"
                 )}
-                onClick={() => signIn('github', { callbackUrl: '/' })}
+                onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
               >
                 <Github className="mr-2 h-5 w-5" />
                 Continue with GitHub
@@ -159,7 +159,7 @@ export default function SignInPage() {
                     ? "border-neutral-700 hover:bg-neutral-800"
                     : "border-slate-300 hover:bg-slate-50"
                 )}
-                onClick={() => signIn('google', { callbackUrl: '/' })}
+                onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
               >
                 <Mail className="mr-2 h-5 w-5" />
                 Continue with Google

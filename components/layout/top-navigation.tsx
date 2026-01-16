@@ -132,7 +132,7 @@ export function TopNavigation() {
                   <div className="flex items-center gap-2">
                     <span className="text-base">{ws.icon || '📁'}</span>
                     <span>{ws.name}</span>
-                    {ws.id === currentWorkspace?.id && <Check className="h-4 w-4 ml-auto text-[#E85002]" />}
+                    {ws.id === currentWorkspace?.id && <Check className="h-4 w-4 ml-auto text-orange-500" />}
                   </div>
                 </DropdownMenuItem>
               ))}
@@ -214,7 +214,7 @@ export function TopNavigation() {
           </DropdownMenu>
 
           {currentDocument && !isProjectPage && (
-            <Button size="sm" className="h-8 gap-1.5 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001] ml-1">
+            <Button size="sm" className="h-8 gap-1.5 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00601] hover:to-[#E85002] ml-1">
               <Share2 className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Share</span>
             </Button>
@@ -276,7 +276,7 @@ export function TopNavigation() {
                       className={cn(
                         "w-10 h-10 rounded-lg text-xl flex items-center justify-center transition-all",
                         newWorkspaceIcon === icon
-                          ? "bg-gradient-to-br from-[#C10801] to-[#F16001] ring-2 ring-[#E85002]"
+                          ? "bg-gradient-to-br from-[#C10801] to-[#F16001] ring-2 ring-orange-500"
                           : isDark ? "bg-neutral-800 hover:bg-neutral-700" : "bg-slate-100 hover:bg-slate-200"
                       )}
                     >
@@ -291,7 +291,7 @@ export function TopNavigation() {
               <Button
                 onClick={handleCreateWorkspace}
                 disabled={!newWorkspaceName.trim() || isCreatingWorkspace}
-                className="bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]"
+                className="bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00601] hover:to-[#E85002]"
               >
                 {isCreatingWorkspace ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Create

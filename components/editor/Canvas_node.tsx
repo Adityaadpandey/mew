@@ -1,11 +1,10 @@
 'use client'
-/* eslint-disable react-compiler/react-compiler */
 
 import { CanvasObject } from '@/lib/store';
 import { useTheme } from '@/lib/theme-provider';
 import {
     Activity, AlertTriangle, Atom, BarChart3, Bell, Bot, Box, Brain, Briefcase,
-    Check, CheckSquare, Circle, Cloud, Code, Code2, Cog, Container, Cpu, CreditCard,
+    Check, CheckSquare, Circle, Cloud, Code, Cog, Container, Cpu, CreditCard,
     Database, Diamond, Download, FileCode, FileText, FolderGit2, GitBranch,
     Globe, HardDrive, Hexagon, Key, Landmark, Layers, Lock, Mail,
     MessageCircle, MessageSquare, Monitor, Network, Package, Phone, PieChart, Play,
@@ -50,8 +49,8 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string; strokeW
 
   // Frontend
   'next': Globe, 'next.js': Globe, 'nextjs': Globe, 'react': Atom,
-  'vue': Code, 'angular': Code, 'svelte': Code, 'tailwind': Code2,
-  'css': Code2, 'shadcn': Box, 'typescript': FileCode, 'javascript': FileCode,
+  'vue': Code, 'angular': Code, 'svelte': Code, 'tailwind': Code,
+  'css': Code, 'shadcn': Box, 'typescript': FileCode, 'javascript': FileCode,
   'frontend': Monitor, 'web': Globe, 'webapp': Globe, 'web app': Globe,
   'browser': Globe, 'client': Monitor, 'desktop': Monitor, 'mobile': Smartphone,
   'ios': Smartphone, 'android': Smartphone, 'app': Smartphone,
@@ -64,7 +63,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string; strokeW
 
   // DevOps & CI/CD
   'git': GitBranch, 'github': FolderGit2, 'gitlab': FolderGit2, 'cicd': Rocket,
-  'ci/cd': Rocket, 'jenkins': Settings, 'terraform': Code2,
+  'ci/cd': Rocket, 'jenkins': Settings, 'terraform': Code,
   'vercel': Triangle, 'netlify': Cloud, 'heroku': Cloud, 'railway': Train,
   'aws': Cloud, 'gcp': Cloud, 'azure': Cloud,
 
@@ -676,6 +675,8 @@ export const CanvasNode = memo(function CanvasNode({
         )}
       </div>
     )
+
+
   }
 
   // ═══════════════════════════════════════════════════════════════════════════

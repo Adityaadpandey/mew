@@ -1,60 +1,68 @@
 /**
  * Mew Design System
- * Custom brand colors and design tokens
+ * Custom brand colors and design tokens - Orange/Red SaaS Theme
  */
 
 export const colors = {
-  // Brand Colors
+  // Brand Colors - Orange/Red Theme
   brand: {
-    orange: '#E85002',        // Primary Orange
+    primary: '#E85002',       // Primary Orange
+    primaryLight: '#F16001',  // Light Orange
+    primaryDark: '#C10801',   // Dark Red
+    secondary: '#D9C3AB',     // Beige/Tan
+    accent: '#F16001',        // Accent Orange
     black: '#000000',         // Pure Black
     offWhite: '#F9F9F9',      // Off White
     darkGray: '#333333',      // Dark Gray
     mediumGray: '#A7A7A7',    // Medium Gray
     gray: '#646464',          // Gray
     gradientFrom: '#C10801',  // Gradient Start (Dark Red)
-    gradientTo: '#F16001',    // Gradient End (Orange)
-    beige: '#D9C3AB',         // Accent Beige
+    gradientMid: '#E85002',   // Gradient Mid (Primary Orange)
+    gradientTo: '#F16001',    // Gradient End (Light Orange)
+    gradientAlt: '#D9C3AB',   // Gradient Alt (Beige)
   },
-  
+
   // Semantic Colors
   success: '#10B981',
   warning: '#F59E0B',
   error: '#EF4444',
   info: '#3B82F6',
-  
-  // Project Colors (using variations of brand colors)
+
+  // Project Colors (using brand colors)
   projects: [
-    { name: 'orange', gradient: 'from-[#E85002] to-[#F16001]', bg: 'bg-[#E85002]/10', text: 'text-[#E85002]', border: 'border-[#E85002]/20' },
-    { name: 'red', gradient: 'from-[#C10801] to-[#E85002]', bg: 'bg-[#C10801]/10', text: 'text-[#C10801]', border: 'border-[#C10801]/20' },
-    { name: 'beige', gradient: 'from-[#D9C3AB] to-[#E85002]', bg: 'bg-[#D9C3AB]/10', text: 'text-[#D9C3AB]', border: 'border-[#D9C3AB]/20' },
-    { name: 'gray', gradient: 'from-[#646464] to-[#333333]', bg: 'bg-[#646464]/10', text: 'text-[#646464]', border: 'border-[#646464]/20' },
-    { name: 'darkOrange', gradient: 'from-[#C10801] to-[#F16001]', bg: 'bg-[#F16001]/10', text: 'text-[#F16001]', border: 'border-[#F16001]/20' },
-    { name: 'lightGray', gradient: 'from-[#A7A7A7] to-[#646464]', bg: 'bg-[#A7A7A7]/10', text: 'text-[#A7A7A7]', border: 'border-[#A7A7A7]/20' },
+    { name: 'orange', gradient: 'from-orange-500 to-red-500', bg: 'bg-orange-500/10', text: 'text-orange-500', border: 'border-orange-500/20' },
+    { name: 'red', gradient: 'from-red-500 to-rose-500', bg: 'bg-red-500/10', text: 'text-red-500', border: 'border-red-500/20' },
+    { name: 'amber', gradient: 'from-amber-500 to-orange-500', bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/20' },
+    { name: 'rose', gradient: 'from-rose-500 to-pink-500', bg: 'bg-rose-500/10', text: 'text-rose-500', border: 'border-rose-500/20' },
+    { name: 'emerald', gradient: 'from-emerald-500 to-teal-500', bg: 'bg-emerald-500/10', text: 'text-emerald-500', border: 'border-emerald-500/20' },
+    { name: 'blue', gradient: 'from-blue-500 to-indigo-500', bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/20' },
+    { name: 'cyan', gradient: 'from-cyan-500 to-blue-500', bg: 'bg-cyan-500/10', text: 'text-cyan-500', border: 'border-cyan-500/20' },
+    { name: 'slate', gradient: 'from-slate-500 to-gray-500', bg: 'bg-slate-500/10', text: 'text-slate-500', border: 'border-slate-500/20' },
   ],
-  
-  // Task Priority Colors
+
+  // Task Priority Colors - Orange themed
   priority: {
-    low: { bg: 'bg-[#A7A7A7]/10', text: 'text-[#646464]', border: 'border-[#A7A7A7]/20' },
-    medium: { bg: 'bg-[#E85002]/10', text: 'text-[#E85002]', border: 'border-[#E85002]/20' },
-    high: { bg: 'bg-[#F16001]/10', text: 'text-[#F16001]', border: 'border-[#F16001]/20' },
-    urgent: { bg: 'bg-[#C10801]/10', text: 'text-[#C10801]', border: 'border-[#C10801]/20' },
+    low: { bg: 'bg-zinc-500/10', text: 'text-zinc-500', border: 'border-zinc-500/20' },
+    medium: { bg: 'bg-amber-500/10', text: 'text-amber-500', border: 'border-amber-500/20' },
+    high: { bg: 'bg-orange-500/10', text: 'text-orange-500', border: 'border-orange-500/20' },
+    urgent: { bg: 'bg-red-500/10', text: 'text-red-500', border: 'border-red-500/20' },
   },
-  
+
   // Task Status Colors
   status: {
-    TODO: { bg: 'bg-[#A7A7A7]/10', text: 'text-[#646464]', dot: 'bg-[#A7A7A7]' },
-    IN_PROGRESS: { bg: 'bg-[#E85002]/10', text: 'text-[#E85002]', dot: 'bg-[#E85002]' },
-    DONE: { bg: 'bg-[#10B981]/10', text: 'text-[#10B981]', dot: 'bg-[#10B981]' },
-    BLOCKED: { bg: 'bg-[#C10801]/10', text: 'text-[#C10801]', dot: 'bg-[#C10801]' },
+    TODO: { bg: 'bg-zinc-500/10', text: 'text-zinc-400', dot: 'bg-zinc-400' },
+    IN_PROGRESS: { bg: 'bg-orange-500/10', text: 'text-orange-500', dot: 'bg-orange-500' },
+    DONE: { bg: 'bg-emerald-500/10', text: 'text-emerald-500', dot: 'bg-emerald-500' },
+    BLOCKED: { bg: 'bg-rose-500/10', text: 'text-rose-500', dot: 'bg-rose-500' },
   },
 } as const
 
 export const gradients = {
   primary: 'linear-gradient(135deg, #C10801 0%, #F16001 100%)',
-  primaryHover: 'linear-gradient(135deg, #A00701 0%, #D15001 100%)',
-  subtle: 'linear-gradient(135deg, rgba(193, 8, 1, 0.1) 0%, rgba(241, 96, 1, 0.1) 100%)',
-  orangeGlow: 'linear-gradient(135deg, #E85002 0%, #F16001 100%)',
+  primaryHover: 'linear-gradient(135deg, #A00601 0%, #E85002 100%)',
+  subtle: 'linear-gradient(135deg, rgba(232, 80, 2, 0.1) 0%, rgba(241, 96, 1, 0.1) 100%)',
+  brand: 'linear-gradient(135deg, #000000 0%, #C10801 50%, #F16001 100%)',
+  warm: 'linear-gradient(135deg, #C10801 0%, #E85002 50%, #D9C3AB 100%)',
 }
 
 export const spacing = {
@@ -83,7 +91,9 @@ export const shadows = {
   xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
   '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
   orange: '0 10px 30px -5px rgba(232, 80, 2, 0.3)',
+  red: '0 10px 30px -5px rgba(193, 8, 1, 0.3)',
   glow: '0 0 20px rgba(232, 80, 2, 0.3)',
+  glowStrong: '0 0 40px rgba(232, 80, 2, 0.4)',
 } as const
 
 export const transitions = {
@@ -123,37 +133,37 @@ export const animations = {
     animate: { opacity: 1 },
     exit: { opacity: 0 },
   },
-  
+
   slideUp: {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: -20 },
   },
-  
+
   slideDown: {
     initial: { opacity: 0, y: -20 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 20 },
   },
-  
+
   slideLeft: {
     initial: { opacity: 0, x: 20 },
     animate: { opacity: 1, x: 0 },
     exit: { opacity: 0, x: -20 },
   },
-  
+
   slideRight: {
     initial: { opacity: 0, x: -20 },
     animate: { opacity: 1, x: 0 },
     exit: { opacity: 0, x: 20 },
   },
-  
+
   scale: {
     initial: { opacity: 0, scale: 0.95 },
     animate: { opacity: 1, scale: 1 },
     exit: { opacity: 0, scale: 0.95 },
   },
-  
+
   scaleUp: {
     initial: { opacity: 0, scale: 0.8 },
     animate: { opacity: 1, scale: 1 },
@@ -184,13 +194,23 @@ export function getStatusColor(status: 'TODO' | 'IN_PROGRESS' | 'DONE' | 'BLOCKE
 
 // Glass morphism utility
 export const glassMorphism = {
-  light: 'bg-white/70 backdrop-blur-xl border border-[#A7A7A7]/20',
-  dark: 'bg-[#333333]/70 backdrop-blur-xl border border-[#646464]/50',
-  card: 'bg-white/80 dark:bg-[#333333]/80 backdrop-blur-xl border border-[#A7A7A7]/20 dark:border-[#646464]/50',
+  light: 'bg-white/70 backdrop-blur-xl border border-gray-200/20',
+  dark: 'bg-zinc-900/70 backdrop-blur-xl border border-zinc-700/20',
+  card: 'bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border border-gray-200/20 dark:border-zinc-700/20',
+  brand: 'bg-orange-500/5 backdrop-blur-xl border border-orange-500/20',
 } as const
 
 // Card hover effects
 export const cardHover = {
   base: 'transition-all duration-200 hover:shadow-lg hover:-translate-y-1',
   premium: 'transition-all duration-300 hover:shadow-orange hover:-translate-y-2 hover:scale-[1.02]',
+  glow: 'transition-all duration-300 hover:shadow-glow hover:-translate-y-1',
+} as const
+
+// Button gradients
+export const buttonGradients = {
+  primary: 'bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00601] hover:to-[#E85002] text-white',
+  secondary: 'bg-gradient-to-r from-[#E85002] to-[#D9C3AB] hover:from-[#C10801] hover:to-[#E85002] text-white',
+  subtle: 'bg-gradient-to-r from-orange-500/10 to-red-500/10 hover:from-orange-500/20 hover:to-red-500/20',
+  dark: 'bg-gradient-to-r from-[#000000] to-[#333333] hover:from-[#1a1a1a] hover:to-[#404040] text-white',
 } as const

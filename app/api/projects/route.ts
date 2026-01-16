@@ -1,6 +1,10 @@
 import { auth } from '@/lib/auth'
+import { cache, cacheKeys, TTL, invalidateProjectCache } from '@/lib/cache'
 import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
+
+// Revalidate projects every 30 seconds
+export const revalidate = 30
 
 export async function GET(request: NextRequest) {
   try {
@@ -12,10 +16,17 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url)
     const workspaceId = searchParams.get('workspaceId')
 
-    console.log('[Projects API] Fetching projects for:', {
-      userId: session.user.id,
-      workspaceId: workspaceId || 'all workspaces',
-    })
+    // Check cache first
+    const cacheKey = cacheKeys.projects(session.user.id, workspaceId || undefined)
+    const cached = cache.get(cacheKey)
+    if (cached) {
+      return NextResponse.json(cached, {
+        headers: {
+          'X-Cache': 'HIT',
+          'Cache-Control': 'private, max-age=30, stale-while-revalidate=60',
+        },
+      })
+    }
 
     // Build the where clause
     const whereClause: {
@@ -29,8 +40,6 @@ export async function GET(request: NextRequest) {
       },
     }
 
-    // If workspaceId is provided, filter by it
-    // Otherwise, return projects from ALL workspaces where user is a member
     if (workspaceId) {
       whereClause.workspaceId = workspaceId
     }
@@ -64,9 +73,15 @@ export async function GET(request: NextRequest) {
       orderBy: { updatedAt: 'desc' },
     })
 
-    console.log('[Projects API] Found projects:', projects.length)
+    // Cache the result
+    cache.set(cacheKey, projects, TTL.MEDIUM)
 
-    return NextResponse.json(projects)
+    return NextResponse.json(projects, {
+      headers: {
+        'X-Cache': 'MISS',
+        'Cache-Control': 'private, max-age=30, stale-while-revalidate=60',
+      },
+    })
   } catch (error) {
     console.error('Failed to fetch projects:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
@@ -108,6 +123,9 @@ export async function POST(request: NextRequest) {
         },
       },
     })
+
+    // Invalidate projects cache for user
+    cache.invalidatePattern(`projects:${session.user.id}`)
 
     return NextResponse.json(project)
   } catch (error) {

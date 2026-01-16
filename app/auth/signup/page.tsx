@@ -45,7 +45,7 @@ export default function SignUpPage() {
       await signIn('credentials', {
         email,
         password,
-        callbackUrl: '/',
+        callbackUrl: '/dashboard',
       })
     } catch (error) {
       console.error('Signup error:', error)

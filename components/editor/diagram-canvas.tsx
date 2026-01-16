@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { ArrowDown, ArrowUp, Copy, Layers, Trash2 } from 'lucide-react'
 import { nanoid } from 'nanoid'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { CanvasNode } from './canvas-node'
+import { CanvasNode } from './Canvas_node'
 
 interface Point { x: number; y: number }
 type Port = 'n' | 'ne' | 'e' | 'se' | 's' | 'sw' | 'w' | 'nw'
@@ -669,7 +669,7 @@ export function DiagramCanvas() {
         ...(tool === 'hexagon' && { text: 'Hexagon' }),
       })
     }
-  }, [tool, pan, getCanvasPoint, findObjectAtPoint, selectedIds, setSelectedIds, getClosestPort, snapValue, objects])
+  }, [tool, pan, getCanvasPoint, findObjectAtPoint, selectedIds, setSelectedIds, getClosestPort, snapValue, objects, isSpacePanning])
 
   const handleDoubleClick = useCallback((e: React.MouseEvent) => {
     const point = getCanvasPoint(e)

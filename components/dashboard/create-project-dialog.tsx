@@ -68,16 +68,10 @@ export function CreateProjectDialog({ open: controlledOpen, onOpenChange: setCon
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="lg" className="gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 shadow-lg shadow-violet-500/30">
-          <Plus className="h-5 w-5" />
-          New Project
-        </Button>
-      </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-purple-600">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#C10801] to-[#F16001]">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -126,7 +120,7 @@ export function CreateProjectDialog({ open: controlledOpen, onOpenChange: setCon
           <Button
             onClick={handleCreate}
             disabled={!name.trim() || isCreating}
-            className="bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700"
+            className="bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00601] hover:to-[#E85002]"
           >
             {isCreating ? (
               <>

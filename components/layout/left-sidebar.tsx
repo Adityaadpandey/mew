@@ -133,7 +133,7 @@ export function LeftSidebar() {
 
   // Navigation items
   const mainNavItems: NavItem[] = [
-    { id: 'home', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" />, href: '/' },
+    { id: 'home', label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" />, href: '/dashboard' },
     { id: 'invitations', label: 'Invitations', icon: <Star className="h-4 w-4" />, href: '/invitations' },
     { id: 'api-docs', label: 'API Docs', icon: <BookOpen className="h-4 w-4" />, href: '/api-docs' },
   ]
@@ -251,21 +251,21 @@ export function LeftSidebar() {
                  </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button className="w-full justify-start gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001] transition-all shadow-md shadow-[#E85002]/20" disabled={isCreating || !currentWorkspace}>
+                    <Button className="w-full justify-start gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00601] hover:to-[#E85002] transition-all shadow-md shadow-orange-500/20" disabled={isCreating || !currentWorkspace}>
                         {isCreating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
                         <span className="font-semibold">Create New</span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start" className="w-56 p-2">
                       <DropdownMenuItem onClick={() => createDocument('DOCUMENT')} className="gap-2 p-2 cursor-pointer">
-                        <div className="p-1.5 rounded bg-[#E85002]/10 text-[#E85002]"><FileText className="h-4 w-4" /></div>
+                        <div className="p-1.5 rounded bg-orange-500/10 text-orange-500"><FileText className="h-4 w-4" /></div>
                         <div className="flex flex-col">
                            <span className="font-medium">Document</span>
                            <span className="text-xs text-muted-foreground">Rich text & notes</span>
                         </div>
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => createDocument('DIAGRAM')} className="gap-2 p-2 cursor-pointer mt-1">
-                        <div className="p-1.5 rounded bg-[#E85002]/10 text-[#E85002]"><GitBranch className="h-4 w-4" /></div>
+                        <div className="p-1.5 rounded bg-orange-500/10 text-orange-500"><GitBranch className="h-4 w-4" /></div>
                           <div className="flex flex-col">
                            <span className="font-medium">Diagram</span>
                            <span className="text-xs text-muted-foreground">Flowcharts & diagrams</span>
