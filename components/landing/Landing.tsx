@@ -5,7 +5,9 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { BentoGrid } from './Bento_Grid'
 import { InfiniteMarquee } from './InfiniteMarquee'
+import { Manifesto } from './Manifesto'
 import { MaximalistHero } from './MaximalistHero'
+import { TrustedBy } from './TrustedBy'
 
 export function LandingPage() {
   return (
@@ -13,12 +15,16 @@ export function LandingPage() {
       <main>
         <MaximalistHero />
 
+        <TrustedBy />
+
         {/* Divider Marquee */}
-        <div className="bg-black py-4 border-y-4 border-black rotate-[-1deg] scale-105 z-20 relative shadow-xl">
-           <InfiniteMarquee items={['NO BLOAT', 'JUST SHIP', 'ROCKET FUEL', 'CHAOS MODE', 'BUILD NOW']} speed="fast" />
+        <div className="bg-orange-500 py-3 border-y-4 border-black rotate-1 scale-105 z-20 relative shadow-xl overflow-hidden">
+           <InfiniteMarquee items={['NO BLOAT', 'JUST SHIP', 'ROCKET FUEL', 'CHAOS MODE', 'BUILD NOW']} speed="fast" className="text-black font-black" />
         </div>
 
         <BentoGrid />
+
+        <Manifesto />
 
         {/* Big Footer CTA */}
         <section className="py-32 bg-orange-600 relative overflow-hidden flex items-center justify-center text-center">
