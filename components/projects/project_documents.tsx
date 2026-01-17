@@ -1,10 +1,19 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { useApp } from '@/lib/app-context'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
+import { formatDistanceToNow } from 'date-fns'
 import {
   FileText,
   GitBranch,
@@ -14,17 +23,8 @@ import {
   Plus,
   Search
 } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { formatDistanceToNow } from 'date-fns'
 import { useRouter } from 'next/navigation'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import { useApp } from '@/lib/app-context'
+import { useEffect, useState } from 'react'
 
 interface Document {
   id: string
@@ -210,11 +210,18 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
         ) : viewMode === 'grid' ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredDocs.map((doc) => (
-              <button
+              <div
+                role="button"
+                tabIndex={0}
                 key={doc.id}
                 onClick={() => handleOpenDocument(doc)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleOpenDocument(doc)
+                  }
+                }}
                 className={cn(
-                  "w-full text-left p-5 rounded-xl border transition-all group",
+                  "w-full text-left p-5 rounded-xl border transition-all group cursor-pointer relative",
                   isDark
                     ? "bg-zinc-900/50 border-zinc-800 hover:bg-zinc-900 hover:border-zinc-700"
                     : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -239,17 +246,17 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 opacity-0 group-hover:opacity-100"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 relative z-10"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className={isDark ? "bg-zinc-900 border-zinc-800" : ""}>
-                      <DropdownMenuItem onClick={() => handleOpenDocument(doc)}>Open</DropdownMenuItem>
-                      <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                      <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleOpenDocument(doc); }}>Open</DropdownMenuItem>
+                      <DropdownMenuItem onClick={(e) => e.stopPropagation()}>Duplicate</DropdownMenuItem>
                       <DropdownMenuSeparator className={isDark ? "bg-zinc-800" : ""} />
-                      <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+                      <DropdownMenuItem className="text-red-500" onClick={(e) => e.stopPropagation()}>Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
@@ -264,17 +271,24 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                 <p className={cn("text-sm", isDark ? "text-zinc-500" : "text-gray-500")}>
                   Updated {formatDistanceToNow(new Date(doc.updatedAt), { addSuffix: true }).replace('about ', '')}
                 </p>
-              </button>
+              </div>
             ))}
           </div>
         ) : (
           <div className="space-y-2">
             {filteredDocs.map((doc) => (
-              <button
+              <div
+                role="button"
+                tabIndex={0}
                 key={doc.id}
                 onClick={() => handleOpenDocument(doc)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleOpenDocument(doc)
+                  }
+                }}
                 className={cn(
-                  "w-full flex items-center gap-4 p-4 rounded-xl border transition-all text-left group",
+                  "w-full flex items-center gap-4 p-4 rounded-xl border transition-all text-left group cursor-pointer relative",
                   isDark
                     ? "bg-zinc-900/50 border-zinc-800 hover:bg-zinc-900 hover:border-zinc-700"
                     : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
@@ -310,20 +324,20 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 opacity-0 group-hover:opacity-100 shrink-0"
+                      className="h-8 w-8 opacity-0 group-hover:opacity-100 shrink-0 relative z-10"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className={isDark ? "bg-zinc-900 border-zinc-800" : ""}>
-                    <DropdownMenuItem onClick={() => handleOpenDocument(doc)}>Open</DropdownMenuItem>
-                    <DropdownMenuItem>Duplicate</DropdownMenuItem>
+                    <DropdownMenuItem onClick={(e) => { e.stopPropagation(); handleOpenDocument(doc); }}>Open</DropdownMenuItem>
+                    <DropdownMenuItem onClick={(e) => e.stopPropagation()}>Duplicate</DropdownMenuItem>
                     <DropdownMenuSeparator className={isDark ? "bg-zinc-800" : ""} />
-                    <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+                    <DropdownMenuItem className="text-red-500" onClick={(e) => e.stopPropagation()}>Delete</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </button>
+              </div>
             ))}
           </div>
         )}

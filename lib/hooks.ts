@@ -51,22 +51,14 @@ export function useDebounceValue<T>(value: T, delay: number): T {
 }
 
 // Auto-save hook for unified persistence
+// Auto-save hook for unified persistence
 export function useAutoSave() {
-  const { objects, connections, lastModified: canvasLastModified } = useCanvasStore()
-  const { currentDocument, updateContent, setIsSaving, isDirty } = useDocumentStore()
+  const { lastModified: canvasLastModified } = useCanvasStore()
+  const { currentDocument, setIsSaving, setIsDirty, isDirty } = useDocumentStore()
   const lastSavedRef = useRef<number>(0)
   const isSavingRef = useRef(false)
 
-  // 1. Sync Canvas changes to Document Store
-  useEffect(() => {
-    if (canvasLastModified > lastSavedRef.current) {
-      // Update document store with new canvas data immediately so it's ready for save
-      updateContent({ objects, connections })
-    }
-  }, [canvasLastModified, objects, connections, updateContent])
-
-
-  // 2. Main Save Function - reads from Document Store (Source of Truth)
+  // Main Save Function - reads directly from stores to get latest state
   const saveDocument = useCallback(async () => {
     // Get fresh state
     const doc = useDocumentStore.getState().currentDocument
@@ -76,18 +68,27 @@ export function useAutoSave() {
     setIsSaving(true)
 
     try {
-      // Send the FULL content object to ensure nothing is lost during partial updates
-      // Prisma/Backend usually expects the full JSON to replace the field
+      // Prepare content based on type
+      let contentToSave = doc.content
+
+      // If it's a diagram, get the absolute latest state from canvas store
+      // This avoids the need to sync state on every frame
+      if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
+        const { objects, connections } = useCanvasStore.getState()
+        contentToSave = { objects, connections }
+      }
+
       const response = await fetch(`/api/documents/${doc.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content: doc.content
+          content: contentToSave
         }),
       })
 
       if (response.ok) {
         lastSavedRef.current = Date.now()
+        setIsDirty(false)
       }
     } catch (error) {
       console.error('Auto-save failed:', error)
@@ -95,12 +96,11 @@ export function useAutoSave() {
       isSavingRef.current = false
       setIsSaving(false)
     }
-  }, [setIsSaving])
+  }, [setIsSaving, setIsDirty])
 
   const debouncedSave = useDebounce(saveDocument, 2000)
 
-  // 3. Trigger Save on any structural change (Canvas OR Document Dirty)
-  // We watch 'isDirty' (set by DocumentEditor) and 'canvasLastModified'
+  // Trigger Save on any structural change (Canvas OR Document Dirty)
   useEffect(() => {
     // If canvas changed OR doc is marked dirty (by editor)
     if (canvasLastModified > lastSavedRef.current || isDirty) {

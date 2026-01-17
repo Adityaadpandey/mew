@@ -1,16 +1,19 @@
 'use client'
 
 import { DashboardHome } from '@/components/dashboard/dashboard_home'
+import { RightSidebarNew } from '@/components/layout/right-sidebar-new'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useAutoSave, useLoadDocument } from '@/lib/hooks'
 import { useDocumentStore, useSidebarStore } from '@/lib/store'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
-import { ArrowLeft, FileText, GitBranch, Home, LayoutDashboard, Pencil, Play, Share2, Sparkles, Check, X } from 'lucide-react'
+import { Check, FileText, GitBranch, Home, LayoutDashboard, Pencil, Play, Share2, Sparkles, X } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { toast } from 'sonner'
 import { DiagramCanvas } from './diagram-canvas'
 import { DiagramToolbar } from './diagram-toolbar'
 import { DocumentEditor } from './document-editor'
@@ -18,9 +21,6 @@ import { MiniMap } from './mini-map'
 import { PropertiesPanel } from './properties-panel'
 import { ShapeLibrary } from './shape-library'
 import { ZoomControls } from './zoom-controls'
-import { RightSidebarNew } from '@/components/layout/right-sidebar-new'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { toast } from 'sonner'
 
 type EditorMode = 'document' | 'diagram'
 
@@ -236,7 +236,6 @@ export function EditorView({
                     className={cn("h-8 gap-1.5", isDark && "hover:bg-neutral-800")}
                     onClick={() => {
                       setRightSidebarTab('ai')
-                      toggleRightSidebar()
                     }}
                   >
                     <Sparkles className="h-4 w-4" />

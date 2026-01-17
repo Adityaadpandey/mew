@@ -2,6 +2,66 @@ import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { NextRequest, NextResponse } from 'next/server'
 
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ invitationId: string }> }
+) {
+  try {
+    const session = await auth()
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    const { invitationId } = await params
+
+    const invitation = await db.invitation.findUnique({
+      where: { id: invitationId },
+      include: {
+        workspace: {
+          select: {
+            id: true,
+            name: true,
+            icon: true,
+          },
+        },
+        project: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+          },
+        },
+        sender: {
+          select: {
+            name: true,
+            email: true,
+            image: true,
+          },
+        },
+      },
+    })
+
+    if (!invitation) {
+      return NextResponse.json({ error: 'Invitation not found' }, { status: 404 })
+    }
+
+    // Check if user has access to view this invitation
+    const canView = 
+      invitation.email === session.user.email ||
+      invitation.receiverId === session.user.id ||
+      invitation.senderId === session.user.id
+
+    if (!canView) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+    }
+
+    return NextResponse.json(invitation)
+  } catch (error) {
+    console.error('Failed to fetch invitation:', error)
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
+  }
+}
+
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ invitationId: string }> }

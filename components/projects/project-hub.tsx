@@ -3,33 +3,34 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { ProjectSkeleton } from '@/components/ui/loading'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { useApp } from '@/lib/app-context'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
+import { formatDistanceToNow } from 'date-fns'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   ArrowLeft,
+  Check,
+  Clock,
   FileText,
+  FolderOpen,
   GitBranch,
   LayoutDashboard,
   ListTodo,
   MoreHorizontal,
-  Users,
-  Clock,
-  FolderOpen,
   Pencil,
-  Check,
+  Users,
   X,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState, useRef } from 'react'
-import { ProjectOverview } from './project-overview'
-import { ProjectDocuments } from './project_documents'
-import { ProjectTasks } from './project-tasks'
-import { ProjectMembers } from './project-members'
-import { formatDistanceToNow } from 'date-fns'
+import { useEffect, useRef, useState } from 'react'
 import { toast } from 'sonner'
+import { ProjectMembers } from './project-members'
+import { ProjectOverview } from './project-overview'
+import { ProjectTasks } from './project-tasks'
+import { ProjectDocuments } from './project_documents'
 
 interface Project {
   id: string
@@ -48,6 +49,7 @@ interface ProjectHubProps {
 }
 
 export function ProjectHub({ projectId }: ProjectHubProps) {
+  const { documents } = useApp()
   const [project, setProject] = useState<Project | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
@@ -136,7 +138,10 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
 
   if (!project) return null
 
-  const docCount = project._count?.documents || 0
+  // Calculate counts from app context to be accurate and separate
+  const projectDocs = documents.filter(d => d.projectId === projectId)
+  const docCount = projectDocs.filter(d => d.type === 'DOCUMENT').length
+  const designCount = projectDocs.filter(d => d.type === 'DIAGRAM' || d.type === 'CANVAS').length
   const taskCount = project._count?.tasks || 0
 
   return (
@@ -230,6 +235,12 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5">
+                    <GitBranch className={cn("h-4 w-4", isDark ? "text-zinc-500" : "text-gray-400")} />
+                    <span className={cn("text-sm", isDark ? "text-zinc-400" : "text-gray-600")}>
+                      {designCount} designs
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
                     <ListTodo className={cn("h-4 w-4", isDark ? "text-zinc-500" : "text-gray-400")} />
                     <span className={cn("text-sm", isDark ? "text-zinc-400" : "text-gray-600")}>
                       {taskCount} tasks
@@ -266,7 +277,7 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               <TabsTrigger
                 value="overview"
                 className={cn(
-                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md transition-all ease-in-out duration-300",
                   isDark
                     ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
                     : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
@@ -278,7 +289,7 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               <TabsTrigger
                 value="documents"
                 className={cn(
-                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md transition-all ease-in-out duration-300",
                   isDark
                     ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
                     : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
@@ -288,7 +299,7 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
                 Documents
                 {docCount > 0 && (
                   <Badge variant="secondary" className={cn(
-                    "ml-1 h-5 px-1.5 text-xs",
+                    "ml-1 h-5 px-1.5 text-xs transition-colors",
                     isDark ? "bg-zinc-700" : "bg-gray-200"
                   )}>
                     {docCount}
@@ -298,7 +309,7 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               <TabsTrigger
                 value="designs"
                 className={cn(
-                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md transition-all ease-in-out duration-300",
                   isDark
                     ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
                     : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
@@ -306,11 +317,19 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               >
                 <GitBranch className="h-4 w-4" />
                 Designs
+                {designCount > 0 && (
+                  <Badge variant="secondary" className={cn(
+                    "ml-1 h-5 px-1.5 text-xs transition-colors",
+                    isDark ? "bg-zinc-700" : "bg-gray-200"
+                  )}>
+                    {designCount}
+                  </Badge>
+                )}
               </TabsTrigger>
               <TabsTrigger
                 value="tasks"
                 className={cn(
-                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md transition-all ease-in-out duration-300",
                   isDark
                     ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
                     : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
@@ -320,7 +339,7 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
                 Tasks
                 {taskCount > 0 && (
                   <Badge variant="secondary" className={cn(
-                    "ml-1 h-5 px-1.5 text-xs",
+                    "ml-1 h-5 px-1.5 text-xs transition-colors",
                     isDark ? "bg-zinc-700" : "bg-gray-200"
                   )}>
                     {taskCount}
@@ -330,7 +349,7 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               <TabsTrigger
                 value="members"
                 className={cn(
-                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md transition-all ease-in-out duration-300",
                   isDark
                     ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
                     : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
@@ -345,28 +364,73 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-hidden">
-        <Tabs value={activeTab} className="h-full">
-          <TabsContent value="overview" className="h-full m-0">
-            <ProjectOverview projectId={projectId} project={project} />
-          </TabsContent>
+      <div className="flex-1 overflow-hidden relative">
+        <AnimatePresence mode="wait">
+          {activeTab === 'overview' && (
+            <motion.div
+              key="overview"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="h-full w-full absolute top-0 left-0"
+            >
+              <ProjectOverview projectId={projectId} project={project} />
+            </motion.div>
+          )}
 
-          <TabsContent value="documents" className="h-full m-0">
-            <ProjectDocuments projectId={projectId} filterType="DOCUMENT" />
-          </TabsContent>
+          {activeTab === 'documents' && (
+            <motion.div
+              key="documents"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="h-full w-full absolute top-0 left-0"
+            >
+              <ProjectDocuments projectId={projectId} filterType="DOCUMENT" />
+            </motion.div>
+          )}
 
-          <TabsContent value="designs" className="h-full m-0">
-            <ProjectDocuments projectId={projectId} filterType="DIAGRAM" />
-          </TabsContent>
+          {activeTab === 'designs' && (
+            <motion.div
+              key="designs"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="h-full w-full absolute top-0 left-0"
+            >
+              <ProjectDocuments projectId={projectId} filterType="DIAGRAM" />
+            </motion.div>
+          )}
 
-          <TabsContent value="tasks" className="h-full m-0">
-            <ProjectTasks projectId={projectId} />
-          </TabsContent>
+          {activeTab === 'tasks' && (
+            <motion.div
+              key="tasks"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="h-full w-full absolute top-0 left-0"
+            >
+              <ProjectTasks projectId={projectId} />
+            </motion.div>
+          )}
 
-          <TabsContent value="members" className="h-full m-0">
-            <ProjectMembers projectId={projectId} projectName={project.name} />
-          </TabsContent>
-        </Tabs>
+          {activeTab === 'members' && (
+            <motion.div
+              key="members"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+              className="h-full w-full absolute top-0 left-0"
+            >
+               <ProjectMembers projectId={projectId} projectName={project.name} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )

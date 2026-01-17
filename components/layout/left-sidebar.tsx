@@ -2,8 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import {
-    DropdownMenu, DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuSeparator, DropdownMenuTrigger,
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator, DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
@@ -14,21 +14,20 @@ import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
-    BookOpen,
-    ChevronRight,
-    Clock,
-    FileText,
-    Folder,
-    GitBranch,
-    LayoutDashboard,
-    Loader2,
-    MoreVertical,
-    PanelLeft,
-    PanelLeftClose,
-    Plus,
-    Search,
-    Settings,
-    Star
+  BookOpen,
+  ChevronRight,
+  Clock,
+  FileText,
+  Folder,
+  GitBranch,
+  LayoutDashboard,
+  Loader2,
+  MoreVertical,
+  PanelLeft,
+  Plus,
+  Search,
+  Settings,
+  Star
 } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -140,8 +139,7 @@ export function LeftSidebar() {
 
   // Sidebar styling classes
   const sidebarClasses = cn(
-    "flex h-full flex-col border-r transition-all duration-300 ease-in-out relative z-50",
-    "bg-background/95 backdrop-blur-xl border-border supports-[backdrop-filter]:bg-background/60",
+    "flex h-full flex-col border-r bg-[#F9F9F9] dark:bg-black border-gray-200 dark:border-neutral-800 transition-all duration-300 ease-in-out relative z-50",
     isCollapsed ? "w-16" : "w-64"
   )
 
@@ -165,19 +163,19 @@ export function LeftSidebar() {
             >
               <Tooltip>
                  <TooltipTrigger asChild>
-                   <Button variant="ghost" size="icon" className="h-10 w-10 hover:bg-accent hover:text-accent-foreground" onClick={toggleLeftSidebarCollapse}>
-                     <PanelLeft className="h-5 w-5" />
+                   <Button variant="ghost" size="icon" className="h-9 w-9 hover:bg-gray-200 dark:hover:bg-neutral-800" onClick={toggleLeftSidebarCollapse}>
+                     <PanelLeft className="h-4 w-4 text-gray-500" />
                    </Button>
                  </TooltipTrigger>
                  <TooltipContent side="right">Expand sidebar</TooltipContent>
               </Tooltip>
 
-              <div className="h-px w-8 bg-border my-2" />
+              <div className="h-px w-8 bg-gray-200 dark:bg-neutral-800 my-2" />
 
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button size="icon" className="h-10 w-10 bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm" onClick={() => createDocument('DIAGRAM')}>
-                    <Plus className="h-5 w-5" />
+                  <Button size="icon" className="h-9 w-9 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 shadow-sm" onClick={() => createDocument('DIAGRAM')}>
+                    <Plus className="h-4 w-4" />
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent side="right">New</TooltipContent>
@@ -190,7 +188,7 @@ export function LeftSidebar() {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className={cn("h-10 w-10 hover:bg-accent", pathname === item.href && "bg-accent/50 text-accent-foreground")}
+                          className={cn("h-9 w-9 hover:bg-gray-200 dark:hover:bg-neutral-800", pathname === item.href && "bg-gray-200 dark:bg-neutral-800 text-black dark:text-white")}
                           onClick={() => {
                             if (item.href) router.push(item.href)
                             if (item.onClick) item.onClick()
@@ -203,7 +201,7 @@ export function LeftSidebar() {
                     </Tooltip>
                  ))}
 
-                 <div className="h-px w-8 bg-border my-2 mx-auto" />
+                 <div className="h-px w-8 bg-gray-200 dark:bg-neutral-800 my-2 mx-auto" />
 
                  {recentDocuments.slice(0, 4).map((doc) => (
                    <Tooltip key={doc.id}>
@@ -211,10 +209,10 @@ export function LeftSidebar() {
                        <Button
                          variant="ghost"
                          size="icon"
-                         className={cn("h-10 w-10 p-0 rounded-full border border-transparent hover:border-border hover:bg-accent", selectedId === doc.id && "border-primary/50 bg-primary/10")}
+                         className={cn("h-9 w-9 p-0 rounded-full border border-transparent hover:border-gray-200 hover:bg-gray-100 dark:hover:border-neutral-700 dark:hover:bg-neutral-800", selectedId === doc.id && "border-gray-300 bg-gray-200 dark:border-neutral-600 dark:bg-neutral-800")}
                          onClick={() => handleSelectDocument(doc)}
                        >
-                         <span className="text-[10px] font-bold text-muted-foreground">{doc.title.substring(0, 2).toUpperCase()}</span>
+                         <span className="text-[10px] font-medium text-gray-500">{doc.title.substring(0, 2).toUpperCase()}</span>
                        </Button>
                      </TooltipTrigger>
                      <TooltipContent side="right">{doc.title}</TooltipContent>
@@ -223,8 +221,8 @@ export function LeftSidebar() {
               </ScrollArea>
 
                <div className="flex flex-col items-center gap-2 mt-auto">
-                 <Button variant="ghost" size="icon" className="h-10 w-10 text-muted-foreground" onClick={() => router.push('/settings')}>
-                    <Settings className="h-5 w-5" />
+                 <Button variant="ghost" size="icon" className="h-9 w-9 text-gray-500" onClick={() => router.push('/settings')}>
+                    <Settings className="h-4 w-4" />
                  </Button>
                </div>
             </motion.div>
@@ -237,23 +235,23 @@ export function LeftSidebar() {
               exit={{ opacity: 0 }}
               className="flex flex-col h-full w-full"
             >
-          
+
               {/* Search & New */}
               <div className="p-4 space-y-3">
                  <div className="relative">
-                   <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                   <Search className="absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400" />
                    <Input
                      placeholder="Search..."
                      value={searchQuery}
                      onChange={(e) => setSearchQuery(e.target.value)}
-                     className="pl-9 h-9 bg-accent/50 border-transparent focus:bg-background transition-all"
+                     className="pl-9 h-9 bg-white dark:bg-neutral-900 border-gray-200 dark:border-neutral-800 focus:ring-1 focus:ring-black dark:focus:ring-white transition-all text-sm"
                    />
                  </div>
                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                    <Button className="w-full justify-start gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00601] hover:to-[#E85002] transition-all shadow-md shadow-orange-500/20" disabled={isCreating || !currentWorkspace}>
-                        {isCreating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-                        <span className="font-semibold">Create New</span>
+                    <Button className="w-full justify-start gap-2 bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 shadow-sm border border-transparent" disabled={isCreating || !currentWorkspace}>
+                        {isCreating ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
+                        <span className="font-medium text-sm">Create New</span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start" className="w-56 p-2">
@@ -407,9 +405,9 @@ function CollapsibleSection({ title, icon, isOpen, onToggle, children }: {
     <div className="space-y-1">
       <button
         onClick={onToggle}
-        className="flex w-full items-center gap-2 px-2 py-1 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors uppercase tracking-wider"
+        className="flex w-full items-center gap-2 px-2 py-1.5 text-[11px] font-bold text-gray-500 hover:text-black dark:text-gray-400 dark:hover:text-white transition-colors uppercase tracking-widest"
       >
-        <motion.div animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.2 }}>
+        <motion.div animate={{ rotate: isOpen ? 90 : 0 }} transition={{ duration: 0.1 }}>
           <ChevronRight className="h-3 w-3" />
         </motion.div>
         <span className="flex-1 text-left flex items-center gap-2">
@@ -425,7 +423,7 @@ function CollapsibleSection({ title, icon, isOpen, onToggle, children }: {
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
           >
-             <div className="pl-2 space-y-0.5 mt-1 border-l border-border/40 ml-2.5">
+             <div className="pl-0 space-y-0.5 mt-0.5">
                 {children}
              </div>
           </motion.div>
