@@ -17,9 +17,10 @@ export async function GET(request: NextRequest) {
     const projectId = searchParams.get('projectId')
     const limit = searchParams.get('limit')
     const assigneeId = searchParams.get('assigneeId')
+    const status = searchParams.get('status') // Support comma-separated status filter
 
-    // Check cache for project-specific tasks
-    if (projectId) {
+    // Check cache for project-specific tasks (only when no filters)
+    if (projectId && !status && !assigneeId) {
       const cacheKey = cacheKeys.tasks(projectId)
       const cached = cache.get(cacheKey)
       if (cached) {
@@ -35,6 +36,16 @@ export async function GET(request: NextRequest) {
     const whereClause: any = {}
     if (projectId) whereClause.projectId = projectId
     if (assigneeId) whereClause.assigneeId = assigneeId
+
+    // Support status filtering (comma-separated list like "TODO,IN_PROGRESS,BLOCKED")
+    if (status) {
+      const statuses = status.split(',').map(s => s.trim())
+      if (statuses.length === 1) {
+        whereClause.status = statuses[0]
+      } else {
+        whereClause.status = { in: statuses }
+      }
+    }
 
     // Ensure user has access to these tasks by filtering through projects they are members of
     const userProjects = await db.project.findMany({

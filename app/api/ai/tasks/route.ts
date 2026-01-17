@@ -1,9 +1,31 @@
 import { openai } from '@ai-sdk/openai'
 import { generateText } from 'ai'
+import { auth } from '@/lib/auth'
+import { canUseAI } from '@/lib/subscription'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth()
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check AI usage limits based on subscription
+    const aiCheck = await canUseAI(session.user.id)
+    if (!aiCheck.allowed) {
+      return NextResponse.json({
+        error: 'AI_LIMIT_REACHED',
+        message: aiCheck.message || 'You have reached your AI usage limit. Upgrade to continue.',
+        needsUpgrade: true,
+        usage: {
+          current: aiCheck.current,
+          limit: aiCheck.limit,
+          remaining: aiCheck.remaining,
+        }
+      }, { status: 403 })
+    }
+
     const body = await request.json()
     const { prompt, projectName, existingTasks = [], conversationHistory = [] } = body
 

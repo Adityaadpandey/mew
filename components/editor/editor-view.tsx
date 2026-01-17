@@ -1,15 +1,16 @@
 'use client'
 
-import { DashboardHome } from '@/components/dashboard/dashboard-home'
+import { DashboardHome } from '@/components/dashboard/dashboard_home'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { useAutoSave, useLoadDocument } from '@/lib/hooks'
 import { useDocumentStore, useSidebarStore } from '@/lib/store'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
-import { ArrowLeft, FileText, GitBranch, Home, LayoutDashboard, Play, Share2, Sparkles } from 'lucide-react'
+import { ArrowLeft, FileText, GitBranch, Home, LayoutDashboard, Pencil, Play, Share2, Sparkles, Check, X } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { DiagramCanvas } from './diagram-canvas'
 import { DiagramToolbar } from './diagram-toolbar'
 import { DocumentEditor } from './document-editor'
@@ -19,6 +20,7 @@ import { ShapeLibrary } from './shape-library'
 import { ZoomControls } from './zoom-controls'
 import { RightSidebarNew } from '@/components/layout/right-sidebar-new'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { toast } from 'sonner'
 
 type EditorMode = 'document' | 'diagram'
 
@@ -30,6 +32,9 @@ export function EditorView({
   forcedMode?: EditorMode
 }) {
   const [mode, setMode] = useState<EditorMode>(forcedMode || 'diagram')
+  const [isEditingTitle, setIsEditingTitle] = useState(false)
+  const [editedTitle, setEditedTitle] = useState('')
+  const titleInputRef = useRef<HTMLInputElement>(null)
   const { currentDocument, setCurrentDocument } = useDocumentStore()
   const { rightSidebarOpen, toggleRightSidebar, setRightSidebarTab } = useSidebarStore()
   const { resolvedTheme } = useTheme()
@@ -58,6 +63,57 @@ export function EditorView({
       setCurrentDocument(null)
     }
   }, [documentId, setCurrentDocument])
+
+  useEffect(() => {
+    if (isEditingTitle && titleInputRef.current) {
+      titleInputRef.current.focus()
+      titleInputRef.current.select()
+    }
+  }, [isEditingTitle])
+
+  const handleStartEditTitle = () => {
+    setEditedTitle(currentDocument?.title || '')
+    setIsEditingTitle(true)
+  }
+
+  const handleSaveTitle = async () => {
+    if (!currentDocument || !editedTitle.trim()) {
+      setIsEditingTitle(false)
+      return
+    }
+
+    try {
+      const res = await fetch(`/api/documents/${currentDocument.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: editedTitle.trim() }),
+      })
+
+      if (res.ok) {
+        setCurrentDocument({ ...currentDocument, title: editedTitle.trim() })
+        toast.success('Title updated')
+      } else {
+        toast.error('Failed to update title')
+      }
+    } catch (error) {
+      console.error('Failed to update title:', error)
+      toast.error('Failed to update title')
+    }
+    setIsEditingTitle(false)
+  }
+
+  const handleCancelEdit = () => {
+    setIsEditingTitle(false)
+    setEditedTitle('')
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSaveTitle()
+    } else if (e.key === 'Escape') {
+      handleCancelEdit()
+    }
+  }
 
   if (!currentDocument) {
     return <DashboardHome />
@@ -93,9 +149,48 @@ export function EditorView({
                 <Home className="h-3.5 w-3.5" />
               </Link>
               <span className="text-muted-foreground/50">/</span>
-              <span className={cn("font-medium truncate max-w-[200px]", isDark ? "text-white" : "text-slate-900")}>
-                {currentDocument.title || 'Untitled'}
-              </span>
+              {isEditingTitle ? (
+                <div className="flex items-center gap-1">
+                  <Input
+                    ref={titleInputRef}
+                    value={editedTitle}
+                    onChange={(e) => setEditedTitle(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    onBlur={handleSaveTitle}
+                    className={cn(
+                      "h-7 text-sm font-medium px-2 py-0 w-[200px]",
+                      isDark ? "bg-neutral-800 border-neutral-700" : "bg-white border-slate-300"
+                    )}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onClick={handleSaveTitle}
+                  >
+                    <Check className="h-3.5 w-3.5 text-emerald-500" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-6 w-6"
+                    onClick={handleCancelEdit}
+                  >
+                    <X className="h-3.5 w-3.5 text-red-500" />
+                  </Button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleStartEditTitle}
+                  className={cn(
+                    "flex items-center gap-1.5 font-medium truncate max-w-[200px] hover:opacity-80 transition-opacity group",
+                    isDark ? "text-white" : "text-slate-900"
+                  )}
+                >
+                  <span>{currentDocument.title || 'Untitled'}</span>
+                  <Pencil className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
+                </button>
+              )}
             </div>
 
             {/* Mode Switcher - Only show if not forced */}

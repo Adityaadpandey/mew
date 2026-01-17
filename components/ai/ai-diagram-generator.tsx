@@ -9,6 +9,7 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
+import { UpgradePrompt } from '@/components/subscription/upgrade-prompt'
 import { useCanvasStore } from '@/lib/store'
 import { cn } from '@/lib/utils'
 import {
@@ -37,6 +38,13 @@ interface Message {
   content: string
 }
 
+interface UpgradeState {
+  show: boolean
+  current?: number
+  limit?: number
+  message?: string
+}
+
 const quickStarters = [
   { icon: GitBranch, label: 'Microservices', prompt: 'Create a microservices e-commerce system' },
   { icon: FileText, label: 'CI/CD Pipeline', prompt: 'Design a CI/CD pipeline with GitHub and AWS' },
@@ -49,6 +57,7 @@ export function AIDiagramGenerator({ open, onOpenChange, onGenerate }: AIDiagram
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedData, setGeneratedData] = useState<{ objects: unknown[]; connections: unknown[] } | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [upgradeState, setUpgradeState] = useState<UpgradeState>({ show: false })
 
   const { objects } = useCanvasStore()
 
@@ -79,6 +88,17 @@ export function AIDiagramGenerator({ open, onOpenChange, onGenerate }: AIDiagram
       })
 
       const data = await response.json()
+
+      // Handle upgrade needed
+      if (response.status === 403 && data.needsUpgrade) {
+        setUpgradeState({
+          show: true,
+          current: data.usage?.current,
+          limit: data.usage?.limit,
+          message: data.message,
+        })
+        return
+      }
 
       if (data.success) {
         if (data.needsClarification && data.clarifyingQuestion) {
@@ -294,6 +314,18 @@ export function AIDiagramGenerator({ open, onOpenChange, onGenerate }: AIDiagram
           )}
         </div>
       </DialogContent>
+
+      {/* Upgrade Prompt Modal */}
+      {upgradeState.show && (
+        <UpgradePrompt
+          feature="AI Diagram Generation"
+          description={upgradeState.message || "You've used all your AI credits this month. Upgrade to Pro for more."}
+          currentUsage={upgradeState.current}
+          limit={upgradeState.limit}
+          variant="modal"
+          onClose={() => setUpgradeState({ show: false })}
+        />
+      )}
     </Dialog>
   )
 }

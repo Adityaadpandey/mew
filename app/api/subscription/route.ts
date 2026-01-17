@@ -1,6 +1,7 @@
 import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { cancelSubscription, SUBSCRIPTION_PLANS } from '@/lib/razorpay'
+import { getUserSubscription, canUseAI, canCreateProject, hasFeatureAccess } from '@/lib/subscription'
 import { NextRequest, NextResponse } from 'next/server'
 
 // Get current subscription
@@ -10,6 +11,33 @@ export async function GET(request: NextRequest) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    const { searchParams } = new URL(request.url)
+    const feature = searchParams.get('feature')
+    const checkType = searchParams.get('check')
+
+    // If checking specific feature access
+    if (feature) {
+      const hasAccess = await hasFeatureAccess(
+        session.user.id,
+        feature as 'ai' | 'advanced_diagrams' | 'templates' | 'version_history' | 'analytics' | 'api_access' | 'sso'
+      )
+      return NextResponse.json({ allowed: hasAccess, feature })
+    }
+
+    // If checking specific usage limit
+    if (checkType === 'ai') {
+      const result = await canUseAI(session.user.id)
+      return NextResponse.json(result)
+    }
+
+    if (checkType === 'project') {
+      const result = await canCreateProject(session.user.id)
+      return NextResponse.json(result)
+    }
+
+    // Return full subscription with usage
+    const subscriptionData = await getUserSubscription(session.user.id)
 
     let subscription = await db.subscription.findUnique({
       where: { userId: session.user.id },
@@ -32,6 +60,8 @@ export async function GET(request: NextRequest) {
       subscription,
       plan: planDetails,
       plans: SUBSCRIPTION_PLANS,
+      usage: subscriptionData.usage,
+      limits: subscriptionData.limits,
     })
   } catch (error) {
     console.error('Failed to fetch subscription:', error)

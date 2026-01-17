@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { UpgradePrompt } from '@/components/subscription/upgrade-prompt'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
 import {
@@ -41,6 +42,13 @@ interface Message {
   content: string
 }
 
+interface UpgradeState {
+  show: boolean
+  current?: number
+  limit?: number
+  message?: string
+}
+
 const quickActions = [
   { icon: PenLine, label: 'Improve Writing', prompt: 'Improve the clarity and flow of this text' },
   { icon: Lightbulb, label: 'Expand Ideas', prompt: 'Expand on the main ideas in this document' },
@@ -58,6 +66,7 @@ export function AIWritingAssistant({
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
+  const [upgradeState, setUpgradeState] = useState<UpgradeState>({ show: false })
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
@@ -81,9 +90,21 @@ export function AIWritingAssistant({
         }),
       })
 
+      const data = await response.json()
+
+      // Handle upgrade needed
+      if (response.status === 403 && data.needsUpgrade) {
+        setUpgradeState({
+          show: true,
+          current: data.usage?.current,
+          limit: data.usage?.limit,
+          message: data.message,
+        })
+        return
+      }
+
       if (!response.ok) throw new Error('Failed to generate')
 
-      const data = await response.json()
       setMessages(prev => [...prev, { role: 'assistant', content: data.content }])
     } catch (error) {
       console.error('AI error:', error)
@@ -249,6 +270,18 @@ export function AIWritingAssistant({
           </div>
         </div>
       </DialogContent>
+
+      {/* Upgrade Prompt Modal */}
+      {upgradeState.show && (
+        <UpgradePrompt
+          feature="AI Writing Assistant"
+          description={upgradeState.message || "You've used all your AI credits this month. Upgrade to Pro for more."}
+          currentUsage={upgradeState.current}
+          limit={upgradeState.limit}
+          variant="modal"
+          onClose={() => setUpgradeState({ show: false })}
+        />
+      )}
     </Dialog>
   )
 }

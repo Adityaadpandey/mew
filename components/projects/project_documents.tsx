@@ -5,12 +5,11 @@ import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
 import {
   FileText,
   GitBranch,
   Grid3X3,
-  List,
+  LayoutList,
   MoreHorizontal,
   Plus,
   Search
@@ -57,8 +56,10 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
         if (res.ok) {
           const data = await res.json()
           let filtered = data
-          if (filterType) {
-            filtered = data.filter((d: Document) => d.type === filterType)
+          if (filterType === 'DOCUMENT') {
+            filtered = data.filter((d: Document) => d.type === 'DOCUMENT')
+          } else if (filterType === 'DIAGRAM') {
+            filtered = data.filter((d: Document) => d.type === 'DIAGRAM' || d.type === 'CANVAS')
           }
           setDocuments(filtered)
         }
@@ -96,7 +97,6 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
 
       if (res.ok) {
         const doc = await res.json()
-        // Use proper routes based on document type
         if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
           router.push(`/designs/${doc.id}`)
         } else {
@@ -111,41 +111,51 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
     }
   }
 
+  const handleOpenDocument = (doc: Document) => {
+    if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
+      router.push(`/designs/${doc.id}`)
+    } else {
+      router.push(`/documents/${doc.id}`)
+    }
+  }
+
+  const docTypeLabel = filterType === 'DIAGRAM' ? 'design' : 'document'
+  const DocTypeIcon = filterType === 'DIAGRAM' ? GitBranch : FileText
+
   return (
     <ScrollArea className="h-full">
-      <div className="max-w-7xl mx-auto px-8 py-8">
+      <div className="max-w-5xl mx-auto px-6 py-6">
         {/* Toolbar */}
         <div className="flex items-center justify-between gap-4 mb-6">
-          <div className="relative flex-1 max-w-md">
+          <div className="relative flex-1 max-w-sm">
             <Search className={cn(
               "absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2",
-              isDark ? "text-neutral-500" : "text-slate-400"
+              isDark ? "text-zinc-500" : "text-gray-400"
             )} />
             <Input
-              placeholder="Search documents..."
+              placeholder={`Search ${docTypeLabel}s...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className={cn(
-                "pl-10",
+                "pl-10 h-9",
                 isDark
-                  ? "bg-neutral-900/50 border-neutral-800"
-                  : "bg-white/70 border-slate-200"
+                  ? "bg-zinc-900 border-zinc-800"
+                  : "bg-white border-gray-200"
               )}
             />
           </div>
 
           <div className="flex items-center gap-2">
-            {/* View Mode Toggle */}
             <div className={cn(
-              "flex rounded-lg border p-1",
-              isDark ? "border-neutral-800 bg-neutral-900/50" : "border-slate-200 bg-white/70"
+              "flex rounded-lg border p-0.5",
+              isDark ? "border-zinc-800 bg-zinc-900" : "border-gray-200 bg-white"
             )}>
               <Button
                 variant="ghost"
-                size="icon"
+                size="sm"
                 className={cn(
-                  "h-8 w-8",
-                  viewMode === 'grid' && (isDark ? "bg-neutral-800" : "bg-slate-100")
+                  "h-8 w-8 p-0",
+                  viewMode === 'grid' && (isDark ? "bg-zinc-800" : "bg-gray-100")
                 )}
                 onClick={() => setViewMode('grid')}
               >
@@ -153,91 +163,74 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
               </Button>
               <Button
                 variant="ghost"
-                size="icon"
+                size="sm"
                 className={cn(
-                  "h-8 w-8",
-                  viewMode === 'list' && (isDark ? "bg-neutral-800" : "bg-slate-100")
+                  "h-8 w-8 p-0",
+                  viewMode === 'list' && (isDark ? "bg-zinc-800" : "bg-gray-100")
                 )}
                 onClick={() => setViewMode('list')}
               >
-                <List className="h-4 w-4" />
+                <LayoutList className="h-4 w-4" />
               </Button>
             </div>
 
             <Button
               onClick={handleCreateDocument}
-              className="gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]"
+              size="sm"
+              className={cn(
+                "gap-2 h-9",
+                isDark ? "bg-white text-black hover:bg-gray-100" : "bg-gray-900 text-white hover:bg-gray-800"
+              )}
             >
               <Plus className="h-4 w-4" />
-              New {filterType === 'DIAGRAM' ? 'Diagram' : 'Document'}
+              New {filterType === 'DIAGRAM' ? 'Design' : 'Document'}
             </Button>
           </div>
         </div>
 
-        {/* Documents Grid/List */}
+        {/* Documents */}
         {filteredDocs.length === 0 ? (
           <div className={cn(
-            "flex flex-col items-center justify-center rounded-2xl py-20 px-8",
-            isDark ? "bg-neutral-900/50" : "bg-white/50"
+            "text-center py-20 rounded-xl border-2 border-dashed",
+            isDark ? "border-zinc-800" : "border-gray-200"
           )}>
-            <div className={cn(
-              "flex h-20 w-20 items-center justify-center rounded-2xl mb-6",
-              isDark ? "bg-neutral-800" : "bg-slate-100"
-            )}>
-              {filterType === 'DIAGRAM' ? (
-                <GitBranch className={cn("h-10 w-10", isDark ? "text-neutral-600" : "text-slate-400")} />
-              ) : (
-                <FileText className={cn("h-10 w-10", isDark ? "text-neutral-600" : "text-slate-400")} />
-              )}
-            </div>
-            <h3 className={cn("text-xl font-semibold mb-2", isDark ? "text-white" : "text-slate-900")}>
-              No {filterType === 'DIAGRAM' ? 'diagrams' : 'documents'} yet
+            <DocTypeIcon className={cn("h-12 w-12 mx-auto mb-4", isDark ? "text-zinc-700" : "text-gray-300")} />
+            <h3 className={cn("text-lg font-medium mb-2", isDark ? "text-white" : "text-gray-900")}>
+              {search ? `No ${docTypeLabel}s found` : `No ${docTypeLabel}s yet`}
             </h3>
-            <p className={cn("text-center max-w-md mb-6", isDark ? "text-neutral-400" : "text-slate-500")}>
-              Create your first {filterType === 'DIAGRAM' ? 'diagram' : 'document'} to get started
+            <p className={cn("text-sm mb-6", isDark ? "text-zinc-500" : "text-gray-500")}>
+              {search ? `No results for "${search}"` : `Create your first ${docTypeLabel} to get started`}
             </p>
-            <Button
-              onClick={handleCreateDocument}
-              className="gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001]"
-            >
-              <Plus className="h-4 w-4" />
-              Create {filterType === 'DIAGRAM' ? 'Diagram' : 'Document'}
-            </Button>
+            {!search && (
+              <Button onClick={handleCreateDocument} size="sm" className="gap-2">
+                <Plus className="h-4 w-4" /> Create {filterType === 'DIAGRAM' ? 'Design' : 'Document'}
+              </Button>
+            )}
           </div>
         ) : viewMode === 'grid' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredDocs.map((doc, index) => (
-              <motion.div
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredDocs.map((doc) => (
+              <button
                 key={doc.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                whileHover={{ y: -4 }}
-                onClick={() => {
-                  if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
-                    router.push(`/designs/${doc.id}`)
-                  } else {
-                    router.push(`/documents/${doc.id}`)
-                  }
-                }}
+                onClick={() => handleOpenDocument(doc)}
                 className={cn(
-                  "group cursor-pointer rounded-xl border p-6 transition-all hover:shadow-lg",
+                  "w-full text-left p-5 rounded-xl border transition-all group",
                   isDark
-                    ? "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700"
-                    : "bg-white/70 border-slate-200 hover:border-slate-300"
+                    ? "bg-zinc-900/50 border-zinc-800 hover:bg-zinc-900 hover:border-zinc-700"
+                    : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
                 )}
               >
-                <div className="flex items-start justify-between mb-4">
+                <div className="flex items-start justify-between mb-3">
                   <div className={cn(
-                    "flex h-12 w-12 items-center justify-center rounded-xl",
-                    doc.type === 'DIAGRAM'
-                      ? "bg-[#E85002]/10 text-[#E85002]"
-                      : "bg-[#F16001]/10 text-[#F16001]"
+                    "flex h-10 w-10 items-center justify-center rounded-lg",
+                    doc.type === 'DIAGRAM' || doc.type === 'CANVAS'
+                      ? "bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400"
+                      : "bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
                   )}>
-                    {doc.type === 'DIAGRAM' ? (
-                      <GitBranch className="h-6 w-6" />
+                    {doc.type === 'DIAGRAM' || doc.type === 'CANVAS' ? (
+                      <GitBranch className="h-5 w-5" />
                     ) : (
-                      <FileText className="h-6 w-6" />
+                      <FileText className="h-5 w-5" />
                     )}
                   </div>
 
@@ -252,72 +245,63 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                         <MoreHorizontal className="h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>Open</DropdownMenuItem>
+                    <DropdownMenuContent align="end" className={isDark ? "bg-zinc-900 border-zinc-800" : ""}>
+                      <DropdownMenuItem onClick={() => handleOpenDocument(doc)}>Open</DropdownMenuItem>
                       <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                      <DropdownMenuSeparator />
+                      <DropdownMenuSeparator className={isDark ? "bg-zinc-800" : ""} />
                       <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
 
                 <h3 className={cn(
-                  "font-semibold text-lg mb-2 truncate",
-                  isDark ? "text-white" : "text-slate-900"
+                  "font-medium mb-1 truncate",
+                  isDark ? "text-white" : "text-gray-900"
                 )}>
                   {doc.title}
                 </h3>
 
-                <p className={cn("text-sm", isDark ? "text-neutral-500" : "text-slate-500")}>
-                  Updated {formatDistanceToNow(new Date(doc.updatedAt), { addSuffix: true })}
+                <p className={cn("text-sm", isDark ? "text-zinc-500" : "text-gray-500")}>
+                  Updated {formatDistanceToNow(new Date(doc.updatedAt), { addSuffix: true }).replace('about ', '')}
                 </p>
-              </motion.div>
+              </button>
             ))}
           </div>
         ) : (
           <div className="space-y-2">
-            {filteredDocs.map((doc, index) => (
-              <motion.div
+            {filteredDocs.map((doc) => (
+              <button
                 key={doc.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.03 }}
-                onClick={() => {
-                  if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
-                    router.push(`/designs/${doc.id}`)
-                  } else {
-                    router.push(`/documents/${doc.id}`)
-                  }
-                }}
+                onClick={() => handleOpenDocument(doc)}
                 className={cn(
-                  "group flex items-center gap-4 p-4 rounded-xl border cursor-pointer transition-all hover:shadow-md",
+                  "w-full flex items-center gap-4 p-4 rounded-xl border transition-all text-left group",
                   isDark
-                    ? "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700"
-                    : "bg-white/70 border-slate-200 hover:border-slate-300"
+                    ? "bg-zinc-900/50 border-zinc-800 hover:bg-zinc-900 hover:border-zinc-700"
+                    : "bg-white border-gray-200 hover:border-gray-300 hover:shadow-sm"
                 )}
               >
                 <div className={cn(
-                  "flex h-12 w-12 items-center justify-center rounded-xl",
-                  doc.type === 'DIAGRAM'
-                    ? "bg-[#E85002]/10 text-[#E85002]"
-                    : "bg-[#F16001]/10 text-[#F16001]"
+                  "flex h-10 w-10 items-center justify-center rounded-lg shrink-0",
+                  doc.type === 'DIAGRAM' || doc.type === 'CANVAS'
+                    ? "bg-purple-100 text-purple-600 dark:bg-purple-500/10 dark:text-purple-400"
+                    : "bg-blue-100 text-blue-600 dark:bg-blue-500/10 dark:text-blue-400"
                 )}>
-                  {doc.type === 'DIAGRAM' ? (
-                    <GitBranch className="h-6 w-6" />
+                  {doc.type === 'DIAGRAM' || doc.type === 'CANVAS' ? (
+                    <GitBranch className="h-5 w-5" />
                   ) : (
-                    <FileText className="h-6 w-6" />
+                    <FileText className="h-5 w-5" />
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <h3 className={cn(
-                    "font-semibold truncate",
-                    isDark ? "text-white" : "text-slate-900"
+                    "font-medium truncate",
+                    isDark ? "text-white" : "text-gray-900"
                   )}>
                     {doc.title}
                   </h3>
-                  <p className={cn("text-sm", isDark ? "text-neutral-500" : "text-slate-500")}>
-                    Updated {formatDistanceToNow(new Date(doc.updatedAt), { addSuffix: true })}
+                  <p className={cn("text-sm", isDark ? "text-zinc-500" : "text-gray-500")}>
+                    Updated {formatDistanceToNow(new Date(doc.updatedAt), { addSuffix: true }).replace('about ', '')}
                   </p>
                 </div>
 
@@ -326,20 +310,20 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 opacity-0 group-hover:opacity-100"
+                      className="h-8 w-8 opacity-0 group-hover:opacity-100 shrink-0"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Open</DropdownMenuItem>
+                  <DropdownMenuContent align="end" className={isDark ? "bg-zinc-900 border-zinc-800" : ""}>
+                    <DropdownMenuItem onClick={() => handleOpenDocument(doc)}>Open</DropdownMenuItem>
                     <DropdownMenuItem>Duplicate</DropdownMenuItem>
-                    <DropdownMenuSeparator />
+                    <DropdownMenuSeparator className={isDark ? "bg-zinc-800" : ""} />
                     <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              </motion.div>
+              </button>
             ))}
           </div>
         )}

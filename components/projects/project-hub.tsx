@@ -2,35 +2,34 @@
 
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ProjectSkeleton } from '@/components/ui/loading'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
-import { motion, AnimatePresence } from 'framer-motion'
 import {
   ArrowLeft,
-  Calendar,
-  CheckCircle2,
   FileText,
   GitBranch,
   LayoutDashboard,
   ListTodo,
   MoreHorizontal,
-  Settings,
-  Sparkles,
   Users,
   Clock,
   FolderOpen,
+  Pencil,
+  Check,
+  X,
 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { ProjectOverview } from './project-overview'
-import { ProjectDocuments } from './project-documents'
+import { ProjectDocuments } from './project_documents'
 import { ProjectTasks } from './project-tasks'
 import { ProjectMembers } from './project-members'
-import { buttonGradients } from '@/lib/design-system'
 import { formatDistanceToNow } from 'date-fns'
+import { toast } from 'sonner'
 
 interface Project {
   id: string
@@ -52,6 +51,9 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
   const [project, setProject] = useState<Project | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('overview')
+  const [isEditingName, setIsEditingName] = useState(false)
+  const [editedName, setEditedName] = useState('')
+  const nameInputRef = useRef<HTMLInputElement>(null)
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
   const router = useRouter()
@@ -77,6 +79,57 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
     fetchProject()
   }, [projectId, router])
 
+  useEffect(() => {
+    if (isEditingName && nameInputRef.current) {
+      nameInputRef.current.focus()
+      nameInputRef.current.select()
+    }
+  }, [isEditingName])
+
+  const handleStartEditName = () => {
+    setEditedName(project?.name || '')
+    setIsEditingName(true)
+  }
+
+  const handleSaveName = async () => {
+    if (!project || !editedName.trim()) {
+      setIsEditingName(false)
+      return
+    }
+
+    try {
+      const res = await fetch(`/api/projects/${project.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: editedName.trim() }),
+      })
+
+      if (res.ok) {
+        setProject({ ...project, name: editedName.trim() })
+        toast.success('Project name updated')
+      } else {
+        toast.error('Failed to update project name')
+      }
+    } catch (error) {
+      console.error('Failed to update project name:', error)
+      toast.error('Failed to update project name')
+    }
+    setIsEditingName(false)
+  }
+
+  const handleCancelEdit = () => {
+    setIsEditingName(false)
+    setEditedName('')
+  }
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSaveName()
+    } else if (e.key === 'Escape') {
+      handleCancelEdit()
+    }
+  }
+
   if (isLoading) {
     return <ProjectSkeleton />
   }
@@ -87,121 +140,106 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
   const taskCount = project._count?.tasks || 0
 
   return (
-    <div className={cn("flex h-full flex-col relative", isDark ? "bg-black" : "bg-slate-50")}>
-      {/* Animated Background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className={cn(
-          "absolute -top-40 -right-40 w-96 h-96 rounded-full blur-3xl opacity-20",
-          "bg-gradient-to-br from-[#C10801] to-[#F16001]"
-        )} />
-        <div className={cn(
-          "absolute -bottom-40 -left-40 w-96 h-96 rounded-full blur-3xl opacity-10",
-          "bg-gradient-to-br from-[#F16001] to-[#D9C3AB]"
-        )} />
-      </div>
-
+    <div className={cn("flex h-full flex-col", isDark ? "bg-zinc-950" : "bg-gray-50/50")}>
       {/* Header */}
       <div className={cn(
-        "relative z-10 border-b",
-        isDark ? "border-zinc-800/50 bg-black/50 backdrop-blur-xl" : "border-slate-200/50 bg-white/50 backdrop-blur-xl"
+        "border-b shrink-0",
+        isDark ? "border-zinc-800 bg-zinc-950" : "border-gray-200 bg-white"
       )}>
-        <div className="px-8 py-6">
+        <div className="px-6 py-5">
           {/* Back Button */}
           <Button
             variant="ghost"
             size="sm"
-            className={cn("mb-4 gap-2", isDark ? "hover:bg-zinc-800" : "")}
-            onClick={() => router.push('/dashboard')}
+            className={cn("mb-4 gap-2 -ml-2 h-8", isDark ? "hover:bg-zinc-800 text-zinc-400" : "text-gray-500")}
+            onClick={() => router.push('/projects')}
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to Dashboard
+            Back to Projects
           </Button>
 
           {/* Project Header */}
           <div className="flex items-start justify-between">
             <div className="flex items-start gap-4">
-              <motion.div
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#C10801] to-[#F16001] shadow-lg shadow-orange-500/25"
-              >
-                <FolderOpen className="h-8 w-8 text-white" />
-              </motion.div>
+              <div className={cn(
+                "flex h-12 w-12 items-center justify-center rounded-xl shrink-0",
+                isDark ? "bg-zinc-800" : "bg-gray-100"
+              )}>
+                <FolderOpen className={cn("h-6 w-6", isDark ? "text-zinc-400" : "text-gray-500")} />
+              </div>
 
               <div>
-                <div className="flex items-center gap-3 mb-2">
-                  <h1 className={cn(
-                    "text-3xl font-bold tracking-tight",
-                    isDark ? "text-white" : "text-slate-900"
-                  )}>
-                    {project.name}
-                  </h1>
-                  <Badge className={cn(
-                    "px-3 py-1",
-                    "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20"
-                  )}>
-                    Active
-                  </Badge>
+                <div className="flex items-center gap-3 mb-1">
+                  {isEditingName ? (
+                    <div className="flex items-center gap-2">
+                      <Input
+                        ref={nameInputRef}
+                        value={editedName}
+                        onChange={(e) => setEditedName(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        onBlur={handleSaveName}
+                        className={cn(
+                          "text-xl font-semibold h-9 px-2 w-[280px]",
+                          isDark ? "bg-zinc-800 border-zinc-700" : "bg-white border-gray-300"
+                        )}
+                      />
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={handleSaveName}
+                      >
+                        <Check className="h-4 w-4 text-emerald-500" />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={handleCancelEdit}
+                      >
+                        <X className="h-4 w-4 text-red-500" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleStartEditName}
+                      className={cn(
+                        "flex items-center gap-2 text-xl font-semibold tracking-tight hover:opacity-80 transition-opacity group",
+                        isDark ? "text-white" : "text-gray-900"
+                      )}
+                    >
+                      <span>{project.name}</span>
+                      <Pencil className="h-3.5 w-3.5 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground" />
+                    </button>
+                  )}
                 </div>
 
                 <p className={cn(
-                  "text-base max-w-2xl mb-4",
-                  isDark ? "text-zinc-400" : "text-slate-600"
+                  "text-sm max-w-xl mb-3",
+                  isDark ? "text-zinc-500" : "text-gray-500"
                 )}>
-                  {project.description || 'No description provided'}
+                  {project.description || 'No description'}
                 </p>
 
                 {/* Quick Stats */}
-                <div className="flex items-center gap-6">
-                  <div className="flex items-center gap-2">
-                    <div className={cn(
-                      "flex items-center justify-center h-8 w-8 rounded-lg",
-                      isDark ? "bg-orange-500/10" : "bg-orange-100"
-                    )}>
-                      <FileText className="h-4 w-4 text-orange-500" />
-                    </div>
-                    <div>
-                      <p className={cn("text-sm font-semibold", isDark ? "text-white" : "text-slate-900")}>
-                        {docCount}
-                      </p>
-                      <p className={cn("text-xs", isDark ? "text-zinc-500" : "text-slate-500")}>
-                        Documents
-                      </p>
-                    </div>
+                <div className="flex items-center gap-5">
+                  <div className="flex items-center gap-1.5">
+                    <FileText className={cn("h-4 w-4", isDark ? "text-zinc-500" : "text-gray-400")} />
+                    <span className={cn("text-sm", isDark ? "text-zinc-400" : "text-gray-600")}>
+                      {docCount} docs
+                    </span>
                   </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className={cn(
-                      "flex items-center justify-center h-8 w-8 rounded-lg",
-                      isDark ? "bg-amber-500/10" : "bg-amber-100"
-                    )}>
-                      <ListTodo className="h-4 w-4 text-amber-500" />
-                    </div>
-                    <div>
-                      <p className={cn("text-sm font-semibold", isDark ? "text-white" : "text-slate-900")}>
-                        {taskCount}
-                      </p>
-                      <p className={cn("text-xs", isDark ? "text-zinc-500" : "text-slate-500")}>
-                        Tasks
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-1.5">
+                    <ListTodo className={cn("h-4 w-4", isDark ? "text-zinc-500" : "text-gray-400")} />
+                    <span className={cn("text-sm", isDark ? "text-zinc-400" : "text-gray-600")}>
+                      {taskCount} tasks
+                    </span>
                   </div>
-
-                  <div className="flex items-center gap-2">
-                    <div className={cn(
-                      "flex items-center justify-center h-8 w-8 rounded-lg",
-                      isDark ? "bg-red-500/10" : "bg-red-100"
-                    )}>
-                      <Clock className="h-4 w-4 text-red-500" />
-                    </div>
-                    <div>
-                      <p className={cn("text-sm font-semibold", isDark ? "text-white" : "text-slate-900")}>
-                        {formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true })}
-                      </p>
-                      <p className={cn("text-xs", isDark ? "text-zinc-500" : "text-slate-500")}>
-                        Last updated
-                      </p>
-                    </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className={cn("h-4 w-4", isDark ? "text-zinc-500" : "text-gray-400")} />
+                    <span className={cn("text-sm", isDark ? "text-zinc-400" : "text-gray-600")}>
+                      Updated {formatDistanceToNow(new Date(project.updatedAt), { addSuffix: true }).replace('about ', '')}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -211,8 +249,8 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               variant="ghost"
               size="icon"
               className={cn(
-                "h-10 w-10",
-                isDark ? "hover:bg-zinc-800" : "hover:bg-slate-100"
+                "h-9 w-9",
+                isDark ? "hover:bg-zinc-800" : "hover:bg-gray-100"
               )}
             >
               <MoreHorizontal className="h-5 w-5" />
@@ -220,18 +258,18 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
           </div>
 
           {/* Tabs */}
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-6">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-5">
             <TabsList className={cn(
-              "h-12 p-1 gap-1",
-              isDark ? "bg-zinc-900/50 border border-zinc-800" : "bg-white/70 border border-slate-200"
+              "h-10 p-1 gap-1",
+              isDark ? "bg-zinc-900 border border-zinc-800" : "bg-gray-100 border border-gray-200"
             )}>
               <TabsTrigger
                 value="overview"
                 className={cn(
-                  "gap-2 px-4 data-[state=active]:shadow-none rounded-lg",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
                   isDark
-                    ? "data-[state=active]:bg-orange-500/20 data-[state=active]:text-orange-400"
-                    : "data-[state=active]:bg-orange-100 data-[state=active]:text-orange-700"
+                    ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
+                    : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
                 )}
               >
                 <LayoutDashboard className="h-4 w-4" />
@@ -240,10 +278,10 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               <TabsTrigger
                 value="documents"
                 className={cn(
-                  "gap-2 px-4 data-[state=active]:shadow-none rounded-lg",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
                   isDark
-                    ? "data-[state=active]:bg-orange-500/20 data-[state=active]:text-orange-400"
-                    : "data-[state=active]:bg-orange-100 data-[state=active]:text-orange-700"
+                    ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
+                    : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
                 )}
               >
                 <FileText className="h-4 w-4" />
@@ -251,7 +289,7 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
                 {docCount > 0 && (
                   <Badge variant="secondary" className={cn(
                     "ml-1 h-5 px-1.5 text-xs",
-                    isDark ? "bg-zinc-800" : ""
+                    isDark ? "bg-zinc-700" : "bg-gray-200"
                   )}>
                     {docCount}
                   </Badge>
@@ -260,10 +298,10 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               <TabsTrigger
                 value="designs"
                 className={cn(
-                  "gap-2 px-4 data-[state=active]:shadow-none rounded-lg",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
                   isDark
-                    ? "data-[state=active]:bg-orange-500/20 data-[state=active]:text-orange-400"
-                    : "data-[state=active]:bg-orange-100 data-[state=active]:text-orange-700"
+                    ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
+                    : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
                 )}
               >
                 <GitBranch className="h-4 w-4" />
@@ -272,10 +310,10 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               <TabsTrigger
                 value="tasks"
                 className={cn(
-                  "gap-2 px-4 data-[state=active]:shadow-none rounded-lg",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
                   isDark
-                    ? "data-[state=active]:bg-orange-500/20 data-[state=active]:text-orange-400"
-                    : "data-[state=active]:bg-orange-100 data-[state=active]:text-orange-700"
+                    ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
+                    : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
                 )}
               >
                 <ListTodo className="h-4 w-4" />
@@ -283,7 +321,7 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
                 {taskCount > 0 && (
                   <Badge variant="secondary" className={cn(
                     "ml-1 h-5 px-1.5 text-xs",
-                    isDark ? "bg-zinc-800" : ""
+                    isDark ? "bg-zinc-700" : "bg-gray-200"
                   )}>
                     {taskCount}
                   </Badge>
@@ -292,10 +330,10 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
               <TabsTrigger
                 value="members"
                 className={cn(
-                  "gap-2 px-4 data-[state=active]:shadow-none rounded-lg",
+                  "gap-2 px-3 h-8 text-sm data-[state=active]:shadow-none rounded-md",
                   isDark
-                    ? "data-[state=active]:bg-orange-500/20 data-[state=active]:text-orange-400"
-                    : "data-[state=active]:bg-orange-100 data-[state=active]:text-orange-700"
+                    ? "data-[state=active]:bg-zinc-800 data-[state=active]:text-white"
+                    : "data-[state=active]:bg-white data-[state=active]:text-gray-900"
                 )}
               >
                 <Users className="h-4 w-4" />
@@ -307,14 +345,14 @@ export function ProjectHub({ projectId }: ProjectHubProps) {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex-1 overflow-hidden">
+      <div className="flex-1 overflow-hidden">
         <Tabs value={activeTab} className="h-full">
           <TabsContent value="overview" className="h-full m-0">
             <ProjectOverview projectId={projectId} project={project} />
           </TabsContent>
 
           <TabsContent value="documents" className="h-full m-0">
-            <ProjectDocuments projectId={projectId} />
+            <ProjectDocuments projectId={projectId} filterType="DOCUMENT" />
           </TabsContent>
 
           <TabsContent value="designs" className="h-full m-0">

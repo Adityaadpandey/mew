@@ -3,19 +3,24 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Progress } from '@/components/ui/progress'
 import { Separator } from '@/components/ui/separator'
 import { buttonGradients } from '@/lib/design-system'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
 import {
+  AlertCircle,
+  Brain,
   Check,
   CreditCard,
   Crown,
+  FolderOpen,
   Loader2,
   Sparkles,
   Zap,
 } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 
@@ -47,9 +52,16 @@ interface Subscription {
   cancelAtPeriodEnd: boolean
 }
 
+interface Usage {
+  projects: number
+  aiCreditsUsed: number
+}
+
 export default function BillingPage() {
   const [subscription, setSubscription] = useState<Subscription | null>(null)
   const [plans, setPlans] = useState<Record<string, Plan>>({})
+  const [usage, setUsage] = useState<Usage | null>(null)
+  const [limits, setLimits] = useState<Plan['limits'] | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [processingPlan, setProcessingPlan] = useState<string | null>(null)
   const { resolvedTheme } = useTheme()
@@ -74,6 +86,8 @@ export default function BillingPage() {
         const data = await res.json()
         setSubscription(data.subscription)
         setPlans(data.plans)
+        setUsage(data.usage)
+        setLimits(data.limits)
       }
     } catch (error) {
       console.error('Failed to fetch subscription:', error)
@@ -214,6 +228,82 @@ export default function BillingPage() {
           </div>
         </CardHeader>
         <CardContent>
+          {/* Usage Section */}
+          {usage && limits && (
+            <div className={cn(
+              "rounded-xl p-4 mb-6",
+              isDark ? "bg-zinc-800/50" : "bg-slate-50"
+            )}>
+              <h4 className={cn(
+                "text-sm font-medium mb-4 flex items-center gap-2",
+                isDark ? "text-zinc-300" : "text-slate-700"
+              )}>
+                <Brain className="h-4 w-4" />
+                Current Usage
+              </h4>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className={cn("flex items-center gap-2", isDark ? "text-zinc-400" : "text-slate-600")}>
+                      <FolderOpen className="h-3.5 w-3.5" />
+                      Projects
+                    </span>
+                    <span className={isDark ? "text-white" : "text-slate-900"}>
+                      {usage.projects} / {limits.projects === -1 ? '∞' : limits.projects}
+                    </span>
+                  </div>
+                  <Progress
+                    value={limits.projects === -1 ? 0 : (usage.projects / limits.projects) * 100}
+                    className={cn("h-2", isDark && "bg-zinc-700")}
+                  />
+                </div>
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span className={cn("flex items-center gap-2", isDark ? "text-zinc-400" : "text-slate-600")}>
+                      <Brain className="h-3.5 w-3.5" />
+                      AI Credits
+                    </span>
+                    <span className={cn(
+                      limits.aiCredits !== -1 && (usage.aiCreditsUsed / limits.aiCredits) >= 0.8
+                        ? "text-orange-500"
+                        : isDark ? "text-white" : "text-slate-900"
+                    )}>
+                      {usage.aiCreditsUsed} / {limits.aiCredits === -1 ? '∞' : limits.aiCredits}
+                    </span>
+                  </div>
+                  <Progress
+                    value={limits.aiCredits === -1 ? 0 : (usage.aiCreditsUsed / limits.aiCredits) * 100}
+                    className={cn(
+                      "h-2",
+                      isDark && "bg-zinc-700",
+                      limits.aiCredits !== -1 && (usage.aiCreditsUsed / limits.aiCredits) >= 0.8 && "[&>div]:bg-orange-500"
+                    )}
+                  />
+                </div>
+              </div>
+
+              {/* Warning if near AI limit */}
+              {limits.aiCredits !== -1 && (usage.aiCreditsUsed / limits.aiCredits) >= 0.8 && currentPlan === 'FREE' && (
+                <div className={cn(
+                  "rounded-lg p-3 mt-4 flex items-start gap-3",
+                  "bg-orange-500/10 border border-orange-500/20"
+                )}>
+                  <AlertCircle className="h-4 w-4 text-orange-500 shrink-0 mt-0.5" />
+                  <div>
+                    <p className={cn("text-sm font-medium", isDark ? "text-white" : "text-slate-900")}>
+                      {(usage.aiCreditsUsed / limits.aiCredits) >= 1
+                        ? "You've reached your AI limit"
+                        : "Running low on AI credits"}
+                    </p>
+                    <p className={cn("text-xs mt-0.5", isDark ? "text-zinc-400" : "text-slate-600")}>
+                      Upgrade to Pro for 500 AI credits per month.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <h4 className={cn("text-sm font-medium mb-2", isDark ? "text-zinc-300" : "text-slate-700")}>

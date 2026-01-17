@@ -83,12 +83,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
     if (!session?.user) return
 
     try {
-      const res = await fetch('/api/workspaces')
-      if (res.ok) {
-        const data = await res.json()
+      // Fetch workspaces and projects in parallel for faster loading
+      const [workspacesRes, projectsRes] = await Promise.all([
+        fetch('/api/workspaces'),
+        fetch('/api/projects'),
+      ])
+
+      if (workspacesRes.ok) {
+        const data = await workspacesRes.json()
         setWorkspaces(data)
         // Set first workspace if none selected
         setCurrentWorkspace(prev => prev || (data.length > 0 ? data[0] : null))
+      }
+
+      // Load projects immediately so dashboard always has them
+      if (projectsRes.ok) {
+        const data = await projectsRes.json()
+        setProjects(data)
       }
     } catch (error) {
       console.error('Failed to fetch workspaces:', error)

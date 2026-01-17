@@ -11,6 +11,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // Check if Razorpay is configured
+    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
+      console.error('Razorpay credentials not configured')
+      return NextResponse.json({
+        error: 'Payment system not configured. Please contact support.',
+        code: 'RAZORPAY_NOT_CONFIGURED'
+      }, { status: 503 })
+    }
+
     const body = await request.json()
     const { plan } = body as { plan: PlanType }
 
@@ -53,7 +62,20 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Failed to create order:', error)
-    return NextResponse.json({ error: 'Failed to create order' }, { status: 500 })
+
+    // Check for specific Razorpay errors
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+    if (errorMessage.includes('credentials')) {
+      return NextResponse.json({
+        error: 'Payment system not configured properly.',
+        code: 'RAZORPAY_CONFIG_ERROR'
+      }, { status: 503 })
+    }
+
+    return NextResponse.json({
+      error: 'Failed to create order. Please try again.',
+      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+    }, { status: 500 })
   }
 }
 

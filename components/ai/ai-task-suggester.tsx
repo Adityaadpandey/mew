@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { UpgradePrompt } from '@/components/subscription/upgrade-prompt'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
 import {
@@ -49,6 +50,13 @@ interface Message {
   suggestions?: SuggestedTask[]
 }
 
+interface UpgradeState {
+  show: boolean
+  current?: number
+  limit?: number
+  message?: string
+}
+
 const quickPrompts = [
   { icon: Target, label: 'Break down goal', prompt: 'Help me break down a project goal into actionable tasks' },
   { icon: Zap, label: 'Sprint planning', prompt: 'Suggest tasks for a 2-week sprint' },
@@ -67,6 +75,7 @@ export function AITaskSuggester({
   const [input, setInput] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [creatingTask, setCreatingTask] = useState<string | null>(null)
+  const [upgradeState, setUpgradeState] = useState<UpgradeState>({ show: false })
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
@@ -90,9 +99,21 @@ export function AITaskSuggester({
         }),
       })
 
+      const data = await response.json()
+
+      // Handle upgrade needed
+      if (response.status === 403 && data.needsUpgrade) {
+        setUpgradeState({
+          show: true,
+          current: data.usage?.current,
+          limit: data.usage?.limit,
+          message: data.message,
+        })
+        return
+      }
+
       if (!response.ok) throw new Error('Failed to generate')
 
-      const data = await response.json()
       setMessages(prev => [
         ...prev,
         {
@@ -328,6 +349,18 @@ export function AITaskSuggester({
           </div>
         </div>
       </DialogContent>
+
+      {/* Upgrade Prompt Modal */}
+      {upgradeState.show && (
+        <UpgradePrompt
+          feature="AI Task Suggester"
+          description={upgradeState.message || "You've used all your AI credits this month. Upgrade to Pro for more."}
+          currentUsage={upgradeState.current}
+          limit={upgradeState.limit}
+          variant="modal"
+          onClose={() => setUpgradeState({ show: false })}
+        />
+      )}
     </Dialog>
   )
 }

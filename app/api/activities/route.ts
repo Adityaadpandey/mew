@@ -10,7 +10,6 @@ export async function GET(request: NextRequest) {
     }
 
     const { searchParams } = new URL(request.url)
-    const workspaceId = searchParams.get('workspaceId')
     const limit = parseInt(searchParams.get('limit') || '15')
 
     // Get user's workspace memberships
@@ -20,29 +19,25 @@ export async function GET(request: NextRequest) {
     })
     const workspaceIds = workspaceMemberships.map(m => m.workspaceId)
 
-    // Build the where clause
-    const whereClause: Record<string, unknown> = {}
-
-    if (workspaceId) {
-      // If specific workspace requested, verify user has access
-      if (!workspaceIds.includes(workspaceId)) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
-      }
-      whereClause.workspaceId = workspaceId
-    } else {
-      // Get activities from all user's workspaces
-      whereClause.workspaceId = { in: workspaceIds }
-    }
-
-    // Fetch activities with user info
+    // Activity model doesn't have workspaceId field, so we need to query
+    // activities by users who share a workspace with the current user
     const activities = await db.activity.findMany({
-      where: whereClause,
+      where: {
+        user: {
+          workspaces: {
+            some: {
+              workspaceId: { in: workspaceIds }
+            }
+          }
+        }
+      },
       include: {
         user: {
           select: {
             id: true,
             name: true,
             image: true,
+            avatar: true,
           },
         },
       },
@@ -68,27 +63,13 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { action, targetType, targetId, workspaceId, metadata } = body
+    const { action, targetType, targetId, metadata } = body
 
-    if (!action || !targetType || !targetId || !workspaceId) {
+    if (!action || !targetType || !targetId) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
+        { error: 'Missing required fields: action, targetType, targetId' },
         { status: 400 }
       )
-    }
-
-    // Verify user has access to the workspace
-    const membership = await db.workspaceMember.findUnique({
-      where: {
-        workspaceId_userId: {
-          workspaceId,
-          userId: session.user.id,
-        },
-      },
-    })
-
-    if (!membership) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
     const activity = await db.activity.create({
@@ -96,7 +77,6 @@ export async function POST(request: NextRequest) {
         action,
         targetType,
         targetId,
-        workspaceId,
         userId: session.user.id,
         metadata: metadata || {},
       },
@@ -106,6 +86,7 @@ export async function POST(request: NextRequest) {
             id: true,
             name: true,
             image: true,
+            avatar: true,
           },
         },
       },

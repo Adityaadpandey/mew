@@ -111,10 +111,12 @@ export function TeamActivityFeed({ workspaceId }: { workspaceId?: string }) {
       const res = await fetch(url)
       if (res.ok) {
         const data = await res.json()
-        setActivities(data.activities || [])
+        // Handle both array and object with activities property
+        setActivities(Array.isArray(data) ? data : (data.activities || []))
       }
     } catch (error) {
       console.error('Failed to fetch activities:', error)
+      // Keep empty array on error - UI will show "No recent activity"
     } finally {
       setIsLoading(false)
     }
