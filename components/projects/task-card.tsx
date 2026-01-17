@@ -25,8 +25,11 @@ import {
   ListChecks,
   Flame,
   Zap,
+  Bell,
+  BellPlus,
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
+import { toast } from 'sonner'
 
 interface Subtask {
   id: string
@@ -56,7 +59,6 @@ interface TaskCardProps {
   index: number
   onStatusChange: (taskId: string, status: Task['status']) => void
   onDelete: (taskId: string) => void
-  onClick?: () => void
   isDark: boolean
   isDragging?: boolean
 }
@@ -68,7 +70,35 @@ const PRIORITY_CONFIG = {
   URGENT: { icon: Flame, color: 'bg-red-500' },
 }
 
-export function TaskCard({ task, index, onStatusChange, onDelete, onClick, isDark, isDragging }: TaskCardProps) {
+async function setReminder(taskId: string, minutes: number) {
+  const remindAt = new Date(Date.now() + minutes * 60 * 1000)
+
+  try {
+    const res = await fetch(`/api/tasks/${taskId}/reminders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ remindAt: remindAt.toISOString() }),
+    })
+
+    if (res.ok) {
+      toast.success(`Reminder set for ${formatReminderTime(minutes)}`)
+    } else {
+      toast.error('Failed to set reminder')
+    }
+  } catch {
+    toast.error('Failed to set reminder')
+  }
+}
+
+function formatReminderTime(minutes: number): string {
+  if (minutes < 60) return `${minutes} minutes`
+  if (minutes === 60) return '1 hour'
+  if (minutes < 1440) return `${minutes / 60} hours`
+  if (minutes === 1440) return '1 day'
+  return `${minutes / 1440} days`
+}
+
+export function TaskCard({ task, index, onStatusChange, onDelete, isDark, isDragging }: TaskCardProps) {
   const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && task.status !== 'DONE'
   const completedSubtasks = task.subtasks?.filter(s => s.completed).length || 0
   const totalSubtasks = task.subtasks?.length || 0
@@ -76,13 +106,11 @@ export function TaskCard({ task, index, onStatusChange, onDelete, onClick, isDar
 
   return (
     <div
-      onClick={onClick}
       className={cn(
         "group relative rounded-xl border p-4 transition-all",
         isDark
           ? "bg-zinc-900 border-zinc-800 hover:border-orange-500/50 hover:shadow-lg hover:shadow-orange-500/5"
           : "bg-white border-slate-200 hover:border-orange-500/50 hover:shadow-lg",
-        onClick && "cursor-pointer",
         isDragging && "opacity-50 scale-[0.98] ring-2 ring-orange-500"
       )}
     >
@@ -137,6 +165,28 @@ export function TaskCard({ task, index, onStatusChange, onDelete, onClick, isDar
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={(e) => { e.stopPropagation(); onStatusChange(task.id, 'BLOCKED') }}>
                   <XCircle className="h-4 w-4 mr-2 text-rose-500" /> Blocked
+                </DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <BellPlus className="h-4 w-4 mr-2" /> Set Reminder
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent className={isDark ? "bg-zinc-900 border-zinc-800" : ""}>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setReminder(task.id, 15) }}>
+                  <Bell className="h-4 w-4 mr-2 text-orange-500" /> In 15 minutes
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setReminder(task.id, 30) }}>
+                  <Bell className="h-4 w-4 mr-2 text-orange-500" /> In 30 minutes
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setReminder(task.id, 60) }}>
+                  <Bell className="h-4 w-4 mr-2 text-orange-500" /> In 1 hour
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setReminder(task.id, 180) }}>
+                  <Bell className="h-4 w-4 mr-2 text-orange-500" /> In 3 hours
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={(e) => { e.stopPropagation(); setReminder(task.id, 1440) }}>
+                  <Bell className="h-4 w-4 mr-2 text-orange-500" /> Tomorrow
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuSub>

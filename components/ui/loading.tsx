@@ -215,6 +215,75 @@ function LoadingSpinner({ className, size = 'md' }: SkeletonProps & { size?: 'sm
   )
 }
 
+// Branded Mew logo loading animation
+function BrandLoading({ message = 'Loading...', size = 'md' }: { message?: string; size?: 'sm' | 'md' | 'lg' }) {
+  const sizeClasses = {
+    sm: { container: 'h-8 w-8', ring: 'h-10 w-10' },
+    md: { container: 'h-12 w-12', ring: 'h-14 w-14' },
+    lg: { container: 'h-16 w-16', ring: 'h-20 w-20' },
+  }
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative">
+        {/* Outer spinning ring */}
+        <div
+          className={cn(
+            "absolute inset-0 rounded-full border-2 border-transparent border-t-[#C10801] border-r-[#F16001] animate-spin",
+            sizeClasses[size].ring
+          )}
+          style={{ margin: '-4px' }}
+        />
+        {/* Inner gradient logo container */}
+        <div
+          className={cn(
+            "rounded-xl bg-gradient-to-br from-[#C10801] to-[#F16001] flex items-center justify-center",
+            sizeClasses[size].container
+          )}
+        >
+          <span className="text-white font-bold text-lg">M</span>
+        </div>
+      </div>
+      {message && (
+        <p className="text-sm text-muted-foreground animate-pulse">{message}</p>
+      )}
+    </div>
+  )
+}
+
+// Dots loading animation
+function DotsLoading({ className }: SkeletonProps) {
+  return (
+    <div className={cn("flex items-center gap-1", className)}>
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          className="h-2 w-2 rounded-full bg-gradient-to-r from-[#C10801] to-[#F16001]"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.5, 1, 0.5],
+          }}
+          transition={{
+            duration: 0.8,
+            repeat: Infinity,
+            delay: i * 0.15,
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+// Pulse ring animation
+function PulseRing({ className }: SkeletonProps) {
+  return (
+    <div className={cn("relative", className)}>
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#C10801] to-[#F16001] animate-ping opacity-20" />
+      <div className="relative h-3 w-3 rounded-full bg-gradient-to-r from-[#C10801] to-[#F16001]" />
+    </div>
+  )
+}
+
 // Full page loading
 function PageLoading({ message = 'Loading...' }: { message?: string }) {
   return (
@@ -224,13 +293,50 @@ function PageLoading({ message = 'Loading...' }: { message?: string }) {
         animate={{ opacity: 1, scale: 1 }}
         className="flex flex-col items-center gap-4"
       >
-        <div className="relative">
-          <div className="h-12 w-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-          <div className="absolute inset-0 h-12 w-12 rounded-full border-4 border-transparent border-r-[#F16001]/50 animate-spin" style={{ animationDirection: 'reverse', animationDuration: '1.5s' }} />
-        </div>
-        <p className="text-sm text-muted-foreground animate-pulse">{message}</p>
+        <BrandLoading message={message} size="lg" />
       </motion.div>
     </div>
+  )
+}
+
+// Inline button loading state
+function ButtonLoading({ className }: SkeletonProps) {
+  return (
+    <div className={cn("flex items-center gap-2", className)}>
+      <div className="h-4 w-4 rounded-full border-2 border-current/30 border-t-current animate-spin" />
+    </div>
+  )
+}
+
+// Success animation
+function SuccessAnimation({ className, onComplete }: SkeletonProps & { onComplete?: () => void }) {
+  return (
+    <motion.div
+      className={cn("flex items-center justify-center", className)}
+      initial={{ scale: 0 }}
+      animate={{ scale: 1 }}
+      transition={{ type: "spring", stiffness: 200, damping: 10 }}
+      onAnimationComplete={onComplete}
+    >
+      <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center">
+        <motion.svg
+          className="h-6 w-6 text-emerald-500"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+        >
+          <motion.path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M5 13l4 4L19 7"
+          />
+        </motion.svg>
+      </div>
+    </motion.div>
   )
 }
 
@@ -244,5 +350,10 @@ export {
   DashboardSkeleton,
   ProjectSkeleton,
   LoadingSpinner,
+  BrandLoading,
+  DotsLoading,
+  PulseRing,
   PageLoading,
+  ButtonLoading,
+  SuccessAnimation,
 }

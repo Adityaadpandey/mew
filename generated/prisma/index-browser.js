@@ -375,6 +375,45 @@ exports.Prisma.NotificationScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.TaskReminderScalarFieldEnum = {
+  id: 'id',
+  taskId: 'taskId',
+  userId: 'userId',
+  remindAt: 'remindAt',
+  sent: 'sent',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  plan: 'plan',
+  status: 'status',
+  razorpaySubscriptionId: 'razorpaySubscriptionId',
+  razorpayCustomerId: 'razorpayCustomerId',
+  currentPeriodStart: 'currentPeriodStart',
+  currentPeriodEnd: 'currentPeriodEnd',
+  cancelAtPeriodEnd: 'cancelAtPeriodEnd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  amount: 'amount',
+  currency: 'currency',
+  status: 'status',
+  razorpayOrderId: 'razorpayOrderId',
+  razorpayPaymentId: 'razorpayPaymentId',
+  razorpaySignature: 'razorpaySignature',
+  plan: 'plan',
+  description: 'description',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -471,7 +510,32 @@ exports.NotificationType = exports.$Enums.NotificationType = {
   COMMENT_MENTION: 'COMMENT_MENTION',
   PROJECT_UPDATE: 'PROJECT_UPDATE',
   DOCUMENT_SHARED: 'DOCUMENT_SHARED',
-  WORKSPACE_INVITE: 'WORKSPACE_INVITE'
+  WORKSPACE_INVITE: 'WORKSPACE_INVITE',
+  TASK_DUE_SOON: 'TASK_DUE_SOON',
+  TASK_OVERDUE: 'TASK_OVERDUE',
+  TASK_REMINDER: 'TASK_REMINDER'
+};
+
+exports.SubscriptionPlan = exports.$Enums.SubscriptionPlan = {
+  FREE: 'FREE',
+  PRO: 'PRO',
+  TEAM: 'TEAM',
+  ENTERPRISE: 'ENTERPRISE'
+};
+
+exports.SubscriptionStatus = exports.$Enums.SubscriptionStatus = {
+  ACTIVE: 'ACTIVE',
+  CANCELED: 'CANCELED',
+  PAST_DUE: 'PAST_DUE',
+  TRIALING: 'TRIALING',
+  PAUSED: 'PAUSED'
+};
+
+exports.PaymentStatus = exports.$Enums.PaymentStatus = {
+  PENDING: 'PENDING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED',
+  REFUNDED: 'REFUNDED'
 };
 
 exports.Prisma.ModelName = {
@@ -498,7 +562,10 @@ exports.Prisma.ModelName = {
   DocumentSnapshot: 'DocumentSnapshot',
   Invitation: 'Invitation',
   ProjectMember: 'ProjectMember',
-  Notification: 'Notification'
+  Notification: 'Notification',
+  TaskReminder: 'TaskReminder',
+  Subscription: 'Subscription',
+  Payment: 'Payment'
 };
 
 /**

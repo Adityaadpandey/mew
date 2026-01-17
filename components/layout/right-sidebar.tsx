@@ -353,7 +353,7 @@ export function RightSidebar() {
                 /* Welcome Screen */
                 <div className="p-4 space-y-4">
                   <div className="text-center py-6">
-                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-linear-to-br from-violet-500 to-purple-600 mb-3">
+                    <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-[#C10801] to-[#F16001] mb-3">
                       <Bot className="h-6 w-6 text-white" />
                     </div>
                     <h3 className="font-semibold text-sm">AI Diagram Assistant</h3>
@@ -410,7 +410,7 @@ export function RightSidebar() {
                       <div className={cn(
                         'flex items-center justify-center w-7 h-7 rounded-full shrink-0',
                         msg.role === 'assistant'
-                          ? 'bg-linear-to-br from-violet-500 to-purple-600'
+                          ? 'bg-gradient-to-br from-[#C10801] to-[#F16001]'
                           : 'bg-slate-200'
                       )}>
                         {msg.role === 'assistant' ? (
@@ -470,7 +470,7 @@ export function RightSidebar() {
                   {/* Typing Indicator */}
                   {isGenerating && (
                     <div className="flex gap-2.5">
-                      <div className="flex items-center justify-center w-7 h-7 rounded-full bg-linear-to-br from-violet-500 to-purple-600 shrink-0">
+                      <div className="flex items-center justify-center w-7 h-7 rounded-full bg-gradient-to-br from-[#C10801] to-[#F16001] shrink-0">
                         <Bot className="h-3.5 w-3.5 text-white" />
                       </div>
                       <div className={cn("rounded-2xl rounded-bl-md px-4 py-3", isDark ? "bg-neutral-900" : "bg-slate-100")}>

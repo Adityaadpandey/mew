@@ -97,7 +97,7 @@ export function ProjectDesigns({ projectId, workspaceId }: { projectId: string; 
           />
         </div>
         <Button
-          className="gap-2 bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-900/20"
+          className="gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00601] hover:to-[#E85002] text-white shadow-lg shadow-orange-900/20"
           onClick={handleCreateDesign}
         >
           <Plus className="h-4 w-4" /> New Design
@@ -114,7 +114,7 @@ export function ProjectDesigns({ projectId, workspaceId }: { projectId: string; 
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.05 }}
             >
-              <Card className="group relative overflow-hidden border border-white/5 bg-white/5 hover:bg-white/10 hover:border-purple-500/30 transition-all cursor-pointer">
+              <Card className="group relative overflow-hidden border border-white/5 bg-white/5 hover:bg-white/10 hover:border-orange-500/30 transition-all cursor-pointer">
                 <div className="aspect-[4/3] bg-neutral-100/50 dark:bg-neutral-900/50 p-4 flex flex-col justify-between relative">
                    {/* Preview Canvas */}
                    <div className="absolute inset-0 opacity-50 p-4 pointer-events-none overflow-hidden">
@@ -151,7 +151,7 @@ export function ProjectDesigns({ projectId, workspaceId }: { projectId: string; 
                       </Button>
                    </div>
                    <div className="flex justify-between items-start z-10 relative">
-                     <div className="p-2 rounded-lg bg-purple-500/10 text-purple-500 ring-1 ring-purple-500/20 bg-background/80 backdrop-blur-sm">
+                     <div className="p-2 rounded-lg bg-orange-500/10 text-orange-500 ring-1 ring-orange-500/20 bg-background/80 backdrop-blur-sm">
                        <LayoutTemplate className="h-4 w-4" />
                      </div>
                      <DropdownMenu>
@@ -188,15 +188,15 @@ export function ProjectDesigns({ projectId, workspaceId }: { projectId: string; 
         </div>
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center border border-dashed border-white/10 rounded-xl bg-white/5">
-          <div className="h-16 w-16 rounded-full bg-purple-500/10 flex items-center justify-center mb-4">
-            <PenTool className="h-8 w-8 text-purple-500" />
+          <div className="h-16 w-16 rounded-full bg-orange-500/10 flex items-center justify-center mb-4">
+            <PenTool className="h-8 w-8 text-orange-500" />
           </div>
           <h3 className="text-lg font-medium text-foreground">No designs yet</h3>
           <p className="text-sm text-muted-foreground/60 mt-1 mb-6 text-center max-w-sm">
             Create whiteboards, wireframes, and diagrams to visualize your ideas.
           </p>
           <Button
-            className="gap-2 bg-purple-600 hover:bg-purple-700"
+            className="gap-2 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00601] hover:to-[#E85002]"
             onClick={handleCreateDesign}
           >
             <Plus className="h-4 w-4" /> Create Design

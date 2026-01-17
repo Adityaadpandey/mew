@@ -1,6 +1,8 @@
 'use client'
 
 import { CreateProjectDialog } from '@/components/dashboard/create-project-dialog'
+import { ProductivityInsights } from '@/components/dashboard/productivity-insights'
+import { TeamActivityFeed } from '@/components/dashboard/team-activity-feed'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -761,6 +763,12 @@ export function DashboardHome() {
             <div className="lg:col-span-1">
               <ActivityCard activities={activities} />
             </div>
+          </div>
+
+          {/* Productivity & Team Section */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ProductivityInsights />
+            <TeamActivityFeed />
           </div>
         </motion.div>
 

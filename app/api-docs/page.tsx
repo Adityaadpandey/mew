@@ -272,7 +272,7 @@ function EndpointCard({ endpoint, isDark }: { endpoint: Endpoint; isDark: boolea
           "text-xs",
           endpoint.auth === 'API Key'
             ? "border-amber-500/20 text-amber-500 bg-amber-500/10"
-            : "border-purple-500/20 text-purple-500 bg-purple-500/10"
+            : "border-orange-500/20 text-orange-500 bg-orange-500/10"
         )}>
           {endpoint.auth}
         </Badge>
@@ -338,7 +338,7 @@ function EndpointCard({ endpoint, isDark }: { endpoint: Endpoint; isDark: boolea
                 {endpoint.body.map(b => (
                   <div key={b.name} className="text-xs">
                     <div className="flex items-center gap-2">
-                      <code className={cn("font-mono", isDark ? "text-purple-400" : "text-purple-600")}>{b.name}</code>
+                      <code className={cn("font-mono", isDark ? "text-orange-400" : "text-orange-600")}>{b.name}</code>
                       <span className={cn(isDark ? "text-neutral-500" : "text-slate-400")}>{b.type}</span>
                       {b.required && <Badge variant="outline" className="text-[10px] border-red-500/20 text-red-500">required</Badge>}
                     </div>
@@ -603,8 +603,8 @@ export default function ApiDocsPage() {
               </Card>
               <Card className={cn(isDark ? "bg-neutral-900 border-neutral-800" : "")}>
                 <CardContent className="p-4">
-                  <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center mb-3", isDark ? "bg-purple-500/10" : "bg-purple-100")}>
-                    <span className="text-purple-500 font-bold">2</span>
+                  <div className={cn("h-8 w-8 rounded-lg flex items-center justify-center mb-3", isDark ? "bg-orange-500/10" : "bg-orange-100")}>
+                    <span className="text-orange-500 font-bold">2</span>
                   </div>
                   <h3 className={cn("font-medium mb-1", isDark ? "text-white" : "")}>Set Headers</h3>
                   <p className={cn("text-xs", isDark ? "text-neutral-500" : "text-slate-500")}>

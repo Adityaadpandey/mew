@@ -276,7 +276,7 @@ export default function SignUpPage() {
               Already have an account?{' '}
               <a
                 href="/auth/signin"
-                className="font-medium text-violet-600 hover:text-violet-700 hover:underline"
+                className="font-medium text-[#E85002] hover:text-[#F16001] hover:underline"
               >
                 Sign in
               </a>

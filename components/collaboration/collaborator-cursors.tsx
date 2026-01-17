@@ -22,7 +22,7 @@ const cursorColors = [
   '#F59E0B', // amber
   '#10B981', // emerald
   '#3B82F6', // blue
-  '#8B5CF6', // violet
+  '#E85002', // orange (brand)
   '#EC4899', // pink
   '#06B6D4', // cyan
   '#84CC16', // lime

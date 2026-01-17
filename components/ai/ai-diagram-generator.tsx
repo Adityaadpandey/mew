@@ -179,7 +179,7 @@ export function AIDiagramGenerator({ open, onOpenChange, onGenerate }: AIDiagram
                     )}
                   >
                     {msg.role === 'assistant' && (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#C10801] to-[#F16001] flex items-center justify-center flex-shrink-0">
                         <Sparkles className="h-4 w-4 text-white" />
                       </div>
                     )}
@@ -202,7 +202,7 @@ export function AIDiagramGenerator({ open, onOpenChange, onGenerate }: AIDiagram
                 ))}
                 {isGenerating && (
                   <div className="flex gap-3 justify-start">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#C10801] to-[#F16001] flex items-center justify-center">
                       <Loader2 className="h-4 w-4 text-white animate-spin" />
                     </div>
                     <div className="bg-muted rounded-lg px-4 py-2">
@@ -216,7 +216,7 @@ export function AIDiagramGenerator({ open, onOpenChange, onGenerate }: AIDiagram
 
           {/* Preview Section */}
           {generatedData && (
-            <div className="border rounded-lg p-4 mb-4 bg-gradient-to-br from-blue-50 to-purple-50">
+            <div className="border rounded-lg p-4 mb-4 bg-gradient-to-br from-orange-50 to-amber-50">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <Check className="h-4 w-4 text-green-600" />

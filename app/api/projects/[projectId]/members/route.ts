@@ -29,7 +29,10 @@ export async function GET(
       orderBy: { joinedAt: 'asc' },
     })
 
-    return NextResponse.json(members)
+    // Filter out any members with invalid user data
+    const validMembers = members.filter(m => m.user && m.user.id && m.user.id.trim().length > 0)
+
+    return NextResponse.json({ members: validMembers })
   } catch (error) {
     console.error('Failed to fetch project members:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

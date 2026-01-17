@@ -166,7 +166,7 @@ export default function ErrorPage() {
   return (
     <Suspense fallback={
       <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-spin h-8 w-8 border-4 border-violet-600 border-t-transparent rounded-full" />
+        <div className="animate-spin h-8 w-8 border-4 border-[#E85002] border-t-transparent rounded-full" />
       </div>
     }>
       <ErrorContent />

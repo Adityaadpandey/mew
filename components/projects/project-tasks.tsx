@@ -96,34 +96,70 @@ function DraggableTaskCard({
   onDragEnd: () => void
   isDragging: boolean
 }) {
-  const handleDragStart = (e: React.DragEvent) => {
-    e.dataTransfer.setData('taskId', task.id)
-    e.dataTransfer.setData('sourceStatus', task.status)
+  const dragStartPos = { x: 0, y: 0 }
+  let wasDragged = false
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    dragStartPos.x = e.clientX
+    dragStartPos.y = e.clientY
+    wasDragged = false
+  }
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    wasDragged = true
+    e.dataTransfer.setData('text/plain', task.id)
+    e.dataTransfer.setData('application/task-id', task.id)
     e.dataTransfer.effectAllowed = 'move'
     onDragStart(task.id)
+  }
+
+  const handleDragEnd = () => {
+    onDragEnd()
+  }
+
+  const handleClick = (e: React.MouseEvent) => {
+    // Prevent click if we detected a drag
+    if (wasDragged) {
+      wasDragged = false
+      return
+    }
+
+    // Check if click originated from dropdown menu
+    const target = e.target as HTMLElement
+    if (target.closest('[data-radix-dropdown-menu-content]') ||
+        target.closest('button') ||
+        target.closest('[role="menuitem"]')) {
+      return
+    }
+
+    onClick()
   }
 
   return (
     <div
       draggable
+      onMouseDown={handleMouseDown}
       onDragStart={handleDragStart}
-      onDragEnd={onDragEnd}
-      className="relative group cursor-grab active:cursor-grabbing"
+      onDragEnd={handleDragEnd}
+      onClick={handleClick}
+      className={cn(
+        "relative group cursor-pointer",
+        isDragging && "opacity-50 scale-[0.98]"
+      )}
     >
       {/* Drag Handle Indicator */}
       <div className={cn(
-        "absolute left-0 top-0 bottom-0 w-6 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity",
+        "absolute left-0 top-0 bottom-0 w-6 flex items-center justify-center z-10 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab",
         isDark ? "text-zinc-500" : "text-slate-400"
       )}>
         <GripVertical className="h-4 w-4" />
       </div>
-      <div className={cn("pl-3", isDragging && "opacity-50 scale-[0.98]")}>
+      <div className="pl-3">
         <TaskCard
           task={task}
           index={index}
           onStatusChange={onStatusChange}
           onDelete={onDelete}
-          onClick={onClick}
           isDark={isDark}
           isDragging={isDragging}
         />
@@ -166,11 +202,17 @@ function DroppableColumn({
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault()
-    const taskId = e.dataTransfer.getData('taskId')
+    const taskId = e.dataTransfer.getData('application/task-id') || e.dataTransfer.getData('text/plain')
     if (taskId) {
       onDrop(taskId, column.id as Task['status'])
     }
     onDragLeave()
+  }
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+    onDragOver(e)
   }
 
   return (
@@ -201,8 +243,8 @@ function DroppableColumn({
 
       {/* Column Content */}
       <div
-        onDragOver={onDragOver}
-        onDragLeave={onDragLeave}
+        onDragOver={handleDragOver}
+        onDragLeave={() => onDragLeave()}
         onDrop={handleDrop}
         className={cn(
           "flex-1 p-4 rounded-b-xl min-h-[500px] transition-all duration-200",
