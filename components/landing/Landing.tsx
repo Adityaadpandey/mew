@@ -3,19 +3,13 @@
 import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import { BentoGrid } from './BentoGrid'
+import { BentoGrid } from './Bento_Grid'
 import { InfiniteMarquee } from './InfiniteMarquee'
 import { MaximalistHero } from './MaximalistHero'
-import { TestimonialWall } from './TestimonialWall'
 
 export function LandingPage() {
   return (
     <div className="min-h-screen bg-[#FFFBF7] selection:bg-orange-500 selection:text-white overflow-x-hidden font-sans">
-
-      {/* Global Grain Overlay */}
-
-
-      {/* Main Content */}
       <main>
         <MaximalistHero />
 
@@ -25,8 +19,6 @@ export function LandingPage() {
         </div>
 
         <BentoGrid />
-
-        <TestimonialWall />
 
         {/* Big Footer CTA */}
         <section className="py-32 bg-orange-600 relative overflow-hidden flex items-center justify-center text-center">
@@ -49,9 +41,6 @@ export function LandingPage() {
         <footer className="bg-black text-white py-12 border-t-4 border-black">
             <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
                 <div className="text-2xl font-black mb-4 md:mb-0">MEW.</div>
-                <div className="text-gray-500 font-mono text-sm">
-                    © 2026 Erasor Clone Inc. // All rights reserved.
-                </div>
             </div>
         </footer>
       </main>

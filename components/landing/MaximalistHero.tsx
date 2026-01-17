@@ -25,9 +25,9 @@ export function MaximalistHero() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-6 inline-flex items-center gap-2 border-2 border-black bg-white px-4 py-2 text-sm font-bold shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all cursor-crosshair"
+            className="mb-6 inline-flex items-center gap-2 bg-orange-500 text-white px-6 py-2 text-lg font-bold rounded-xl shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-orange-600" />
+            <Sparkles className="w-5 h-5 text-white" />
             <span className="uppercase tracking-wider">The All-in-One Workspace</span>
           </motion.div>
 
