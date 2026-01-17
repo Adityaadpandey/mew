@@ -8,8 +8,7 @@ import {
   Dialog,
   DialogContent,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog'
 import {
   DropdownMenu,
@@ -32,7 +31,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   AlertCircle,
   ArrowDown,
@@ -43,39 +42,24 @@ import {
   Circle,
   Clock,
   Filter,
-  GripVertical,
-  MoreHorizontal,
   Pause,
   Plus,
   Search,
   Tag,
-  Trash2,
-  User,
   X
 } from 'lucide-react'
-import { useCallback, useEffect, useState, DragEvent } from 'react'
+import { DragEvent, useCallback, useEffect, useState } from 'react'
 
 // ============================================================================
 // Types
 // ============================================================================
-interface Task {
-  id: string
-  title: string
-  description: string | null
-  status: TaskStatus
-  priority: TaskPriority
-  projectId: string
-  assigneeId: string | null
-  assignee: { id: string; name: string | null; email: string; image: string | null } | null
-  position: number
-  dueDate: string | null
-  tags: string[]
-  createdAt: string
-  updatedAt: string
-}
+// Imported from standalone component
+import { Task, TaskCard, TaskPriority, TaskStatus } from './task-card'
 
-type TaskStatus = 'TODO' | 'IN_PROGRESS' | 'DONE' | 'BLOCKED'
-type TaskPriority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT'
+// ============================================================================
+// Types
+// ============================================================================
+// Types are imported from ./task-card
 
 interface Column {
   id: TaskStatus
@@ -125,7 +109,7 @@ const COLUMNS: Column[] = [
 ]
 
 const PRIORITY_CONFIG: Record<TaskPriority, { label: string; icon: React.ReactNode; color: string; bgColor: string }> = {
-  LOW: { label: 'Low', icon: <ArrowDown className="h-3 w-3" />, color: 'text-slate-500', bgColor: 'bg-slate-500/10' },
+  LOW: { label: 'Low', icon: <ArrowDown className="h-3 w-3" />, color: 'text-zinc-500', bgColor: 'bg-zinc-500/10' },
   MEDIUM: { label: 'Medium', icon: <ArrowRight className="h-3 w-3" />, color: 'text-blue-500', bgColor: 'bg-blue-500/10' },
   HIGH: { label: 'High', icon: <ArrowUp className="h-3 w-3" />, color: 'text-orange-500', bgColor: 'bg-orange-500/10' },
   URGENT: { label: 'Urgent', icon: <AlertCircle className="h-3 w-3" />, color: 'text-red-500', bgColor: 'bg-red-500/10' }
@@ -134,193 +118,10 @@ const PRIORITY_CONFIG: Record<TaskPriority, { label: string; icon: React.ReactNo
 // ============================================================================
 // Task Card Component
 // ============================================================================
-function TaskCard({
-  task,
-  isDark,
-  onUpdate,
-  onDelete,
-  onDragStart
-}: {
-  task: Task
-  isDark: boolean
-  onUpdate: (taskId: string, data: Partial<Task>) => void
-  onDelete: (taskId: string) => void
-  onDragStart: (e: DragEvent<HTMLDivElement>, task: Task) => void
-}) {
-  const priority = PRIORITY_CONFIG[task.priority]
-  const isOverdue = task.dueDate && new Date(task.dueDate) < new Date() && task.status !== 'DONE'
+// ============================================================================
+// Task Card Component
+// ============================================================================
 
-  return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.15 }}
-      draggable
-      onDragStart={(e) => onDragStart(e as unknown as DragEvent<HTMLDivElement>, task)}
-      className={cn(
-        "group relative rounded-lg border p-3 cursor-grab active:cursor-grabbing transition-all",
-        "hover:shadow-md hover:-translate-y-0.5",
-        isDark
-          ? "bg-neutral-900 border-neutral-800 hover:border-neutral-700"
-          : "bg-white border-slate-200 hover:border-slate-300"
-      )}
-    >
-      {/* Drag Handle */}
-      <div className={cn(
-        "absolute left-1 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity",
-        isDark ? "text-neutral-600" : "text-slate-300"
-      )}>
-        <GripVertical className="h-4 w-4" />
-      </div>
-
-      {/* Task Content */}
-      <div className="pl-4">
-        {/* Header with Title and Menu */}
-        <div className="flex items-start justify-between gap-2">
-          <h4 className={cn(
-            "font-medium text-sm leading-snug",
-            task.status === 'DONE' && "line-through opacity-60",
-            isDark ? "text-white" : "text-slate-900"
-          )}>
-            {task.title}
-          </h4>
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "h-6 w-6 opacity-0 group-hover:opacity-100 shrink-0",
-                  isDark ? "hover:bg-neutral-800" : "hover:bg-slate-100"
-                )}
-              >
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className={isDark ? "bg-neutral-900 border-neutral-800" : ""}>
-              <DropdownMenuItem
-                onClick={() => onUpdate(task.id, { status: 'TODO' })}
-                disabled={task.status === 'TODO'}
-              >
-                <Circle className="h-4 w-4 mr-2" /> Move to To Do
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => onUpdate(task.id, { status: 'IN_PROGRESS' })}
-                disabled={task.status === 'IN_PROGRESS'}
-              >
-                <Clock className="h-4 w-4 mr-2" /> Move to In Progress
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => onUpdate(task.id, { status: 'DONE' })}
-                disabled={task.status === 'DONE'}
-              >
-                <CheckCircle2 className="h-4 w-4 mr-2" /> Mark as Done
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => onUpdate(task.id, { status: 'BLOCKED' })}
-                disabled={task.status === 'BLOCKED'}
-              >
-                <Pause className="h-4 w-4 mr-2" /> Mark as Blocked
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => onDelete(task.id)}
-                className="text-red-500 focus:text-red-500"
-              >
-                <Trash2 className="h-4 w-4 mr-2" /> Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-
-        {/* Description Preview */}
-        {task.description && (
-          <p className={cn(
-            "text-xs mt-1.5 line-clamp-2",
-            isDark ? "text-neutral-500" : "text-slate-500"
-          )}>
-            {task.description}
-          </p>
-        )}
-
-        {/* Tags */}
-        {task.tags.length > 0 && (
-          <div className="flex flex-wrap gap-1 mt-2">
-            {task.tags.slice(0, 3).map((tag, i) => (
-              <span
-                key={i}
-                className={cn(
-                  "inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-medium",
-                  isDark ? "bg-neutral-800 text-neutral-400" : "bg-slate-100 text-slate-600"
-                )}
-              >
-                {tag}
-              </span>
-            ))}
-            {task.tags.length > 3 && (
-              <span className={cn(
-                "text-[10px]",
-                isDark ? "text-neutral-500" : "text-slate-400"
-              )}>
-                +{task.tags.length - 3}
-              </span>
-            )}
-          </div>
-        )}
-
-        {/* Footer: Priority, Due Date, Assignee */}
-        <div className="flex items-center justify-between gap-2 mt-3">
-          <div className="flex items-center gap-2">
-            {/* Priority Badge */}
-            <span className={cn(
-              "inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium",
-              priority.bgColor,
-              priority.color
-            )}>
-              {priority.icon}
-              {priority.label}
-            </span>
-
-            {/* Due Date */}
-            {task.dueDate && (
-              <span className={cn(
-                "inline-flex items-center gap-1 text-[10px]",
-                isOverdue ? "text-red-500" : isDark ? "text-neutral-500" : "text-slate-500"
-              )}>
-                <CalendarDays className="h-3 w-3" />
-                {format(new Date(task.dueDate), 'MMM d')}
-              </span>
-            )}
-          </div>
-
-          {/* Assignee Avatar */}
-          {task.assignee && (
-            <div
-              className={cn(
-                "h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-medium",
-                isDark ? "bg-neutral-800 text-neutral-300" : "bg-slate-100 text-slate-600"
-              )}
-              title={task.assignee.name || task.assignee.email}
-            >
-              {task.assignee.image ? (
-                <img
-                  src={task.assignee.image}
-                  alt={task.assignee.name || ''}
-                  className="h-6 w-6 rounded-full object-cover"
-                />
-              ) : (
-                (task.assignee.name || task.assignee.email)[0].toUpperCase()
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-    </motion.div>
-  )
-}
 
 // ============================================================================
 // Kanban Column Component
@@ -364,10 +165,9 @@ function KanbanColumn({
   return (
     <div
       className={cn(
-        "flex flex-col h-full min-w-[300px] w-[300px] rounded-xl transition-all",
-        isDragOver && "ring-2 ring-offset-2",
-        isDragOver && (isDark ? "ring-blue-500 ring-offset-black" : "ring-blue-500 ring-offset-slate-50"),
-        isDark ? "bg-neutral-950" : "bg-slate-100/50"
+        "flex flex-col h-full min-w-[320px] w-[320px] rounded-2xl transition-all duration-300",
+        isDragOver && "ring-2 ring-offset-2 ring-primary/50",
+        isDark ? "bg-zinc-900/30 backdrop-blur-sm" : "bg-slate-50/50 backdrop-blur-sm"
       )}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -375,29 +175,44 @@ function KanbanColumn({
     >
       {/* Column Header */}
       <div className={cn(
-        "flex items-center justify-between p-3 border-b",
-        isDark ? "border-neutral-800" : "border-slate-200"
+        "flex items-center justify-between p-4 border-b mx-4 mb-2 mt-2 rounded-xl backdrop-blur-md",
+        isDark
+          ? "border-white/5 bg-zinc-900/50 shadow-inner"
+          : "border-slate-200/60 bg-white/60 shadow-sm"
       )}>
-        <div className="flex items-center gap-2">
-          <span className={cn("p-1 rounded", column.bgColor, column.color)}>
-            {column.icon}
-          </span>
-          <h3 className={cn("font-semibold text-sm", isDark ? "text-white" : "text-slate-900")}>
-            {column.title}
-          </h3>
-          <span className={cn(
-            "ml-1 px-1.5 py-0.5 rounded-full text-xs font-medium",
-            isDark ? "bg-neutral-800 text-neutral-400" : "bg-slate-200 text-slate-600"
+        <div className="flex items-center gap-3">
+          <div className={cn(
+            "p-2 rounded-lg shadow-sm border",
+            isDark
+              ? "bg-zinc-800 border-zinc-700"
+              : "bg-white border-slate-100",
+            column.color
           )}>
-            {tasks.length}
-          </span>
+            {column.icon}
+          </div>
+          <div className="flex flex-col">
+            <h3 className={cn(
+              "font-bold text-sm tracking-tight",
+              isDark ? "text-zinc-100" : "text-slate-800"
+            )}>
+              {column.title}
+            </h3>
+            <span className={cn(
+              "text-[10px] font-medium",
+              isDark ? "text-zinc-500" : "text-slate-500"
+            )}>
+              {tasks.length} tasks
+            </span>
+          </div>
         </div>
         <Button
           variant="ghost"
           size="icon"
           className={cn(
-            "h-7 w-7",
-            isDark ? "hover:bg-neutral-800 text-neutral-400" : "hover:bg-slate-200 text-slate-500"
+            "h-8 w-8 rounded-lg transition-all",
+            isDark
+              ? "hover:bg-zinc-800 text-zinc-400 hover:text-zinc-100"
+              : "hover:bg-slate-100 text-slate-400 hover:text-slate-700"
           )}
           onClick={() => onAddTask(column.id)}
         >
@@ -406,33 +221,57 @@ function KanbanColumn({
       </div>
 
       {/* Tasks List */}
-      <ScrollArea className="flex-1 p-2">
-        <div className="space-y-2">
+      <ScrollArea className="flex-1 px-3">
+        <div className="space-y-3 pb-4 pt-1">
           <AnimatePresence mode="popLayout">
             {tasks.map(task => (
-              <TaskCard
+              <motion.div
                 key={task.id}
-                task={task}
-                isDark={isDark}
-                onUpdate={onUpdateTask}
-                onDelete={onDeleteTask}
-                onDragStart={onDragStart}
-              />
+                layout
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15 } }}
+                transition={{ duration: 0.2, type: "spring", stiffness: 300, damping: 25 }}
+                draggable
+                onDragStart={(e) => onDragStart(e as unknown as DragEvent<HTMLDivElement>, task)}
+                className="cursor-grab active:cursor-grabbing"
+              >
+                <TaskCard
+                  task={task}
+                  isDark={isDark}
+                  onStatusChange={(id, status) => onUpdateTask(id, { status })}
+                  onDelete={onDeleteTask}
+                  isDragging={false} // State handled by wrapper if needed, but here simple CSS drag styles on native drag are limited.
+                  // Framer motion drag is different from HTML5 drag. We use HTML5 drag here for columns.
+                  // The TaskCard itself handles "isDragging" style via prop.
+                  // Since we are using HTML5 drag, we don't easily get "isDragging" state passed down automatically reactively unless we track it.
+                  // For now, we rely on nature drag ghost.
+                />
+              </motion.div>
             ))}
           </AnimatePresence>
 
           {tasks.length === 0 && (
             <div className={cn(
-              "flex flex-col items-center justify-center py-8 text-center",
-              isDark ? "text-neutral-600" : "text-slate-400"
+              "flex flex-col items-center justify-center py-12 text-center rounded-xl border border-dashed mx-1",
+              isDark ? "border-zinc-800 text-zinc-600" : "border-slate-200 text-slate-400"
             )}>
               <div className={cn(
-                "h-10 w-10 rounded-full flex items-center justify-center mb-2",
-                column.bgColor
+                "h-12 w-12 rounded-2xl flex items-center justify-center mb-3 transition-colors",
+                isDark ? "bg-zinc-900" : "bg-slate-50",
+                column.color
               )}>
                 {column.icon}
               </div>
-              <p className="text-xs">No tasks</p>
+              <p className="text-sm font-medium">No tasks yet</p>
+              <Button
+                variant="link"
+                size="sm"
+                onClick={() => onAddTask(column.id)}
+                className="text-muted-foreground hover:text-primary h-auto p-0 mt-1"
+              >
+                Create one
+              </Button>
             </div>
           )}
         </div>

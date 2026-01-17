@@ -1,5 +1,5 @@
-import { sendEmail } from '@/lib/email'
 import { db } from '@/lib/db'
+import { sendEmail } from '@/lib/email'
 
 // Process due reminders and create notifications
 export async function processTaskReminders() {
@@ -239,7 +239,7 @@ export async function notifyTaskCompleted(taskId: string, completedByName: strin
     },
   })
 
-  if (!task) return
+  if (!task || !task.project) return
 
   // Notify all project members except the one who completed it
   for (const member of task.project.members) {

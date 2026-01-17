@@ -234,8 +234,12 @@ export function TopNavigation() {
                 <p className={cn("text-xs", isDark ? "text-neutral-400" : "text-slate-500")}>{user?.email}</p>
               </div>
               <DropdownMenuSeparator className={isDark ? "bg-neutral-700" : ""} />
-              <DropdownMenuItem><User className="mr-2 h-4 w-4" /> Profile</DropdownMenuItem>
-              <DropdownMenuItem><Settings className="mr-2 h-4 w-4" /> Settings</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => window.location.href = '/settings'} className="cursor-pointer">
+                <User className="mr-2 h-4 w-4" /> Profile
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => window.location.href = '/settings'} className="cursor-pointer">
+                <Settings className="mr-2 h-4 w-4" /> Settings
+              </DropdownMenuItem>
               <DropdownMenuSeparator className={isDark ? "bg-neutral-700" : ""} />
               <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/auth/signin' })}>
                 <LogOut className="mr-2 h-4 w-4" /> Sign out

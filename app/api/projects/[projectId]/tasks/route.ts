@@ -78,6 +78,8 @@ export async function POST(
             dueDate: dueDate ? new Date(dueDate) : null,
             tags: tags || [],
             position: lastTask ? lastTask.position + 1 : 0,
+            recurrence: body.recurrence || 'NONE',
+            recurrenceInterval: body.recurrenceInterval || 1,
         },
         include: {
             assignee: {

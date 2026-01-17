@@ -193,6 +193,17 @@ export const TaskPriority: {
 export type TaskPriority = (typeof TaskPriority)[keyof typeof TaskPriority]
 
 
+export const TaskRecurrence: {
+  NONE: 'NONE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
+};
+
+export type TaskRecurrence = (typeof TaskRecurrence)[keyof typeof TaskRecurrence]
+
+
 export const DocType: {
   DOCUMENT: 'DOCUMENT',
   DIAGRAM: 'DIAGRAM',
@@ -303,6 +314,10 @@ export const TaskStatus: typeof $Enums.TaskStatus
 export type TaskPriority = $Enums.TaskPriority
 
 export const TaskPriority: typeof $Enums.TaskPriority
+
+export type TaskRecurrence = $Enums.TaskRecurrence
+
+export const TaskRecurrence: typeof $Enums.TaskRecurrence
 
 export type DocType = $Enums.DocType
 
@@ -14742,10 +14757,12 @@ export namespace Prisma {
   }
 
   export type TaskAvgAggregateOutputType = {
+    recurrenceInterval: number | null
     position: number | null
   }
 
   export type TaskSumAggregateOutputType = {
+    recurrenceInterval: number | null
     position: number | null
   }
 
@@ -14755,6 +14772,8 @@ export namespace Prisma {
     description: string | null
     status: $Enums.TaskStatus | null
     priority: $Enums.TaskPriority | null
+    recurrence: $Enums.TaskRecurrence | null
+    recurrenceInterval: number | null
     projectId: string | null
     assigneeId: string | null
     position: number | null
@@ -14769,6 +14788,8 @@ export namespace Prisma {
     description: string | null
     status: $Enums.TaskStatus | null
     priority: $Enums.TaskPriority | null
+    recurrence: $Enums.TaskRecurrence | null
+    recurrenceInterval: number | null
     projectId: string | null
     assigneeId: string | null
     position: number | null
@@ -14783,6 +14804,8 @@ export namespace Prisma {
     description: number
     status: number
     priority: number
+    recurrence: number
+    recurrenceInterval: number
     projectId: number
     assigneeId: number
     position: number
@@ -14795,10 +14818,12 @@ export namespace Prisma {
 
 
   export type TaskAvgAggregateInputType = {
+    recurrenceInterval?: true
     position?: true
   }
 
   export type TaskSumAggregateInputType = {
+    recurrenceInterval?: true
     position?: true
   }
 
@@ -14808,6 +14833,8 @@ export namespace Prisma {
     description?: true
     status?: true
     priority?: true
+    recurrence?: true
+    recurrenceInterval?: true
     projectId?: true
     assigneeId?: true
     position?: true
@@ -14822,6 +14849,8 @@ export namespace Prisma {
     description?: true
     status?: true
     priority?: true
+    recurrence?: true
+    recurrenceInterval?: true
     projectId?: true
     assigneeId?: true
     position?: true
@@ -14836,6 +14865,8 @@ export namespace Prisma {
     description?: true
     status?: true
     priority?: true
+    recurrence?: true
+    recurrenceInterval?: true
     projectId?: true
     assigneeId?: true
     position?: true
@@ -14938,6 +14969,8 @@ export namespace Prisma {
     description: string | null
     status: $Enums.TaskStatus
     priority: $Enums.TaskPriority
+    recurrence: $Enums.TaskRecurrence
+    recurrenceInterval: number
     projectId: string
     assigneeId: string | null
     position: number
@@ -14972,6 +15005,8 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priority?: boolean
+    recurrence?: boolean
+    recurrenceInterval?: boolean
     projectId?: boolean
     assigneeId?: boolean
     position?: boolean
@@ -14992,6 +15027,8 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priority?: boolean
+    recurrence?: boolean
+    recurrenceInterval?: boolean
     projectId?: boolean
     assigneeId?: boolean
     position?: boolean
@@ -15009,6 +15046,8 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priority?: boolean
+    recurrence?: boolean
+    recurrenceInterval?: boolean
     projectId?: boolean
     assigneeId?: boolean
     position?: boolean
@@ -15026,6 +15065,8 @@ export namespace Prisma {
     description?: boolean
     status?: boolean
     priority?: boolean
+    recurrence?: boolean
+    recurrenceInterval?: boolean
     projectId?: boolean
     assigneeId?: boolean
     position?: boolean
@@ -15035,7 +15076,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "priority" | "projectId" | "assigneeId" | "position" | "dueDate" | "tags" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "status" | "priority" | "recurrence" | "recurrenceInterval" | "projectId" | "assigneeId" | "position" | "dueDate" | "tags" | "createdAt" | "updatedAt", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     project?: boolean | ProjectDefaultArgs<ExtArgs>
     assignee?: boolean | Task$assigneeArgs<ExtArgs>
@@ -15066,6 +15107,8 @@ export namespace Prisma {
       description: string | null
       status: $Enums.TaskStatus
       priority: $Enums.TaskPriority
+      recurrence: $Enums.TaskRecurrence
+      recurrenceInterval: number
       projectId: string
       assigneeId: string | null
       position: number
@@ -15505,6 +15548,8 @@ export namespace Prisma {
     readonly description: FieldRef<"Task", 'String'>
     readonly status: FieldRef<"Task", 'TaskStatus'>
     readonly priority: FieldRef<"Task", 'TaskPriority'>
+    readonly recurrence: FieldRef<"Task", 'TaskRecurrence'>
+    readonly recurrenceInterval: FieldRef<"Task", 'Int'>
     readonly projectId: FieldRef<"Task", 'String'>
     readonly assigneeId: FieldRef<"Task", 'String'>
     readonly position: FieldRef<"Task", 'Float'>
@@ -35026,6 +35071,8 @@ export namespace Prisma {
     description: 'description',
     status: 'status',
     priority: 'priority',
+    recurrence: 'recurrence',
+    recurrenceInterval: 'recurrenceInterval',
     projectId: 'projectId',
     assigneeId: 'assigneeId',
     position: 'position',
@@ -35456,6 +35503,20 @@ export namespace Prisma {
    * Reference to a field of type 'TaskPriority[]'
    */
   export type ListEnumTaskPriorityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskPriority[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskRecurrence'
+   */
+  export type EnumTaskRecurrenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskRecurrence'>
+    
+
+
+  /**
+   * Reference to a field of type 'TaskRecurrence[]'
+   */
+  export type ListEnumTaskRecurrenceFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TaskRecurrence[]'>
     
 
 
@@ -36320,6 +36381,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFilter<"Task"> | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFilter<"Task"> | number
     projectId?: StringFilter<"Task"> | string
     assigneeId?: StringNullableFilter<"Task"> | string | null
     position?: FloatFilter<"Task"> | number
@@ -36339,6 +36402,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     priority?: SortOrder
+    recurrence?: SortOrder
+    recurrenceInterval?: SortOrder
     projectId?: SortOrder
     assigneeId?: SortOrderInput | SortOrder
     position?: SortOrder
@@ -36361,6 +36426,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFilter<"Task"> | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFilter<"Task"> | number
     projectId?: StringFilter<"Task"> | string
     assigneeId?: StringNullableFilter<"Task"> | string | null
     position?: FloatFilter<"Task"> | number
@@ -36380,6 +36447,8 @@ export namespace Prisma {
     description?: SortOrderInput | SortOrder
     status?: SortOrder
     priority?: SortOrder
+    recurrence?: SortOrder
+    recurrenceInterval?: SortOrder
     projectId?: SortOrder
     assigneeId?: SortOrderInput | SortOrder
     position?: SortOrder
@@ -36403,6 +36472,8 @@ export namespace Prisma {
     description?: StringNullableWithAggregatesFilter<"Task"> | string | null
     status?: EnumTaskStatusWithAggregatesFilter<"Task"> | $Enums.TaskStatus
     priority?: EnumTaskPriorityWithAggregatesFilter<"Task"> | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceWithAggregatesFilter<"Task"> | $Enums.TaskRecurrence
+    recurrenceInterval?: IntWithAggregatesFilter<"Task"> | number
     projectId?: StringWithAggregatesFilter<"Task"> | string
     assigneeId?: StringNullableWithAggregatesFilter<"Task"> | string | null
     position?: FloatWithAggregatesFilter<"Task"> | number
@@ -38423,6 +38494,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     position?: number
     dueDate?: Date | string | null
     tags?: TaskCreatetagsInput | string[]
@@ -38440,6 +38513,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     projectId: string
     assigneeId?: string | null
     position?: number
@@ -38457,6 +38532,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TaskUpdatetagsInput | string[]
@@ -38474,6 +38551,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     projectId?: StringFieldUpdateOperationsInput | string
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     position?: FloatFieldUpdateOperationsInput | number
@@ -38491,6 +38570,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     projectId: string
     assigneeId?: string | null
     position?: number
@@ -38506,6 +38587,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TaskUpdatetagsInput | string[]
@@ -38519,6 +38602,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     projectId?: StringFieldUpdateOperationsInput | string
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     position?: FloatFieldUpdateOperationsInput | number
@@ -40603,6 +40688,24 @@ export namespace Prisma {
     not?: NestedEnumTaskPriorityFilter<$PrismaModel> | $Enums.TaskPriority
   }
 
+  export type EnumTaskRecurrenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskRecurrence | EnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskRecurrence[] | ListEnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskRecurrence[] | ListEnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskRecurrenceFilter<$PrismaModel> | $Enums.TaskRecurrence
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -40658,6 +40761,8 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    recurrence?: SortOrder
+    recurrenceInterval?: SortOrder
     projectId?: SortOrder
     assigneeId?: SortOrder
     position?: SortOrder
@@ -40668,6 +40773,7 @@ export namespace Prisma {
   }
 
   export type TaskAvgOrderByAggregateInput = {
+    recurrenceInterval?: SortOrder
     position?: SortOrder
   }
 
@@ -40677,6 +40783,8 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    recurrence?: SortOrder
+    recurrenceInterval?: SortOrder
     projectId?: SortOrder
     assigneeId?: SortOrder
     position?: SortOrder
@@ -40691,6 +40799,8 @@ export namespace Prisma {
     description?: SortOrder
     status?: SortOrder
     priority?: SortOrder
+    recurrence?: SortOrder
+    recurrenceInterval?: SortOrder
     projectId?: SortOrder
     assigneeId?: SortOrder
     position?: SortOrder
@@ -40700,6 +40810,7 @@ export namespace Prisma {
   }
 
   export type TaskSumOrderByAggregateInput = {
+    recurrenceInterval?: SortOrder
     position?: SortOrder
   }
 
@@ -40721,6 +40832,32 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTaskPriorityFilter<$PrismaModel>
     _max?: NestedEnumTaskPriorityFilter<$PrismaModel>
+  }
+
+  export type EnumTaskRecurrenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskRecurrence | EnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskRecurrence[] | ListEnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskRecurrence[] | ListEnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskRecurrenceWithAggregatesFilter<$PrismaModel> | $Enums.TaskRecurrence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTaskRecurrenceFilter<$PrismaModel>
+    _max?: NestedEnumTaskRecurrenceFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -40982,17 +41119,6 @@ export namespace Prisma {
     lastSeen?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type WorkspaceNullableScalarRelationFilter = {
     is?: WorkspaceWhereInput | null
     isNot?: WorkspaceWhereInput | null
@@ -41041,22 +41167,6 @@ export namespace Prisma {
 
   export type TemplateSumOrderByAggregateInput = {
     usageCount?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type ActivityCountOrderByAggregateInput = {
@@ -43249,6 +43359,18 @@ export namespace Prisma {
     set?: $Enums.TaskPriority
   }
 
+  export type EnumTaskRecurrenceFieldUpdateOperationsInput = {
+    set?: $Enums.TaskRecurrence
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -43486,14 +43608,6 @@ export namespace Prisma {
     create?: XOR<WorkspaceCreateWithoutTemplatesInput, WorkspaceUncheckedCreateWithoutTemplatesInput>
     connectOrCreate?: WorkspaceCreateOrConnectWithoutTemplatesInput
     connect?: WorkspaceWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type WorkspaceUpdateOneWithoutTemplatesNestedInput = {
@@ -44086,6 +44200,13 @@ export namespace Prisma {
     not?: NestedEnumTaskPriorityFilter<$PrismaModel> | $Enums.TaskPriority
   }
 
+  export type NestedEnumTaskRecurrenceFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskRecurrence | EnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskRecurrence[] | ListEnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskRecurrence[] | ListEnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskRecurrenceFilter<$PrismaModel> | $Enums.TaskRecurrence
+  }
+
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -44115,6 +44236,32 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTaskPriorityFilter<$PrismaModel>
     _max?: NestedEnumTaskPriorityFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTaskRecurrenceWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TaskRecurrence | EnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    in?: $Enums.TaskRecurrence[] | ListEnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TaskRecurrence[] | ListEnumTaskRecurrenceFieldRefInput<$PrismaModel>
+    not?: NestedEnumTaskRecurrenceWithAggregatesFilter<$PrismaModel> | $Enums.TaskRecurrence
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTaskRecurrenceFilter<$PrismaModel>
+    _max?: NestedEnumTaskRecurrenceFilter<$PrismaModel>
+  }
+
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
@@ -44171,22 +44318,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumPermissionRoleFilter<$PrismaModel>
     _max?: NestedEnumPermissionRoleFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type NestedEnumInvitationTypeFilter<$PrismaModel = never> = {
@@ -44593,6 +44724,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     position?: number
     dueDate?: Date | string | null
     tags?: TaskCreatetagsInput | string[]
@@ -44609,6 +44742,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     projectId: string
     position?: number
     dueDate?: Date | string | null
@@ -45103,6 +45238,8 @@ export namespace Prisma {
     description?: StringNullableFilter<"Task"> | string | null
     status?: EnumTaskStatusFilter<"Task"> | $Enums.TaskStatus
     priority?: EnumTaskPriorityFilter<"Task"> | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFilter<"Task"> | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFilter<"Task"> | number
     projectId?: StringFilter<"Task"> | string
     assigneeId?: StringNullableFilter<"Task"> | string | null
     position?: FloatFilter<"Task"> | number
@@ -47122,6 +47259,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     position?: number
     dueDate?: Date | string | null
     tags?: TaskCreatetagsInput | string[]
@@ -47138,6 +47277,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     assigneeId?: string | null
     position?: number
     dueDate?: Date | string | null
@@ -47630,6 +47771,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     position?: number
     dueDate?: Date | string | null
     tags?: TaskCreatetagsInput | string[]
@@ -47646,6 +47789,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     projectId: string
     assigneeId?: string | null
     position?: number
@@ -47678,6 +47823,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TaskUpdatetagsInput | string[]
@@ -47694,6 +47841,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     projectId?: StringFieldUpdateOperationsInput | string
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     position?: FloatFieldUpdateOperationsInput | number
@@ -49959,6 +50108,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     position?: number
     dueDate?: Date | string | null
     tags?: TaskCreatetagsInput | string[]
@@ -49975,6 +50126,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     projectId: string
     assigneeId?: string | null
     position?: number
@@ -50007,6 +50160,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TaskUpdatetagsInput | string[]
@@ -50023,6 +50178,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     projectId?: StringFieldUpdateOperationsInput | string
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     position?: FloatFieldUpdateOperationsInput | number
@@ -50361,6 +50518,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     projectId: string
     position?: number
     dueDate?: Date | string | null
@@ -50702,6 +50861,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TaskUpdatetagsInput | string[]
@@ -50718,6 +50879,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     projectId?: StringFieldUpdateOperationsInput | string
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -50734,6 +50897,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     projectId?: StringFieldUpdateOperationsInput | string
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -51614,6 +51779,8 @@ export namespace Prisma {
     description?: string | null
     status?: $Enums.TaskStatus
     priority?: $Enums.TaskPriority
+    recurrence?: $Enums.TaskRecurrence
+    recurrenceInterval?: number
     assigneeId?: string | null
     position?: number
     dueDate?: Date | string | null
@@ -51715,6 +51882,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     tags?: TaskUpdatetagsInput | string[]
@@ -51731,6 +51900,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -51747,6 +51918,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumTaskStatusFieldUpdateOperationsInput | $Enums.TaskStatus
     priority?: EnumTaskPriorityFieldUpdateOperationsInput | $Enums.TaskPriority
+    recurrence?: EnumTaskRecurrenceFieldUpdateOperationsInput | $Enums.TaskRecurrence
+    recurrenceInterval?: IntFieldUpdateOperationsInput | number
     assigneeId?: NullableStringFieldUpdateOperationsInput | string | null
     position?: FloatFieldUpdateOperationsInput | number
     dueDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

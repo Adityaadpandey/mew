@@ -35,7 +35,6 @@ import { format, formatDistanceToNow } from 'date-fns'
 import {
   AlertCircle,
   CalendarIcon,
-  Check,
   CheckCircle2,
   Clock,
   Flame,
@@ -47,8 +46,7 @@ import {
   Trash2,
   User,
   X,
-  Zap,
-  GripVertical,
+  Zap
 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
@@ -81,6 +79,8 @@ interface Task {
   dueDate: string | null
   tags: string[]
   subtasks: Subtask[]
+  recurrence?: 'NONE' | 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY'
+  recurrenceInterval?: number
   createdAt: string
   updatedAt: string
   project?: {
@@ -129,6 +129,8 @@ export function TaskDetailDialog({
   const [tagInput, setTagInput] = useState('')
   const [subtasks, setSubtasks] = useState<Subtask[]>([])
   const [newSubtask, setNewSubtask] = useState('')
+  const [recurrence, setRecurrence] = useState<NonNullable<Task['recurrence']>>('NONE')
+  const [recurrenceInterval, setRecurrenceInterval] = useState(1)
   const [members, setMembers] = useState<Member[]>([])
   const [isSaving, setIsSaving] = useState(false)
   const [hasChanges, setHasChanges] = useState(false)
@@ -145,6 +147,8 @@ export function TaskDetailDialog({
       setAssigneeId(task.assigneeId)
       setTags(task.tags || [])
       setSubtasks(task.subtasks || [])
+      setRecurrence(task.recurrence || 'NONE')
+      setRecurrenceInterval(task.recurrenceInterval || 1)
       setHasChanges(false)
       fetchMembers()
     }
@@ -182,6 +186,8 @@ export function TaskDetailDialog({
           assigneeId,
           dueDate: dueDate?.toISOString() || null,
           tags,
+          recurrence,
+          recurrenceInterval,
         }),
       })
 
@@ -487,7 +493,25 @@ export function TaskDetailDialog({
             </div>
           </div>
 
-          {/* Description */}
+          <div className="space-y-2">
+            <Label className={isDark ? "text-zinc-300" : ""}>Recurrence</Label>
+            <Select
+              value={recurrence}
+              onValueChange={(v: any) => { setRecurrence(v); handleFieldChange() }}
+            >
+              <SelectTrigger className={cn("h-11", isDark ? "bg-zinc-900 border-zinc-800" : "")}>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className={isDark ? "bg-zinc-900 border-zinc-800" : ""}>
+                <SelectItem value="NONE">None</SelectItem>
+                <SelectItem value="DAILY">Daily</SelectItem>
+                <SelectItem value="WEEKLY">Weekly</SelectItem>
+                <SelectItem value="MONTHLY">Monthly</SelectItem>
+                <SelectItem value="YEARLY">Yearly</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <div className="space-y-2">
             <Label className={isDark ? "text-zinc-300" : ""}>Description</Label>
             <Textarea

@@ -7,11 +7,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
@@ -40,7 +40,9 @@ export function CreateTaskDialog({
     title: '',
     description: '',
     priority: 'MEDIUM',
-    status: defaultStatus
+    status: defaultStatus,
+    recurrence: 'NONE',
+    recurrenceInterval: 1
   })
 
   async function handleSubmit(e: React.FormEvent) {
@@ -62,7 +64,14 @@ export function CreateTaskDialog({
       if (res.ok) {
         onTaskCreated()
         onOpenChange(false)
-        setFormData({ title: '', description: '', priority: 'MEDIUM', status: defaultStatus })
+        setFormData({
+          title: '',
+          description: '',
+          priority: 'MEDIUM',
+          status: defaultStatus,
+          recurrence: 'NONE',
+          recurrenceInterval: 1
+        })
         setDate(undefined)
       }
     } catch (error) {

@@ -895,6 +895,7 @@ function transformDiagram(data: DiagramData) {
             fill: sgColors.bg,
             stroke: sgColors.border,
             strokeWidth: 1.5,
+            rotation: 0,
             borderRadius: 10,
             opacity: 0.7,
             zIndex: globalIndex++,
@@ -919,6 +920,7 @@ function transformDiagram(data: DiagramData) {
               width: LAYOUT.NODE_WIDTH, height: LAYOUT.NODE_HEIGHT,
               fill: iColors.bg, stroke: iColors.border,
               strokeWidth: 1.5,
+              rotation: 0,
               opacity: 1, zIndex: globalIndex++, borderRadius: 12,
               fontSize: 11, fontFamily: 'Inter'
             })

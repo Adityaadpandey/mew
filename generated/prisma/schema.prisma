@@ -174,22 +174,24 @@ model Project {
 }
 
 model Task {
-  id          String         @id @default(cuid())
-  title       String
-  description String?
-  status      TaskStatus     @default(TODO)
-  priority    TaskPriority   @default(MEDIUM)
-  projectId   String
-  project     Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  assigneeId  String?
-  assignee    User?          @relation(fields: [assigneeId], references: [id])
-  position    Float          @default(0) // For Kanban ordering
-  dueDate     DateTime?
-  tags        String[]
-  subtasks    Subtask[]
-  reminders   TaskReminder[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id                 String         @id @default(cuid())
+  title              String
+  description        String?
+  status             TaskStatus     @default(TODO)
+  priority           TaskPriority   @default(MEDIUM)
+  recurrence         TaskRecurrence @default(NONE)
+  recurrenceInterval Int            @default(1)
+  projectId          String
+  project            Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assigneeId         String?
+  assignee           User?          @relation(fields: [assigneeId], references: [id])
+  position           Float          @default(0) // For Kanban ordering
+  dueDate            DateTime?
+  tags               String[]
+  subtasks           Subtask[]
+  reminders          TaskReminder[]
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
   @@index([projectId])
   @@index([assigneeId])
@@ -220,6 +222,14 @@ enum TaskPriority {
   MEDIUM
   HIGH
   URGENT
+}
+
+enum TaskRecurrence {
+  NONE
+  DAILY
+  WEEKLY
+  MONTHLY
+  YEARLY
 }
 
 enum DocType {

@@ -221,6 +221,8 @@ exports.Prisma.TaskScalarFieldEnum = {
   description: 'description',
   status: 'status',
   priority: 'priority',
+  recurrence: 'recurrence',
+  recurrenceInterval: 'recurrenceInterval',
   projectId: 'projectId',
   assigneeId: 'assigneeId',
   position: 'position',
@@ -475,6 +477,14 @@ exports.TaskPriority = exports.$Enums.TaskPriority = {
   MEDIUM: 'MEDIUM',
   HIGH: 'HIGH',
   URGENT: 'URGENT'
+};
+
+exports.TaskRecurrence = exports.$Enums.TaskRecurrence = {
+  NONE: 'NONE',
+  DAILY: 'DAILY',
+  WEEKLY: 'WEEKLY',
+  MONTHLY: 'MONTHLY',
+  YEARLY: 'YEARLY'
 };
 
 exports.PermissionRole = exports.$Enums.PermissionRole = {
