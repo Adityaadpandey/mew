@@ -162,7 +162,7 @@ function getListNumber(blocks: Block[], currentIndex: number): number {
 // ============================================================================
 
 export function NotionEditor() {
-  const { currentDocument, updateContent } = useDocumentStore()
+  const { currentDocument, updateContent, isInitializing } = useDocumentStore()
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
@@ -205,6 +205,9 @@ export function NotionEditor() {
   useEffect(() => {
     if (!currentDocument) return
 
+    // Don't initialize blocks while document is still loading
+    if (isInitializing) return
+
     const content = currentDocument.content || {}
     const rawBlocks = content.blocks as any[] || []
 
@@ -232,11 +235,13 @@ export function NotionEditor() {
 
     setCoverImage(content.coverImage || null)
     setIcon(content.icon || null)
-  }, [currentDocument?.id])
+  }, [currentDocument?.id, isInitializing])
 
   // Save to store (debounced)
   useEffect(() => {
     if (!currentDocument?.id || blocks.length === 0) return
+    // Don't save while document is still loading (prevents race condition)
+    if (isInitializing) return
 
     const timeout = setTimeout(() => {
       updateContent({
@@ -257,10 +262,10 @@ export function NotionEditor() {
         coverImage,
         icon
       })
-    }, 500)
+    }, 300)
 
     return () => clearTimeout(timeout)
-  }, [blocks, coverImage, icon, currentDocument?.id, updateContent])
+  }, [blocks, coverImage, icon, currentDocument?.id, isInitializing, updateContent])
 
   // Handle block content change
   const updateBlock = useCallback((id: string, updates: Partial<Block>) => {

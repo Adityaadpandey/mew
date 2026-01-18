@@ -6,5 +6,5 @@ export default async function DesignPage({
   params: Promise<{ documentId: string }>
 }) {
   const { documentId } = await params
-  return <EditorView documentId={documentId} forcedMode="diagram" />
+  return <EditorView diagramId={documentId} forcedMode="diagram" />
 }

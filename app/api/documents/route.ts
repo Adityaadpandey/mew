@@ -63,6 +63,14 @@ export async function POST(req: NextRequest) {
     )
   }
 
+  // Strict separation: this endpoint only for DOCUMENT type
+  if (type !== 'DOCUMENT') {
+    return NextResponse.json(
+      { error: 'Invalid type. For Diagrams use /api/diagrams' },
+      { status: 400 }
+    )
+  }
+
   // Verify user has access to workspace
   const member = await db.workspaceMember.findFirst({
     where: {
@@ -94,7 +102,7 @@ export async function POST(req: NextRequest) {
     data: {
       title,
       type,
-      content: initialContent || getDefaultContent(type),
+      content: initialContent || { blocks: [] },
       workspaceId,
       projectId,
       folderId,
@@ -130,17 +138,4 @@ export async function POST(req: NextRequest) {
   })
 
   return NextResponse.json(document, { status: 201 })
-}
-
-function getDefaultContent(type: string) {
-  switch (type) {
-    case 'DOCUMENT':
-      return { blocks: [] }
-    case 'DIAGRAM':
-      return { objects: [], connections: [] }
-    case 'CANVAS':
-      return { objects: [], viewport: { x: 0, y: 0, zoom: 1 } }
-    default:
-      return {}
-  }
 }

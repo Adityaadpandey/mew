@@ -266,6 +266,11 @@ interface DocumentContent {
     calloutType?: string
     imageUrl?: string
     language?: string
+    color?: string
+    bgColor?: string
+    collapsed?: boolean
+    children?: any[]
+    indent?: number
   }>
   coverImage?: string | null
   icon?: string | null
@@ -278,35 +283,33 @@ interface DocumentState {
     title: string
     type: 'DOCUMENT' | 'DIAGRAM' | 'CANVAS'
     content: DocumentContent
+    updatedAt?: Date
   } | null
-  isDirty: boolean
-  isSaving: boolean
   setCurrentDocument: (doc: DocumentState['currentDocument']) => void
-  setIsDirty: (dirty: boolean) => void
-  setIsSaving: (saving: boolean) => void
   updateTitle: (title: string) => void
   updateContent: (content: DocumentContent) => void
+  resetDocument: () => void
 }
 
 export const useDocumentStore = create<DocumentState>((set) => ({
   currentDocument: null,
-  isDirty: false,
-  isSaving: false,
-  setCurrentDocument: (currentDocument) => set({ currentDocument, isDirty: false }),
-  setIsDirty: (isDirty) => set({ isDirty }),
-  setIsSaving: (isSaving) => set({ isSaving }),
+  setCurrentDocument: (currentDocument) => set({ currentDocument }),
   updateTitle: (title) =>
     set((state) => ({
       currentDocument: state.currentDocument
         ? { ...state.currentDocument, title }
         : null,
-      isDirty: true,
     })),
   updateContent: (content) =>
-    set((state) => ({
-      currentDocument: state.currentDocument
-        ? { ...state.currentDocument, content: { ...state.currentDocument.content, ...content } }
-        : null,
-      isDirty: true,
-    })),
+    set((state) => {
+      if (!state.currentDocument) return state
+
+      return {
+        currentDocument: {
+          ...state.currentDocument,
+          content: { ...state.currentDocument.content, ...content }
+        },
+      }
+    }),
+  resetDocument: () => set({ currentDocument: null }),
 }))

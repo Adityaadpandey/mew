@@ -206,6 +206,32 @@ exports.Prisma.DocumentScalarFieldEnum = {
   projectId: 'projectId'
 };
 
+exports.Prisma.DiagramScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  thumbnail: 'thumbnail',
+  workspaceId: 'workspaceId',
+  folderId: 'folderId',
+  creatorId: 'creatorId',
+  isPublic: 'isPublic',
+  publicSlug: 'publicSlug',
+  isArchived: 'isArchived',
+  isFavorite: 'isFavorite',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  projectId: 'projectId'
+};
+
+exports.Prisma.DimensionItemScalarFieldEnum = {
+  id: 'id',
+  diagramId: 'diagramId',
+  type: 'type',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.ProjectScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -245,6 +271,7 @@ exports.Prisma.SubtaskScalarFieldEnum = {
 exports.Prisma.VersionScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
+  diagramId: 'diagramId',
   content: 'content',
   createdBy: 'createdBy',
   createdAt: 'createdAt',
@@ -254,6 +281,7 @@ exports.Prisma.VersionScalarFieldEnum = {
 exports.Prisma.CommentScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
+  diagramId: 'diagramId',
   userId: 'userId',
   content: 'content',
   position: 'position',
@@ -266,6 +294,7 @@ exports.Prisma.CommentScalarFieldEnum = {
 exports.Prisma.PermissionScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
+  diagramId: 'diagramId',
   userId: 'userId',
   email: 'email',
   role: 'role',
@@ -275,6 +304,7 @@ exports.Prisma.PermissionScalarFieldEnum = {
 exports.Prisma.CollaboratorScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
+  diagramId: 'diagramId',
   userId: 'userId',
   cursor: 'cursor',
   selection: 'selection',
@@ -307,6 +337,7 @@ exports.Prisma.ActivityScalarFieldEnum = {
 exports.Prisma.AIChatScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
+  diagramId: 'diagramId',
   userId: 'userId',
   title: 'title',
   createdAt: 'createdAt',
@@ -324,6 +355,7 @@ exports.Prisma.AIMessageScalarFieldEnum = {
 exports.Prisma.NoteScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
+  diagramId: 'diagramId',
   userId: 'userId',
   content: 'content',
   position: 'position',
@@ -335,6 +367,7 @@ exports.Prisma.NoteScalarFieldEnum = {
 exports.Prisma.DocumentSnapshotScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
+  diagramId: 'diagramId',
   content: 'content',
   description: 'description',
   createdBy: 'createdBy',
@@ -557,6 +590,8 @@ exports.Prisma.ModelName = {
   WorkspaceMember: 'WorkspaceMember',
   Folder: 'Folder',
   Document: 'Document',
+  Diagram: 'Diagram',
+  DimensionItem: 'DimensionItem',
   Project: 'Project',
   Task: 'Task',
   Subtask: 'Subtask',

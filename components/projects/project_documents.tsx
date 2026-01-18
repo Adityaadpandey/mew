@@ -52,17 +52,26 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const res = await fetch(`/api/documents?projectId=${projectId}`)
-        if (res.ok) {
-          const data = await res.json()
-          let filtered = data
-          if (filterType === 'DOCUMENT') {
-            filtered = data.filter((d: Document) => d.type === 'DOCUMENT')
-          } else if (filterType === 'DIAGRAM') {
-            filtered = data.filter((d: Document) => d.type === 'DIAGRAM' || d.type === 'CANVAS')
-          }
-          setDocuments(filtered)
+        let docs = []
+        if (!filterType || filterType === 'DOCUMENT') {
+           const resDocs = await fetch(`/api/documents?projectId=${projectId}`)
+           if (resDocs.ok) {
+              const data = await resDocs.json()
+              docs = [...docs, ...data]
+           }
         }
+
+        if (!filterType || filterType === 'DIAGRAM') {
+           // We might need to differentiate types if API returns generic list
+           const resDiagrams = await fetch(`/api/diagrams?projectId=${projectId}`)
+           if (resDiagrams.ok) {
+              const data = await resDiagrams.json()
+              // Ensure type is set if backend doesn't (though schema has it as DIAGRAM, let's correspond to frontend expected types)
+              const diagrams = data.map((d: any) => ({ ...d, type: 'DIAGRAM' }))
+              docs = [...docs, ...diagrams]
+           }
+        }
+        setDocuments(docs)
       } catch (error) {
         console.error('Failed to fetch documents:', error)
       } finally {
@@ -83,21 +92,32 @@ export function ProjectDocuments({ projectId, filterType }: ProjectDocumentsProp
       return
     }
 
+    const isDiagram = filterType === 'DIAGRAM'
+    const endpoint = isDiagram ? '/api/diagrams' : '/api/documents'
+    const type = isDiagram ? undefined : 'DOCUMENT' // Diagrams API implies type, Documents API needs it? Actually documents API enforces, diagrams API implies.
+    // Actually Documents API body expects { title, type: 'DOCUMENT' ... }
+    // Diagrams API body expects { title ... }
+
+    const body: any = {
+      title: isDiagram ? 'Untitled Design' : 'Untitled Document',
+      workspaceId: currentWorkspace.id,
+      projectId,
+    }
+
+    if (!isDiagram) {
+      body.type = 'DOCUMENT'
+    }
+
     try {
-      const res = await fetch('/api/documents', {
+      const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: filterType === 'DIAGRAM' ? 'Untitled Diagram' : 'Untitled Document',
-          type: filterType || 'DOCUMENT',
-          workspaceId: currentWorkspace.id,
-          projectId,
-        }),
+        body: JSON.stringify(body),
       })
 
       if (res.ok) {
         const doc = await res.json()
-        if (doc.type === 'DIAGRAM' || doc.type === 'CANVAS') {
+        if (isDiagram) {
           router.push(`/designs/${doc.id}`)
         } else {
           router.push(`/documents/${doc.id}`)

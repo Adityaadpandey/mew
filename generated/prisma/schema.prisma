@@ -20,6 +20,7 @@ model User {
 
   workspaces          WorkspaceMember[]
   documents           Document[]
+  diagrams            Diagram[]
   comments            Comment[]
   activities          Activity[]
   accounts            Account[]
@@ -82,6 +83,7 @@ model Workspace {
 
   members     WorkspaceMember[]
   documents   Document[]
+  diagrams    Diagram[]
   folders     Folder[]
   templates   Template[]
   projects    Project[]
@@ -123,6 +125,7 @@ model Folder {
   parent      Folder?    @relation("FolderHierarchy", fields: [parentId], references: [id])
   children    Folder[]   @relation("FolderHierarchy")
   documents   Document[]
+  diagrams    Diagram[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
 }
@@ -157,6 +160,48 @@ model Document {
   project       Project?           @relation(fields: [projectId], references: [id])
 }
 
+model Diagram {
+  id          String    @id @default(cuid())
+  title       String
+  content     Json?
+  thumbnail   String?
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  folderId    String?
+  folder      Folder?   @relation(fields: [folderId], references: [id])
+  creatorId   String
+  creator     User      @relation(fields: [creatorId], references: [id])
+  isPublic    Boolean   @default(false)
+  publicSlug  String?   @unique
+  isArchived  Boolean   @default(false)
+  isFavorite  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  versions      Version[]
+  comments      Comment[]
+  permissions   Permission[]
+  collaborators Collaborator[]
+  aiChats       AIChat[]
+  notes         Note[]
+  items         DimensionItem[]
+  snapshots     DocumentSnapshot[]
+  projectId     String?
+  project       Project?           @relation(fields: [projectId], references: [id])
+}
+
+model DimensionItem {
+  id        String   @id @default(cuid())
+  diagramId String
+  diagram   Diagram  @relation(fields: [diagramId], references: [id], onDelete: Cascade)
+  type      String // "object" or "connection"
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([diagramId])
+}
+
 model Project {
   id          String          @id @default(cuid())
   name        String
@@ -164,6 +209,7 @@ model Project {
   workspaceId String
   workspace   Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   documents   Document[]
+  diagrams    Diagram[]
   tasks       Task[]
   members     ProjectMember[]
   createdAt   DateTime        @default(now())
@@ -239,19 +285,24 @@ enum DocType {
 }
 
 model Version {
-  id          String   @id @default(cuid())
-  documentId  String
-  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  id String @id @default(cuid())
+
+  documentId  String?
+  document    Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  diagramId   String?
+  diagram     Diagram?  @relation(fields: [diagramId], references: [id], onDelete: Cascade)
   content     Json
   createdBy   String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
   description String?
 }
 
 model Comment {
   id         String    @id @default(cuid())
-  documentId String
-  document   Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId String?
+  document   Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  diagramId  String?
+  diagram    Diagram?  @relation(fields: [diagramId], references: [id], onDelete: Cascade)
   userId     String
   user       User      @relation(fields: [userId], references: [id])
   content    String    @db.Text
@@ -266,8 +317,10 @@ model Comment {
 
 model Permission {
   id         String         @id @default(cuid())
-  documentId String
-  document   Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId String?
+  document   Document?      @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  diagramId  String?
+  diagram    Diagram?       @relation(fields: [diagramId], references: [id], onDelete: Cascade)
   userId     String?
   email      String?
   role       PermissionRole
@@ -275,6 +328,8 @@ model Permission {
 
   @@unique([documentId, userId])
   @@unique([documentId, email])
+  @@unique([diagramId, userId])
+  @@unique([diagramId, email])
 }
 
 enum PermissionRole {
@@ -285,15 +340,18 @@ enum PermissionRole {
 }
 
 model Collaborator {
-  id         String   @id @default(cuid())
-  documentId String
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  id         String    @id @default(cuid())
+  documentId String?
+  document   Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  diagramId  String?
+  diagram    Diagram?  @relation(fields: [diagramId], references: [id], onDelete: Cascade)
   userId     String
   cursor     Json?
   selection  Json?
-  lastSeen   DateTime @default(now())
+  lastSeen   DateTime  @default(now())
 
   @@unique([documentId, userId])
+  @@unique([diagramId, userId])
 }
 
 model Template {
@@ -323,8 +381,10 @@ model Activity {
 
 model AIChat {
   id         String      @id @default(cuid())
-  documentId String
-  document   Document    @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  documentId String?
+  document   Document?   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  diagramId  String?
+  diagram    Diagram?    @relation(fields: [diagramId], references: [id], onDelete: Cascade)
   userId     String
   user       User        @relation(fields: [userId], references: [id])
   messages   AIMessage[]
@@ -343,28 +403,33 @@ model AIMessage {
 }
 
 model Note {
-  id         String   @id @default(cuid())
-  documentId String
-  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  id         String    @id @default(cuid())
+  documentId String?
+  document   Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  diagramId  String?
+  diagram    Diagram?  @relation(fields: [diagramId], references: [id], onDelete: Cascade)
   userId     String
-  user       User     @relation(fields: [userId], references: [id])
-  content    String   @db.Text
+  user       User      @relation(fields: [userId], references: [id])
+  content    String    @db.Text
   position   Json? // { x, y } for canvas position
-  color      String   @default("#FEF3C7")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  color      String    @default("#FEF3C7")
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model DocumentSnapshot {
-  id          String   @id @default(cuid())
-  documentId  String
-  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  id          String    @id @default(cuid())
+  documentId  String?
+  document    Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  diagramId   String?
+  diagram     Diagram?  @relation(fields: [diagramId], references: [id], onDelete: Cascade)
   content     Json
   description String?
   createdBy   String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 
   @@index([documentId, createdAt])
+  @@index([diagramId, createdAt])
 }
 
 // Collaboration Models

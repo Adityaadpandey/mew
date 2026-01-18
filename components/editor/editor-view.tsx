@@ -5,18 +5,17 @@ import { RightSidebarNew } from '@/components/layout/right-sidebar-new'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { useAutoSave, useLoadDocument } from '@/lib/hooks'
 import { useDocumentStore, useSidebarStore } from '@/lib/store'
 import { useTheme } from '@/lib/theme-provider'
 import { cn } from '@/lib/utils'
-import { Check, FileText, GitBranch, Home, LayoutDashboard, Pencil, Play, Share2, Sparkles, X } from 'lucide-react'
+import { Check, Home, LayoutDashboard, Pencil, Play, Share2, Sparkles, X } from 'lucide-react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { toast } from 'sonner'
-import { DiagramCanvas } from './diagram-canvas'
+import { DiagramEditor } from './diagram-editor'
 import { DiagramToolbar } from './diagram-toolbar'
-import { DocumentEditor } from './document-editor'
+import { DocumentEditorV2 } from './document-editor-v2'
 import { MiniMap } from './mini-map'
 import { PropertiesPanel } from './properties-panel'
 import { ShapeLibrary } from './shape-library'
@@ -26,43 +25,58 @@ type EditorMode = 'document' | 'diagram'
 
 export function EditorView({
   documentId: propDocumentId,
+  diagramId: propDiagramId,
   forcedMode
 }: {
   documentId?: string
+  diagramId?: string
   forcedMode?: EditorMode
 }) {
-  const [mode, setMode] = useState<EditorMode>(forcedMode || 'diagram')
+  const searchParams = useSearchParams()
+  const documentId = propDocumentId || searchParams.get('documentId')
+  const diagramId = propDiagramId || searchParams.get('diagramId')
+  const itemId = documentId || diagramId
+  
+  // Determine mode based on props - use useMemo to avoid re-renders
+  const initialMode = useMemo(() => {
+    if (forcedMode) return forcedMode
+    if (documentId) return 'document'
+    if (diagramId) return 'diagram'
+    return 'diagram'
+  }, [forcedMode, documentId, diagramId])
+  
+  const [mode, setMode] = useState<EditorMode>(initialMode)
   const [isEditingTitle, setIsEditingTitle] = useState(false)
   const [editedTitle, setEditedTitle] = useState('')
   const titleInputRef = useRef<HTMLInputElement>(null)
   const { currentDocument, setCurrentDocument } = useDocumentStore()
-  const { rightSidebarOpen, toggleRightSidebar, setRightSidebarTab } = useSidebarStore()
+  const { rightSidebarOpen, setRightSidebarTab } = useSidebarStore()
   const { resolvedTheme } = useTheme()
   const isDark = resolvedTheme === 'dark'
 
-  useAutoSave()
-  useLoadDocument()
-
-  const searchParams = useSearchParams()
-  const documentId = propDocumentId || searchParams.get('documentId')
+  // Sync mode with initial mode when it changes
+  useEffect(() => {
+    setMode(initialMode)
+  }, [initialMode])
 
   useEffect(() => {
-    if (forcedMode) setMode(forcedMode)
-  }, [forcedMode])
+    // Only set loading state if we're switching to a different document/diagram
+    if (itemId && itemId !== currentDocument?.id) {
+      // Determine type based on which ID is provided
+      const type = diagramId ? 'DIAGRAM' : 'DOCUMENT'
 
-  useEffect(() => {
-    if (documentId && documentId !== currentDocument?.id) {
-      // Set partial doc to trigger useLoadDocument
+      // Set partial doc to trigger loading in the editor components
       setCurrentDocument({
-        id: documentId,
+        id: itemId,
         title: 'Loading...',
-        type: 'DIAGRAM', // Default, will be overwritten by load
+        type,
         content: {},
       })
-    } else if (!documentId && currentDocument) {
+    } else if (!itemId && currentDocument) {
       setCurrentDocument(null)
     }
-  }, [documentId, setCurrentDocument])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemId, diagramId])
 
   useEffect(() => {
     if (isEditingTitle && titleInputRef.current) {
@@ -83,7 +97,10 @@ export function EditorView({
     }
 
     try {
-      const res = await fetch(`/api/documents/${currentDocument.id}`, {
+      const isDiagram = mode === 'diagram' || currentDocument.type === 'DIAGRAM' || currentDocument.type === 'CANVAS'
+      const endpoint = isDiagram ? `/api/diagrams/${currentDocument.id}` : `/api/documents/${currentDocument.id}`
+
+      const res = await fetch(endpoint, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: editedTitle.trim() }),
@@ -193,35 +210,7 @@ export function EditorView({
               )}
             </div>
 
-            {/* Mode Switcher - Only show if not forced */}
-            {!forcedMode && (
-              <div className={cn("flex items-center rounded-lg p-0.5 ml-4", isDark ? "bg-neutral-900" : "bg-slate-100")}>
-                <button
-                  onClick={() => setMode('document')}
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all",
-                    mode === 'document'
-                      ? isDark ? "bg-neutral-800 text-white shadow" : "bg-white text-slate-900 shadow"
-                      : isDark ? "text-neutral-400 hover:text-white" : "text-slate-500 hover:text-slate-900"
-                  )}
-                >
-                  <FileText className="h-3.5 w-3.5" />
-                  Document
-                </button>
-                <button
-                  onClick={() => setMode('diagram')}
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md transition-all",
-                    mode === 'diagram'
-                      ? isDark ? "bg-neutral-800 text-white shadow" : "bg-white text-slate-900 shadow"
-                      : isDark ? "text-neutral-400 hover:text-white" : "text-slate-500 hover:text-slate-900"
-                  )}
-                >
-                  <GitBranch className="h-3.5 w-3.5" />
-                  Diagram
-                </button>
-              </div>
-            )}
+            {/* Mode Switcher - Hidden, documents and diagrams are now separate */}
           </div>
 
           {/* Right Section - Actions */}
@@ -249,7 +238,7 @@ export function EditorView({
             <Button variant="ghost" size="sm" className={cn("h-8 w-8 px-0", isDark && "hover:bg-neutral-800")}>
               <Share2 className="h-4 w-4" />
             </Button>
-            <Button size="sm" className="h-8 bg-gradient-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001] text-white gap-2 px-3">
+            <Button size="sm" className="h-8 bg-linear-to-r from-[#C10801] to-[#F16001] hover:from-[#A00701] hover:to-[#D15001] text-white gap-2 px-3">
               <Play className="h-3.5 w-3.5 fill-current" />
               Present
             </Button>
@@ -261,11 +250,11 @@ export function EditorView({
           {/* Editor Content */}
           <div className={cn("relative flex-1", mode === 'document' ? "overflow-y-auto" : "overflow-hidden", isDark ? "bg-neutral-900" : "bg-slate-50")}>
             {mode === 'document' ? (
-              <DocumentEditor />
+              <DocumentEditorV2 />
             ) : (
               <>
                 <div className="absolute inset-0 z-0">
-                  <DiagramCanvas />
+                  <DiagramEditor />
                 </div>
 
                 <div className="pointer-events-none absolute inset-0 z-10">

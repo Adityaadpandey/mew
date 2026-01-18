@@ -85,6 +85,12 @@ export async function PATCH(
 
   const document = await db.document.findUnique({
     where: { id: documentId },
+    select: {
+      id: true,
+      workspaceId: true,
+      content: true,
+      updatedAt: true,
+    },
   })
 
   if (!document) {
@@ -105,30 +111,42 @@ export async function PATCH(
   }
 
   const body = await req.json()
-  const { title, content, isPublic, isFavorite, isArchived, folderId, thumbnail, createVersion } = body
+  const { 
+    title, 
+    content, 
+    isPublic, 
+    isFavorite, 
+    isArchived, 
+    folderId, 
+    thumbnail, 
+    createVersion,
+  } = body
 
-  // Check if we should create a version (every 5 minutes or on explicit request)
-  if (content !== undefined) {
+  // Auto-versioning: Create version every 10 minutes or on explicit request
+  if (content !== undefined && document.content) {
     const lastVersion = await db.version.findFirst({
       where: { documentId },
       orderBy: { createdAt: 'desc' },
+      select: { createdAt: true },
     })
 
-    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000)
-    const shouldCreateVersion = createVersion || !lastVersion || lastVersion.createdAt < fiveMinutesAgo
+    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000)
+    const shouldCreateVersion = createVersion || !lastVersion || lastVersion.createdAt < tenMinutesAgo
 
-    if (shouldCreateVersion && document.content) {
-      await db.version.create({
+    if (shouldCreateVersion) {
+      // Create version in background (don't await)
+      db.version.create({
         data: {
           documentId,
           content: document.content,
           createdBy: session.user.id,
-          description: 'Auto-save',
+          description: createVersion ? 'Manual save' : 'Auto-save',
         },
-      })
+      }).catch(err => console.error('Version creation failed:', err))
     }
   }
 
+  // Update document
   const updatedDocument = await db.document.update({
     where: { id: documentId },
     data: {
@@ -139,6 +157,15 @@ export async function PATCH(
       ...(isArchived !== undefined && { isArchived }),
       ...(folderId !== undefined && { folderId }),
       ...(thumbnail !== undefined && { thumbnail }),
+    },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      updatedAt: true,
+      isPublic: true,
+      isFavorite: true,
+      isArchived: true,
     },
   })
 

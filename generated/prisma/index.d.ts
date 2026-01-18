@@ -54,6 +54,16 @@ export type Folder = $Result.DefaultSelection<Prisma.$FolderPayload>
  */
 export type Document = $Result.DefaultSelection<Prisma.$DocumentPayload>
 /**
+ * Model Diagram
+ * 
+ */
+export type Diagram = $Result.DefaultSelection<Prisma.$DiagramPayload>
+/**
+ * Model DimensionItem
+ * 
+ */
+export type DimensionItem = $Result.DefaultSelection<Prisma.$DimensionItemPayload>
+/**
  * Model Project
  * 
  */
@@ -551,6 +561,26 @@ export class PrismaClient<
     * ```
     */
   get document(): Prisma.DocumentDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.diagram`: Exposes CRUD operations for the **Diagram** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Diagrams
+    * const diagrams = await prisma.diagram.findMany()
+    * ```
+    */
+  get diagram(): Prisma.DiagramDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.dimensionItem`: Exposes CRUD operations for the **DimensionItem** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more DimensionItems
+    * const dimensionItems = await prisma.dimensionItem.findMany()
+    * ```
+    */
+  get dimensionItem(): Prisma.DimensionItemDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.project`: Exposes CRUD operations for the **Project** model.
@@ -1183,6 +1213,8 @@ export namespace Prisma {
     WorkspaceMember: 'WorkspaceMember',
     Folder: 'Folder',
     Document: 'Document',
+    Diagram: 'Diagram',
+    DimensionItem: 'DimensionItem',
     Project: 'Project',
     Task: 'Task',
     Subtask: 'Subtask',
@@ -1217,7 +1249,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "verificationToken" | "workspace" | "workspaceMember" | "folder" | "document" | "project" | "task" | "subtask" | "version" | "comment" | "permission" | "collaborator" | "template" | "activity" | "aIChat" | "aIMessage" | "note" | "documentSnapshot" | "invitation" | "projectMember" | "notification" | "taskReminder" | "subscription" | "payment"
+      modelProps: "user" | "account" | "session" | "verificationToken" | "workspace" | "workspaceMember" | "folder" | "document" | "diagram" | "dimensionItem" | "project" | "task" | "subtask" | "version" | "comment" | "permission" | "collaborator" | "template" | "activity" | "aIChat" | "aIMessage" | "note" | "documentSnapshot" | "invitation" | "projectMember" | "notification" | "taskReminder" | "subscription" | "payment"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1810,6 +1842,154 @@ export namespace Prisma {
           count: {
             args: Prisma.DocumentCountArgs<ExtArgs>
             result: $Utils.Optional<DocumentCountAggregateOutputType> | number
+          }
+        }
+      }
+      Diagram: {
+        payload: Prisma.$DiagramPayload<ExtArgs>
+        fields: Prisma.DiagramFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DiagramFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DiagramFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          findFirst: {
+            args: Prisma.DiagramFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DiagramFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          findMany: {
+            args: Prisma.DiagramFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>[]
+          }
+          create: {
+            args: Prisma.DiagramCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          createMany: {
+            args: Prisma.DiagramCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DiagramCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>[]
+          }
+          delete: {
+            args: Prisma.DiagramDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          update: {
+            args: Prisma.DiagramUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          deleteMany: {
+            args: Prisma.DiagramDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DiagramUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DiagramUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>[]
+          }
+          upsert: {
+            args: Prisma.DiagramUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DiagramPayload>
+          }
+          aggregate: {
+            args: Prisma.DiagramAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDiagram>
+          }
+          groupBy: {
+            args: Prisma.DiagramGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DiagramGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DiagramCountArgs<ExtArgs>
+            result: $Utils.Optional<DiagramCountAggregateOutputType> | number
+          }
+        }
+      }
+      DimensionItem: {
+        payload: Prisma.$DimensionItemPayload<ExtArgs>
+        fields: Prisma.DimensionItemFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.DimensionItemFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.DimensionItemFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>
+          }
+          findFirst: {
+            args: Prisma.DimensionItemFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.DimensionItemFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>
+          }
+          findMany: {
+            args: Prisma.DimensionItemFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>[]
+          }
+          create: {
+            args: Prisma.DimensionItemCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>
+          }
+          createMany: {
+            args: Prisma.DimensionItemCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.DimensionItemCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>[]
+          }
+          delete: {
+            args: Prisma.DimensionItemDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>
+          }
+          update: {
+            args: Prisma.DimensionItemUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>
+          }
+          deleteMany: {
+            args: Prisma.DimensionItemDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.DimensionItemUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.DimensionItemUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>[]
+          }
+          upsert: {
+            args: Prisma.DimensionItemUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$DimensionItemPayload>
+          }
+          aggregate: {
+            args: Prisma.DimensionItemAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateDimensionItem>
+          }
+          groupBy: {
+            args: Prisma.DimensionItemGroupByArgs<ExtArgs>
+            result: $Utils.Optional<DimensionItemGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.DimensionItemCountArgs<ExtArgs>
+            result: $Utils.Optional<DimensionItemCountAggregateOutputType> | number
           }
         }
       }
@@ -3335,6 +3515,8 @@ export namespace Prisma {
     workspaceMember?: WorkspaceMemberOmit
     folder?: FolderOmit
     document?: DocumentOmit
+    diagram?: DiagramOmit
+    dimensionItem?: DimensionItemOmit
     project?: ProjectOmit
     task?: TaskOmit
     subtask?: SubtaskOmit
@@ -3436,6 +3618,7 @@ export namespace Prisma {
   export type UserCountOutputType = {
     workspaces: number
     documents: number
+    diagrams: number
     comments: number
     activities: number
     accounts: number
@@ -3453,6 +3636,7 @@ export namespace Prisma {
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     workspaces?: boolean | UserCountOutputTypeCountWorkspacesArgs
     documents?: boolean | UserCountOutputTypeCountDocumentsArgs
+    diagrams?: boolean | UserCountOutputTypeCountDiagramsArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
     activities?: boolean | UserCountOutputTypeCountActivitiesArgs
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
@@ -3490,6 +3674,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDiagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiagramWhereInput
   }
 
   /**
@@ -3584,6 +3775,7 @@ export namespace Prisma {
   export type WorkspaceCountOutputType = {
     members: number
     documents: number
+    diagrams: number
     folders: number
     templates: number
     projects: number
@@ -3593,6 +3785,7 @@ export namespace Prisma {
   export type WorkspaceCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | WorkspaceCountOutputTypeCountMembersArgs
     documents?: boolean | WorkspaceCountOutputTypeCountDocumentsArgs
+    diagrams?: boolean | WorkspaceCountOutputTypeCountDiagramsArgs
     folders?: boolean | WorkspaceCountOutputTypeCountFoldersArgs
     templates?: boolean | WorkspaceCountOutputTypeCountTemplatesArgs
     projects?: boolean | WorkspaceCountOutputTypeCountProjectsArgs
@@ -3622,6 +3815,13 @@ export namespace Prisma {
    */
   export type WorkspaceCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentWhereInput
+  }
+
+  /**
+   * WorkspaceCountOutputType without action
+   */
+  export type WorkspaceCountOutputTypeCountDiagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiagramWhereInput
   }
 
   /**
@@ -3660,11 +3860,13 @@ export namespace Prisma {
   export type FolderCountOutputType = {
     children: number
     documents: number
+    diagrams: number
   }
 
   export type FolderCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     children?: boolean | FolderCountOutputTypeCountChildrenArgs
     documents?: boolean | FolderCountOutputTypeCountDocumentsArgs
+    diagrams?: boolean | FolderCountOutputTypeCountDiagramsArgs
   }
 
   // Custom InputTypes
@@ -3690,6 +3892,13 @@ export namespace Prisma {
    */
   export type FolderCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentWhereInput
+  }
+
+  /**
+   * FolderCountOutputType without action
+   */
+  export type FolderCountOutputTypeCountDiagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiagramWhereInput
   }
 
 
@@ -3779,11 +3988,106 @@ export namespace Prisma {
 
 
   /**
+   * Count Type DiagramCountOutputType
+   */
+
+  export type DiagramCountOutputType = {
+    versions: number
+    comments: number
+    permissions: number
+    collaborators: number
+    aiChats: number
+    notes: number
+    items: number
+    snapshots: number
+  }
+
+  export type DiagramCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    versions?: boolean | DiagramCountOutputTypeCountVersionsArgs
+    comments?: boolean | DiagramCountOutputTypeCountCommentsArgs
+    permissions?: boolean | DiagramCountOutputTypeCountPermissionsArgs
+    collaborators?: boolean | DiagramCountOutputTypeCountCollaboratorsArgs
+    aiChats?: boolean | DiagramCountOutputTypeCountAiChatsArgs
+    notes?: boolean | DiagramCountOutputTypeCountNotesArgs
+    items?: boolean | DiagramCountOutputTypeCountItemsArgs
+    snapshots?: boolean | DiagramCountOutputTypeCountSnapshotsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DiagramCountOutputType
+     */
+    select?: DiagramCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeCountVersionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VersionWhereInput
+  }
+
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeCountCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
+  }
+
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeCountPermissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PermissionWhereInput
+  }
+
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeCountCollaboratorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CollaboratorWhereInput
+  }
+
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeCountAiChatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AIChatWhereInput
+  }
+
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeCountNotesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: NoteWhereInput
+  }
+
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DimensionItemWhereInput
+  }
+
+  /**
+   * DiagramCountOutputType without action
+   */
+  export type DiagramCountOutputTypeCountSnapshotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentSnapshotWhereInput
+  }
+
+
+  /**
    * Count Type ProjectCountOutputType
    */
 
   export type ProjectCountOutputType = {
     documents: number
+    diagrams: number
     tasks: number
     members: number
     invitations: number
@@ -3791,6 +4095,7 @@ export namespace Prisma {
 
   export type ProjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     documents?: boolean | ProjectCountOutputTypeCountDocumentsArgs
+    diagrams?: boolean | ProjectCountOutputTypeCountDiagramsArgs
     tasks?: boolean | ProjectCountOutputTypeCountTasksArgs
     members?: boolean | ProjectCountOutputTypeCountMembersArgs
     invitations?: boolean | ProjectCountOutputTypeCountInvitationsArgs
@@ -3812,6 +4117,13 @@ export namespace Prisma {
    */
   export type ProjectCountOutputTypeCountDocumentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentWhereInput
+  }
+
+  /**
+   * ProjectCountOutputType without action
+   */
+  export type ProjectCountOutputTypeCountDiagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiagramWhereInput
   }
 
   /**
@@ -4140,6 +4452,7 @@ export namespace Prisma {
     updatedAt?: boolean
     workspaces?: boolean | User$workspacesArgs<ExtArgs>
     documents?: boolean | User$documentsArgs<ExtArgs>
+    diagrams?: boolean | User$diagramsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
     activities?: boolean | User$activitiesArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -4196,6 +4509,7 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     workspaces?: boolean | User$workspacesArgs<ExtArgs>
     documents?: boolean | User$documentsArgs<ExtArgs>
+    diagrams?: boolean | User$diagramsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
     activities?: boolean | User$activitiesArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -4219,6 +4533,7 @@ export namespace Prisma {
     objects: {
       workspaces: Prisma.$WorkspaceMemberPayload<ExtArgs>[]
       documents: Prisma.$DocumentPayload<ExtArgs>[]
+      diagrams: Prisma.$DiagramPayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
       activities: Prisma.$ActivityPayload<ExtArgs>[]
       accounts: Prisma.$AccountPayload<ExtArgs>[]
@@ -4639,6 +4954,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     workspaces<T extends User$workspacesArgs<ExtArgs> = {}>(args?: Subset<T, User$workspacesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspaceMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documents<T extends User$documentsArgs<ExtArgs> = {}>(args?: Subset<T, User$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    diagrams<T extends User$diagramsArgs<ExtArgs> = {}>(args?: Subset<T, User$diagramsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     activities<T extends User$activitiesArgs<ExtArgs> = {}>(args?: Subset<T, User$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5123,6 +5439,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * User.diagrams
+   */
+  export type User$diagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    cursor?: DiagramWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
   }
 
   /**
@@ -8834,6 +9174,7 @@ export namespace Prisma {
     updatedAt?: boolean
     members?: boolean | Workspace$membersArgs<ExtArgs>
     documents?: boolean | Workspace$documentsArgs<ExtArgs>
+    diagrams?: boolean | Workspace$diagramsArgs<ExtArgs>
     folders?: boolean | Workspace$foldersArgs<ExtArgs>
     templates?: boolean | Workspace$templatesArgs<ExtArgs>
     projects?: boolean | Workspace$projectsArgs<ExtArgs>
@@ -8878,6 +9219,7 @@ export namespace Prisma {
   export type WorkspaceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     members?: boolean | Workspace$membersArgs<ExtArgs>
     documents?: boolean | Workspace$documentsArgs<ExtArgs>
+    diagrams?: boolean | Workspace$diagramsArgs<ExtArgs>
     folders?: boolean | Workspace$foldersArgs<ExtArgs>
     templates?: boolean | Workspace$templatesArgs<ExtArgs>
     projects?: boolean | Workspace$projectsArgs<ExtArgs>
@@ -8892,6 +9234,7 @@ export namespace Prisma {
     objects: {
       members: Prisma.$WorkspaceMemberPayload<ExtArgs>[]
       documents: Prisma.$DocumentPayload<ExtArgs>[]
+      diagrams: Prisma.$DiagramPayload<ExtArgs>[]
       folders: Prisma.$FolderPayload<ExtArgs>[]
       templates: Prisma.$TemplatePayload<ExtArgs>[]
       projects: Prisma.$ProjectPayload<ExtArgs>[]
@@ -9302,6 +9645,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     members<T extends Workspace$membersArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$WorkspaceMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documents<T extends Workspace$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    diagrams<T extends Workspace$diagramsArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$diagramsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     folders<T extends Workspace$foldersArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     templates<T extends Workspace$templatesArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$templatesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TemplatePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     projects<T extends Workspace$projectsArgs<ExtArgs> = {}>(args?: Subset<T, Workspace$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9776,6 +10120,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Workspace.diagrams
+   */
+  export type Workspace$diagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    cursor?: DiagramWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
   }
 
   /**
@@ -11135,6 +11503,7 @@ export namespace Prisma {
     parent?: boolean | Folder$parentArgs<ExtArgs>
     children?: boolean | Folder$childrenArgs<ExtArgs>
     documents?: boolean | Folder$documentsArgs<ExtArgs>
+    diagrams?: boolean | Folder$diagramsArgs<ExtArgs>
     _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["folder"]>
 
@@ -11175,6 +11544,7 @@ export namespace Prisma {
     parent?: boolean | Folder$parentArgs<ExtArgs>
     children?: boolean | Folder$childrenArgs<ExtArgs>
     documents?: boolean | Folder$documentsArgs<ExtArgs>
+    diagrams?: boolean | Folder$diagramsArgs<ExtArgs>
     _count?: boolean | FolderCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type FolderIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11193,6 +11563,7 @@ export namespace Prisma {
       parent: Prisma.$FolderPayload<ExtArgs> | null
       children: Prisma.$FolderPayload<ExtArgs>[]
       documents: Prisma.$DocumentPayload<ExtArgs>[]
+      diagrams: Prisma.$DiagramPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -11599,6 +11970,7 @@ export namespace Prisma {
     parent<T extends Folder$parentArgs<ExtArgs> = {}>(args?: Subset<T, Folder$parentArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     children<T extends Folder$childrenArgs<ExtArgs> = {}>(args?: Subset<T, Folder$childrenArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     documents<T extends Folder$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Folder$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    diagrams<T extends Folder$diagramsArgs<ExtArgs> = {}>(args?: Subset<T, Folder$diagramsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -12094,6 +12466,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Folder.diagrams
+   */
+  export type Folder$diagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    cursor?: DiagramWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
   }
 
   /**
@@ -13560,6 +13956,2532 @@ export namespace Prisma {
 
 
   /**
+   * Model Diagram
+   */
+
+  export type AggregateDiagram = {
+    _count: DiagramCountAggregateOutputType | null
+    _min: DiagramMinAggregateOutputType | null
+    _max: DiagramMaxAggregateOutputType | null
+  }
+
+  export type DiagramMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    thumbnail: string | null
+    workspaceId: string | null
+    folderId: string | null
+    creatorId: string | null
+    isPublic: boolean | null
+    publicSlug: string | null
+    isArchived: boolean | null
+    isFavorite: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    projectId: string | null
+  }
+
+  export type DiagramMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    thumbnail: string | null
+    workspaceId: string | null
+    folderId: string | null
+    creatorId: string | null
+    isPublic: boolean | null
+    publicSlug: string | null
+    isArchived: boolean | null
+    isFavorite: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    projectId: string | null
+  }
+
+  export type DiagramCountAggregateOutputType = {
+    id: number
+    title: number
+    content: number
+    thumbnail: number
+    workspaceId: number
+    folderId: number
+    creatorId: number
+    isPublic: number
+    publicSlug: number
+    isArchived: number
+    isFavorite: number
+    createdAt: number
+    updatedAt: number
+    projectId: number
+    _all: number
+  }
+
+
+  export type DiagramMinAggregateInputType = {
+    id?: true
+    title?: true
+    thumbnail?: true
+    workspaceId?: true
+    folderId?: true
+    creatorId?: true
+    isPublic?: true
+    publicSlug?: true
+    isArchived?: true
+    isFavorite?: true
+    createdAt?: true
+    updatedAt?: true
+    projectId?: true
+  }
+
+  export type DiagramMaxAggregateInputType = {
+    id?: true
+    title?: true
+    thumbnail?: true
+    workspaceId?: true
+    folderId?: true
+    creatorId?: true
+    isPublic?: true
+    publicSlug?: true
+    isArchived?: true
+    isFavorite?: true
+    createdAt?: true
+    updatedAt?: true
+    projectId?: true
+  }
+
+  export type DiagramCountAggregateInputType = {
+    id?: true
+    title?: true
+    content?: true
+    thumbnail?: true
+    workspaceId?: true
+    folderId?: true
+    creatorId?: true
+    isPublic?: true
+    publicSlug?: true
+    isArchived?: true
+    isFavorite?: true
+    createdAt?: true
+    updatedAt?: true
+    projectId?: true
+    _all?: true
+  }
+
+  export type DiagramAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Diagram to aggregate.
+     */
+    where?: DiagramWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Diagrams to fetch.
+     */
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DiagramWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Diagrams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Diagrams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Diagrams
+    **/
+    _count?: true | DiagramCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DiagramMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DiagramMaxAggregateInputType
+  }
+
+  export type GetDiagramAggregateType<T extends DiagramAggregateArgs> = {
+        [P in keyof T & keyof AggregateDiagram]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDiagram[P]>
+      : GetScalarType<T[P], AggregateDiagram[P]>
+  }
+
+
+
+
+  export type DiagramGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DiagramWhereInput
+    orderBy?: DiagramOrderByWithAggregationInput | DiagramOrderByWithAggregationInput[]
+    by: DiagramScalarFieldEnum[] | DiagramScalarFieldEnum
+    having?: DiagramScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DiagramCountAggregateInputType | true
+    _min?: DiagramMinAggregateInputType
+    _max?: DiagramMaxAggregateInputType
+  }
+
+  export type DiagramGroupByOutputType = {
+    id: string
+    title: string
+    content: JsonValue | null
+    thumbnail: string | null
+    workspaceId: string
+    folderId: string | null
+    creatorId: string
+    isPublic: boolean
+    publicSlug: string | null
+    isArchived: boolean
+    isFavorite: boolean
+    createdAt: Date
+    updatedAt: Date
+    projectId: string | null
+    _count: DiagramCountAggregateOutputType | null
+    _min: DiagramMinAggregateOutputType | null
+    _max: DiagramMaxAggregateOutputType | null
+  }
+
+  type GetDiagramGroupByPayload<T extends DiagramGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DiagramGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DiagramGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DiagramGroupByOutputType[P]>
+            : GetScalarType<T[P], DiagramGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DiagramSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    thumbnail?: boolean
+    workspaceId?: boolean
+    folderId?: boolean
+    creatorId?: boolean
+    isPublic?: boolean
+    publicSlug?: boolean
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    projectId?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+    folder?: boolean | Diagram$folderArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    versions?: boolean | Diagram$versionsArgs<ExtArgs>
+    comments?: boolean | Diagram$commentsArgs<ExtArgs>
+    permissions?: boolean | Diagram$permissionsArgs<ExtArgs>
+    collaborators?: boolean | Diagram$collaboratorsArgs<ExtArgs>
+    aiChats?: boolean | Diagram$aiChatsArgs<ExtArgs>
+    notes?: boolean | Diagram$notesArgs<ExtArgs>
+    items?: boolean | Diagram$itemsArgs<ExtArgs>
+    snapshots?: boolean | Diagram$snapshotsArgs<ExtArgs>
+    project?: boolean | Diagram$projectArgs<ExtArgs>
+    _count?: boolean | DiagramCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["diagram"]>
+
+  export type DiagramSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    thumbnail?: boolean
+    workspaceId?: boolean
+    folderId?: boolean
+    creatorId?: boolean
+    isPublic?: boolean
+    publicSlug?: boolean
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    projectId?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+    folder?: boolean | Diagram$folderArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Diagram$projectArgs<ExtArgs>
+  }, ExtArgs["result"]["diagram"]>
+
+  export type DiagramSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    thumbnail?: boolean
+    workspaceId?: boolean
+    folderId?: boolean
+    creatorId?: boolean
+    isPublic?: boolean
+    publicSlug?: boolean
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    projectId?: boolean
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+    folder?: boolean | Diagram$folderArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Diagram$projectArgs<ExtArgs>
+  }, ExtArgs["result"]["diagram"]>
+
+  export type DiagramSelectScalar = {
+    id?: boolean
+    title?: boolean
+    content?: boolean
+    thumbnail?: boolean
+    workspaceId?: boolean
+    folderId?: boolean
+    creatorId?: boolean
+    isPublic?: boolean
+    publicSlug?: boolean
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    projectId?: boolean
+  }
+
+  export type DiagramOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "thumbnail" | "workspaceId" | "folderId" | "creatorId" | "isPublic" | "publicSlug" | "isArchived" | "isFavorite" | "createdAt" | "updatedAt" | "projectId", ExtArgs["result"]["diagram"]>
+  export type DiagramInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+    folder?: boolean | Diagram$folderArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    versions?: boolean | Diagram$versionsArgs<ExtArgs>
+    comments?: boolean | Diagram$commentsArgs<ExtArgs>
+    permissions?: boolean | Diagram$permissionsArgs<ExtArgs>
+    collaborators?: boolean | Diagram$collaboratorsArgs<ExtArgs>
+    aiChats?: boolean | Diagram$aiChatsArgs<ExtArgs>
+    notes?: boolean | Diagram$notesArgs<ExtArgs>
+    items?: boolean | Diagram$itemsArgs<ExtArgs>
+    snapshots?: boolean | Diagram$snapshotsArgs<ExtArgs>
+    project?: boolean | Diagram$projectArgs<ExtArgs>
+    _count?: boolean | DiagramCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type DiagramIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+    folder?: boolean | Diagram$folderArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Diagram$projectArgs<ExtArgs>
+  }
+  export type DiagramIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
+    folder?: boolean | Diagram$folderArgs<ExtArgs>
+    creator?: boolean | UserDefaultArgs<ExtArgs>
+    project?: boolean | Diagram$projectArgs<ExtArgs>
+  }
+
+  export type $DiagramPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Diagram"
+    objects: {
+      workspace: Prisma.$WorkspacePayload<ExtArgs>
+      folder: Prisma.$FolderPayload<ExtArgs> | null
+      creator: Prisma.$UserPayload<ExtArgs>
+      versions: Prisma.$VersionPayload<ExtArgs>[]
+      comments: Prisma.$CommentPayload<ExtArgs>[]
+      permissions: Prisma.$PermissionPayload<ExtArgs>[]
+      collaborators: Prisma.$CollaboratorPayload<ExtArgs>[]
+      aiChats: Prisma.$AIChatPayload<ExtArgs>[]
+      notes: Prisma.$NotePayload<ExtArgs>[]
+      items: Prisma.$DimensionItemPayload<ExtArgs>[]
+      snapshots: Prisma.$DocumentSnapshotPayload<ExtArgs>[]
+      project: Prisma.$ProjectPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      content: Prisma.JsonValue | null
+      thumbnail: string | null
+      workspaceId: string
+      folderId: string | null
+      creatorId: string
+      isPublic: boolean
+      publicSlug: string | null
+      isArchived: boolean
+      isFavorite: boolean
+      createdAt: Date
+      updatedAt: Date
+      projectId: string | null
+    }, ExtArgs["result"]["diagram"]>
+    composites: {}
+  }
+
+  type DiagramGetPayload<S extends boolean | null | undefined | DiagramDefaultArgs> = $Result.GetResult<Prisma.$DiagramPayload, S>
+
+  type DiagramCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DiagramFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DiagramCountAggregateInputType | true
+    }
+
+  export interface DiagramDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Diagram'], meta: { name: 'Diagram' } }
+    /**
+     * Find zero or one Diagram that matches the filter.
+     * @param {DiagramFindUniqueArgs} args - Arguments to find a Diagram
+     * @example
+     * // Get one Diagram
+     * const diagram = await prisma.diagram.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DiagramFindUniqueArgs>(args: SelectSubset<T, DiagramFindUniqueArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Diagram that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DiagramFindUniqueOrThrowArgs} args - Arguments to find a Diagram
+     * @example
+     * // Get one Diagram
+     * const diagram = await prisma.diagram.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DiagramFindUniqueOrThrowArgs>(args: SelectSubset<T, DiagramFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Diagram that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramFindFirstArgs} args - Arguments to find a Diagram
+     * @example
+     * // Get one Diagram
+     * const diagram = await prisma.diagram.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DiagramFindFirstArgs>(args?: SelectSubset<T, DiagramFindFirstArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Diagram that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramFindFirstOrThrowArgs} args - Arguments to find a Diagram
+     * @example
+     * // Get one Diagram
+     * const diagram = await prisma.diagram.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DiagramFindFirstOrThrowArgs>(args?: SelectSubset<T, DiagramFindFirstOrThrowArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Diagrams that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Diagrams
+     * const diagrams = await prisma.diagram.findMany()
+     * 
+     * // Get first 10 Diagrams
+     * const diagrams = await prisma.diagram.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const diagramWithIdOnly = await prisma.diagram.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DiagramFindManyArgs>(args?: SelectSubset<T, DiagramFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Diagram.
+     * @param {DiagramCreateArgs} args - Arguments to create a Diagram.
+     * @example
+     * // Create one Diagram
+     * const Diagram = await prisma.diagram.create({
+     *   data: {
+     *     // ... data to create a Diagram
+     *   }
+     * })
+     * 
+     */
+    create<T extends DiagramCreateArgs>(args: SelectSubset<T, DiagramCreateArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Diagrams.
+     * @param {DiagramCreateManyArgs} args - Arguments to create many Diagrams.
+     * @example
+     * // Create many Diagrams
+     * const diagram = await prisma.diagram.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DiagramCreateManyArgs>(args?: SelectSubset<T, DiagramCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Diagrams and returns the data saved in the database.
+     * @param {DiagramCreateManyAndReturnArgs} args - Arguments to create many Diagrams.
+     * @example
+     * // Create many Diagrams
+     * const diagram = await prisma.diagram.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Diagrams and only return the `id`
+     * const diagramWithIdOnly = await prisma.diagram.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DiagramCreateManyAndReturnArgs>(args?: SelectSubset<T, DiagramCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Diagram.
+     * @param {DiagramDeleteArgs} args - Arguments to delete one Diagram.
+     * @example
+     * // Delete one Diagram
+     * const Diagram = await prisma.diagram.delete({
+     *   where: {
+     *     // ... filter to delete one Diagram
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DiagramDeleteArgs>(args: SelectSubset<T, DiagramDeleteArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Diagram.
+     * @param {DiagramUpdateArgs} args - Arguments to update one Diagram.
+     * @example
+     * // Update one Diagram
+     * const diagram = await prisma.diagram.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DiagramUpdateArgs>(args: SelectSubset<T, DiagramUpdateArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Diagrams.
+     * @param {DiagramDeleteManyArgs} args - Arguments to filter Diagrams to delete.
+     * @example
+     * // Delete a few Diagrams
+     * const { count } = await prisma.diagram.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DiagramDeleteManyArgs>(args?: SelectSubset<T, DiagramDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Diagrams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Diagrams
+     * const diagram = await prisma.diagram.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DiagramUpdateManyArgs>(args: SelectSubset<T, DiagramUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Diagrams and returns the data updated in the database.
+     * @param {DiagramUpdateManyAndReturnArgs} args - Arguments to update many Diagrams.
+     * @example
+     * // Update many Diagrams
+     * const diagram = await prisma.diagram.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Diagrams and only return the `id`
+     * const diagramWithIdOnly = await prisma.diagram.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DiagramUpdateManyAndReturnArgs>(args: SelectSubset<T, DiagramUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Diagram.
+     * @param {DiagramUpsertArgs} args - Arguments to update or create a Diagram.
+     * @example
+     * // Update or create a Diagram
+     * const diagram = await prisma.diagram.upsert({
+     *   create: {
+     *     // ... data to create a Diagram
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Diagram we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DiagramUpsertArgs>(args: SelectSubset<T, DiagramUpsertArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Diagrams.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramCountArgs} args - Arguments to filter Diagrams to count.
+     * @example
+     * // Count the number of Diagrams
+     * const count = await prisma.diagram.count({
+     *   where: {
+     *     // ... the filter for the Diagrams we want to count
+     *   }
+     * })
+    **/
+    count<T extends DiagramCountArgs>(
+      args?: Subset<T, DiagramCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DiagramCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Diagram.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DiagramAggregateArgs>(args: Subset<T, DiagramAggregateArgs>): Prisma.PrismaPromise<GetDiagramAggregateType<T>>
+
+    /**
+     * Group by Diagram.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DiagramGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DiagramGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DiagramGroupByArgs['orderBy'] }
+        : { orderBy?: DiagramGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DiagramGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDiagramGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Diagram model
+   */
+  readonly fields: DiagramFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Diagram.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DiagramClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    folder<T extends Diagram$folderArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$folderArgs<ExtArgs>>): Prisma__FolderClient<$Result.GetResult<Prisma.$FolderPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    creator<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    versions<T extends Diagram$versionsArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    comments<T extends Diagram$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    permissions<T extends Diagram$permissionsArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    collaborators<T extends Diagram$collaboratorsArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$collaboratorsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CollaboratorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    aiChats<T extends Diagram$aiChatsArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$aiChatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIChatPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    notes<T extends Diagram$notesArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$notesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    items<T extends Diagram$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    snapshots<T extends Diagram$snapshotsArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$snapshotsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    project<T extends Diagram$projectArgs<ExtArgs> = {}>(args?: Subset<T, Diagram$projectArgs<ExtArgs>>): Prisma__ProjectClient<$Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Diagram model
+   */
+  interface DiagramFieldRefs {
+    readonly id: FieldRef<"Diagram", 'String'>
+    readonly title: FieldRef<"Diagram", 'String'>
+    readonly content: FieldRef<"Diagram", 'Json'>
+    readonly thumbnail: FieldRef<"Diagram", 'String'>
+    readonly workspaceId: FieldRef<"Diagram", 'String'>
+    readonly folderId: FieldRef<"Diagram", 'String'>
+    readonly creatorId: FieldRef<"Diagram", 'String'>
+    readonly isPublic: FieldRef<"Diagram", 'Boolean'>
+    readonly publicSlug: FieldRef<"Diagram", 'String'>
+    readonly isArchived: FieldRef<"Diagram", 'Boolean'>
+    readonly isFavorite: FieldRef<"Diagram", 'Boolean'>
+    readonly createdAt: FieldRef<"Diagram", 'DateTime'>
+    readonly updatedAt: FieldRef<"Diagram", 'DateTime'>
+    readonly projectId: FieldRef<"Diagram", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Diagram findUnique
+   */
+  export type DiagramFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagram to fetch.
+     */
+    where: DiagramWhereUniqueInput
+  }
+
+  /**
+   * Diagram findUniqueOrThrow
+   */
+  export type DiagramFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagram to fetch.
+     */
+    where: DiagramWhereUniqueInput
+  }
+
+  /**
+   * Diagram findFirst
+   */
+  export type DiagramFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagram to fetch.
+     */
+    where?: DiagramWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Diagrams to fetch.
+     */
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Diagrams.
+     */
+    cursor?: DiagramWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Diagrams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Diagrams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Diagrams.
+     */
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram findFirstOrThrow
+   */
+  export type DiagramFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagram to fetch.
+     */
+    where?: DiagramWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Diagrams to fetch.
+     */
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Diagrams.
+     */
+    cursor?: DiagramWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Diagrams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Diagrams.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Diagrams.
+     */
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram findMany
+   */
+  export type DiagramFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter, which Diagrams to fetch.
+     */
+    where?: DiagramWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Diagrams to fetch.
+     */
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Diagrams.
+     */
+    cursor?: DiagramWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Diagrams from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Diagrams.
+     */
+    skip?: number
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram create
+   */
+  export type DiagramCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Diagram.
+     */
+    data: XOR<DiagramCreateInput, DiagramUncheckedCreateInput>
+  }
+
+  /**
+   * Diagram createMany
+   */
+  export type DiagramCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Diagrams.
+     */
+    data: DiagramCreateManyInput | DiagramCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Diagram createManyAndReturn
+   */
+  export type DiagramCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * The data used to create many Diagrams.
+     */
+    data: DiagramCreateManyInput | DiagramCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Diagram update
+   */
+  export type DiagramUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Diagram.
+     */
+    data: XOR<DiagramUpdateInput, DiagramUncheckedUpdateInput>
+    /**
+     * Choose, which Diagram to update.
+     */
+    where: DiagramWhereUniqueInput
+  }
+
+  /**
+   * Diagram updateMany
+   */
+  export type DiagramUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Diagrams.
+     */
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyInput>
+    /**
+     * Filter which Diagrams to update
+     */
+    where?: DiagramWhereInput
+    /**
+     * Limit how many Diagrams to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Diagram updateManyAndReturn
+   */
+  export type DiagramUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * The data used to update Diagrams.
+     */
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyInput>
+    /**
+     * Filter which Diagrams to update
+     */
+    where?: DiagramWhereInput
+    /**
+     * Limit how many Diagrams to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Diagram upsert
+   */
+  export type DiagramUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Diagram to update in case it exists.
+     */
+    where: DiagramWhereUniqueInput
+    /**
+     * In case the Diagram found by the `where` argument doesn't exist, create a new Diagram with this data.
+     */
+    create: XOR<DiagramCreateInput, DiagramUncheckedCreateInput>
+    /**
+     * In case the Diagram was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DiagramUpdateInput, DiagramUncheckedUpdateInput>
+  }
+
+  /**
+   * Diagram delete
+   */
+  export type DiagramDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    /**
+     * Filter which Diagram to delete.
+     */
+    where: DiagramWhereUniqueInput
+  }
+
+  /**
+   * Diagram deleteMany
+   */
+  export type DiagramDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Diagrams to delete
+     */
+    where?: DiagramWhereInput
+    /**
+     * Limit how many Diagrams to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Diagram.folder
+   */
+  export type Diagram$folderArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Folder
+     */
+    select?: FolderSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Folder
+     */
+    omit?: FolderOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FolderInclude<ExtArgs> | null
+    where?: FolderWhereInput
+  }
+
+  /**
+   * Diagram.versions
+   */
+  export type Diagram$versionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Version
+     */
+    select?: VersionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Version
+     */
+    omit?: VersionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VersionInclude<ExtArgs> | null
+    where?: VersionWhereInput
+    orderBy?: VersionOrderByWithRelationInput | VersionOrderByWithRelationInput[]
+    cursor?: VersionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VersionScalarFieldEnum | VersionScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram.comments
+   */
+  export type Diagram$commentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Comment
+     */
+    select?: CommentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Comment
+     */
+    omit?: CommentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CommentInclude<ExtArgs> | null
+    where?: CommentWhereInput
+    orderBy?: CommentOrderByWithRelationInput | CommentOrderByWithRelationInput[]
+    cursor?: CommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram.permissions
+   */
+  export type Diagram$permissionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Permission
+     */
+    select?: PermissionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Permission
+     */
+    omit?: PermissionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PermissionInclude<ExtArgs> | null
+    where?: PermissionWhereInput
+    orderBy?: PermissionOrderByWithRelationInput | PermissionOrderByWithRelationInput[]
+    cursor?: PermissionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PermissionScalarFieldEnum | PermissionScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram.collaborators
+   */
+  export type Diagram$collaboratorsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Collaborator
+     */
+    select?: CollaboratorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Collaborator
+     */
+    omit?: CollaboratorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CollaboratorInclude<ExtArgs> | null
+    where?: CollaboratorWhereInput
+    orderBy?: CollaboratorOrderByWithRelationInput | CollaboratorOrderByWithRelationInput[]
+    cursor?: CollaboratorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CollaboratorScalarFieldEnum | CollaboratorScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram.aiChats
+   */
+  export type Diagram$aiChatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AIChat
+     */
+    select?: AIChatSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the AIChat
+     */
+    omit?: AIChatOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AIChatInclude<ExtArgs> | null
+    where?: AIChatWhereInput
+    orderBy?: AIChatOrderByWithRelationInput | AIChatOrderByWithRelationInput[]
+    cursor?: AIChatWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AIChatScalarFieldEnum | AIChatScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram.notes
+   */
+  export type Diagram$notesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Note
+     */
+    select?: NoteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Note
+     */
+    omit?: NoteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: NoteInclude<ExtArgs> | null
+    where?: NoteWhereInput
+    orderBy?: NoteOrderByWithRelationInput | NoteOrderByWithRelationInput[]
+    cursor?: NoteWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: NoteScalarFieldEnum | NoteScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram.items
+   */
+  export type Diagram$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    where?: DimensionItemWhereInput
+    orderBy?: DimensionItemOrderByWithRelationInput | DimensionItemOrderByWithRelationInput[]
+    cursor?: DimensionItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DimensionItemScalarFieldEnum | DimensionItemScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram.snapshots
+   */
+  export type Diagram$snapshotsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DocumentSnapshot
+     */
+    select?: DocumentSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DocumentSnapshot
+     */
+    omit?: DocumentSnapshotOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentSnapshotInclude<ExtArgs> | null
+    where?: DocumentSnapshotWhereInput
+    orderBy?: DocumentSnapshotOrderByWithRelationInput | DocumentSnapshotOrderByWithRelationInput[]
+    cursor?: DocumentSnapshotWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentSnapshotScalarFieldEnum | DocumentSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * Diagram.project
+   */
+  export type Diagram$projectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Project
+     */
+    select?: ProjectSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Project
+     */
+    omit?: ProjectOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProjectInclude<ExtArgs> | null
+    where?: ProjectWhereInput
+  }
+
+  /**
+   * Diagram without action
+   */
+  export type DiagramDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model DimensionItem
+   */
+
+  export type AggregateDimensionItem = {
+    _count: DimensionItemCountAggregateOutputType | null
+    _min: DimensionItemMinAggregateOutputType | null
+    _max: DimensionItemMaxAggregateOutputType | null
+  }
+
+  export type DimensionItemMinAggregateOutputType = {
+    id: string | null
+    diagramId: string | null
+    type: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DimensionItemMaxAggregateOutputType = {
+    id: string | null
+    diagramId: string | null
+    type: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type DimensionItemCountAggregateOutputType = {
+    id: number
+    diagramId: number
+    type: number
+    content: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type DimensionItemMinAggregateInputType = {
+    id?: true
+    diagramId?: true
+    type?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DimensionItemMaxAggregateInputType = {
+    id?: true
+    diagramId?: true
+    type?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type DimensionItemCountAggregateInputType = {
+    id?: true
+    diagramId?: true
+    type?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type DimensionItemAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DimensionItem to aggregate.
+     */
+    where?: DimensionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DimensionItems to fetch.
+     */
+    orderBy?: DimensionItemOrderByWithRelationInput | DimensionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: DimensionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DimensionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DimensionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned DimensionItems
+    **/
+    _count?: true | DimensionItemCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: DimensionItemMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: DimensionItemMaxAggregateInputType
+  }
+
+  export type GetDimensionItemAggregateType<T extends DimensionItemAggregateArgs> = {
+        [P in keyof T & keyof AggregateDimensionItem]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateDimensionItem[P]>
+      : GetScalarType<T[P], AggregateDimensionItem[P]>
+  }
+
+
+
+
+  export type DimensionItemGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DimensionItemWhereInput
+    orderBy?: DimensionItemOrderByWithAggregationInput | DimensionItemOrderByWithAggregationInput[]
+    by: DimensionItemScalarFieldEnum[] | DimensionItemScalarFieldEnum
+    having?: DimensionItemScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: DimensionItemCountAggregateInputType | true
+    _min?: DimensionItemMinAggregateInputType
+    _max?: DimensionItemMaxAggregateInputType
+  }
+
+  export type DimensionItemGroupByOutputType = {
+    id: string
+    diagramId: string
+    type: string
+    content: JsonValue
+    createdAt: Date
+    updatedAt: Date
+    _count: DimensionItemCountAggregateOutputType | null
+    _min: DimensionItemMinAggregateOutputType | null
+    _max: DimensionItemMaxAggregateOutputType | null
+  }
+
+  type GetDimensionItemGroupByPayload<T extends DimensionItemGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<DimensionItemGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof DimensionItemGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], DimensionItemGroupByOutputType[P]>
+            : GetScalarType<T[P], DimensionItemGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type DimensionItemSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    diagramId?: boolean
+    type?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    diagram?: boolean | DiagramDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dimensionItem"]>
+
+  export type DimensionItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    diagramId?: boolean
+    type?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    diagram?: boolean | DiagramDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dimensionItem"]>
+
+  export type DimensionItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    diagramId?: boolean
+    type?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    diagram?: boolean | DiagramDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["dimensionItem"]>
+
+  export type DimensionItemSelectScalar = {
+    id?: boolean
+    diagramId?: boolean
+    type?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type DimensionItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "diagramId" | "type" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["dimensionItem"]>
+  export type DimensionItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    diagram?: boolean | DiagramDefaultArgs<ExtArgs>
+  }
+  export type DimensionItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    diagram?: boolean | DiagramDefaultArgs<ExtArgs>
+  }
+  export type DimensionItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    diagram?: boolean | DiagramDefaultArgs<ExtArgs>
+  }
+
+  export type $DimensionItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "DimensionItem"
+    objects: {
+      diagram: Prisma.$DiagramPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      diagramId: string
+      type: string
+      content: Prisma.JsonValue
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["dimensionItem"]>
+    composites: {}
+  }
+
+  type DimensionItemGetPayload<S extends boolean | null | undefined | DimensionItemDefaultArgs> = $Result.GetResult<Prisma.$DimensionItemPayload, S>
+
+  type DimensionItemCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<DimensionItemFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: DimensionItemCountAggregateInputType | true
+    }
+
+  export interface DimensionItemDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['DimensionItem'], meta: { name: 'DimensionItem' } }
+    /**
+     * Find zero or one DimensionItem that matches the filter.
+     * @param {DimensionItemFindUniqueArgs} args - Arguments to find a DimensionItem
+     * @example
+     * // Get one DimensionItem
+     * const dimensionItem = await prisma.dimensionItem.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends DimensionItemFindUniqueArgs>(args: SelectSubset<T, DimensionItemFindUniqueArgs<ExtArgs>>): Prisma__DimensionItemClient<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one DimensionItem that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {DimensionItemFindUniqueOrThrowArgs} args - Arguments to find a DimensionItem
+     * @example
+     * // Get one DimensionItem
+     * const dimensionItem = await prisma.dimensionItem.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends DimensionItemFindUniqueOrThrowArgs>(args: SelectSubset<T, DimensionItemFindUniqueOrThrowArgs<ExtArgs>>): Prisma__DimensionItemClient<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DimensionItem that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DimensionItemFindFirstArgs} args - Arguments to find a DimensionItem
+     * @example
+     * // Get one DimensionItem
+     * const dimensionItem = await prisma.dimensionItem.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends DimensionItemFindFirstArgs>(args?: SelectSubset<T, DimensionItemFindFirstArgs<ExtArgs>>): Prisma__DimensionItemClient<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first DimensionItem that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DimensionItemFindFirstOrThrowArgs} args - Arguments to find a DimensionItem
+     * @example
+     * // Get one DimensionItem
+     * const dimensionItem = await prisma.dimensionItem.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends DimensionItemFindFirstOrThrowArgs>(args?: SelectSubset<T, DimensionItemFindFirstOrThrowArgs<ExtArgs>>): Prisma__DimensionItemClient<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more DimensionItems that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DimensionItemFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all DimensionItems
+     * const dimensionItems = await prisma.dimensionItem.findMany()
+     * 
+     * // Get first 10 DimensionItems
+     * const dimensionItems = await prisma.dimensionItem.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const dimensionItemWithIdOnly = await prisma.dimensionItem.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends DimensionItemFindManyArgs>(args?: SelectSubset<T, DimensionItemFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a DimensionItem.
+     * @param {DimensionItemCreateArgs} args - Arguments to create a DimensionItem.
+     * @example
+     * // Create one DimensionItem
+     * const DimensionItem = await prisma.dimensionItem.create({
+     *   data: {
+     *     // ... data to create a DimensionItem
+     *   }
+     * })
+     * 
+     */
+    create<T extends DimensionItemCreateArgs>(args: SelectSubset<T, DimensionItemCreateArgs<ExtArgs>>): Prisma__DimensionItemClient<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many DimensionItems.
+     * @param {DimensionItemCreateManyArgs} args - Arguments to create many DimensionItems.
+     * @example
+     * // Create many DimensionItems
+     * const dimensionItem = await prisma.dimensionItem.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends DimensionItemCreateManyArgs>(args?: SelectSubset<T, DimensionItemCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many DimensionItems and returns the data saved in the database.
+     * @param {DimensionItemCreateManyAndReturnArgs} args - Arguments to create many DimensionItems.
+     * @example
+     * // Create many DimensionItems
+     * const dimensionItem = await prisma.dimensionItem.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many DimensionItems and only return the `id`
+     * const dimensionItemWithIdOnly = await prisma.dimensionItem.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends DimensionItemCreateManyAndReturnArgs>(args?: SelectSubset<T, DimensionItemCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a DimensionItem.
+     * @param {DimensionItemDeleteArgs} args - Arguments to delete one DimensionItem.
+     * @example
+     * // Delete one DimensionItem
+     * const DimensionItem = await prisma.dimensionItem.delete({
+     *   where: {
+     *     // ... filter to delete one DimensionItem
+     *   }
+     * })
+     * 
+     */
+    delete<T extends DimensionItemDeleteArgs>(args: SelectSubset<T, DimensionItemDeleteArgs<ExtArgs>>): Prisma__DimensionItemClient<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one DimensionItem.
+     * @param {DimensionItemUpdateArgs} args - Arguments to update one DimensionItem.
+     * @example
+     * // Update one DimensionItem
+     * const dimensionItem = await prisma.dimensionItem.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends DimensionItemUpdateArgs>(args: SelectSubset<T, DimensionItemUpdateArgs<ExtArgs>>): Prisma__DimensionItemClient<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more DimensionItems.
+     * @param {DimensionItemDeleteManyArgs} args - Arguments to filter DimensionItems to delete.
+     * @example
+     * // Delete a few DimensionItems
+     * const { count } = await prisma.dimensionItem.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends DimensionItemDeleteManyArgs>(args?: SelectSubset<T, DimensionItemDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DimensionItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DimensionItemUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many DimensionItems
+     * const dimensionItem = await prisma.dimensionItem.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends DimensionItemUpdateManyArgs>(args: SelectSubset<T, DimensionItemUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more DimensionItems and returns the data updated in the database.
+     * @param {DimensionItemUpdateManyAndReturnArgs} args - Arguments to update many DimensionItems.
+     * @example
+     * // Update many DimensionItems
+     * const dimensionItem = await prisma.dimensionItem.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more DimensionItems and only return the `id`
+     * const dimensionItemWithIdOnly = await prisma.dimensionItem.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends DimensionItemUpdateManyAndReturnArgs>(args: SelectSubset<T, DimensionItemUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one DimensionItem.
+     * @param {DimensionItemUpsertArgs} args - Arguments to update or create a DimensionItem.
+     * @example
+     * // Update or create a DimensionItem
+     * const dimensionItem = await prisma.dimensionItem.upsert({
+     *   create: {
+     *     // ... data to create a DimensionItem
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the DimensionItem we want to update
+     *   }
+     * })
+     */
+    upsert<T extends DimensionItemUpsertArgs>(args: SelectSubset<T, DimensionItemUpsertArgs<ExtArgs>>): Prisma__DimensionItemClient<$Result.GetResult<Prisma.$DimensionItemPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of DimensionItems.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DimensionItemCountArgs} args - Arguments to filter DimensionItems to count.
+     * @example
+     * // Count the number of DimensionItems
+     * const count = await prisma.dimensionItem.count({
+     *   where: {
+     *     // ... the filter for the DimensionItems we want to count
+     *   }
+     * })
+    **/
+    count<T extends DimensionItemCountArgs>(
+      args?: Subset<T, DimensionItemCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], DimensionItemCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a DimensionItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DimensionItemAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends DimensionItemAggregateArgs>(args: Subset<T, DimensionItemAggregateArgs>): Prisma.PrismaPromise<GetDimensionItemAggregateType<T>>
+
+    /**
+     * Group by DimensionItem.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {DimensionItemGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends DimensionItemGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: DimensionItemGroupByArgs['orderBy'] }
+        : { orderBy?: DimensionItemGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, DimensionItemGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetDimensionItemGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the DimensionItem model
+   */
+  readonly fields: DimensionItemFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for DimensionItem.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__DimensionItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    diagram<T extends DiagramDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DiagramDefaultArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the DimensionItem model
+   */
+  interface DimensionItemFieldRefs {
+    readonly id: FieldRef<"DimensionItem", 'String'>
+    readonly diagramId: FieldRef<"DimensionItem", 'String'>
+    readonly type: FieldRef<"DimensionItem", 'String'>
+    readonly content: FieldRef<"DimensionItem", 'Json'>
+    readonly createdAt: FieldRef<"DimensionItem", 'DateTime'>
+    readonly updatedAt: FieldRef<"DimensionItem", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * DimensionItem findUnique
+   */
+  export type DimensionItemFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which DimensionItem to fetch.
+     */
+    where: DimensionItemWhereUniqueInput
+  }
+
+  /**
+   * DimensionItem findUniqueOrThrow
+   */
+  export type DimensionItemFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which DimensionItem to fetch.
+     */
+    where: DimensionItemWhereUniqueInput
+  }
+
+  /**
+   * DimensionItem findFirst
+   */
+  export type DimensionItemFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which DimensionItem to fetch.
+     */
+    where?: DimensionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DimensionItems to fetch.
+     */
+    orderBy?: DimensionItemOrderByWithRelationInput | DimensionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DimensionItems.
+     */
+    cursor?: DimensionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DimensionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DimensionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DimensionItems.
+     */
+    distinct?: DimensionItemScalarFieldEnum | DimensionItemScalarFieldEnum[]
+  }
+
+  /**
+   * DimensionItem findFirstOrThrow
+   */
+  export type DimensionItemFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which DimensionItem to fetch.
+     */
+    where?: DimensionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DimensionItems to fetch.
+     */
+    orderBy?: DimensionItemOrderByWithRelationInput | DimensionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for DimensionItems.
+     */
+    cursor?: DimensionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DimensionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DimensionItems.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of DimensionItems.
+     */
+    distinct?: DimensionItemScalarFieldEnum | DimensionItemScalarFieldEnum[]
+  }
+
+  /**
+   * DimensionItem findMany
+   */
+  export type DimensionItemFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * Filter, which DimensionItems to fetch.
+     */
+    where?: DimensionItemWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of DimensionItems to fetch.
+     */
+    orderBy?: DimensionItemOrderByWithRelationInput | DimensionItemOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing DimensionItems.
+     */
+    cursor?: DimensionItemWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` DimensionItems from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` DimensionItems.
+     */
+    skip?: number
+    distinct?: DimensionItemScalarFieldEnum | DimensionItemScalarFieldEnum[]
+  }
+
+  /**
+   * DimensionItem create
+   */
+  export type DimensionItemCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * The data needed to create a DimensionItem.
+     */
+    data: XOR<DimensionItemCreateInput, DimensionItemUncheckedCreateInput>
+  }
+
+  /**
+   * DimensionItem createMany
+   */
+  export type DimensionItemCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many DimensionItems.
+     */
+    data: DimensionItemCreateManyInput | DimensionItemCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * DimensionItem createManyAndReturn
+   */
+  export type DimensionItemCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * The data used to create many DimensionItems.
+     */
+    data: DimensionItemCreateManyInput | DimensionItemCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DimensionItem update
+   */
+  export type DimensionItemUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * The data needed to update a DimensionItem.
+     */
+    data: XOR<DimensionItemUpdateInput, DimensionItemUncheckedUpdateInput>
+    /**
+     * Choose, which DimensionItem to update.
+     */
+    where: DimensionItemWhereUniqueInput
+  }
+
+  /**
+   * DimensionItem updateMany
+   */
+  export type DimensionItemUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update DimensionItems.
+     */
+    data: XOR<DimensionItemUpdateManyMutationInput, DimensionItemUncheckedUpdateManyInput>
+    /**
+     * Filter which DimensionItems to update
+     */
+    where?: DimensionItemWhereInput
+    /**
+     * Limit how many DimensionItems to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * DimensionItem updateManyAndReturn
+   */
+  export type DimensionItemUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * The data used to update DimensionItems.
+     */
+    data: XOR<DimensionItemUpdateManyMutationInput, DimensionItemUncheckedUpdateManyInput>
+    /**
+     * Filter which DimensionItems to update
+     */
+    where?: DimensionItemWhereInput
+    /**
+     * Limit how many DimensionItems to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * DimensionItem upsert
+   */
+  export type DimensionItemUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * The filter to search for the DimensionItem to update in case it exists.
+     */
+    where: DimensionItemWhereUniqueInput
+    /**
+     * In case the DimensionItem found by the `where` argument doesn't exist, create a new DimensionItem with this data.
+     */
+    create: XOR<DimensionItemCreateInput, DimensionItemUncheckedCreateInput>
+    /**
+     * In case the DimensionItem was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<DimensionItemUpdateInput, DimensionItemUncheckedUpdateInput>
+  }
+
+  /**
+   * DimensionItem delete
+   */
+  export type DimensionItemDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+    /**
+     * Filter which DimensionItem to delete.
+     */
+    where: DimensionItemWhereUniqueInput
+  }
+
+  /**
+   * DimensionItem deleteMany
+   */
+  export type DimensionItemDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which DimensionItems to delete
+     */
+    where?: DimensionItemWhereInput
+    /**
+     * Limit how many DimensionItems to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * DimensionItem without action
+   */
+  export type DimensionItemDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DimensionItem
+     */
+    select?: DimensionItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DimensionItem
+     */
+    omit?: DimensionItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DimensionItemInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Project
    */
 
@@ -13733,6 +16655,7 @@ export namespace Prisma {
     updatedAt?: boolean
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     documents?: boolean | Project$documentsArgs<ExtArgs>
+    diagrams?: boolean | Project$diagramsArgs<ExtArgs>
     tasks?: boolean | Project$tasksArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
     invitations?: boolean | Project$invitationsArgs<ExtArgs>
@@ -13772,6 +16695,7 @@ export namespace Prisma {
   export type ProjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     workspace?: boolean | WorkspaceDefaultArgs<ExtArgs>
     documents?: boolean | Project$documentsArgs<ExtArgs>
+    diagrams?: boolean | Project$diagramsArgs<ExtArgs>
     tasks?: boolean | Project$tasksArgs<ExtArgs>
     members?: boolean | Project$membersArgs<ExtArgs>
     invitations?: boolean | Project$invitationsArgs<ExtArgs>
@@ -13789,6 +16713,7 @@ export namespace Prisma {
     objects: {
       workspace: Prisma.$WorkspacePayload<ExtArgs>
       documents: Prisma.$DocumentPayload<ExtArgs>[]
+      diagrams: Prisma.$DiagramPayload<ExtArgs>[]
       tasks: Prisma.$TaskPayload<ExtArgs>[]
       members: Prisma.$ProjectMemberPayload<ExtArgs>[]
       invitations: Prisma.$InvitationPayload<ExtArgs>[]
@@ -14196,6 +17121,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     workspace<T extends WorkspaceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, WorkspaceDefaultArgs<ExtArgs>>): Prisma__WorkspaceClient<$Result.GetResult<Prisma.$WorkspacePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     documents<T extends Project$documentsArgs<ExtArgs> = {}>(args?: Subset<T, Project$documentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    diagrams<T extends Project$diagramsArgs<ExtArgs> = {}>(args?: Subset<T, Project$diagramsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     tasks<T extends Project$tasksArgs<ExtArgs> = {}>(args?: Subset<T, Project$tasksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     members<T extends Project$membersArgs<ExtArgs> = {}>(args?: Subset<T, Project$membersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProjectMemberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     invitations<T extends Project$invitationsArgs<ExtArgs> = {}>(args?: Subset<T, Project$invitationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvitationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -14651,6 +17577,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: DocumentScalarFieldEnum | DocumentScalarFieldEnum[]
+  }
+
+  /**
+   * Project.diagrams
+   */
+  export type Project$diagramsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+    orderBy?: DiagramOrderByWithRelationInput | DiagramOrderByWithRelationInput[]
+    cursor?: DiagramWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DiagramScalarFieldEnum | DiagramScalarFieldEnum[]
   }
 
   /**
@@ -17169,6 +20119,7 @@ export namespace Prisma {
   export type VersionMinAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     createdBy: string | null
     createdAt: Date | null
     description: string | null
@@ -17177,6 +20128,7 @@ export namespace Prisma {
   export type VersionMaxAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     createdBy: string | null
     createdAt: Date | null
     description: string | null
@@ -17185,6 +20137,7 @@ export namespace Prisma {
   export type VersionCountAggregateOutputType = {
     id: number
     documentId: number
+    diagramId: number
     content: number
     createdBy: number
     createdAt: number
@@ -17196,6 +20149,7 @@ export namespace Prisma {
   export type VersionMinAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     createdBy?: true
     createdAt?: true
     description?: true
@@ -17204,6 +20158,7 @@ export namespace Prisma {
   export type VersionMaxAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     createdBy?: true
     createdAt?: true
     description?: true
@@ -17212,6 +20167,7 @@ export namespace Prisma {
   export type VersionCountAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     content?: true
     createdBy?: true
     createdAt?: true
@@ -17293,7 +20249,8 @@ export namespace Prisma {
 
   export type VersionGroupByOutputType = {
     id: string
-    documentId: string
+    documentId: string | null
+    diagramId: string | null
     content: JsonValue
     createdBy: string
     createdAt: Date
@@ -17320,61 +20277,73 @@ export namespace Prisma {
   export type VersionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     content?: boolean
     createdBy?: boolean
     createdAt?: boolean
     description?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Version$documentArgs<ExtArgs>
+    diagram?: boolean | Version$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["version"]>
 
   export type VersionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     content?: boolean
     createdBy?: boolean
     createdAt?: boolean
     description?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Version$documentArgs<ExtArgs>
+    diagram?: boolean | Version$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["version"]>
 
   export type VersionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     content?: boolean
     createdBy?: boolean
     createdAt?: boolean
     description?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Version$documentArgs<ExtArgs>
+    diagram?: boolean | Version$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["version"]>
 
   export type VersionSelectScalar = {
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     content?: boolean
     createdBy?: boolean
     createdAt?: boolean
     description?: boolean
   }
 
-  export type VersionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "content" | "createdBy" | "createdAt" | "description", ExtArgs["result"]["version"]>
+  export type VersionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "diagramId" | "content" | "createdBy" | "createdAt" | "description", ExtArgs["result"]["version"]>
   export type VersionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Version$documentArgs<ExtArgs>
+    diagram?: boolean | Version$diagramArgs<ExtArgs>
   }
   export type VersionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Version$documentArgs<ExtArgs>
+    diagram?: boolean | Version$diagramArgs<ExtArgs>
   }
   export type VersionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Version$documentArgs<ExtArgs>
+    diagram?: boolean | Version$diagramArgs<ExtArgs>
   }
 
   export type $VersionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Version"
     objects: {
-      document: Prisma.$DocumentPayload<ExtArgs>
+      document: Prisma.$DocumentPayload<ExtArgs> | null
+      diagram: Prisma.$DiagramPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      documentId: string
+      documentId: string | null
+      diagramId: string | null
       content: Prisma.JsonValue
       createdBy: string
       createdAt: Date
@@ -17773,7 +20742,8 @@ export namespace Prisma {
    */
   export interface Prisma__VersionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    document<T extends DocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentDefaultArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    document<T extends Version$documentArgs<ExtArgs> = {}>(args?: Subset<T, Version$documentArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    diagram<T extends Version$diagramArgs<ExtArgs> = {}>(args?: Subset<T, Version$diagramArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -17805,6 +20775,7 @@ export namespace Prisma {
   interface VersionFieldRefs {
     readonly id: FieldRef<"Version", 'String'>
     readonly documentId: FieldRef<"Version", 'String'>
+    readonly diagramId: FieldRef<"Version", 'String'>
     readonly content: FieldRef<"Version", 'Json'>
     readonly createdBy: FieldRef<"Version", 'String'>
     readonly createdAt: FieldRef<"Version", 'DateTime'>
@@ -18205,6 +21176,44 @@ export namespace Prisma {
   }
 
   /**
+   * Version.document
+   */
+  export type Version$documentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+  }
+
+  /**
+   * Version.diagram
+   */
+  export type Version$diagramArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+  }
+
+  /**
    * Version without action
    */
   export type VersionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18236,6 +21245,7 @@ export namespace Prisma {
   export type CommentMinAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     content: string | null
     resolved: boolean | null
@@ -18247,6 +21257,7 @@ export namespace Prisma {
   export type CommentMaxAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     content: string | null
     resolved: boolean | null
@@ -18258,6 +21269,7 @@ export namespace Prisma {
   export type CommentCountAggregateOutputType = {
     id: number
     documentId: number
+    diagramId: number
     userId: number
     content: number
     position: number
@@ -18272,6 +21284,7 @@ export namespace Prisma {
   export type CommentMinAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     content?: true
     resolved?: true
@@ -18283,6 +21296,7 @@ export namespace Prisma {
   export type CommentMaxAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     content?: true
     resolved?: true
@@ -18294,6 +21308,7 @@ export namespace Prisma {
   export type CommentCountAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     content?: true
     position?: true
@@ -18378,7 +21393,8 @@ export namespace Prisma {
 
   export type CommentGroupByOutputType = {
     id: string
-    documentId: string
+    documentId: string | null
+    diagramId: string | null
     userId: string
     content: string
     position: JsonValue | null
@@ -18408,6 +21424,7 @@ export namespace Prisma {
   export type CommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     content?: boolean
     position?: boolean
@@ -18415,7 +21432,8 @@ export namespace Prisma {
     parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Comment$documentArgs<ExtArgs>
+    diagram?: boolean | Comment$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
     replies?: boolean | Comment$repliesArgs<ExtArgs>
@@ -18425,6 +21443,7 @@ export namespace Prisma {
   export type CommentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     content?: boolean
     position?: boolean
@@ -18432,7 +21451,8 @@ export namespace Prisma {
     parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Comment$documentArgs<ExtArgs>
+    diagram?: boolean | Comment$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
@@ -18440,6 +21460,7 @@ export namespace Prisma {
   export type CommentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     content?: boolean
     position?: boolean
@@ -18447,7 +21468,8 @@ export namespace Prisma {
     parentId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Comment$documentArgs<ExtArgs>
+    diagram?: boolean | Comment$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
   }, ExtArgs["result"]["comment"]>
@@ -18455,6 +21477,7 @@ export namespace Prisma {
   export type CommentSelectScalar = {
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     content?: boolean
     position?: boolean
@@ -18464,21 +21487,24 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "userId" | "content" | "position" | "resolved" | "parentId" | "createdAt" | "updatedAt", ExtArgs["result"]["comment"]>
+  export type CommentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "diagramId" | "userId" | "content" | "position" | "resolved" | "parentId" | "createdAt" | "updatedAt", ExtArgs["result"]["comment"]>
   export type CommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Comment$documentArgs<ExtArgs>
+    diagram?: boolean | Comment$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
     replies?: boolean | Comment$repliesArgs<ExtArgs>
     _count?: boolean | CommentCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CommentIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Comment$documentArgs<ExtArgs>
+    diagram?: boolean | Comment$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
   }
   export type CommentIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Comment$documentArgs<ExtArgs>
+    diagram?: boolean | Comment$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     parent?: boolean | Comment$parentArgs<ExtArgs>
   }
@@ -18486,14 +21512,16 @@ export namespace Prisma {
   export type $CommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Comment"
     objects: {
-      document: Prisma.$DocumentPayload<ExtArgs>
+      document: Prisma.$DocumentPayload<ExtArgs> | null
+      diagram: Prisma.$DiagramPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
       parent: Prisma.$CommentPayload<ExtArgs> | null
       replies: Prisma.$CommentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      documentId: string
+      documentId: string | null
+      diagramId: string | null
       userId: string
       content: string
       position: Prisma.JsonValue | null
@@ -18895,7 +21923,8 @@ export namespace Prisma {
    */
   export interface Prisma__CommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    document<T extends DocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentDefaultArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    document<T extends Comment$documentArgs<ExtArgs> = {}>(args?: Subset<T, Comment$documentArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    diagram<T extends Comment$diagramArgs<ExtArgs> = {}>(args?: Subset<T, Comment$diagramArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     parent<T extends Comment$parentArgs<ExtArgs> = {}>(args?: Subset<T, Comment$parentArgs<ExtArgs>>): Prisma__CommentClient<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     replies<T extends Comment$repliesArgs<ExtArgs> = {}>(args?: Subset<T, Comment$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -18930,6 +21959,7 @@ export namespace Prisma {
   interface CommentFieldRefs {
     readonly id: FieldRef<"Comment", 'String'>
     readonly documentId: FieldRef<"Comment", 'String'>
+    readonly diagramId: FieldRef<"Comment", 'String'>
     readonly userId: FieldRef<"Comment", 'String'>
     readonly content: FieldRef<"Comment", 'String'>
     readonly position: FieldRef<"Comment", 'Json'>
@@ -19333,6 +22363,44 @@ export namespace Prisma {
   }
 
   /**
+   * Comment.document
+   */
+  export type Comment$documentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+  }
+
+  /**
+   * Comment.diagram
+   */
+  export type Comment$diagramArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+  }
+
+  /**
    * Comment.parent
    */
   export type Comment$parentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -19407,6 +22475,7 @@ export namespace Prisma {
   export type PermissionMinAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     email: string | null
     role: $Enums.PermissionRole | null
@@ -19416,6 +22485,7 @@ export namespace Prisma {
   export type PermissionMaxAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     email: string | null
     role: $Enums.PermissionRole | null
@@ -19425,6 +22495,7 @@ export namespace Prisma {
   export type PermissionCountAggregateOutputType = {
     id: number
     documentId: number
+    diagramId: number
     userId: number
     email: number
     role: number
@@ -19436,6 +22507,7 @@ export namespace Prisma {
   export type PermissionMinAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     email?: true
     role?: true
@@ -19445,6 +22517,7 @@ export namespace Prisma {
   export type PermissionMaxAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     email?: true
     role?: true
@@ -19454,6 +22527,7 @@ export namespace Prisma {
   export type PermissionCountAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     email?: true
     role?: true
@@ -19535,7 +22609,8 @@ export namespace Prisma {
 
   export type PermissionGroupByOutputType = {
     id: string
-    documentId: string
+    documentId: string | null
+    diagramId: string | null
     userId: string | null
     email: string | null
     role: $Enums.PermissionRole
@@ -19562,61 +22637,73 @@ export namespace Prisma {
   export type PermissionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     email?: boolean
     role?: boolean
     createdAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Permission$documentArgs<ExtArgs>
+    diagram?: boolean | Permission$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["permission"]>
 
   export type PermissionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     email?: boolean
     role?: boolean
     createdAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Permission$documentArgs<ExtArgs>
+    diagram?: boolean | Permission$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["permission"]>
 
   export type PermissionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     email?: boolean
     role?: boolean
     createdAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Permission$documentArgs<ExtArgs>
+    diagram?: boolean | Permission$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["permission"]>
 
   export type PermissionSelectScalar = {
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     email?: boolean
     role?: boolean
     createdAt?: boolean
   }
 
-  export type PermissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "userId" | "email" | "role" | "createdAt", ExtArgs["result"]["permission"]>
+  export type PermissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "diagramId" | "userId" | "email" | "role" | "createdAt", ExtArgs["result"]["permission"]>
   export type PermissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Permission$documentArgs<ExtArgs>
+    diagram?: boolean | Permission$diagramArgs<ExtArgs>
   }
   export type PermissionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Permission$documentArgs<ExtArgs>
+    diagram?: boolean | Permission$diagramArgs<ExtArgs>
   }
   export type PermissionIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Permission$documentArgs<ExtArgs>
+    diagram?: boolean | Permission$diagramArgs<ExtArgs>
   }
 
   export type $PermissionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Permission"
     objects: {
-      document: Prisma.$DocumentPayload<ExtArgs>
+      document: Prisma.$DocumentPayload<ExtArgs> | null
+      diagram: Prisma.$DiagramPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      documentId: string
+      documentId: string | null
+      diagramId: string | null
       userId: string | null
       email: string | null
       role: $Enums.PermissionRole
@@ -20015,7 +23102,8 @@ export namespace Prisma {
    */
   export interface Prisma__PermissionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    document<T extends DocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentDefaultArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    document<T extends Permission$documentArgs<ExtArgs> = {}>(args?: Subset<T, Permission$documentArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    diagram<T extends Permission$diagramArgs<ExtArgs> = {}>(args?: Subset<T, Permission$diagramArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20047,6 +23135,7 @@ export namespace Prisma {
   interface PermissionFieldRefs {
     readonly id: FieldRef<"Permission", 'String'>
     readonly documentId: FieldRef<"Permission", 'String'>
+    readonly diagramId: FieldRef<"Permission", 'String'>
     readonly userId: FieldRef<"Permission", 'String'>
     readonly email: FieldRef<"Permission", 'String'>
     readonly role: FieldRef<"Permission", 'PermissionRole'>
@@ -20447,6 +23536,44 @@ export namespace Prisma {
   }
 
   /**
+   * Permission.document
+   */
+  export type Permission$documentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+  }
+
+  /**
+   * Permission.diagram
+   */
+  export type Permission$diagramArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+  }
+
+  /**
    * Permission without action
    */
   export type PermissionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -20478,6 +23605,7 @@ export namespace Prisma {
   export type CollaboratorMinAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     lastSeen: Date | null
   }
@@ -20485,6 +23613,7 @@ export namespace Prisma {
   export type CollaboratorMaxAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     lastSeen: Date | null
   }
@@ -20492,6 +23621,7 @@ export namespace Prisma {
   export type CollaboratorCountAggregateOutputType = {
     id: number
     documentId: number
+    diagramId: number
     userId: number
     cursor: number
     selection: number
@@ -20503,6 +23633,7 @@ export namespace Prisma {
   export type CollaboratorMinAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     lastSeen?: true
   }
@@ -20510,6 +23641,7 @@ export namespace Prisma {
   export type CollaboratorMaxAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     lastSeen?: true
   }
@@ -20517,6 +23649,7 @@ export namespace Prisma {
   export type CollaboratorCountAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     cursor?: true
     selection?: true
@@ -20598,7 +23731,8 @@ export namespace Prisma {
 
   export type CollaboratorGroupByOutputType = {
     id: string
-    documentId: string
+    documentId: string | null
+    diagramId: string | null
     userId: string
     cursor: JsonValue | null
     selection: JsonValue | null
@@ -20625,61 +23759,73 @@ export namespace Prisma {
   export type CollaboratorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     cursor?: boolean
     selection?: boolean
     lastSeen?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Collaborator$documentArgs<ExtArgs>
+    diagram?: boolean | Collaborator$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["collaborator"]>
 
   export type CollaboratorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     cursor?: boolean
     selection?: boolean
     lastSeen?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Collaborator$documentArgs<ExtArgs>
+    diagram?: boolean | Collaborator$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["collaborator"]>
 
   export type CollaboratorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     cursor?: boolean
     selection?: boolean
     lastSeen?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Collaborator$documentArgs<ExtArgs>
+    diagram?: boolean | Collaborator$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["collaborator"]>
 
   export type CollaboratorSelectScalar = {
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     cursor?: boolean
     selection?: boolean
     lastSeen?: boolean
   }
 
-  export type CollaboratorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "userId" | "cursor" | "selection" | "lastSeen", ExtArgs["result"]["collaborator"]>
+  export type CollaboratorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "diagramId" | "userId" | "cursor" | "selection" | "lastSeen", ExtArgs["result"]["collaborator"]>
   export type CollaboratorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Collaborator$documentArgs<ExtArgs>
+    diagram?: boolean | Collaborator$diagramArgs<ExtArgs>
   }
   export type CollaboratorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Collaborator$documentArgs<ExtArgs>
+    diagram?: boolean | Collaborator$diagramArgs<ExtArgs>
   }
   export type CollaboratorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Collaborator$documentArgs<ExtArgs>
+    diagram?: boolean | Collaborator$diagramArgs<ExtArgs>
   }
 
   export type $CollaboratorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Collaborator"
     objects: {
-      document: Prisma.$DocumentPayload<ExtArgs>
+      document: Prisma.$DocumentPayload<ExtArgs> | null
+      diagram: Prisma.$DiagramPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      documentId: string
+      documentId: string | null
+      diagramId: string | null
       userId: string
       cursor: Prisma.JsonValue | null
       selection: Prisma.JsonValue | null
@@ -21078,7 +24224,8 @@ export namespace Prisma {
    */
   export interface Prisma__CollaboratorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    document<T extends DocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentDefaultArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    document<T extends Collaborator$documentArgs<ExtArgs> = {}>(args?: Subset<T, Collaborator$documentArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    diagram<T extends Collaborator$diagramArgs<ExtArgs> = {}>(args?: Subset<T, Collaborator$diagramArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21110,6 +24257,7 @@ export namespace Prisma {
   interface CollaboratorFieldRefs {
     readonly id: FieldRef<"Collaborator", 'String'>
     readonly documentId: FieldRef<"Collaborator", 'String'>
+    readonly diagramId: FieldRef<"Collaborator", 'String'>
     readonly userId: FieldRef<"Collaborator", 'String'>
     readonly cursor: FieldRef<"Collaborator", 'Json'>
     readonly selection: FieldRef<"Collaborator", 'Json'>
@@ -21507,6 +24655,44 @@ export namespace Prisma {
      * Limit how many Collaborators to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Collaborator.document
+   */
+  export type Collaborator$documentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+  }
+
+  /**
+   * Collaborator.diagram
+   */
+  export type Collaborator$diagramArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
   }
 
   /**
@@ -23793,6 +26979,7 @@ export namespace Prisma {
   export type AIChatMinAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     title: string | null
     createdAt: Date | null
@@ -23802,6 +26989,7 @@ export namespace Prisma {
   export type AIChatMaxAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     title: string | null
     createdAt: Date | null
@@ -23811,6 +26999,7 @@ export namespace Prisma {
   export type AIChatCountAggregateOutputType = {
     id: number
     documentId: number
+    diagramId: number
     userId: number
     title: number
     createdAt: number
@@ -23822,6 +27011,7 @@ export namespace Prisma {
   export type AIChatMinAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     title?: true
     createdAt?: true
@@ -23831,6 +27021,7 @@ export namespace Prisma {
   export type AIChatMaxAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     title?: true
     createdAt?: true
@@ -23840,6 +27031,7 @@ export namespace Prisma {
   export type AIChatCountAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     title?: true
     createdAt?: true
@@ -23921,7 +27113,8 @@ export namespace Prisma {
 
   export type AIChatGroupByOutputType = {
     id: string
-    documentId: string
+    documentId: string | null
+    diagramId: string | null
     userId: string
     title: string | null
     createdAt: Date
@@ -23948,11 +27141,13 @@ export namespace Prisma {
   export type AIChatSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     title?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | AIChat$documentArgs<ExtArgs>
+    diagram?: boolean | AIChat$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     messages?: boolean | AIChat$messagesArgs<ExtArgs>
     _count?: boolean | AIChatCountOutputTypeDefaultArgs<ExtArgs>
@@ -23961,60 +27156,70 @@ export namespace Prisma {
   export type AIChatSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     title?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | AIChat$documentArgs<ExtArgs>
+    diagram?: boolean | AIChat$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["aIChat"]>
 
   export type AIChatSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     title?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | AIChat$documentArgs<ExtArgs>
+    diagram?: boolean | AIChat$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["aIChat"]>
 
   export type AIChatSelectScalar = {
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     title?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AIChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "userId" | "title" | "createdAt" | "updatedAt", ExtArgs["result"]["aIChat"]>
+  export type AIChatOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "diagramId" | "userId" | "title" | "createdAt" | "updatedAt", ExtArgs["result"]["aIChat"]>
   export type AIChatInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | AIChat$documentArgs<ExtArgs>
+    diagram?: boolean | AIChat$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
     messages?: boolean | AIChat$messagesArgs<ExtArgs>
     _count?: boolean | AIChatCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AIChatIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | AIChat$documentArgs<ExtArgs>
+    diagram?: boolean | AIChat$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type AIChatIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | AIChat$documentArgs<ExtArgs>
+    diagram?: boolean | AIChat$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $AIChatPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "AIChat"
     objects: {
-      document: Prisma.$DocumentPayload<ExtArgs>
+      document: Prisma.$DocumentPayload<ExtArgs> | null
+      diagram: Prisma.$DiagramPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
       messages: Prisma.$AIMessagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      documentId: string
+      documentId: string | null
+      diagramId: string | null
       userId: string
       title: string | null
       createdAt: Date
@@ -24413,7 +27618,8 @@ export namespace Prisma {
    */
   export interface Prisma__AIChatClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    document<T extends DocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentDefaultArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    document<T extends AIChat$documentArgs<ExtArgs> = {}>(args?: Subset<T, AIChat$documentArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    diagram<T extends AIChat$diagramArgs<ExtArgs> = {}>(args?: Subset<T, AIChat$diagramArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     messages<T extends AIChat$messagesArgs<ExtArgs> = {}>(args?: Subset<T, AIChat$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AIMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
@@ -24447,6 +27653,7 @@ export namespace Prisma {
   interface AIChatFieldRefs {
     readonly id: FieldRef<"AIChat", 'String'>
     readonly documentId: FieldRef<"AIChat", 'String'>
+    readonly diagramId: FieldRef<"AIChat", 'String'>
     readonly userId: FieldRef<"AIChat", 'String'>
     readonly title: FieldRef<"AIChat", 'String'>
     readonly createdAt: FieldRef<"AIChat", 'DateTime'>
@@ -24844,6 +28051,44 @@ export namespace Prisma {
      * Limit how many AIChats to delete.
      */
     limit?: number
+  }
+
+  /**
+   * AIChat.document
+   */
+  export type AIChat$documentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+  }
+
+  /**
+   * AIChat.diagram
+   */
+  export type AIChat$diagramArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
   }
 
   /**
@@ -25960,6 +29205,7 @@ export namespace Prisma {
   export type NoteMinAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     content: string | null
     color: string | null
@@ -25970,6 +29216,7 @@ export namespace Prisma {
   export type NoteMaxAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     userId: string | null
     content: string | null
     color: string | null
@@ -25980,6 +29227,7 @@ export namespace Prisma {
   export type NoteCountAggregateOutputType = {
     id: number
     documentId: number
+    diagramId: number
     userId: number
     content: number
     position: number
@@ -25993,6 +29241,7 @@ export namespace Prisma {
   export type NoteMinAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     content?: true
     color?: true
@@ -26003,6 +29252,7 @@ export namespace Prisma {
   export type NoteMaxAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     content?: true
     color?: true
@@ -26013,6 +29263,7 @@ export namespace Prisma {
   export type NoteCountAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     userId?: true
     content?: true
     position?: true
@@ -26096,7 +29347,8 @@ export namespace Prisma {
 
   export type NoteGroupByOutputType = {
     id: string
-    documentId: string
+    documentId: string | null
+    diagramId: string | null
     userId: string
     content: string
     position: JsonValue | null
@@ -26125,45 +29377,52 @@ export namespace Prisma {
   export type NoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     content?: boolean
     position?: boolean
     color?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Note$documentArgs<ExtArgs>
+    diagram?: boolean | Note$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     content?: boolean
     position?: boolean
     color?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Note$documentArgs<ExtArgs>
+    diagram?: boolean | Note$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     content?: boolean
     position?: boolean
     color?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Note$documentArgs<ExtArgs>
+    diagram?: boolean | Note$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["note"]>
 
   export type NoteSelectScalar = {
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     userId?: boolean
     content?: boolean
     position?: boolean
@@ -26172,29 +29431,34 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type NoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "userId" | "content" | "position" | "color" | "createdAt" | "updatedAt", ExtArgs["result"]["note"]>
+  export type NoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "diagramId" | "userId" | "content" | "position" | "color" | "createdAt" | "updatedAt", ExtArgs["result"]["note"]>
   export type NoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Note$documentArgs<ExtArgs>
+    diagram?: boolean | Note$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type NoteIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Note$documentArgs<ExtArgs>
+    diagram?: boolean | Note$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type NoteIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | Note$documentArgs<ExtArgs>
+    diagram?: boolean | Note$diagramArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $NotePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Note"
     objects: {
-      document: Prisma.$DocumentPayload<ExtArgs>
+      document: Prisma.$DocumentPayload<ExtArgs> | null
+      diagram: Prisma.$DiagramPayload<ExtArgs> | null
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      documentId: string
+      documentId: string | null
+      diagramId: string | null
       userId: string
       content: string
       position: Prisma.JsonValue | null
@@ -26595,7 +29859,8 @@ export namespace Prisma {
    */
   export interface Prisma__NoteClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    document<T extends DocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentDefaultArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    document<T extends Note$documentArgs<ExtArgs> = {}>(args?: Subset<T, Note$documentArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    diagram<T extends Note$diagramArgs<ExtArgs> = {}>(args?: Subset<T, Note$diagramArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -26628,6 +29893,7 @@ export namespace Prisma {
   interface NoteFieldRefs {
     readonly id: FieldRef<"Note", 'String'>
     readonly documentId: FieldRef<"Note", 'String'>
+    readonly diagramId: FieldRef<"Note", 'String'>
     readonly userId: FieldRef<"Note", 'String'>
     readonly content: FieldRef<"Note", 'String'>
     readonly position: FieldRef<"Note", 'Json'>
@@ -27030,6 +30296,44 @@ export namespace Prisma {
   }
 
   /**
+   * Note.document
+   */
+  export type Note$documentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+  }
+
+  /**
+   * Note.diagram
+   */
+  export type Note$diagramArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
+  }
+
+  /**
    * Note without action
    */
   export type NoteDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -27061,6 +30365,7 @@ export namespace Prisma {
   export type DocumentSnapshotMinAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     description: string | null
     createdBy: string | null
     createdAt: Date | null
@@ -27069,6 +30374,7 @@ export namespace Prisma {
   export type DocumentSnapshotMaxAggregateOutputType = {
     id: string | null
     documentId: string | null
+    diagramId: string | null
     description: string | null
     createdBy: string | null
     createdAt: Date | null
@@ -27077,6 +30383,7 @@ export namespace Prisma {
   export type DocumentSnapshotCountAggregateOutputType = {
     id: number
     documentId: number
+    diagramId: number
     content: number
     description: number
     createdBy: number
@@ -27088,6 +30395,7 @@ export namespace Prisma {
   export type DocumentSnapshotMinAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     description?: true
     createdBy?: true
     createdAt?: true
@@ -27096,6 +30404,7 @@ export namespace Prisma {
   export type DocumentSnapshotMaxAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     description?: true
     createdBy?: true
     createdAt?: true
@@ -27104,6 +30413,7 @@ export namespace Prisma {
   export type DocumentSnapshotCountAggregateInputType = {
     id?: true
     documentId?: true
+    diagramId?: true
     content?: true
     description?: true
     createdBy?: true
@@ -27185,7 +30495,8 @@ export namespace Prisma {
 
   export type DocumentSnapshotGroupByOutputType = {
     id: string
-    documentId: string
+    documentId: string | null
+    diagramId: string | null
     content: JsonValue
     description: string | null
     createdBy: string
@@ -27212,61 +30523,73 @@ export namespace Prisma {
   export type DocumentSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     content?: boolean
     description?: boolean
     createdBy?: boolean
     createdAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | DocumentSnapshot$documentArgs<ExtArgs>
+    diagram?: boolean | DocumentSnapshot$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["documentSnapshot"]>
 
   export type DocumentSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     content?: boolean
     description?: boolean
     createdBy?: boolean
     createdAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | DocumentSnapshot$documentArgs<ExtArgs>
+    diagram?: boolean | DocumentSnapshot$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["documentSnapshot"]>
 
   export type DocumentSnapshotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     content?: boolean
     description?: boolean
     createdBy?: boolean
     createdAt?: boolean
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | DocumentSnapshot$documentArgs<ExtArgs>
+    diagram?: boolean | DocumentSnapshot$diagramArgs<ExtArgs>
   }, ExtArgs["result"]["documentSnapshot"]>
 
   export type DocumentSnapshotSelectScalar = {
     id?: boolean
     documentId?: boolean
+    diagramId?: boolean
     content?: boolean
     description?: boolean
     createdBy?: boolean
     createdAt?: boolean
   }
 
-  export type DocumentSnapshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "content" | "description" | "createdBy" | "createdAt", ExtArgs["result"]["documentSnapshot"]>
+  export type DocumentSnapshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "documentId" | "diagramId" | "content" | "description" | "createdBy" | "createdAt", ExtArgs["result"]["documentSnapshot"]>
   export type DocumentSnapshotInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | DocumentSnapshot$documentArgs<ExtArgs>
+    diagram?: boolean | DocumentSnapshot$diagramArgs<ExtArgs>
   }
   export type DocumentSnapshotIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | DocumentSnapshot$documentArgs<ExtArgs>
+    diagram?: boolean | DocumentSnapshot$diagramArgs<ExtArgs>
   }
   export type DocumentSnapshotIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    document?: boolean | DocumentDefaultArgs<ExtArgs>
+    document?: boolean | DocumentSnapshot$documentArgs<ExtArgs>
+    diagram?: boolean | DocumentSnapshot$diagramArgs<ExtArgs>
   }
 
   export type $DocumentSnapshotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "DocumentSnapshot"
     objects: {
-      document: Prisma.$DocumentPayload<ExtArgs>
+      document: Prisma.$DocumentPayload<ExtArgs> | null
+      diagram: Prisma.$DiagramPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      documentId: string
+      documentId: string | null
+      diagramId: string | null
       content: Prisma.JsonValue
       description: string | null
       createdBy: string
@@ -27665,7 +30988,8 @@ export namespace Prisma {
    */
   export interface Prisma__DocumentSnapshotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    document<T extends DocumentDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DocumentDefaultArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    document<T extends DocumentSnapshot$documentArgs<ExtArgs> = {}>(args?: Subset<T, DocumentSnapshot$documentArgs<ExtArgs>>): Prisma__DocumentClient<$Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    diagram<T extends DocumentSnapshot$diagramArgs<ExtArgs> = {}>(args?: Subset<T, DocumentSnapshot$diagramArgs<ExtArgs>>): Prisma__DiagramClient<$Result.GetResult<Prisma.$DiagramPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -27697,6 +31021,7 @@ export namespace Prisma {
   interface DocumentSnapshotFieldRefs {
     readonly id: FieldRef<"DocumentSnapshot", 'String'>
     readonly documentId: FieldRef<"DocumentSnapshot", 'String'>
+    readonly diagramId: FieldRef<"DocumentSnapshot", 'String'>
     readonly content: FieldRef<"DocumentSnapshot", 'Json'>
     readonly description: FieldRef<"DocumentSnapshot", 'String'>
     readonly createdBy: FieldRef<"DocumentSnapshot", 'String'>
@@ -28094,6 +31419,44 @@ export namespace Prisma {
      * Limit how many DocumentSnapshots to delete.
      */
     limit?: number
+  }
+
+  /**
+   * DocumentSnapshot.document
+   */
+  export type DocumentSnapshot$documentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Document
+     */
+    select?: DocumentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Document
+     */
+    omit?: DocumentOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentInclude<ExtArgs> | null
+    where?: DocumentWhereInput
+  }
+
+  /**
+   * DocumentSnapshot.diagram
+   */
+  export type DocumentSnapshot$diagramArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Diagram
+     */
+    select?: DiagramSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Diagram
+     */
+    omit?: DiagramOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DiagramInclude<ExtArgs> | null
+    where?: DiagramWhereInput
   }
 
   /**
@@ -35053,6 +38416,38 @@ export namespace Prisma {
   export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
+  export const DiagramScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    content: 'content',
+    thumbnail: 'thumbnail',
+    workspaceId: 'workspaceId',
+    folderId: 'folderId',
+    creatorId: 'creatorId',
+    isPublic: 'isPublic',
+    publicSlug: 'publicSlug',
+    isArchived: 'isArchived',
+    isFavorite: 'isFavorite',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    projectId: 'projectId'
+  };
+
+  export type DiagramScalarFieldEnum = (typeof DiagramScalarFieldEnum)[keyof typeof DiagramScalarFieldEnum]
+
+
+  export const DimensionItemScalarFieldEnum: {
+    id: 'id',
+    diagramId: 'diagramId',
+    type: 'type',
+    content: 'content',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type DimensionItemScalarFieldEnum = (typeof DimensionItemScalarFieldEnum)[keyof typeof DimensionItemScalarFieldEnum]
+
+
   export const ProjectScalarFieldEnum: {
     id: 'id',
     name: 'name',
@@ -35101,6 +38496,7 @@ export namespace Prisma {
   export const VersionScalarFieldEnum: {
     id: 'id',
     documentId: 'documentId',
+    diagramId: 'diagramId',
     content: 'content',
     createdBy: 'createdBy',
     createdAt: 'createdAt',
@@ -35113,6 +38509,7 @@ export namespace Prisma {
   export const CommentScalarFieldEnum: {
     id: 'id',
     documentId: 'documentId',
+    diagramId: 'diagramId',
     userId: 'userId',
     content: 'content',
     position: 'position',
@@ -35128,6 +38525,7 @@ export namespace Prisma {
   export const PermissionScalarFieldEnum: {
     id: 'id',
     documentId: 'documentId',
+    diagramId: 'diagramId',
     userId: 'userId',
     email: 'email',
     role: 'role',
@@ -35140,6 +38538,7 @@ export namespace Prisma {
   export const CollaboratorScalarFieldEnum: {
     id: 'id',
     documentId: 'documentId',
+    diagramId: 'diagramId',
     userId: 'userId',
     cursor: 'cursor',
     selection: 'selection',
@@ -35181,6 +38580,7 @@ export namespace Prisma {
   export const AIChatScalarFieldEnum: {
     id: 'id',
     documentId: 'documentId',
+    diagramId: 'diagramId',
     userId: 'userId',
     title: 'title',
     createdAt: 'createdAt',
@@ -35204,6 +38604,7 @@ export namespace Prisma {
   export const NoteScalarFieldEnum: {
     id: 'id',
     documentId: 'documentId',
+    diagramId: 'diagramId',
     userId: 'userId',
     content: 'content',
     position: 'position',
@@ -35218,6 +38619,7 @@ export namespace Prisma {
   export const DocumentSnapshotScalarFieldEnum: {
     id: 'id',
     documentId: 'documentId',
+    diagramId: 'diagramId',
     content: 'content',
     description: 'description',
     createdBy: 'createdBy',
@@ -35664,6 +39066,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     workspaces?: WorkspaceMemberListRelationFilter
     documents?: DocumentListRelationFilter
+    diagrams?: DiagramListRelationFilter
     comments?: CommentListRelationFilter
     activities?: ActivityListRelationFilter
     accounts?: AccountListRelationFilter
@@ -35691,6 +39094,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     workspaces?: WorkspaceMemberOrderByRelationAggregateInput
     documents?: DocumentOrderByRelationAggregateInput
+    diagrams?: DiagramOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
     activities?: ActivityOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
@@ -35721,6 +39125,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     workspaces?: WorkspaceMemberListRelationFilter
     documents?: DocumentListRelationFilter
+    diagrams?: DiagramListRelationFilter
     comments?: CommentListRelationFilter
     activities?: ActivityListRelationFilter
     accounts?: AccountListRelationFilter
@@ -35966,6 +39371,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Workspace"> | Date | string
     members?: WorkspaceMemberListRelationFilter
     documents?: DocumentListRelationFilter
+    diagrams?: DiagramListRelationFilter
     folders?: FolderListRelationFilter
     templates?: TemplateListRelationFilter
     projects?: ProjectListRelationFilter
@@ -35983,6 +39389,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     members?: WorkspaceMemberOrderByRelationAggregateInput
     documents?: DocumentOrderByRelationAggregateInput
+    diagrams?: DiagramOrderByRelationAggregateInput
     folders?: FolderOrderByRelationAggregateInput
     templates?: TemplateOrderByRelationAggregateInput
     projects?: ProjectOrderByRelationAggregateInput
@@ -36003,6 +39410,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Workspace"> | Date | string
     members?: WorkspaceMemberListRelationFilter
     documents?: DocumentListRelationFilter
+    diagrams?: DiagramListRelationFilter
     folders?: FolderListRelationFilter
     templates?: TemplateListRelationFilter
     projects?: ProjectListRelationFilter
@@ -36110,6 +39518,7 @@ export namespace Prisma {
     parent?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
     children?: FolderListRelationFilter
     documents?: DocumentListRelationFilter
+    diagrams?: DiagramListRelationFilter
   }
 
   export type FolderOrderByWithRelationInput = {
@@ -36123,6 +39532,7 @@ export namespace Prisma {
     parent?: FolderOrderByWithRelationInput
     children?: FolderOrderByRelationAggregateInput
     documents?: DocumentOrderByRelationAggregateInput
+    diagrams?: DiagramOrderByRelationAggregateInput
   }
 
   export type FolderWhereUniqueInput = Prisma.AtLeast<{
@@ -36139,6 +39549,7 @@ export namespace Prisma {
     parent?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
     children?: FolderListRelationFilter
     documents?: DocumentListRelationFilter
+    diagrams?: DiagramListRelationFilter
   }, "id">
 
   export type FolderOrderByWithAggregationInput = {
@@ -36300,6 +39711,199 @@ export namespace Prisma {
     projectId?: StringNullableWithAggregatesFilter<"Document"> | string | null
   }
 
+  export type DiagramWhereInput = {
+    AND?: DiagramWhereInput | DiagramWhereInput[]
+    OR?: DiagramWhereInput[]
+    NOT?: DiagramWhereInput | DiagramWhereInput[]
+    id?: StringFilter<"Diagram"> | string
+    title?: StringFilter<"Diagram"> | string
+    content?: JsonNullableFilter<"Diagram">
+    thumbnail?: StringNullableFilter<"Diagram"> | string | null
+    workspaceId?: StringFilter<"Diagram"> | string
+    folderId?: StringNullableFilter<"Diagram"> | string | null
+    creatorId?: StringFilter<"Diagram"> | string
+    isPublic?: BoolFilter<"Diagram"> | boolean
+    publicSlug?: StringNullableFilter<"Diagram"> | string | null
+    isArchived?: BoolFilter<"Diagram"> | boolean
+    isFavorite?: BoolFilter<"Diagram"> | boolean
+    createdAt?: DateTimeFilter<"Diagram"> | Date | string
+    updatedAt?: DateTimeFilter<"Diagram"> | Date | string
+    projectId?: StringNullableFilter<"Diagram"> | string | null
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
+    folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    versions?: VersionListRelationFilter
+    comments?: CommentListRelationFilter
+    permissions?: PermissionListRelationFilter
+    collaborators?: CollaboratorListRelationFilter
+    aiChats?: AIChatListRelationFilter
+    notes?: NoteListRelationFilter
+    items?: DimensionItemListRelationFilter
+    snapshots?: DocumentSnapshotListRelationFilter
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+  }
+
+  export type DiagramOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    workspaceId?: SortOrder
+    folderId?: SortOrderInput | SortOrder
+    creatorId?: SortOrder
+    isPublic?: SortOrder
+    publicSlug?: SortOrderInput | SortOrder
+    isArchived?: SortOrder
+    isFavorite?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrderInput | SortOrder
+    workspace?: WorkspaceOrderByWithRelationInput
+    folder?: FolderOrderByWithRelationInput
+    creator?: UserOrderByWithRelationInput
+    versions?: VersionOrderByRelationAggregateInput
+    comments?: CommentOrderByRelationAggregateInput
+    permissions?: PermissionOrderByRelationAggregateInput
+    collaborators?: CollaboratorOrderByRelationAggregateInput
+    aiChats?: AIChatOrderByRelationAggregateInput
+    notes?: NoteOrderByRelationAggregateInput
+    items?: DimensionItemOrderByRelationAggregateInput
+    snapshots?: DocumentSnapshotOrderByRelationAggregateInput
+    project?: ProjectOrderByWithRelationInput
+  }
+
+  export type DiagramWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    publicSlug?: string
+    AND?: DiagramWhereInput | DiagramWhereInput[]
+    OR?: DiagramWhereInput[]
+    NOT?: DiagramWhereInput | DiagramWhereInput[]
+    title?: StringFilter<"Diagram"> | string
+    content?: JsonNullableFilter<"Diagram">
+    thumbnail?: StringNullableFilter<"Diagram"> | string | null
+    workspaceId?: StringFilter<"Diagram"> | string
+    folderId?: StringNullableFilter<"Diagram"> | string | null
+    creatorId?: StringFilter<"Diagram"> | string
+    isPublic?: BoolFilter<"Diagram"> | boolean
+    isArchived?: BoolFilter<"Diagram"> | boolean
+    isFavorite?: BoolFilter<"Diagram"> | boolean
+    createdAt?: DateTimeFilter<"Diagram"> | Date | string
+    updatedAt?: DateTimeFilter<"Diagram"> | Date | string
+    projectId?: StringNullableFilter<"Diagram"> | string | null
+    workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
+    folder?: XOR<FolderNullableScalarRelationFilter, FolderWhereInput> | null
+    creator?: XOR<UserScalarRelationFilter, UserWhereInput>
+    versions?: VersionListRelationFilter
+    comments?: CommentListRelationFilter
+    permissions?: PermissionListRelationFilter
+    collaborators?: CollaboratorListRelationFilter
+    aiChats?: AIChatListRelationFilter
+    notes?: NoteListRelationFilter
+    items?: DimensionItemListRelationFilter
+    snapshots?: DocumentSnapshotListRelationFilter
+    project?: XOR<ProjectNullableScalarRelationFilter, ProjectWhereInput> | null
+  }, "id" | "publicSlug">
+
+  export type DiagramOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrderInput | SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    workspaceId?: SortOrder
+    folderId?: SortOrderInput | SortOrder
+    creatorId?: SortOrder
+    isPublic?: SortOrder
+    publicSlug?: SortOrderInput | SortOrder
+    isArchived?: SortOrder
+    isFavorite?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrderInput | SortOrder
+    _count?: DiagramCountOrderByAggregateInput
+    _max?: DiagramMaxOrderByAggregateInput
+    _min?: DiagramMinOrderByAggregateInput
+  }
+
+  export type DiagramScalarWhereWithAggregatesInput = {
+    AND?: DiagramScalarWhereWithAggregatesInput | DiagramScalarWhereWithAggregatesInput[]
+    OR?: DiagramScalarWhereWithAggregatesInput[]
+    NOT?: DiagramScalarWhereWithAggregatesInput | DiagramScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Diagram"> | string
+    title?: StringWithAggregatesFilter<"Diagram"> | string
+    content?: JsonNullableWithAggregatesFilter<"Diagram">
+    thumbnail?: StringNullableWithAggregatesFilter<"Diagram"> | string | null
+    workspaceId?: StringWithAggregatesFilter<"Diagram"> | string
+    folderId?: StringNullableWithAggregatesFilter<"Diagram"> | string | null
+    creatorId?: StringWithAggregatesFilter<"Diagram"> | string
+    isPublic?: BoolWithAggregatesFilter<"Diagram"> | boolean
+    publicSlug?: StringNullableWithAggregatesFilter<"Diagram"> | string | null
+    isArchived?: BoolWithAggregatesFilter<"Diagram"> | boolean
+    isFavorite?: BoolWithAggregatesFilter<"Diagram"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Diagram"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Diagram"> | Date | string
+    projectId?: StringNullableWithAggregatesFilter<"Diagram"> | string | null
+  }
+
+  export type DimensionItemWhereInput = {
+    AND?: DimensionItemWhereInput | DimensionItemWhereInput[]
+    OR?: DimensionItemWhereInput[]
+    NOT?: DimensionItemWhereInput | DimensionItemWhereInput[]
+    id?: StringFilter<"DimensionItem"> | string
+    diagramId?: StringFilter<"DimensionItem"> | string
+    type?: StringFilter<"DimensionItem"> | string
+    content?: JsonFilter<"DimensionItem">
+    createdAt?: DateTimeFilter<"DimensionItem"> | Date | string
+    updatedAt?: DateTimeFilter<"DimensionItem"> | Date | string
+    diagram?: XOR<DiagramScalarRelationFilter, DiagramWhereInput>
+  }
+
+  export type DimensionItemOrderByWithRelationInput = {
+    id?: SortOrder
+    diagramId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    diagram?: DiagramOrderByWithRelationInput
+  }
+
+  export type DimensionItemWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: DimensionItemWhereInput | DimensionItemWhereInput[]
+    OR?: DimensionItemWhereInput[]
+    NOT?: DimensionItemWhereInput | DimensionItemWhereInput[]
+    diagramId?: StringFilter<"DimensionItem"> | string
+    type?: StringFilter<"DimensionItem"> | string
+    content?: JsonFilter<"DimensionItem">
+    createdAt?: DateTimeFilter<"DimensionItem"> | Date | string
+    updatedAt?: DateTimeFilter<"DimensionItem"> | Date | string
+    diagram?: XOR<DiagramScalarRelationFilter, DiagramWhereInput>
+  }, "id">
+
+  export type DimensionItemOrderByWithAggregationInput = {
+    id?: SortOrder
+    diagramId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: DimensionItemCountOrderByAggregateInput
+    _max?: DimensionItemMaxOrderByAggregateInput
+    _min?: DimensionItemMinOrderByAggregateInput
+  }
+
+  export type DimensionItemScalarWhereWithAggregatesInput = {
+    AND?: DimensionItemScalarWhereWithAggregatesInput | DimensionItemScalarWhereWithAggregatesInput[]
+    OR?: DimensionItemScalarWhereWithAggregatesInput[]
+    NOT?: DimensionItemScalarWhereWithAggregatesInput | DimensionItemScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"DimensionItem"> | string
+    diagramId?: StringWithAggregatesFilter<"DimensionItem"> | string
+    type?: StringWithAggregatesFilter<"DimensionItem"> | string
+    content?: JsonWithAggregatesFilter<"DimensionItem">
+    createdAt?: DateTimeWithAggregatesFilter<"DimensionItem"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"DimensionItem"> | Date | string
+  }
+
   export type ProjectWhereInput = {
     AND?: ProjectWhereInput | ProjectWhereInput[]
     OR?: ProjectWhereInput[]
@@ -36312,6 +39916,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
     documents?: DocumentListRelationFilter
+    diagrams?: DiagramListRelationFilter
     tasks?: TaskListRelationFilter
     members?: ProjectMemberListRelationFilter
     invitations?: InvitationListRelationFilter
@@ -36326,6 +39931,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     workspace?: WorkspaceOrderByWithRelationInput
     documents?: DocumentOrderByRelationAggregateInput
+    diagrams?: DiagramOrderByRelationAggregateInput
     tasks?: TaskOrderByRelationAggregateInput
     members?: ProjectMemberOrderByRelationAggregateInput
     invitations?: InvitationOrderByRelationAggregateInput
@@ -36343,6 +39949,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Project"> | Date | string
     workspace?: XOR<WorkspaceScalarRelationFilter, WorkspaceWhereInput>
     documents?: DocumentListRelationFilter
+    diagrams?: DiagramListRelationFilter
     tasks?: TaskListRelationFilter
     members?: ProjectMemberListRelationFilter
     invitations?: InvitationListRelationFilter
@@ -36555,22 +40162,26 @@ export namespace Prisma {
     OR?: VersionWhereInput[]
     NOT?: VersionWhereInput | VersionWhereInput[]
     id?: StringFilter<"Version"> | string
-    documentId?: StringFilter<"Version"> | string
+    documentId?: StringNullableFilter<"Version"> | string | null
+    diagramId?: StringNullableFilter<"Version"> | string | null
     content?: JsonFilter<"Version">
     createdBy?: StringFilter<"Version"> | string
     createdAt?: DateTimeFilter<"Version"> | Date | string
     description?: StringNullableFilter<"Version"> | string | null
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
   }
 
   export type VersionOrderByWithRelationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     content?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     description?: SortOrderInput | SortOrder
     document?: DocumentOrderByWithRelationInput
+    diagram?: DiagramOrderByWithRelationInput
   }
 
   export type VersionWhereUniqueInput = Prisma.AtLeast<{
@@ -36578,17 +40189,20 @@ export namespace Prisma {
     AND?: VersionWhereInput | VersionWhereInput[]
     OR?: VersionWhereInput[]
     NOT?: VersionWhereInput | VersionWhereInput[]
-    documentId?: StringFilter<"Version"> | string
+    documentId?: StringNullableFilter<"Version"> | string | null
+    diagramId?: StringNullableFilter<"Version"> | string | null
     content?: JsonFilter<"Version">
     createdBy?: StringFilter<"Version"> | string
     createdAt?: DateTimeFilter<"Version"> | Date | string
     description?: StringNullableFilter<"Version"> | string | null
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
   }, "id">
 
   export type VersionOrderByWithAggregationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     content?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
@@ -36603,7 +40217,8 @@ export namespace Prisma {
     OR?: VersionScalarWhereWithAggregatesInput[]
     NOT?: VersionScalarWhereWithAggregatesInput | VersionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Version"> | string
-    documentId?: StringWithAggregatesFilter<"Version"> | string
+    documentId?: StringNullableWithAggregatesFilter<"Version"> | string | null
+    diagramId?: StringNullableWithAggregatesFilter<"Version"> | string | null
     content?: JsonWithAggregatesFilter<"Version">
     createdBy?: StringWithAggregatesFilter<"Version"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Version"> | Date | string
@@ -36615,7 +40230,8 @@ export namespace Prisma {
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
     id?: StringFilter<"Comment"> | string
-    documentId?: StringFilter<"Comment"> | string
+    documentId?: StringNullableFilter<"Comment"> | string | null
+    diagramId?: StringNullableFilter<"Comment"> | string | null
     userId?: StringFilter<"Comment"> | string
     content?: StringFilter<"Comment"> | string
     position?: JsonNullableFilter<"Comment">
@@ -36623,7 +40239,8 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"Comment"> | string | null
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     replies?: CommentListRelationFilter
@@ -36631,7 +40248,8 @@ export namespace Prisma {
 
   export type CommentOrderByWithRelationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrder
     content?: SortOrder
     position?: SortOrderInput | SortOrder
@@ -36640,6 +40258,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     document?: DocumentOrderByWithRelationInput
+    diagram?: DiagramOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     parent?: CommentOrderByWithRelationInput
     replies?: CommentOrderByRelationAggregateInput
@@ -36650,7 +40269,8 @@ export namespace Prisma {
     AND?: CommentWhereInput | CommentWhereInput[]
     OR?: CommentWhereInput[]
     NOT?: CommentWhereInput | CommentWhereInput[]
-    documentId?: StringFilter<"Comment"> | string
+    documentId?: StringNullableFilter<"Comment"> | string | null
+    diagramId?: StringNullableFilter<"Comment"> | string | null
     userId?: StringFilter<"Comment"> | string
     content?: StringFilter<"Comment"> | string
     position?: JsonNullableFilter<"Comment">
@@ -36658,7 +40278,8 @@ export namespace Prisma {
     parentId?: StringNullableFilter<"Comment"> | string | null
     createdAt?: DateTimeFilter<"Comment"> | Date | string
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     parent?: XOR<CommentNullableScalarRelationFilter, CommentWhereInput> | null
     replies?: CommentListRelationFilter
@@ -36666,7 +40287,8 @@ export namespace Prisma {
 
   export type CommentOrderByWithAggregationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrder
     content?: SortOrder
     position?: SortOrderInput | SortOrder
@@ -36684,7 +40306,8 @@ export namespace Prisma {
     OR?: CommentScalarWhereWithAggregatesInput[]
     NOT?: CommentScalarWhereWithAggregatesInput | CommentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Comment"> | string
-    documentId?: StringWithAggregatesFilter<"Comment"> | string
+    documentId?: StringNullableWithAggregatesFilter<"Comment"> | string | null
+    diagramId?: StringNullableWithAggregatesFilter<"Comment"> | string | null
     userId?: StringWithAggregatesFilter<"Comment"> | string
     content?: StringWithAggregatesFilter<"Comment"> | string
     position?: JsonNullableWithAggregatesFilter<"Comment">
@@ -36699,42 +40322,51 @@ export namespace Prisma {
     OR?: PermissionWhereInput[]
     NOT?: PermissionWhereInput | PermissionWhereInput[]
     id?: StringFilter<"Permission"> | string
-    documentId?: StringFilter<"Permission"> | string
+    documentId?: StringNullableFilter<"Permission"> | string | null
+    diagramId?: StringNullableFilter<"Permission"> | string | null
     userId?: StringNullableFilter<"Permission"> | string | null
     email?: StringNullableFilter<"Permission"> | string | null
     role?: EnumPermissionRoleFilter<"Permission"> | $Enums.PermissionRole
     createdAt?: DateTimeFilter<"Permission"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
   }
 
   export type PermissionOrderByWithRelationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     role?: SortOrder
     createdAt?: SortOrder
     document?: DocumentOrderByWithRelationInput
+    diagram?: DiagramOrderByWithRelationInput
   }
 
   export type PermissionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     documentId_userId?: PermissionDocumentIdUserIdCompoundUniqueInput
     documentId_email?: PermissionDocumentIdEmailCompoundUniqueInput
+    diagramId_userId?: PermissionDiagramIdUserIdCompoundUniqueInput
+    diagramId_email?: PermissionDiagramIdEmailCompoundUniqueInput
     AND?: PermissionWhereInput | PermissionWhereInput[]
     OR?: PermissionWhereInput[]
     NOT?: PermissionWhereInput | PermissionWhereInput[]
-    documentId?: StringFilter<"Permission"> | string
+    documentId?: StringNullableFilter<"Permission"> | string | null
+    diagramId?: StringNullableFilter<"Permission"> | string | null
     userId?: StringNullableFilter<"Permission"> | string | null
     email?: StringNullableFilter<"Permission"> | string | null
     role?: EnumPermissionRoleFilter<"Permission"> | $Enums.PermissionRole
     createdAt?: DateTimeFilter<"Permission"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
-  }, "id" | "documentId_userId" | "documentId_email">
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
+  }, "id" | "documentId_userId" | "documentId_email" | "diagramId_userId" | "diagramId_email">
 
   export type PermissionOrderByWithAggregationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -36749,7 +40381,8 @@ export namespace Prisma {
     OR?: PermissionScalarWhereWithAggregatesInput[]
     NOT?: PermissionScalarWhereWithAggregatesInput | PermissionScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Permission"> | string
-    documentId?: StringWithAggregatesFilter<"Permission"> | string
+    documentId?: StringNullableWithAggregatesFilter<"Permission"> | string | null
+    diagramId?: StringNullableWithAggregatesFilter<"Permission"> | string | null
     userId?: StringNullableWithAggregatesFilter<"Permission"> | string | null
     email?: StringNullableWithAggregatesFilter<"Permission"> | string | null
     role?: EnumPermissionRoleWithAggregatesFilter<"Permission"> | $Enums.PermissionRole
@@ -36761,41 +40394,49 @@ export namespace Prisma {
     OR?: CollaboratorWhereInput[]
     NOT?: CollaboratorWhereInput | CollaboratorWhereInput[]
     id?: StringFilter<"Collaborator"> | string
-    documentId?: StringFilter<"Collaborator"> | string
+    documentId?: StringNullableFilter<"Collaborator"> | string | null
+    diagramId?: StringNullableFilter<"Collaborator"> | string | null
     userId?: StringFilter<"Collaborator"> | string
     cursor?: JsonNullableFilter<"Collaborator">
     selection?: JsonNullableFilter<"Collaborator">
     lastSeen?: DateTimeFilter<"Collaborator"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
   }
 
   export type CollaboratorOrderByWithRelationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrder
     cursor?: SortOrderInput | SortOrder
     selection?: SortOrderInput | SortOrder
     lastSeen?: SortOrder
     document?: DocumentOrderByWithRelationInput
+    diagram?: DiagramOrderByWithRelationInput
   }
 
   export type CollaboratorWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     documentId_userId?: CollaboratorDocumentIdUserIdCompoundUniqueInput
+    diagramId_userId?: CollaboratorDiagramIdUserIdCompoundUniqueInput
     AND?: CollaboratorWhereInput | CollaboratorWhereInput[]
     OR?: CollaboratorWhereInput[]
     NOT?: CollaboratorWhereInput | CollaboratorWhereInput[]
-    documentId?: StringFilter<"Collaborator"> | string
+    documentId?: StringNullableFilter<"Collaborator"> | string | null
+    diagramId?: StringNullableFilter<"Collaborator"> | string | null
     userId?: StringFilter<"Collaborator"> | string
     cursor?: JsonNullableFilter<"Collaborator">
     selection?: JsonNullableFilter<"Collaborator">
     lastSeen?: DateTimeFilter<"Collaborator"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
-  }, "id" | "documentId_userId">
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
+  }, "id" | "documentId_userId" | "diagramId_userId">
 
   export type CollaboratorOrderByWithAggregationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrder
     cursor?: SortOrderInput | SortOrder
     selection?: SortOrderInput | SortOrder
@@ -36810,7 +40451,8 @@ export namespace Prisma {
     OR?: CollaboratorScalarWhereWithAggregatesInput[]
     NOT?: CollaboratorScalarWhereWithAggregatesInput | CollaboratorScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Collaborator"> | string
-    documentId?: StringWithAggregatesFilter<"Collaborator"> | string
+    documentId?: StringNullableWithAggregatesFilter<"Collaborator"> | string | null
+    diagramId?: StringNullableWithAggregatesFilter<"Collaborator"> | string | null
     userId?: StringWithAggregatesFilter<"Collaborator"> | string
     cursor?: JsonNullableWithAggregatesFilter<"Collaborator">
     selection?: JsonNullableWithAggregatesFilter<"Collaborator">
@@ -36969,24 +40611,28 @@ export namespace Prisma {
     OR?: AIChatWhereInput[]
     NOT?: AIChatWhereInput | AIChatWhereInput[]
     id?: StringFilter<"AIChat"> | string
-    documentId?: StringFilter<"AIChat"> | string
+    documentId?: StringNullableFilter<"AIChat"> | string | null
+    diagramId?: StringNullableFilter<"AIChat"> | string | null
     userId?: StringFilter<"AIChat"> | string
     title?: StringNullableFilter<"AIChat"> | string | null
     createdAt?: DateTimeFilter<"AIChat"> | Date | string
     updatedAt?: DateTimeFilter<"AIChat"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     messages?: AIMessageListRelationFilter
   }
 
   export type AIChatOrderByWithRelationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrder
     title?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     document?: DocumentOrderByWithRelationInput
+    diagram?: DiagramOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
     messages?: AIMessageOrderByRelationAggregateInput
   }
@@ -36996,19 +40642,22 @@ export namespace Prisma {
     AND?: AIChatWhereInput | AIChatWhereInput[]
     OR?: AIChatWhereInput[]
     NOT?: AIChatWhereInput | AIChatWhereInput[]
-    documentId?: StringFilter<"AIChat"> | string
+    documentId?: StringNullableFilter<"AIChat"> | string | null
+    diagramId?: StringNullableFilter<"AIChat"> | string | null
     userId?: StringFilter<"AIChat"> | string
     title?: StringNullableFilter<"AIChat"> | string | null
     createdAt?: DateTimeFilter<"AIChat"> | Date | string
     updatedAt?: DateTimeFilter<"AIChat"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     messages?: AIMessageListRelationFilter
   }, "id">
 
   export type AIChatOrderByWithAggregationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrder
     title?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -37023,7 +40672,8 @@ export namespace Prisma {
     OR?: AIChatScalarWhereWithAggregatesInput[]
     NOT?: AIChatScalarWhereWithAggregatesInput | AIChatScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"AIChat"> | string
-    documentId?: StringWithAggregatesFilter<"AIChat"> | string
+    documentId?: StringNullableWithAggregatesFilter<"AIChat"> | string | null
+    diagramId?: StringNullableWithAggregatesFilter<"AIChat"> | string | null
     userId?: StringWithAggregatesFilter<"AIChat"> | string
     title?: StringNullableWithAggregatesFilter<"AIChat"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"AIChat"> | Date | string
@@ -37090,20 +40740,23 @@ export namespace Prisma {
     OR?: NoteWhereInput[]
     NOT?: NoteWhereInput | NoteWhereInput[]
     id?: StringFilter<"Note"> | string
-    documentId?: StringFilter<"Note"> | string
+    documentId?: StringNullableFilter<"Note"> | string | null
+    diagramId?: StringNullableFilter<"Note"> | string | null
     userId?: StringFilter<"Note"> | string
     content?: StringFilter<"Note"> | string
     position?: JsonNullableFilter<"Note">
     color?: StringFilter<"Note"> | string
     createdAt?: DateTimeFilter<"Note"> | Date | string
     updatedAt?: DateTimeFilter<"Note"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type NoteOrderByWithRelationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrder
     content?: SortOrder
     position?: SortOrderInput | SortOrder
@@ -37111,6 +40764,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     document?: DocumentOrderByWithRelationInput
+    diagram?: DiagramOrderByWithRelationInput
     user?: UserOrderByWithRelationInput
   }
 
@@ -37119,20 +40773,23 @@ export namespace Prisma {
     AND?: NoteWhereInput | NoteWhereInput[]
     OR?: NoteWhereInput[]
     NOT?: NoteWhereInput | NoteWhereInput[]
-    documentId?: StringFilter<"Note"> | string
+    documentId?: StringNullableFilter<"Note"> | string | null
+    diagramId?: StringNullableFilter<"Note"> | string | null
     userId?: StringFilter<"Note"> | string
     content?: StringFilter<"Note"> | string
     position?: JsonNullableFilter<"Note">
     color?: StringFilter<"Note"> | string
     createdAt?: DateTimeFilter<"Note"> | Date | string
     updatedAt?: DateTimeFilter<"Note"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
 
   export type NoteOrderByWithAggregationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     userId?: SortOrder
     content?: SortOrder
     position?: SortOrderInput | SortOrder
@@ -37149,7 +40806,8 @@ export namespace Prisma {
     OR?: NoteScalarWhereWithAggregatesInput[]
     NOT?: NoteScalarWhereWithAggregatesInput | NoteScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Note"> | string
-    documentId?: StringWithAggregatesFilter<"Note"> | string
+    documentId?: StringNullableWithAggregatesFilter<"Note"> | string | null
+    diagramId?: StringNullableWithAggregatesFilter<"Note"> | string | null
     userId?: StringWithAggregatesFilter<"Note"> | string
     content?: StringWithAggregatesFilter<"Note"> | string
     position?: JsonNullableWithAggregatesFilter<"Note">
@@ -37163,22 +40821,26 @@ export namespace Prisma {
     OR?: DocumentSnapshotWhereInput[]
     NOT?: DocumentSnapshotWhereInput | DocumentSnapshotWhereInput[]
     id?: StringFilter<"DocumentSnapshot"> | string
-    documentId?: StringFilter<"DocumentSnapshot"> | string
+    documentId?: StringNullableFilter<"DocumentSnapshot"> | string | null
+    diagramId?: StringNullableFilter<"DocumentSnapshot"> | string | null
     content?: JsonFilter<"DocumentSnapshot">
     description?: StringNullableFilter<"DocumentSnapshot"> | string | null
     createdBy?: StringFilter<"DocumentSnapshot"> | string
     createdAt?: DateTimeFilter<"DocumentSnapshot"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
   }
 
   export type DocumentSnapshotOrderByWithRelationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     content?: SortOrder
     description?: SortOrderInput | SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     document?: DocumentOrderByWithRelationInput
+    diagram?: DiagramOrderByWithRelationInput
   }
 
   export type DocumentSnapshotWhereUniqueInput = Prisma.AtLeast<{
@@ -37186,17 +40848,20 @@ export namespace Prisma {
     AND?: DocumentSnapshotWhereInput | DocumentSnapshotWhereInput[]
     OR?: DocumentSnapshotWhereInput[]
     NOT?: DocumentSnapshotWhereInput | DocumentSnapshotWhereInput[]
-    documentId?: StringFilter<"DocumentSnapshot"> | string
+    documentId?: StringNullableFilter<"DocumentSnapshot"> | string | null
+    diagramId?: StringNullableFilter<"DocumentSnapshot"> | string | null
     content?: JsonFilter<"DocumentSnapshot">
     description?: StringNullableFilter<"DocumentSnapshot"> | string | null
     createdBy?: StringFilter<"DocumentSnapshot"> | string
     createdAt?: DateTimeFilter<"DocumentSnapshot"> | Date | string
-    document?: XOR<DocumentScalarRelationFilter, DocumentWhereInput>
+    document?: XOR<DocumentNullableScalarRelationFilter, DocumentWhereInput> | null
+    diagram?: XOR<DiagramNullableScalarRelationFilter, DiagramWhereInput> | null
   }, "id">
 
   export type DocumentSnapshotOrderByWithAggregationInput = {
     id?: SortOrder
-    documentId?: SortOrder
+    documentId?: SortOrderInput | SortOrder
+    diagramId?: SortOrderInput | SortOrder
     content?: SortOrder
     description?: SortOrderInput | SortOrder
     createdBy?: SortOrder
@@ -37211,7 +40876,8 @@ export namespace Prisma {
     OR?: DocumentSnapshotScalarWhereWithAggregatesInput[]
     NOT?: DocumentSnapshotScalarWhereWithAggregatesInput | DocumentSnapshotScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"DocumentSnapshot"> | string
-    documentId?: StringWithAggregatesFilter<"DocumentSnapshot"> | string
+    documentId?: StringNullableWithAggregatesFilter<"DocumentSnapshot"> | string | null
+    diagramId?: StringNullableWithAggregatesFilter<"DocumentSnapshot"> | string | null
     content?: JsonWithAggregatesFilter<"DocumentSnapshot">
     description?: StringNullableWithAggregatesFilter<"DocumentSnapshot"> | string | null
     createdBy?: StringWithAggregatesFilter<"DocumentSnapshot"> | string
@@ -37710,6 +41376,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -37737,6 +41404,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -37764,6 +41432,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -37791,6 +41460,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -38047,6 +41717,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramCreateNestedManyWithoutWorkspaceInput
     folders?: FolderCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectCreateNestedManyWithoutWorkspaceInput
@@ -38064,6 +41735,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentUncheckedCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutWorkspaceInput
     folders?: FolderUncheckedCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateUncheckedCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -38081,6 +41753,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUpdateManyWithoutWorkspaceNestedInput
@@ -38098,6 +41771,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUncheckedUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -38200,6 +41874,7 @@ export namespace Prisma {
     parent?: FolderCreateNestedOneWithoutChildrenInput
     children?: FolderCreateNestedManyWithoutParentInput
     documents?: DocumentCreateNestedManyWithoutFolderInput
+    diagrams?: DiagramCreateNestedManyWithoutFolderInput
   }
 
   export type FolderUncheckedCreateInput = {
@@ -38211,6 +41886,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     children?: FolderUncheckedCreateNestedManyWithoutParentInput
     documents?: DocumentUncheckedCreateNestedManyWithoutFolderInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutFolderInput
   }
 
   export type FolderUpdateInput = {
@@ -38222,6 +41898,7 @@ export namespace Prisma {
     parent?: FolderUpdateOneWithoutChildrenNestedInput
     children?: FolderUpdateManyWithoutParentNestedInput
     documents?: DocumentUpdateManyWithoutFolderNestedInput
+    diagrams?: DiagramUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderUncheckedUpdateInput = {
@@ -38233,6 +41910,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: FolderUncheckedUpdateManyWithoutParentNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutFolderNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderCreateManyInput = {
@@ -38410,6 +42088,215 @@ export namespace Prisma {
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type DiagramCreateInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
+  export type DiagramCreateManyInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+  }
+
+  export type DiagramUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiagramUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type DimensionItemCreateInput = {
+    id?: string
+    type: string
+    content: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    diagram: DiagramCreateNestedOneWithoutItemsInput
+  }
+
+  export type DimensionItemUncheckedCreateInput = {
+    id?: string
+    diagramId: string
+    type: string
+    content: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DimensionItemUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    diagram?: DiagramUpdateOneRequiredWithoutItemsNestedInput
+  }
+
+  export type DimensionItemUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    diagramId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DimensionItemCreateManyInput = {
+    id?: string
+    diagramId: string
+    type: string
+    content: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DimensionItemUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DimensionItemUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    diagramId?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ProjectCreateInput = {
     id?: string
     name: string
@@ -38418,6 +42305,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspace: WorkspaceCreateNestedOneWithoutProjectsInput
     documents?: DocumentCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
     invitations?: InvitationCreateNestedManyWithoutProjectInput
@@ -38431,6 +42319,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutProjectInput
@@ -38444,6 +42333,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspace?: WorkspaceUpdateOneRequiredWithoutProjectsNestedInput
     documents?: DocumentUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUpdateManyWithoutProjectNestedInput
@@ -38457,6 +42347,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutProjectNestedInput
@@ -38688,12 +42579,14 @@ export namespace Prisma {
     createdBy: string
     createdAt?: Date | string
     description?: string | null
-    document: DocumentCreateNestedOneWithoutVersionsInput
+    document?: DocumentCreateNestedOneWithoutVersionsInput
+    diagram?: DiagramCreateNestedOneWithoutVersionsInput
   }
 
   export type VersionUncheckedCreateInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     content: JsonNullValueInput | InputJsonValue
     createdBy: string
     createdAt?: Date | string
@@ -38706,12 +42599,14 @@ export namespace Prisma {
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
-    document?: DocumentUpdateOneRequiredWithoutVersionsNestedInput
+    document?: DocumentUpdateOneWithoutVersionsNestedInput
+    diagram?: DiagramUpdateOneWithoutVersionsNestedInput
   }
 
   export type VersionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: JsonNullValueInput | InputJsonValue
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38720,7 +42615,8 @@ export namespace Prisma {
 
   export type VersionCreateManyInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     content: JsonNullValueInput | InputJsonValue
     createdBy: string
     createdAt?: Date | string
@@ -38737,7 +42633,8 @@ export namespace Prisma {
 
   export type VersionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: JsonNullValueInput | InputJsonValue
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -38751,7 +42648,8 @@ export namespace Prisma {
     resolved?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutCommentsInput
+    document?: DocumentCreateNestedOneWithoutCommentsInput
+    diagram?: DiagramCreateNestedOneWithoutCommentsInput
     user: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
     replies?: CommentCreateNestedManyWithoutParentInput
@@ -38759,7 +42657,8 @@ export namespace Prisma {
 
   export type CommentUncheckedCreateInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -38777,7 +42676,8 @@ export namespace Prisma {
     resolved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutCommentsNestedInput
+    document?: DocumentUpdateOneWithoutCommentsNestedInput
+    diagram?: DiagramUpdateOneWithoutCommentsNestedInput
     user?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
@@ -38785,7 +42685,8 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -38798,7 +42699,8 @@ export namespace Prisma {
 
   export type CommentCreateManyInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -38819,7 +42721,8 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -38835,12 +42738,14 @@ export namespace Prisma {
     email?: string | null
     role: $Enums.PermissionRole
     createdAt?: Date | string
-    document: DocumentCreateNestedOneWithoutPermissionsInput
+    document?: DocumentCreateNestedOneWithoutPermissionsInput
+    diagram?: DiagramCreateNestedOneWithoutPermissionsInput
   }
 
   export type PermissionUncheckedCreateInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId?: string | null
     email?: string | null
     role: $Enums.PermissionRole
@@ -38853,12 +42758,14 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutPermissionsNestedInput
+    document?: DocumentUpdateOneWithoutPermissionsNestedInput
+    diagram?: DiagramUpdateOneWithoutPermissionsNestedInput
   }
 
   export type PermissionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
@@ -38867,7 +42774,8 @@ export namespace Prisma {
 
   export type PermissionCreateManyInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId?: string | null
     email?: string | null
     role: $Enums.PermissionRole
@@ -38884,7 +42792,8 @@ export namespace Prisma {
 
   export type PermissionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
@@ -38897,12 +42806,14 @@ export namespace Prisma {
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
     lastSeen?: Date | string
-    document: DocumentCreateNestedOneWithoutCollaboratorsInput
+    document?: DocumentCreateNestedOneWithoutCollaboratorsInput
+    diagram?: DiagramCreateNestedOneWithoutCollaboratorsInput
   }
 
   export type CollaboratorUncheckedCreateInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
@@ -38915,12 +42826,14 @@ export namespace Prisma {
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
     lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutCollaboratorsNestedInput
+    document?: DocumentUpdateOneWithoutCollaboratorsNestedInput
+    diagram?: DiagramUpdateOneWithoutCollaboratorsNestedInput
   }
 
   export type CollaboratorUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
@@ -38929,7 +42842,8 @@ export namespace Prisma {
 
   export type CollaboratorCreateManyInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
@@ -38946,7 +42860,8 @@ export namespace Prisma {
 
   export type CollaboratorUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
@@ -39117,14 +43032,16 @@ export namespace Prisma {
     title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutAiChatsInput
+    document?: DocumentCreateNestedOneWithoutAiChatsInput
+    diagram?: DiagramCreateNestedOneWithoutAiChatsInput
     user: UserCreateNestedOneWithoutAiChatsInput
     messages?: AIMessageCreateNestedManyWithoutChatInput
   }
 
   export type AIChatUncheckedCreateInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     title?: string | null
     createdAt?: Date | string
@@ -39137,14 +43054,16 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutAiChatsNestedInput
+    document?: DocumentUpdateOneWithoutAiChatsNestedInput
+    diagram?: DiagramUpdateOneWithoutAiChatsNestedInput
     user?: UserUpdateOneRequiredWithoutAiChatsNestedInput
     messages?: AIMessageUpdateManyWithoutChatNestedInput
   }
 
   export type AIChatUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39154,7 +43073,8 @@ export namespace Prisma {
 
   export type AIChatCreateManyInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     title?: string | null
     createdAt?: Date | string
@@ -39170,7 +43090,8 @@ export namespace Prisma {
 
   export type AIChatUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39239,13 +43160,15 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutNotesInput
+    document?: DocumentCreateNestedOneWithoutNotesInput
+    diagram?: DiagramCreateNestedOneWithoutNotesInput
     user: UserCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -39261,13 +43184,15 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutNotesNestedInput
+    document?: DocumentUpdateOneWithoutNotesNestedInput
+    diagram?: DiagramUpdateOneWithoutNotesNestedInput
     user?: UserUpdateOneRequiredWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -39278,7 +43203,8 @@ export namespace Prisma {
 
   export type NoteCreateManyInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -39298,7 +43224,8 @@ export namespace Prisma {
 
   export type NoteUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -39313,12 +43240,14 @@ export namespace Prisma {
     description?: string | null
     createdBy: string
     createdAt?: Date | string
-    document: DocumentCreateNestedOneWithoutSnapshotsInput
+    document?: DocumentCreateNestedOneWithoutSnapshotsInput
+    diagram?: DiagramCreateNestedOneWithoutSnapshotsInput
   }
 
   export type DocumentSnapshotUncheckedCreateInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     content: JsonNullValueInput | InputJsonValue
     description?: string | null
     createdBy: string
@@ -39331,12 +43260,14 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutSnapshotsNestedInput
+    document?: DocumentUpdateOneWithoutSnapshotsNestedInput
+    diagram?: DiagramUpdateOneWithoutSnapshotsNestedInput
   }
 
   export type DocumentSnapshotUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -39345,7 +43276,8 @@ export namespace Prisma {
 
   export type DocumentSnapshotCreateManyInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     content: JsonNullValueInput | InputJsonValue
     description?: string | null
     createdBy: string
@@ -39362,7 +43294,8 @@ export namespace Prisma {
 
   export type DocumentSnapshotUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -39948,6 +43881,12 @@ export namespace Prisma {
     none?: DocumentWhereInput
   }
 
+  export type DiagramListRelationFilter = {
+    every?: DiagramWhereInput
+    some?: DiagramWhereInput
+    none?: DiagramWhereInput
+  }
+
   export type CommentListRelationFilter = {
     every?: CommentWhereInput
     some?: CommentWhereInput
@@ -40029,6 +43968,10 @@ export namespace Prisma {
   }
 
   export type DocumentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DiagramOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -40647,6 +44590,144 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type DimensionItemListRelationFilter = {
+    every?: DimensionItemWhereInput
+    some?: DimensionItemWhereInput
+    none?: DimensionItemWhereInput
+  }
+
+  export type DimensionItemOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type DiagramCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    thumbnail?: SortOrder
+    workspaceId?: SortOrder
+    folderId?: SortOrder
+    creatorId?: SortOrder
+    isPublic?: SortOrder
+    publicSlug?: SortOrder
+    isArchived?: SortOrder
+    isFavorite?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type DiagramMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    thumbnail?: SortOrder
+    workspaceId?: SortOrder
+    folderId?: SortOrder
+    creatorId?: SortOrder
+    isPublic?: SortOrder
+    publicSlug?: SortOrder
+    isArchived?: SortOrder
+    isFavorite?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrder
+  }
+
+  export type DiagramMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    thumbnail?: SortOrder
+    workspaceId?: SortOrder
+    folderId?: SortOrder
+    creatorId?: SortOrder
+    isPublic?: SortOrder
+    publicSlug?: SortOrder
+    isArchived?: SortOrder
+    isFavorite?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    projectId?: SortOrder
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type DiagramScalarRelationFilter = {
+    is?: DiagramWhereInput
+    isNot?: DiagramWhereInput
+  }
+
+  export type DimensionItemCountOrderByAggregateInput = {
+    id?: SortOrder
+    diagramId?: SortOrder
+    type?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DimensionItemMaxOrderByAggregateInput = {
+    id?: SortOrder
+    diagramId?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type DimensionItemMinOrderByAggregateInput = {
+    id?: SortOrder
+    diagramId?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
+
   export type ProjectCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -40918,38 +44999,21 @@ export namespace Prisma {
   export type SubtaskSumOrderByAggregateInput = {
     position?: SortOrder
   }
-  export type JsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type DocumentNullableScalarRelationFilter = {
+    is?: DocumentWhereInput | null
+    isNot?: DocumentWhereInput | null
   }
 
-  export type DocumentScalarRelationFilter = {
-    is?: DocumentWhereInput
-    isNot?: DocumentWhereInput
+  export type DiagramNullableScalarRelationFilter = {
+    is?: DiagramWhereInput | null
+    isNot?: DiagramWhereInput | null
   }
 
   export type VersionCountOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     content?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
@@ -40959,6 +45023,7 @@ export namespace Prisma {
   export type VersionMaxOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     description?: SortOrder
@@ -40967,35 +45032,10 @@ export namespace Prisma {
   export type VersionMinOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
     description?: SortOrder
-  }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type CommentNullableScalarRelationFilter = {
@@ -41006,6 +45046,7 @@ export namespace Prisma {
   export type CommentCountOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     content?: SortOrder
     position?: SortOrder
@@ -41018,6 +45059,7 @@ export namespace Prisma {
   export type CommentMaxOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     content?: SortOrder
     resolved?: SortOrder
@@ -41029,6 +45071,7 @@ export namespace Prisma {
   export type CommentMinOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     content?: SortOrder
     resolved?: SortOrder
@@ -41054,9 +45097,20 @@ export namespace Prisma {
     email: string
   }
 
+  export type PermissionDiagramIdUserIdCompoundUniqueInput = {
+    diagramId: string
+    userId: string
+  }
+
+  export type PermissionDiagramIdEmailCompoundUniqueInput = {
+    diagramId: string
+    email: string
+  }
+
   export type PermissionCountOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     email?: SortOrder
     role?: SortOrder
@@ -41066,6 +45120,7 @@ export namespace Prisma {
   export type PermissionMaxOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     email?: SortOrder
     role?: SortOrder
@@ -41075,6 +45130,7 @@ export namespace Prisma {
   export type PermissionMinOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     email?: SortOrder
     role?: SortOrder
@@ -41096,9 +45152,15 @@ export namespace Prisma {
     userId: string
   }
 
+  export type CollaboratorDiagramIdUserIdCompoundUniqueInput = {
+    diagramId: string
+    userId: string
+  }
+
   export type CollaboratorCountOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     cursor?: SortOrder
     selection?: SortOrder
@@ -41108,6 +45170,7 @@ export namespace Prisma {
   export type CollaboratorMaxOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     lastSeen?: SortOrder
   }
@@ -41115,6 +45178,7 @@ export namespace Prisma {
   export type CollaboratorMinOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     lastSeen?: SortOrder
   }
@@ -41210,6 +45274,7 @@ export namespace Prisma {
   export type AIChatCountOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     title?: SortOrder
     createdAt?: SortOrder
@@ -41219,6 +45284,7 @@ export namespace Prisma {
   export type AIChatMaxOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     title?: SortOrder
     createdAt?: SortOrder
@@ -41228,6 +45294,7 @@ export namespace Prisma {
   export type AIChatMinOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     title?: SortOrder
     createdAt?: SortOrder
@@ -41266,6 +45333,7 @@ export namespace Prisma {
   export type NoteCountOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     content?: SortOrder
     position?: SortOrder
@@ -41277,6 +45345,7 @@ export namespace Prisma {
   export type NoteMaxOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     content?: SortOrder
     color?: SortOrder
@@ -41287,6 +45356,7 @@ export namespace Prisma {
   export type NoteMinOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     userId?: SortOrder
     content?: SortOrder
     color?: SortOrder
@@ -41297,6 +45367,7 @@ export namespace Prisma {
   export type DocumentSnapshotCountOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     content?: SortOrder
     description?: SortOrder
     createdBy?: SortOrder
@@ -41306,6 +45377,7 @@ export namespace Prisma {
   export type DocumentSnapshotMaxOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     description?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
@@ -41314,6 +45386,7 @@ export namespace Prisma {
   export type DocumentSnapshotMinOrderByAggregateInput = {
     id?: SortOrder
     documentId?: SortOrder
+    diagramId?: SortOrder
     description?: SortOrder
     createdBy?: SortOrder
     createdAt?: SortOrder
@@ -41703,6 +45776,13 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
+  export type DiagramCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<DiagramCreateWithoutCreatorInput, DiagramUncheckedCreateWithoutCreatorInput> | DiagramCreateWithoutCreatorInput[] | DiagramUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutCreatorInput | DiagramCreateOrConnectWithoutCreatorInput[]
+    createMany?: DiagramCreateManyCreatorInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+  }
+
   export type CommentCreateNestedManyWithoutUserInput = {
     create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
@@ -41805,6 +45885,13 @@ export namespace Prisma {
     connectOrCreate?: DocumentCreateOrConnectWithoutCreatorInput | DocumentCreateOrConnectWithoutCreatorInput[]
     createMany?: DocumentCreateManyCreatorInputEnvelope
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type DiagramUncheckedCreateNestedManyWithoutCreatorInput = {
+    create?: XOR<DiagramCreateWithoutCreatorInput, DiagramUncheckedCreateWithoutCreatorInput> | DiagramCreateWithoutCreatorInput[] | DiagramUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutCreatorInput | DiagramCreateOrConnectWithoutCreatorInput[]
+    createMany?: DiagramCreateManyCreatorInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
   }
 
   export type CommentUncheckedCreateNestedManyWithoutUserInput = {
@@ -41939,6 +46026,20 @@ export namespace Prisma {
     update?: DocumentUpdateWithWhereUniqueWithoutCreatorInput | DocumentUpdateWithWhereUniqueWithoutCreatorInput[]
     updateMany?: DocumentUpdateManyWithWhereWithoutCreatorInput | DocumentUpdateManyWithWhereWithoutCreatorInput[]
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DiagramUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<DiagramCreateWithoutCreatorInput, DiagramUncheckedCreateWithoutCreatorInput> | DiagramCreateWithoutCreatorInput[] | DiagramUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutCreatorInput | DiagramCreateOrConnectWithoutCreatorInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutCreatorInput | DiagramUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: DiagramCreateManyCreatorInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutCreatorInput | DiagramUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutCreatorInput | DiagramUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
   }
 
   export type CommentUpdateManyWithoutUserNestedInput = {
@@ -42145,6 +46246,20 @@ export namespace Prisma {
     update?: DocumentUpdateWithWhereUniqueWithoutCreatorInput | DocumentUpdateWithWhereUniqueWithoutCreatorInput[]
     updateMany?: DocumentUpdateManyWithWhereWithoutCreatorInput | DocumentUpdateManyWithWhereWithoutCreatorInput[]
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutCreatorNestedInput = {
+    create?: XOR<DiagramCreateWithoutCreatorInput, DiagramUncheckedCreateWithoutCreatorInput> | DiagramCreateWithoutCreatorInput[] | DiagramUncheckedCreateWithoutCreatorInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutCreatorInput | DiagramCreateOrConnectWithoutCreatorInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutCreatorInput | DiagramUpsertWithWhereUniqueWithoutCreatorInput[]
+    createMany?: DiagramCreateManyCreatorInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutCreatorInput | DiagramUpdateWithWhereUniqueWithoutCreatorInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutCreatorInput | DiagramUpdateManyWithWhereWithoutCreatorInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
   }
 
   export type CommentUncheckedUpdateManyWithoutUserNestedInput = {
@@ -42375,6 +46490,13 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
+  export type DiagramCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<DiagramCreateWithoutWorkspaceInput, DiagramUncheckedCreateWithoutWorkspaceInput> | DiagramCreateWithoutWorkspaceInput[] | DiagramUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutWorkspaceInput | DiagramCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: DiagramCreateManyWorkspaceInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+  }
+
   export type FolderCreateNestedManyWithoutWorkspaceInput = {
     create?: XOR<FolderCreateWithoutWorkspaceInput, FolderUncheckedCreateWithoutWorkspaceInput> | FolderCreateWithoutWorkspaceInput[] | FolderUncheckedCreateWithoutWorkspaceInput[]
     connectOrCreate?: FolderCreateOrConnectWithoutWorkspaceInput | FolderCreateOrConnectWithoutWorkspaceInput[]
@@ -42415,6 +46537,13 @@ export namespace Prisma {
     connectOrCreate?: DocumentCreateOrConnectWithoutWorkspaceInput | DocumentCreateOrConnectWithoutWorkspaceInput[]
     createMany?: DocumentCreateManyWorkspaceInputEnvelope
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type DiagramUncheckedCreateNestedManyWithoutWorkspaceInput = {
+    create?: XOR<DiagramCreateWithoutWorkspaceInput, DiagramUncheckedCreateWithoutWorkspaceInput> | DiagramCreateWithoutWorkspaceInput[] | DiagramUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutWorkspaceInput | DiagramCreateOrConnectWithoutWorkspaceInput[]
+    createMany?: DiagramCreateManyWorkspaceInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
   }
 
   export type FolderUncheckedCreateNestedManyWithoutWorkspaceInput = {
@@ -42475,6 +46604,20 @@ export namespace Prisma {
     update?: DocumentUpdateWithWhereUniqueWithoutWorkspaceInput | DocumentUpdateWithWhereUniqueWithoutWorkspaceInput[]
     updateMany?: DocumentUpdateManyWithWhereWithoutWorkspaceInput | DocumentUpdateManyWithWhereWithoutWorkspaceInput[]
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DiagramUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<DiagramCreateWithoutWorkspaceInput, DiagramUncheckedCreateWithoutWorkspaceInput> | DiagramCreateWithoutWorkspaceInput[] | DiagramUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutWorkspaceInput | DiagramCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutWorkspaceInput | DiagramUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: DiagramCreateManyWorkspaceInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutWorkspaceInput | DiagramUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutWorkspaceInput | DiagramUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
   }
 
   export type FolderUpdateManyWithoutWorkspaceNestedInput = {
@@ -42559,6 +46702,20 @@ export namespace Prisma {
     update?: DocumentUpdateWithWhereUniqueWithoutWorkspaceInput | DocumentUpdateWithWhereUniqueWithoutWorkspaceInput[]
     updateMany?: DocumentUpdateManyWithWhereWithoutWorkspaceInput | DocumentUpdateManyWithWhereWithoutWorkspaceInput[]
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutWorkspaceNestedInput = {
+    create?: XOR<DiagramCreateWithoutWorkspaceInput, DiagramUncheckedCreateWithoutWorkspaceInput> | DiagramCreateWithoutWorkspaceInput[] | DiagramUncheckedCreateWithoutWorkspaceInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutWorkspaceInput | DiagramCreateOrConnectWithoutWorkspaceInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutWorkspaceInput | DiagramUpsertWithWhereUniqueWithoutWorkspaceInput[]
+    createMany?: DiagramCreateManyWorkspaceInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutWorkspaceInput | DiagramUpdateWithWhereUniqueWithoutWorkspaceInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutWorkspaceInput | DiagramUpdateManyWithWhereWithoutWorkspaceInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
   }
 
   export type FolderUncheckedUpdateManyWithoutWorkspaceNestedInput = {
@@ -42675,6 +46832,13 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
   }
 
+  export type DiagramCreateNestedManyWithoutFolderInput = {
+    create?: XOR<DiagramCreateWithoutFolderInput, DiagramUncheckedCreateWithoutFolderInput> | DiagramCreateWithoutFolderInput[] | DiagramUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutFolderInput | DiagramCreateOrConnectWithoutFolderInput[]
+    createMany?: DiagramCreateManyFolderInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+  }
+
   export type FolderUncheckedCreateNestedManyWithoutParentInput = {
     create?: XOR<FolderCreateWithoutParentInput, FolderUncheckedCreateWithoutParentInput> | FolderCreateWithoutParentInput[] | FolderUncheckedCreateWithoutParentInput[]
     connectOrCreate?: FolderCreateOrConnectWithoutParentInput | FolderCreateOrConnectWithoutParentInput[]
@@ -42687,6 +46851,13 @@ export namespace Prisma {
     connectOrCreate?: DocumentCreateOrConnectWithoutFolderInput | DocumentCreateOrConnectWithoutFolderInput[]
     createMany?: DocumentCreateManyFolderInputEnvelope
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type DiagramUncheckedCreateNestedManyWithoutFolderInput = {
+    create?: XOR<DiagramCreateWithoutFolderInput, DiagramUncheckedCreateWithoutFolderInput> | DiagramCreateWithoutFolderInput[] | DiagramUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutFolderInput | DiagramCreateOrConnectWithoutFolderInput[]
+    createMany?: DiagramCreateManyFolderInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
   }
 
   export type WorkspaceUpdateOneRequiredWithoutFoldersNestedInput = {
@@ -42735,6 +46906,20 @@ export namespace Prisma {
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
   }
 
+  export type DiagramUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<DiagramCreateWithoutFolderInput, DiagramUncheckedCreateWithoutFolderInput> | DiagramCreateWithoutFolderInput[] | DiagramUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutFolderInput | DiagramCreateOrConnectWithoutFolderInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutFolderInput | DiagramUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: DiagramCreateManyFolderInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutFolderInput | DiagramUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutFolderInput | DiagramUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
+  }
+
   export type FolderUncheckedUpdateManyWithoutParentNestedInput = {
     create?: XOR<FolderCreateWithoutParentInput, FolderUncheckedCreateWithoutParentInput> | FolderCreateWithoutParentInput[] | FolderUncheckedCreateWithoutParentInput[]
     connectOrCreate?: FolderCreateOrConnectWithoutParentInput | FolderCreateOrConnectWithoutParentInput[]
@@ -42761,6 +46946,20 @@ export namespace Prisma {
     update?: DocumentUpdateWithWhereUniqueWithoutFolderInput | DocumentUpdateWithWhereUniqueWithoutFolderInput[]
     updateMany?: DocumentUpdateManyWithWhereWithoutFolderInput | DocumentUpdateManyWithWhereWithoutFolderInput[]
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutFolderNestedInput = {
+    create?: XOR<DiagramCreateWithoutFolderInput, DiagramUncheckedCreateWithoutFolderInput> | DiagramCreateWithoutFolderInput[] | DiagramUncheckedCreateWithoutFolderInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutFolderInput | DiagramCreateOrConnectWithoutFolderInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutFolderInput | DiagramUpsertWithWhereUniqueWithoutFolderInput[]
+    createMany?: DiagramCreateManyFolderInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutFolderInput | DiagramUpdateWithWhereUniqueWithoutFolderInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutFolderInput | DiagramUpdateManyWithWhereWithoutFolderInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
   }
 
   export type WorkspaceCreateNestedOneWithoutDocumentsInput = {
@@ -43125,6 +47324,416 @@ export namespace Prisma {
     deleteMany?: DocumentSnapshotScalarWhereInput | DocumentSnapshotScalarWhereInput[]
   }
 
+  export type WorkspaceCreateNestedOneWithoutDiagramsInput = {
+    create?: XOR<WorkspaceCreateWithoutDiagramsInput, WorkspaceUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutDiagramsInput
+    connect?: WorkspaceWhereUniqueInput
+  }
+
+  export type FolderCreateNestedOneWithoutDiagramsInput = {
+    create?: XOR<FolderCreateWithoutDiagramsInput, FolderUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutDiagramsInput
+    connect?: FolderWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDiagramsInput = {
+    create?: XOR<UserCreateWithoutDiagramsInput, UserUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiagramsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type VersionCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<VersionCreateWithoutDiagramInput, VersionUncheckedCreateWithoutDiagramInput> | VersionCreateWithoutDiagramInput[] | VersionUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: VersionCreateOrConnectWithoutDiagramInput | VersionCreateOrConnectWithoutDiagramInput[]
+    createMany?: VersionCreateManyDiagramInputEnvelope
+    connect?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+  }
+
+  export type CommentCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<CommentCreateWithoutDiagramInput, CommentUncheckedCreateWithoutDiagramInput> | CommentCreateWithoutDiagramInput[] | CommentUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutDiagramInput | CommentCreateOrConnectWithoutDiagramInput[]
+    createMany?: CommentCreateManyDiagramInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type PermissionCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<PermissionCreateWithoutDiagramInput, PermissionUncheckedCreateWithoutDiagramInput> | PermissionCreateWithoutDiagramInput[] | PermissionUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: PermissionCreateOrConnectWithoutDiagramInput | PermissionCreateOrConnectWithoutDiagramInput[]
+    createMany?: PermissionCreateManyDiagramInputEnvelope
+    connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+  }
+
+  export type CollaboratorCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<CollaboratorCreateWithoutDiagramInput, CollaboratorUncheckedCreateWithoutDiagramInput> | CollaboratorCreateWithoutDiagramInput[] | CollaboratorUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: CollaboratorCreateOrConnectWithoutDiagramInput | CollaboratorCreateOrConnectWithoutDiagramInput[]
+    createMany?: CollaboratorCreateManyDiagramInputEnvelope
+    connect?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+  }
+
+  export type AIChatCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<AIChatCreateWithoutDiagramInput, AIChatUncheckedCreateWithoutDiagramInput> | AIChatCreateWithoutDiagramInput[] | AIChatUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: AIChatCreateOrConnectWithoutDiagramInput | AIChatCreateOrConnectWithoutDiagramInput[]
+    createMany?: AIChatCreateManyDiagramInputEnvelope
+    connect?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+  }
+
+  export type NoteCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<NoteCreateWithoutDiagramInput, NoteUncheckedCreateWithoutDiagramInput> | NoteCreateWithoutDiagramInput[] | NoteUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutDiagramInput | NoteCreateOrConnectWithoutDiagramInput[]
+    createMany?: NoteCreateManyDiagramInputEnvelope
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+  }
+
+  export type DimensionItemCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<DimensionItemCreateWithoutDiagramInput, DimensionItemUncheckedCreateWithoutDiagramInput> | DimensionItemCreateWithoutDiagramInput[] | DimensionItemUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: DimensionItemCreateOrConnectWithoutDiagramInput | DimensionItemCreateOrConnectWithoutDiagramInput[]
+    createMany?: DimensionItemCreateManyDiagramInputEnvelope
+    connect?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+  }
+
+  export type DocumentSnapshotCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<DocumentSnapshotCreateWithoutDiagramInput, DocumentSnapshotUncheckedCreateWithoutDiagramInput> | DocumentSnapshotCreateWithoutDiagramInput[] | DocumentSnapshotUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: DocumentSnapshotCreateOrConnectWithoutDiagramInput | DocumentSnapshotCreateOrConnectWithoutDiagramInput[]
+    createMany?: DocumentSnapshotCreateManyDiagramInputEnvelope
+    connect?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+  }
+
+  export type ProjectCreateNestedOneWithoutDiagramsInput = {
+    create?: XOR<ProjectCreateWithoutDiagramsInput, ProjectUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutDiagramsInput
+    connect?: ProjectWhereUniqueInput
+  }
+
+  export type VersionUncheckedCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<VersionCreateWithoutDiagramInput, VersionUncheckedCreateWithoutDiagramInput> | VersionCreateWithoutDiagramInput[] | VersionUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: VersionCreateOrConnectWithoutDiagramInput | VersionCreateOrConnectWithoutDiagramInput[]
+    createMany?: VersionCreateManyDiagramInputEnvelope
+    connect?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+  }
+
+  export type CommentUncheckedCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<CommentCreateWithoutDiagramInput, CommentUncheckedCreateWithoutDiagramInput> | CommentCreateWithoutDiagramInput[] | CommentUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutDiagramInput | CommentCreateOrConnectWithoutDiagramInput[]
+    createMany?: CommentCreateManyDiagramInputEnvelope
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type PermissionUncheckedCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<PermissionCreateWithoutDiagramInput, PermissionUncheckedCreateWithoutDiagramInput> | PermissionCreateWithoutDiagramInput[] | PermissionUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: PermissionCreateOrConnectWithoutDiagramInput | PermissionCreateOrConnectWithoutDiagramInput[]
+    createMany?: PermissionCreateManyDiagramInputEnvelope
+    connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+  }
+
+  export type CollaboratorUncheckedCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<CollaboratorCreateWithoutDiagramInput, CollaboratorUncheckedCreateWithoutDiagramInput> | CollaboratorCreateWithoutDiagramInput[] | CollaboratorUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: CollaboratorCreateOrConnectWithoutDiagramInput | CollaboratorCreateOrConnectWithoutDiagramInput[]
+    createMany?: CollaboratorCreateManyDiagramInputEnvelope
+    connect?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+  }
+
+  export type AIChatUncheckedCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<AIChatCreateWithoutDiagramInput, AIChatUncheckedCreateWithoutDiagramInput> | AIChatCreateWithoutDiagramInput[] | AIChatUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: AIChatCreateOrConnectWithoutDiagramInput | AIChatCreateOrConnectWithoutDiagramInput[]
+    createMany?: AIChatCreateManyDiagramInputEnvelope
+    connect?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+  }
+
+  export type NoteUncheckedCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<NoteCreateWithoutDiagramInput, NoteUncheckedCreateWithoutDiagramInput> | NoteCreateWithoutDiagramInput[] | NoteUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutDiagramInput | NoteCreateOrConnectWithoutDiagramInput[]
+    createMany?: NoteCreateManyDiagramInputEnvelope
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+  }
+
+  export type DimensionItemUncheckedCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<DimensionItemCreateWithoutDiagramInput, DimensionItemUncheckedCreateWithoutDiagramInput> | DimensionItemCreateWithoutDiagramInput[] | DimensionItemUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: DimensionItemCreateOrConnectWithoutDiagramInput | DimensionItemCreateOrConnectWithoutDiagramInput[]
+    createMany?: DimensionItemCreateManyDiagramInputEnvelope
+    connect?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+  }
+
+  export type DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput = {
+    create?: XOR<DocumentSnapshotCreateWithoutDiagramInput, DocumentSnapshotUncheckedCreateWithoutDiagramInput> | DocumentSnapshotCreateWithoutDiagramInput[] | DocumentSnapshotUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: DocumentSnapshotCreateOrConnectWithoutDiagramInput | DocumentSnapshotCreateOrConnectWithoutDiagramInput[]
+    createMany?: DocumentSnapshotCreateManyDiagramInputEnvelope
+    connect?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+  }
+
+  export type WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput = {
+    create?: XOR<WorkspaceCreateWithoutDiagramsInput, WorkspaceUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: WorkspaceCreateOrConnectWithoutDiagramsInput
+    upsert?: WorkspaceUpsertWithoutDiagramsInput
+    connect?: WorkspaceWhereUniqueInput
+    update?: XOR<XOR<WorkspaceUpdateToOneWithWhereWithoutDiagramsInput, WorkspaceUpdateWithoutDiagramsInput>, WorkspaceUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type FolderUpdateOneWithoutDiagramsNestedInput = {
+    create?: XOR<FolderCreateWithoutDiagramsInput, FolderUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: FolderCreateOrConnectWithoutDiagramsInput
+    upsert?: FolderUpsertWithoutDiagramsInput
+    disconnect?: FolderWhereInput | boolean
+    delete?: FolderWhereInput | boolean
+    connect?: FolderWhereUniqueInput
+    update?: XOR<XOR<FolderUpdateToOneWithWhereWithoutDiagramsInput, FolderUpdateWithoutDiagramsInput>, FolderUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDiagramsNestedInput = {
+    create?: XOR<UserCreateWithoutDiagramsInput, UserUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDiagramsInput
+    upsert?: UserUpsertWithoutDiagramsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDiagramsInput, UserUpdateWithoutDiagramsInput>, UserUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type VersionUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<VersionCreateWithoutDiagramInput, VersionUncheckedCreateWithoutDiagramInput> | VersionCreateWithoutDiagramInput[] | VersionUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: VersionCreateOrConnectWithoutDiagramInput | VersionCreateOrConnectWithoutDiagramInput[]
+    upsert?: VersionUpsertWithWhereUniqueWithoutDiagramInput | VersionUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: VersionCreateManyDiagramInputEnvelope
+    set?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+    disconnect?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+    delete?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+    connect?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+    update?: VersionUpdateWithWhereUniqueWithoutDiagramInput | VersionUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: VersionUpdateManyWithWhereWithoutDiagramInput | VersionUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: VersionScalarWhereInput | VersionScalarWhereInput[]
+  }
+
+  export type CommentUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<CommentCreateWithoutDiagramInput, CommentUncheckedCreateWithoutDiagramInput> | CommentCreateWithoutDiagramInput[] | CommentUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutDiagramInput | CommentCreateOrConnectWithoutDiagramInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutDiagramInput | CommentUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: CommentCreateManyDiagramInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutDiagramInput | CommentUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutDiagramInput | CommentUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type PermissionUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<PermissionCreateWithoutDiagramInput, PermissionUncheckedCreateWithoutDiagramInput> | PermissionCreateWithoutDiagramInput[] | PermissionUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: PermissionCreateOrConnectWithoutDiagramInput | PermissionCreateOrConnectWithoutDiagramInput[]
+    upsert?: PermissionUpsertWithWhereUniqueWithoutDiagramInput | PermissionUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: PermissionCreateManyDiagramInputEnvelope
+    set?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+    disconnect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+    delete?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+    connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+    update?: PermissionUpdateWithWhereUniqueWithoutDiagramInput | PermissionUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: PermissionUpdateManyWithWhereWithoutDiagramInput | PermissionUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
+  }
+
+  export type CollaboratorUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<CollaboratorCreateWithoutDiagramInput, CollaboratorUncheckedCreateWithoutDiagramInput> | CollaboratorCreateWithoutDiagramInput[] | CollaboratorUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: CollaboratorCreateOrConnectWithoutDiagramInput | CollaboratorCreateOrConnectWithoutDiagramInput[]
+    upsert?: CollaboratorUpsertWithWhereUniqueWithoutDiagramInput | CollaboratorUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: CollaboratorCreateManyDiagramInputEnvelope
+    set?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+    disconnect?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+    delete?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+    connect?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+    update?: CollaboratorUpdateWithWhereUniqueWithoutDiagramInput | CollaboratorUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: CollaboratorUpdateManyWithWhereWithoutDiagramInput | CollaboratorUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: CollaboratorScalarWhereInput | CollaboratorScalarWhereInput[]
+  }
+
+  export type AIChatUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<AIChatCreateWithoutDiagramInput, AIChatUncheckedCreateWithoutDiagramInput> | AIChatCreateWithoutDiagramInput[] | AIChatUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: AIChatCreateOrConnectWithoutDiagramInput | AIChatCreateOrConnectWithoutDiagramInput[]
+    upsert?: AIChatUpsertWithWhereUniqueWithoutDiagramInput | AIChatUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: AIChatCreateManyDiagramInputEnvelope
+    set?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+    disconnect?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+    delete?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+    connect?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+    update?: AIChatUpdateWithWhereUniqueWithoutDiagramInput | AIChatUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: AIChatUpdateManyWithWhereWithoutDiagramInput | AIChatUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: AIChatScalarWhereInput | AIChatScalarWhereInput[]
+  }
+
+  export type NoteUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<NoteCreateWithoutDiagramInput, NoteUncheckedCreateWithoutDiagramInput> | NoteCreateWithoutDiagramInput[] | NoteUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutDiagramInput | NoteCreateOrConnectWithoutDiagramInput[]
+    upsert?: NoteUpsertWithWhereUniqueWithoutDiagramInput | NoteUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: NoteCreateManyDiagramInputEnvelope
+    set?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    disconnect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    delete?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    update?: NoteUpdateWithWhereUniqueWithoutDiagramInput | NoteUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: NoteUpdateManyWithWhereWithoutDiagramInput | NoteUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
+  }
+
+  export type DimensionItemUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<DimensionItemCreateWithoutDiagramInput, DimensionItemUncheckedCreateWithoutDiagramInput> | DimensionItemCreateWithoutDiagramInput[] | DimensionItemUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: DimensionItemCreateOrConnectWithoutDiagramInput | DimensionItemCreateOrConnectWithoutDiagramInput[]
+    upsert?: DimensionItemUpsertWithWhereUniqueWithoutDiagramInput | DimensionItemUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: DimensionItemCreateManyDiagramInputEnvelope
+    set?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+    disconnect?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+    delete?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+    connect?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+    update?: DimensionItemUpdateWithWhereUniqueWithoutDiagramInput | DimensionItemUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: DimensionItemUpdateManyWithWhereWithoutDiagramInput | DimensionItemUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: DimensionItemScalarWhereInput | DimensionItemScalarWhereInput[]
+  }
+
+  export type DocumentSnapshotUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<DocumentSnapshotCreateWithoutDiagramInput, DocumentSnapshotUncheckedCreateWithoutDiagramInput> | DocumentSnapshotCreateWithoutDiagramInput[] | DocumentSnapshotUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: DocumentSnapshotCreateOrConnectWithoutDiagramInput | DocumentSnapshotCreateOrConnectWithoutDiagramInput[]
+    upsert?: DocumentSnapshotUpsertWithWhereUniqueWithoutDiagramInput | DocumentSnapshotUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: DocumentSnapshotCreateManyDiagramInputEnvelope
+    set?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+    disconnect?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+    delete?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+    connect?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+    update?: DocumentSnapshotUpdateWithWhereUniqueWithoutDiagramInput | DocumentSnapshotUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: DocumentSnapshotUpdateManyWithWhereWithoutDiagramInput | DocumentSnapshotUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: DocumentSnapshotScalarWhereInput | DocumentSnapshotScalarWhereInput[]
+  }
+
+  export type ProjectUpdateOneWithoutDiagramsNestedInput = {
+    create?: XOR<ProjectCreateWithoutDiagramsInput, ProjectUncheckedCreateWithoutDiagramsInput>
+    connectOrCreate?: ProjectCreateOrConnectWithoutDiagramsInput
+    upsert?: ProjectUpsertWithoutDiagramsInput
+    disconnect?: ProjectWhereInput | boolean
+    delete?: ProjectWhereInput | boolean
+    connect?: ProjectWhereUniqueInput
+    update?: XOR<XOR<ProjectUpdateToOneWithWhereWithoutDiagramsInput, ProjectUpdateWithoutDiagramsInput>, ProjectUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type VersionUncheckedUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<VersionCreateWithoutDiagramInput, VersionUncheckedCreateWithoutDiagramInput> | VersionCreateWithoutDiagramInput[] | VersionUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: VersionCreateOrConnectWithoutDiagramInput | VersionCreateOrConnectWithoutDiagramInput[]
+    upsert?: VersionUpsertWithWhereUniqueWithoutDiagramInput | VersionUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: VersionCreateManyDiagramInputEnvelope
+    set?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+    disconnect?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+    delete?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+    connect?: VersionWhereUniqueInput | VersionWhereUniqueInput[]
+    update?: VersionUpdateWithWhereUniqueWithoutDiagramInput | VersionUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: VersionUpdateManyWithWhereWithoutDiagramInput | VersionUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: VersionScalarWhereInput | VersionScalarWhereInput[]
+  }
+
+  export type CommentUncheckedUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<CommentCreateWithoutDiagramInput, CommentUncheckedCreateWithoutDiagramInput> | CommentCreateWithoutDiagramInput[] | CommentUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: CommentCreateOrConnectWithoutDiagramInput | CommentCreateOrConnectWithoutDiagramInput[]
+    upsert?: CommentUpsertWithWhereUniqueWithoutDiagramInput | CommentUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: CommentCreateManyDiagramInputEnvelope
+    set?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    disconnect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    delete?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+    update?: CommentUpdateWithWhereUniqueWithoutDiagramInput | CommentUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: CommentUpdateManyWithWhereWithoutDiagramInput | CommentUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type PermissionUncheckedUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<PermissionCreateWithoutDiagramInput, PermissionUncheckedCreateWithoutDiagramInput> | PermissionCreateWithoutDiagramInput[] | PermissionUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: PermissionCreateOrConnectWithoutDiagramInput | PermissionCreateOrConnectWithoutDiagramInput[]
+    upsert?: PermissionUpsertWithWhereUniqueWithoutDiagramInput | PermissionUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: PermissionCreateManyDiagramInputEnvelope
+    set?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+    disconnect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+    delete?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+    connect?: PermissionWhereUniqueInput | PermissionWhereUniqueInput[]
+    update?: PermissionUpdateWithWhereUniqueWithoutDiagramInput | PermissionUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: PermissionUpdateManyWithWhereWithoutDiagramInput | PermissionUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
+  }
+
+  export type CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<CollaboratorCreateWithoutDiagramInput, CollaboratorUncheckedCreateWithoutDiagramInput> | CollaboratorCreateWithoutDiagramInput[] | CollaboratorUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: CollaboratorCreateOrConnectWithoutDiagramInput | CollaboratorCreateOrConnectWithoutDiagramInput[]
+    upsert?: CollaboratorUpsertWithWhereUniqueWithoutDiagramInput | CollaboratorUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: CollaboratorCreateManyDiagramInputEnvelope
+    set?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+    disconnect?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+    delete?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+    connect?: CollaboratorWhereUniqueInput | CollaboratorWhereUniqueInput[]
+    update?: CollaboratorUpdateWithWhereUniqueWithoutDiagramInput | CollaboratorUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: CollaboratorUpdateManyWithWhereWithoutDiagramInput | CollaboratorUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: CollaboratorScalarWhereInput | CollaboratorScalarWhereInput[]
+  }
+
+  export type AIChatUncheckedUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<AIChatCreateWithoutDiagramInput, AIChatUncheckedCreateWithoutDiagramInput> | AIChatCreateWithoutDiagramInput[] | AIChatUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: AIChatCreateOrConnectWithoutDiagramInput | AIChatCreateOrConnectWithoutDiagramInput[]
+    upsert?: AIChatUpsertWithWhereUniqueWithoutDiagramInput | AIChatUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: AIChatCreateManyDiagramInputEnvelope
+    set?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+    disconnect?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+    delete?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+    connect?: AIChatWhereUniqueInput | AIChatWhereUniqueInput[]
+    update?: AIChatUpdateWithWhereUniqueWithoutDiagramInput | AIChatUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: AIChatUpdateManyWithWhereWithoutDiagramInput | AIChatUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: AIChatScalarWhereInput | AIChatScalarWhereInput[]
+  }
+
+  export type NoteUncheckedUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<NoteCreateWithoutDiagramInput, NoteUncheckedCreateWithoutDiagramInput> | NoteCreateWithoutDiagramInput[] | NoteUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: NoteCreateOrConnectWithoutDiagramInput | NoteCreateOrConnectWithoutDiagramInput[]
+    upsert?: NoteUpsertWithWhereUniqueWithoutDiagramInput | NoteUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: NoteCreateManyDiagramInputEnvelope
+    set?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    disconnect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    delete?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    connect?: NoteWhereUniqueInput | NoteWhereUniqueInput[]
+    update?: NoteUpdateWithWhereUniqueWithoutDiagramInput | NoteUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: NoteUpdateManyWithWhereWithoutDiagramInput | NoteUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: NoteScalarWhereInput | NoteScalarWhereInput[]
+  }
+
+  export type DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<DimensionItemCreateWithoutDiagramInput, DimensionItemUncheckedCreateWithoutDiagramInput> | DimensionItemCreateWithoutDiagramInput[] | DimensionItemUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: DimensionItemCreateOrConnectWithoutDiagramInput | DimensionItemCreateOrConnectWithoutDiagramInput[]
+    upsert?: DimensionItemUpsertWithWhereUniqueWithoutDiagramInput | DimensionItemUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: DimensionItemCreateManyDiagramInputEnvelope
+    set?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+    disconnect?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+    delete?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+    connect?: DimensionItemWhereUniqueInput | DimensionItemWhereUniqueInput[]
+    update?: DimensionItemUpdateWithWhereUniqueWithoutDiagramInput | DimensionItemUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: DimensionItemUpdateManyWithWhereWithoutDiagramInput | DimensionItemUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: DimensionItemScalarWhereInput | DimensionItemScalarWhereInput[]
+  }
+
+  export type DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput = {
+    create?: XOR<DocumentSnapshotCreateWithoutDiagramInput, DocumentSnapshotUncheckedCreateWithoutDiagramInput> | DocumentSnapshotCreateWithoutDiagramInput[] | DocumentSnapshotUncheckedCreateWithoutDiagramInput[]
+    connectOrCreate?: DocumentSnapshotCreateOrConnectWithoutDiagramInput | DocumentSnapshotCreateOrConnectWithoutDiagramInput[]
+    upsert?: DocumentSnapshotUpsertWithWhereUniqueWithoutDiagramInput | DocumentSnapshotUpsertWithWhereUniqueWithoutDiagramInput[]
+    createMany?: DocumentSnapshotCreateManyDiagramInputEnvelope
+    set?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+    disconnect?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+    delete?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+    connect?: DocumentSnapshotWhereUniqueInput | DocumentSnapshotWhereUniqueInput[]
+    update?: DocumentSnapshotUpdateWithWhereUniqueWithoutDiagramInput | DocumentSnapshotUpdateWithWhereUniqueWithoutDiagramInput[]
+    updateMany?: DocumentSnapshotUpdateManyWithWhereWithoutDiagramInput | DocumentSnapshotUpdateManyWithWhereWithoutDiagramInput[]
+    deleteMany?: DocumentSnapshotScalarWhereInput | DocumentSnapshotScalarWhereInput[]
+  }
+
+  export type DiagramCreateNestedOneWithoutItemsInput = {
+    create?: XOR<DiagramCreateWithoutItemsInput, DiagramUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutItemsInput
+    connect?: DiagramWhereUniqueInput
+  }
+
+  export type DiagramUpdateOneRequiredWithoutItemsNestedInput = {
+    create?: XOR<DiagramCreateWithoutItemsInput, DiagramUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutItemsInput
+    upsert?: DiagramUpsertWithoutItemsInput
+    connect?: DiagramWhereUniqueInput
+    update?: XOR<XOR<DiagramUpdateToOneWithWhereWithoutItemsInput, DiagramUpdateWithoutItemsInput>, DiagramUncheckedUpdateWithoutItemsInput>
+  }
+
   export type WorkspaceCreateNestedOneWithoutProjectsInput = {
     create?: XOR<WorkspaceCreateWithoutProjectsInput, WorkspaceUncheckedCreateWithoutProjectsInput>
     connectOrCreate?: WorkspaceCreateOrConnectWithoutProjectsInput
@@ -43136,6 +47745,13 @@ export namespace Prisma {
     connectOrCreate?: DocumentCreateOrConnectWithoutProjectInput | DocumentCreateOrConnectWithoutProjectInput[]
     createMany?: DocumentCreateManyProjectInputEnvelope
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type DiagramCreateNestedManyWithoutProjectInput = {
+    create?: XOR<DiagramCreateWithoutProjectInput, DiagramUncheckedCreateWithoutProjectInput> | DiagramCreateWithoutProjectInput[] | DiagramUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutProjectInput | DiagramCreateOrConnectWithoutProjectInput[]
+    createMany?: DiagramCreateManyProjectInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
   }
 
   export type TaskCreateNestedManyWithoutProjectInput = {
@@ -43164,6 +47780,13 @@ export namespace Prisma {
     connectOrCreate?: DocumentCreateOrConnectWithoutProjectInput | DocumentCreateOrConnectWithoutProjectInput[]
     createMany?: DocumentCreateManyProjectInputEnvelope
     connect?: DocumentWhereUniqueInput | DocumentWhereUniqueInput[]
+  }
+
+  export type DiagramUncheckedCreateNestedManyWithoutProjectInput = {
+    create?: XOR<DiagramCreateWithoutProjectInput, DiagramUncheckedCreateWithoutProjectInput> | DiagramCreateWithoutProjectInput[] | DiagramUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutProjectInput | DiagramCreateOrConnectWithoutProjectInput[]
+    createMany?: DiagramCreateManyProjectInputEnvelope
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
   }
 
   export type TaskUncheckedCreateNestedManyWithoutProjectInput = {
@@ -43207,6 +47830,20 @@ export namespace Prisma {
     update?: DocumentUpdateWithWhereUniqueWithoutProjectInput | DocumentUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: DocumentUpdateManyWithWhereWithoutProjectInput | DocumentUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DiagramUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<DiagramCreateWithoutProjectInput, DiagramUncheckedCreateWithoutProjectInput> | DiagramCreateWithoutProjectInput[] | DiagramUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutProjectInput | DiagramCreateOrConnectWithoutProjectInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutProjectInput | DiagramUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: DiagramCreateManyProjectInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutProjectInput | DiagramUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutProjectInput | DiagramUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
   }
 
   export type TaskUpdateManyWithoutProjectNestedInput = {
@@ -43263,6 +47900,20 @@ export namespace Prisma {
     update?: DocumentUpdateWithWhereUniqueWithoutProjectInput | DocumentUpdateWithWhereUniqueWithoutProjectInput[]
     updateMany?: DocumentUpdateManyWithWhereWithoutProjectInput | DocumentUpdateManyWithWhereWithoutProjectInput[]
     deleteMany?: DocumentScalarWhereInput | DocumentScalarWhereInput[]
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutProjectNestedInput = {
+    create?: XOR<DiagramCreateWithoutProjectInput, DiagramUncheckedCreateWithoutProjectInput> | DiagramCreateWithoutProjectInput[] | DiagramUncheckedCreateWithoutProjectInput[]
+    connectOrCreate?: DiagramCreateOrConnectWithoutProjectInput | DiagramCreateOrConnectWithoutProjectInput[]
+    upsert?: DiagramUpsertWithWhereUniqueWithoutProjectInput | DiagramUpsertWithWhereUniqueWithoutProjectInput[]
+    createMany?: DiagramCreateManyProjectInputEnvelope
+    set?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    disconnect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    delete?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    connect?: DiagramWhereUniqueInput | DiagramWhereUniqueInput[]
+    update?: DiagramUpdateWithWhereUniqueWithoutProjectInput | DiagramUpdateWithWhereUniqueWithoutProjectInput[]
+    updateMany?: DiagramUpdateManyWithWhereWithoutProjectInput | DiagramUpdateManyWithWhereWithoutProjectInput[]
+    deleteMany?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
   }
 
   export type TaskUncheckedUpdateManyWithoutProjectNestedInput = {
@@ -43478,18 +48129,42 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput
   }
 
-  export type DocumentUpdateOneRequiredWithoutVersionsNestedInput = {
+  export type DiagramCreateNestedOneWithoutVersionsInput = {
+    create?: XOR<DiagramCreateWithoutVersionsInput, DiagramUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutVersionsInput
+    connect?: DiagramWhereUniqueInput
+  }
+
+  export type DocumentUpdateOneWithoutVersionsNestedInput = {
     create?: XOR<DocumentCreateWithoutVersionsInput, DocumentUncheckedCreateWithoutVersionsInput>
     connectOrCreate?: DocumentCreateOrConnectWithoutVersionsInput
     upsert?: DocumentUpsertWithoutVersionsInput
+    disconnect?: DocumentWhereInput | boolean
+    delete?: DocumentWhereInput | boolean
     connect?: DocumentWhereUniqueInput
     update?: XOR<XOR<DocumentUpdateToOneWithWhereWithoutVersionsInput, DocumentUpdateWithoutVersionsInput>, DocumentUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type DiagramUpdateOneWithoutVersionsNestedInput = {
+    create?: XOR<DiagramCreateWithoutVersionsInput, DiagramUncheckedCreateWithoutVersionsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutVersionsInput
+    upsert?: DiagramUpsertWithoutVersionsInput
+    disconnect?: DiagramWhereInput | boolean
+    delete?: DiagramWhereInput | boolean
+    connect?: DiagramWhereUniqueInput
+    update?: XOR<XOR<DiagramUpdateToOneWithWhereWithoutVersionsInput, DiagramUpdateWithoutVersionsInput>, DiagramUncheckedUpdateWithoutVersionsInput>
   }
 
   export type DocumentCreateNestedOneWithoutCommentsInput = {
     create?: XOR<DocumentCreateWithoutCommentsInput, DocumentUncheckedCreateWithoutCommentsInput>
     connectOrCreate?: DocumentCreateOrConnectWithoutCommentsInput
     connect?: DocumentWhereUniqueInput
+  }
+
+  export type DiagramCreateNestedOneWithoutCommentsInput = {
+    create?: XOR<DiagramCreateWithoutCommentsInput, DiagramUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutCommentsInput
+    connect?: DiagramWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutCommentsInput = {
@@ -43518,12 +48193,24 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type DocumentUpdateOneRequiredWithoutCommentsNestedInput = {
+  export type DocumentUpdateOneWithoutCommentsNestedInput = {
     create?: XOR<DocumentCreateWithoutCommentsInput, DocumentUncheckedCreateWithoutCommentsInput>
     connectOrCreate?: DocumentCreateOrConnectWithoutCommentsInput
     upsert?: DocumentUpsertWithoutCommentsInput
+    disconnect?: DocumentWhereInput | boolean
+    delete?: DocumentWhereInput | boolean
     connect?: DocumentWhereUniqueInput
     update?: XOR<XOR<DocumentUpdateToOneWithWhereWithoutCommentsInput, DocumentUpdateWithoutCommentsInput>, DocumentUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type DiagramUpdateOneWithoutCommentsNestedInput = {
+    create?: XOR<DiagramCreateWithoutCommentsInput, DiagramUncheckedCreateWithoutCommentsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutCommentsInput
+    upsert?: DiagramUpsertWithoutCommentsInput
+    disconnect?: DiagramWhereInput | boolean
+    delete?: DiagramWhereInput | boolean
+    connect?: DiagramWhereUniqueInput
+    update?: XOR<XOR<DiagramUpdateToOneWithWhereWithoutCommentsInput, DiagramUpdateWithoutCommentsInput>, DiagramUncheckedUpdateWithoutCommentsInput>
   }
 
   export type UserUpdateOneRequiredWithoutCommentsNestedInput = {
@@ -43578,16 +48265,34 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput
   }
 
+  export type DiagramCreateNestedOneWithoutPermissionsInput = {
+    create?: XOR<DiagramCreateWithoutPermissionsInput, DiagramUncheckedCreateWithoutPermissionsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutPermissionsInput
+    connect?: DiagramWhereUniqueInput
+  }
+
   export type EnumPermissionRoleFieldUpdateOperationsInput = {
     set?: $Enums.PermissionRole
   }
 
-  export type DocumentUpdateOneRequiredWithoutPermissionsNestedInput = {
+  export type DocumentUpdateOneWithoutPermissionsNestedInput = {
     create?: XOR<DocumentCreateWithoutPermissionsInput, DocumentUncheckedCreateWithoutPermissionsInput>
     connectOrCreate?: DocumentCreateOrConnectWithoutPermissionsInput
     upsert?: DocumentUpsertWithoutPermissionsInput
+    disconnect?: DocumentWhereInput | boolean
+    delete?: DocumentWhereInput | boolean
     connect?: DocumentWhereUniqueInput
     update?: XOR<XOR<DocumentUpdateToOneWithWhereWithoutPermissionsInput, DocumentUpdateWithoutPermissionsInput>, DocumentUncheckedUpdateWithoutPermissionsInput>
+  }
+
+  export type DiagramUpdateOneWithoutPermissionsNestedInput = {
+    create?: XOR<DiagramCreateWithoutPermissionsInput, DiagramUncheckedCreateWithoutPermissionsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutPermissionsInput
+    upsert?: DiagramUpsertWithoutPermissionsInput
+    disconnect?: DiagramWhereInput | boolean
+    delete?: DiagramWhereInput | boolean
+    connect?: DiagramWhereUniqueInput
+    update?: XOR<XOR<DiagramUpdateToOneWithWhereWithoutPermissionsInput, DiagramUpdateWithoutPermissionsInput>, DiagramUncheckedUpdateWithoutPermissionsInput>
   }
 
   export type DocumentCreateNestedOneWithoutCollaboratorsInput = {
@@ -43596,12 +48301,30 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput
   }
 
-  export type DocumentUpdateOneRequiredWithoutCollaboratorsNestedInput = {
+  export type DiagramCreateNestedOneWithoutCollaboratorsInput = {
+    create?: XOR<DiagramCreateWithoutCollaboratorsInput, DiagramUncheckedCreateWithoutCollaboratorsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutCollaboratorsInput
+    connect?: DiagramWhereUniqueInput
+  }
+
+  export type DocumentUpdateOneWithoutCollaboratorsNestedInput = {
     create?: XOR<DocumentCreateWithoutCollaboratorsInput, DocumentUncheckedCreateWithoutCollaboratorsInput>
     connectOrCreate?: DocumentCreateOrConnectWithoutCollaboratorsInput
     upsert?: DocumentUpsertWithoutCollaboratorsInput
+    disconnect?: DocumentWhereInput | boolean
+    delete?: DocumentWhereInput | boolean
     connect?: DocumentWhereUniqueInput
     update?: XOR<XOR<DocumentUpdateToOneWithWhereWithoutCollaboratorsInput, DocumentUpdateWithoutCollaboratorsInput>, DocumentUncheckedUpdateWithoutCollaboratorsInput>
+  }
+
+  export type DiagramUpdateOneWithoutCollaboratorsNestedInput = {
+    create?: XOR<DiagramCreateWithoutCollaboratorsInput, DiagramUncheckedCreateWithoutCollaboratorsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutCollaboratorsInput
+    upsert?: DiagramUpsertWithoutCollaboratorsInput
+    disconnect?: DiagramWhereInput | boolean
+    delete?: DiagramWhereInput | boolean
+    connect?: DiagramWhereUniqueInput
+    update?: XOR<XOR<DiagramUpdateToOneWithWhereWithoutCollaboratorsInput, DiagramUpdateWithoutCollaboratorsInput>, DiagramUncheckedUpdateWithoutCollaboratorsInput>
   }
 
   export type WorkspaceCreateNestedOneWithoutTemplatesInput = {
@@ -43640,6 +48363,12 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput
   }
 
+  export type DiagramCreateNestedOneWithoutAiChatsInput = {
+    create?: XOR<DiagramCreateWithoutAiChatsInput, DiagramUncheckedCreateWithoutAiChatsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutAiChatsInput
+    connect?: DiagramWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutAiChatsInput = {
     create?: XOR<UserCreateWithoutAiChatsInput, UserUncheckedCreateWithoutAiChatsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAiChatsInput
@@ -43660,12 +48389,24 @@ export namespace Prisma {
     connect?: AIMessageWhereUniqueInput | AIMessageWhereUniqueInput[]
   }
 
-  export type DocumentUpdateOneRequiredWithoutAiChatsNestedInput = {
+  export type DocumentUpdateOneWithoutAiChatsNestedInput = {
     create?: XOR<DocumentCreateWithoutAiChatsInput, DocumentUncheckedCreateWithoutAiChatsInput>
     connectOrCreate?: DocumentCreateOrConnectWithoutAiChatsInput
     upsert?: DocumentUpsertWithoutAiChatsInput
+    disconnect?: DocumentWhereInput | boolean
+    delete?: DocumentWhereInput | boolean
     connect?: DocumentWhereUniqueInput
     update?: XOR<XOR<DocumentUpdateToOneWithWhereWithoutAiChatsInput, DocumentUpdateWithoutAiChatsInput>, DocumentUncheckedUpdateWithoutAiChatsInput>
+  }
+
+  export type DiagramUpdateOneWithoutAiChatsNestedInput = {
+    create?: XOR<DiagramCreateWithoutAiChatsInput, DiagramUncheckedCreateWithoutAiChatsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutAiChatsInput
+    upsert?: DiagramUpsertWithoutAiChatsInput
+    disconnect?: DiagramWhereInput | boolean
+    delete?: DiagramWhereInput | boolean
+    connect?: DiagramWhereUniqueInput
+    update?: XOR<XOR<DiagramUpdateToOneWithWhereWithoutAiChatsInput, DiagramUpdateWithoutAiChatsInput>, DiagramUncheckedUpdateWithoutAiChatsInput>
   }
 
   export type UserUpdateOneRequiredWithoutAiChatsNestedInput = {
@@ -43724,18 +48465,36 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput
   }
 
+  export type DiagramCreateNestedOneWithoutNotesInput = {
+    create?: XOR<DiagramCreateWithoutNotesInput, DiagramUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutNotesInput
+    connect?: DiagramWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutNotesInput = {
     create?: XOR<UserCreateWithoutNotesInput, UserUncheckedCreateWithoutNotesInput>
     connectOrCreate?: UserCreateOrConnectWithoutNotesInput
     connect?: UserWhereUniqueInput
   }
 
-  export type DocumentUpdateOneRequiredWithoutNotesNestedInput = {
+  export type DocumentUpdateOneWithoutNotesNestedInput = {
     create?: XOR<DocumentCreateWithoutNotesInput, DocumentUncheckedCreateWithoutNotesInput>
     connectOrCreate?: DocumentCreateOrConnectWithoutNotesInput
     upsert?: DocumentUpsertWithoutNotesInput
+    disconnect?: DocumentWhereInput | boolean
+    delete?: DocumentWhereInput | boolean
     connect?: DocumentWhereUniqueInput
     update?: XOR<XOR<DocumentUpdateToOneWithWhereWithoutNotesInput, DocumentUpdateWithoutNotesInput>, DocumentUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type DiagramUpdateOneWithoutNotesNestedInput = {
+    create?: XOR<DiagramCreateWithoutNotesInput, DiagramUncheckedCreateWithoutNotesInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutNotesInput
+    upsert?: DiagramUpsertWithoutNotesInput
+    disconnect?: DiagramWhereInput | boolean
+    delete?: DiagramWhereInput | boolean
+    connect?: DiagramWhereUniqueInput
+    update?: XOR<XOR<DiagramUpdateToOneWithWhereWithoutNotesInput, DiagramUpdateWithoutNotesInput>, DiagramUncheckedUpdateWithoutNotesInput>
   }
 
   export type UserUpdateOneRequiredWithoutNotesNestedInput = {
@@ -43752,12 +48511,30 @@ export namespace Prisma {
     connect?: DocumentWhereUniqueInput
   }
 
-  export type DocumentUpdateOneRequiredWithoutSnapshotsNestedInput = {
+  export type DiagramCreateNestedOneWithoutSnapshotsInput = {
+    create?: XOR<DiagramCreateWithoutSnapshotsInput, DiagramUncheckedCreateWithoutSnapshotsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutSnapshotsInput
+    connect?: DiagramWhereUniqueInput
+  }
+
+  export type DocumentUpdateOneWithoutSnapshotsNestedInput = {
     create?: XOR<DocumentCreateWithoutSnapshotsInput, DocumentUncheckedCreateWithoutSnapshotsInput>
     connectOrCreate?: DocumentCreateOrConnectWithoutSnapshotsInput
     upsert?: DocumentUpsertWithoutSnapshotsInput
+    disconnect?: DocumentWhereInput | boolean
+    delete?: DocumentWhereInput | boolean
     connect?: DocumentWhereUniqueInput
     update?: XOR<XOR<DocumentUpdateToOneWithWhereWithoutSnapshotsInput, DocumentUpdateWithoutSnapshotsInput>, DocumentUncheckedUpdateWithoutSnapshotsInput>
+  }
+
+  export type DiagramUpdateOneWithoutSnapshotsNestedInput = {
+    create?: XOR<DiagramCreateWithoutSnapshotsInput, DiagramUncheckedCreateWithoutSnapshotsInput>
+    connectOrCreate?: DiagramCreateOrConnectWithoutSnapshotsInput
+    upsert?: DiagramUpsertWithoutSnapshotsInput
+    disconnect?: DiagramWhereInput | boolean
+    delete?: DiagramWhereInput | boolean
+    connect?: DiagramWhereUniqueInput
+    update?: XOR<XOR<DiagramUpdateToOneWithWhereWithoutSnapshotsInput, DiagramUpdateWithoutSnapshotsInput>, DiagramUncheckedUpdateWithoutSnapshotsInput>
   }
 
   export type WorkspaceCreateNestedOneWithoutInvitationsInput = {
@@ -44185,6 +48962,29 @@ export namespace Prisma {
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type NestedEnumTaskStatusFilter<$PrismaModel = never> = {
     equals?: $Enums.TaskStatus | EnumTaskStatusFieldRefInput<$PrismaModel>
@@ -44278,29 +49078,6 @@ export namespace Prisma {
     _sum?: NestedFloatFilter<$PrismaModel>
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
-  }
-  export type NestedJsonFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedEnumPermissionRoleFilter<$PrismaModel = never> = {
@@ -44538,6 +49315,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DiagramCreateWithoutCreatorInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutCreatorInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutCreatorInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutCreatorInput, DiagramUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type DiagramCreateManyCreatorInputEnvelope = {
+    data: DiagramCreateManyCreatorInput | DiagramCreateManyCreatorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CommentCreateWithoutUserInput = {
     id?: string
     content: string
@@ -44545,14 +49380,16 @@ export namespace Prisma {
     resolved?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutCommentsInput
+    document?: DocumentCreateNestedOneWithoutCommentsInput
+    diagram?: DiagramCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
     replies?: CommentCreateNestedManyWithoutParentInput
   }
 
   export type CommentUncheckedCreateWithoutUserInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
     resolved?: boolean
@@ -44665,13 +49502,15 @@ export namespace Prisma {
     title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutAiChatsInput
+    document?: DocumentCreateNestedOneWithoutAiChatsInput
+    diagram?: DiagramCreateNestedOneWithoutAiChatsInput
     messages?: AIMessageCreateNestedManyWithoutChatInput
   }
 
   export type AIChatUncheckedCreateWithoutUserInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -44695,12 +49534,14 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutNotesInput
+    document?: DocumentCreateNestedOneWithoutNotesInput
+    diagram?: DiagramCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateWithoutUserInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
     color?: string
@@ -45035,6 +49876,42 @@ export namespace Prisma {
     projectId?: StringNullableFilter<"Document"> | string | null
   }
 
+  export type DiagramUpsertWithWhereUniqueWithoutCreatorInput = {
+    where: DiagramWhereUniqueInput
+    update: XOR<DiagramUpdateWithoutCreatorInput, DiagramUncheckedUpdateWithoutCreatorInput>
+    create: XOR<DiagramCreateWithoutCreatorInput, DiagramUncheckedCreateWithoutCreatorInput>
+  }
+
+  export type DiagramUpdateWithWhereUniqueWithoutCreatorInput = {
+    where: DiagramWhereUniqueInput
+    data: XOR<DiagramUpdateWithoutCreatorInput, DiagramUncheckedUpdateWithoutCreatorInput>
+  }
+
+  export type DiagramUpdateManyWithWhereWithoutCreatorInput = {
+    where: DiagramScalarWhereInput
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyWithoutCreatorInput>
+  }
+
+  export type DiagramScalarWhereInput = {
+    AND?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
+    OR?: DiagramScalarWhereInput[]
+    NOT?: DiagramScalarWhereInput | DiagramScalarWhereInput[]
+    id?: StringFilter<"Diagram"> | string
+    title?: StringFilter<"Diagram"> | string
+    content?: JsonNullableFilter<"Diagram">
+    thumbnail?: StringNullableFilter<"Diagram"> | string | null
+    workspaceId?: StringFilter<"Diagram"> | string
+    folderId?: StringNullableFilter<"Diagram"> | string | null
+    creatorId?: StringFilter<"Diagram"> | string
+    isPublic?: BoolFilter<"Diagram"> | boolean
+    publicSlug?: StringNullableFilter<"Diagram"> | string | null
+    isArchived?: BoolFilter<"Diagram"> | boolean
+    isFavorite?: BoolFilter<"Diagram"> | boolean
+    createdAt?: DateTimeFilter<"Diagram"> | Date | string
+    updatedAt?: DateTimeFilter<"Diagram"> | Date | string
+    projectId?: StringNullableFilter<"Diagram"> | string | null
+  }
+
   export type CommentUpsertWithWhereUniqueWithoutUserInput = {
     where: CommentWhereUniqueInput
     update: XOR<CommentUpdateWithoutUserInput, CommentUncheckedUpdateWithoutUserInput>
@@ -45056,7 +49933,8 @@ export namespace Prisma {
     OR?: CommentScalarWhereInput[]
     NOT?: CommentScalarWhereInput | CommentScalarWhereInput[]
     id?: StringFilter<"Comment"> | string
-    documentId?: StringFilter<"Comment"> | string
+    documentId?: StringNullableFilter<"Comment"> | string | null
+    diagramId?: StringNullableFilter<"Comment"> | string | null
     userId?: StringFilter<"Comment"> | string
     content?: StringFilter<"Comment"> | string
     position?: JsonNullableFilter<"Comment">
@@ -45176,7 +50054,8 @@ export namespace Prisma {
     OR?: AIChatScalarWhereInput[]
     NOT?: AIChatScalarWhereInput | AIChatScalarWhereInput[]
     id?: StringFilter<"AIChat"> | string
-    documentId?: StringFilter<"AIChat"> | string
+    documentId?: StringNullableFilter<"AIChat"> | string | null
+    diagramId?: StringNullableFilter<"AIChat"> | string | null
     userId?: StringFilter<"AIChat"> | string
     title?: StringNullableFilter<"AIChat"> | string | null
     createdAt?: DateTimeFilter<"AIChat"> | Date | string
@@ -45204,7 +50083,8 @@ export namespace Prisma {
     OR?: NoteScalarWhereInput[]
     NOT?: NoteScalarWhereInput | NoteScalarWhereInput[]
     id?: StringFilter<"Note"> | string
-    documentId?: StringFilter<"Note"> | string
+    documentId?: StringNullableFilter<"Note"> | string | null
+    diagramId?: StringNullableFilter<"Note"> | string | null
     userId?: StringFilter<"Note"> | string
     content?: StringFilter<"Note"> | string
     position?: JsonNullableFilter<"Note">
@@ -45442,6 +50322,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -45468,6 +50349,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -45510,6 +50392,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -45536,6 +50419,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -45562,6 +50446,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -45588,6 +50473,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -45630,6 +50516,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -45656,6 +50543,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -45752,6 +50640,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DiagramCreateWithoutWorkspaceInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutWorkspaceInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutWorkspaceInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutWorkspaceInput, DiagramUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type DiagramCreateManyWorkspaceInputEnvelope = {
+    data: DiagramCreateManyWorkspaceInput | DiagramCreateManyWorkspaceInput[]
+    skipDuplicates?: boolean
+  }
+
   export type FolderCreateWithoutWorkspaceInput = {
     id?: string
     name: string
@@ -45760,6 +50706,7 @@ export namespace Prisma {
     parent?: FolderCreateNestedOneWithoutChildrenInput
     children?: FolderCreateNestedManyWithoutParentInput
     documents?: DocumentCreateNestedManyWithoutFolderInput
+    diagrams?: DiagramCreateNestedManyWithoutFolderInput
   }
 
   export type FolderUncheckedCreateWithoutWorkspaceInput = {
@@ -45770,6 +50717,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     children?: FolderUncheckedCreateNestedManyWithoutParentInput
     documents?: DocumentUncheckedCreateNestedManyWithoutFolderInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutFolderInput
   }
 
   export type FolderCreateOrConnectWithoutWorkspaceInput = {
@@ -45823,6 +50771,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
     invitations?: InvitationCreateNestedManyWithoutProjectInput
@@ -45835,6 +50784,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutProjectInput
@@ -45920,6 +50870,22 @@ export namespace Prisma {
   export type DocumentUpdateManyWithWhereWithoutWorkspaceInput = {
     where: DocumentScalarWhereInput
     data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutWorkspaceInput>
+  }
+
+  export type DiagramUpsertWithWhereUniqueWithoutWorkspaceInput = {
+    where: DiagramWhereUniqueInput
+    update: XOR<DiagramUpdateWithoutWorkspaceInput, DiagramUncheckedUpdateWithoutWorkspaceInput>
+    create: XOR<DiagramCreateWithoutWorkspaceInput, DiagramUncheckedCreateWithoutWorkspaceInput>
+  }
+
+  export type DiagramUpdateWithWhereUniqueWithoutWorkspaceInput = {
+    where: DiagramWhereUniqueInput
+    data: XOR<DiagramUpdateWithoutWorkspaceInput, DiagramUncheckedUpdateWithoutWorkspaceInput>
+  }
+
+  export type DiagramUpdateManyWithWhereWithoutWorkspaceInput = {
+    where: DiagramScalarWhereInput
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyWithoutWorkspaceInput>
   }
 
   export type FolderUpsertWithWhereUniqueWithoutWorkspaceInput = {
@@ -46037,6 +51003,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -46063,6 +51030,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -46093,6 +51061,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramCreateNestedManyWithoutWorkspaceInput
     folders?: FolderCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectCreateNestedManyWithoutWorkspaceInput
@@ -46109,6 +51078,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentUncheckedCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutWorkspaceInput
     folders?: FolderUncheckedCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateUncheckedCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -46142,6 +51112,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -46168,6 +51139,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -46204,6 +51176,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUpdateManyWithoutWorkspaceNestedInput
@@ -46220,6 +51193,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUncheckedUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUncheckedUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -46237,6 +51211,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectCreateNestedManyWithoutWorkspaceInput
     invitations?: InvitationCreateNestedManyWithoutWorkspaceInput
@@ -46253,6 +51228,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentUncheckedCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateUncheckedCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectUncheckedCreateNestedManyWithoutWorkspaceInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -46271,6 +51247,7 @@ export namespace Prisma {
     workspace: WorkspaceCreateNestedOneWithoutFoldersInput
     parent?: FolderCreateNestedOneWithoutChildrenInput
     documents?: DocumentCreateNestedManyWithoutFolderInput
+    diagrams?: DiagramCreateNestedManyWithoutFolderInput
   }
 
   export type FolderUncheckedCreateWithoutChildrenInput = {
@@ -46281,6 +51258,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentUncheckedCreateNestedManyWithoutFolderInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutFolderInput
   }
 
   export type FolderCreateOrConnectWithoutChildrenInput = {
@@ -46296,6 +51274,7 @@ export namespace Prisma {
     workspace: WorkspaceCreateNestedOneWithoutFoldersInput
     children?: FolderCreateNestedManyWithoutParentInput
     documents?: DocumentCreateNestedManyWithoutFolderInput
+    diagrams?: DiagramCreateNestedManyWithoutFolderInput
   }
 
   export type FolderUncheckedCreateWithoutParentInput = {
@@ -46306,6 +51285,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     children?: FolderUncheckedCreateNestedManyWithoutParentInput
     documents?: DocumentUncheckedCreateNestedManyWithoutFolderInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutFolderInput
   }
 
   export type FolderCreateOrConnectWithoutParentInput = {
@@ -46376,6 +51356,64 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type DiagramCreateWithoutFolderInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutFolderInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutFolderInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutFolderInput, DiagramUncheckedCreateWithoutFolderInput>
+  }
+
+  export type DiagramCreateManyFolderInputEnvelope = {
+    data: DiagramCreateManyFolderInput | DiagramCreateManyFolderInput[]
+    skipDuplicates?: boolean
+  }
+
   export type WorkspaceUpsertWithoutFoldersInput = {
     update: XOR<WorkspaceUpdateWithoutFoldersInput, WorkspaceUncheckedUpdateWithoutFoldersInput>
     create: XOR<WorkspaceCreateWithoutFoldersInput, WorkspaceUncheckedCreateWithoutFoldersInput>
@@ -46398,6 +51436,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUpdateManyWithoutWorkspaceNestedInput
     invitations?: InvitationUpdateManyWithoutWorkspaceNestedInput
@@ -46414,6 +51453,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUncheckedUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutWorkspaceNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -46438,6 +51478,7 @@ export namespace Prisma {
     workspace?: WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
     parent?: FolderUpdateOneWithoutChildrenNestedInput
     documents?: DocumentUpdateManyWithoutFolderNestedInput
+    diagrams?: DiagramUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderUncheckedUpdateWithoutChildrenInput = {
@@ -46448,6 +51489,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUncheckedUpdateManyWithoutFolderNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderUpsertWithWhereUniqueWithoutParentInput = {
@@ -46482,6 +51524,22 @@ export namespace Prisma {
     data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutFolderInput>
   }
 
+  export type DiagramUpsertWithWhereUniqueWithoutFolderInput = {
+    where: DiagramWhereUniqueInput
+    update: XOR<DiagramUpdateWithoutFolderInput, DiagramUncheckedUpdateWithoutFolderInput>
+    create: XOR<DiagramCreateWithoutFolderInput, DiagramUncheckedCreateWithoutFolderInput>
+  }
+
+  export type DiagramUpdateWithWhereUniqueWithoutFolderInput = {
+    where: DiagramWhereUniqueInput
+    data: XOR<DiagramUpdateWithoutFolderInput, DiagramUncheckedUpdateWithoutFolderInput>
+  }
+
+  export type DiagramUpdateManyWithWhereWithoutFolderInput = {
+    where: DiagramScalarWhereInput
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyWithoutFolderInput>
+  }
+
   export type WorkspaceCreateWithoutDocumentsInput = {
     id?: string
     name: string
@@ -46492,6 +51550,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramCreateNestedManyWithoutWorkspaceInput
     folders?: FolderCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectCreateNestedManyWithoutWorkspaceInput
@@ -46508,6 +51567,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutWorkspaceInput
     folders?: FolderUncheckedCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateUncheckedCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -46527,6 +51587,7 @@ export namespace Prisma {
     workspace: WorkspaceCreateNestedOneWithoutFoldersInput
     parent?: FolderCreateNestedOneWithoutChildrenInput
     children?: FolderCreateNestedManyWithoutParentInput
+    diagrams?: DiagramCreateNestedManyWithoutFolderInput
   }
 
   export type FolderUncheckedCreateWithoutDocumentsInput = {
@@ -46537,6 +51598,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     children?: FolderUncheckedCreateNestedManyWithoutParentInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutFolderInput
   }
 
   export type FolderCreateOrConnectWithoutDocumentsInput = {
@@ -46555,6 +51617,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -46581,6 +51644,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -46607,10 +51671,12 @@ export namespace Prisma {
     createdBy: string
     createdAt?: Date | string
     description?: string | null
+    diagram?: DiagramCreateNestedOneWithoutVersionsInput
   }
 
   export type VersionUncheckedCreateWithoutDocumentInput = {
     id?: string
+    diagramId?: string | null
     content: JsonNullValueInput | InputJsonValue
     createdBy: string
     createdAt?: Date | string
@@ -46634,6 +51700,7 @@ export namespace Prisma {
     resolved?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    diagram?: DiagramCreateNestedOneWithoutCommentsInput
     user: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
     replies?: CommentCreateNestedManyWithoutParentInput
@@ -46641,6 +51708,7 @@ export namespace Prisma {
 
   export type CommentUncheckedCreateWithoutDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -46667,10 +51735,12 @@ export namespace Prisma {
     email?: string | null
     role: $Enums.PermissionRole
     createdAt?: Date | string
+    diagram?: DiagramCreateNestedOneWithoutPermissionsInput
   }
 
   export type PermissionUncheckedCreateWithoutDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId?: string | null
     email?: string | null
     role: $Enums.PermissionRole
@@ -46693,10 +51763,12 @@ export namespace Prisma {
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
     lastSeen?: Date | string
+    diagram?: DiagramCreateNestedOneWithoutCollaboratorsInput
   }
 
   export type CollaboratorUncheckedCreateWithoutDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId: string
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
@@ -46718,12 +51790,14 @@ export namespace Prisma {
     title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    diagram?: DiagramCreateNestedOneWithoutAiChatsInput
     user: UserCreateNestedOneWithoutAiChatsInput
     messages?: AIMessageCreateNestedManyWithoutChatInput
   }
 
   export type AIChatUncheckedCreateWithoutDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId: string
     title?: string | null
     createdAt?: Date | string
@@ -46748,11 +51822,13 @@ export namespace Prisma {
     color?: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    diagram?: DiagramCreateNestedOneWithoutNotesInput
     user: UserCreateNestedOneWithoutNotesInput
   }
 
   export type NoteUncheckedCreateWithoutDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -46777,10 +51853,12 @@ export namespace Prisma {
     description?: string | null
     createdBy: string
     createdAt?: Date | string
+    diagram?: DiagramCreateNestedOneWithoutSnapshotsInput
   }
 
   export type DocumentSnapshotUncheckedCreateWithoutDocumentInput = {
     id?: string
+    diagramId?: string | null
     content: JsonNullValueInput | InputJsonValue
     description?: string | null
     createdBy: string
@@ -46804,6 +51882,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     workspace: WorkspaceCreateNestedOneWithoutProjectsInput
+    diagrams?: DiagramCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
     invitations?: InvitationCreateNestedManyWithoutProjectInput
@@ -46816,6 +51895,7 @@ export namespace Prisma {
     workspaceId: string
     createdAt?: Date | string
     updatedAt?: Date | string
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutProjectInput
@@ -46847,6 +51927,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUpdateManyWithoutWorkspaceNestedInput
@@ -46863,6 +51944,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUncheckedUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -46888,6 +51970,7 @@ export namespace Prisma {
     workspace?: WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
     parent?: FolderUpdateOneWithoutChildrenNestedInput
     children?: FolderUpdateManyWithoutParentNestedInput
+    diagrams?: DiagramUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderUncheckedUpdateWithoutDocumentsInput = {
@@ -46898,6 +51981,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: FolderUncheckedUpdateManyWithoutParentNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutFolderNestedInput
   }
 
   export type UserUpsertWithoutDocumentsInput = {
@@ -46922,6 +52006,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -46948,6 +52033,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -46984,7 +52070,8 @@ export namespace Prisma {
     OR?: VersionScalarWhereInput[]
     NOT?: VersionScalarWhereInput | VersionScalarWhereInput[]
     id?: StringFilter<"Version"> | string
-    documentId?: StringFilter<"Version"> | string
+    documentId?: StringNullableFilter<"Version"> | string | null
+    diagramId?: StringNullableFilter<"Version"> | string | null
     content?: JsonFilter<"Version">
     createdBy?: StringFilter<"Version"> | string
     createdAt?: DateTimeFilter<"Version"> | Date | string
@@ -47028,7 +52115,8 @@ export namespace Prisma {
     OR?: PermissionScalarWhereInput[]
     NOT?: PermissionScalarWhereInput | PermissionScalarWhereInput[]
     id?: StringFilter<"Permission"> | string
-    documentId?: StringFilter<"Permission"> | string
+    documentId?: StringNullableFilter<"Permission"> | string | null
+    diagramId?: StringNullableFilter<"Permission"> | string | null
     userId?: StringNullableFilter<"Permission"> | string | null
     email?: StringNullableFilter<"Permission"> | string | null
     role?: EnumPermissionRoleFilter<"Permission"> | $Enums.PermissionRole
@@ -47056,7 +52144,8 @@ export namespace Prisma {
     OR?: CollaboratorScalarWhereInput[]
     NOT?: CollaboratorScalarWhereInput | CollaboratorScalarWhereInput[]
     id?: StringFilter<"Collaborator"> | string
-    documentId?: StringFilter<"Collaborator"> | string
+    documentId?: StringNullableFilter<"Collaborator"> | string | null
+    diagramId?: StringNullableFilter<"Collaborator"> | string | null
     userId?: StringFilter<"Collaborator"> | string
     cursor?: JsonNullableFilter<"Collaborator">
     selection?: JsonNullableFilter<"Collaborator">
@@ -47116,7 +52205,8 @@ export namespace Prisma {
     OR?: DocumentSnapshotScalarWhereInput[]
     NOT?: DocumentSnapshotScalarWhereInput | DocumentSnapshotScalarWhereInput[]
     id?: StringFilter<"DocumentSnapshot"> | string
-    documentId?: StringFilter<"DocumentSnapshot"> | string
+    documentId?: StringNullableFilter<"DocumentSnapshot"> | string | null
+    diagramId?: StringNullableFilter<"DocumentSnapshot"> | string | null
     content?: JsonFilter<"DocumentSnapshot">
     description?: StringNullableFilter<"DocumentSnapshot"> | string | null
     createdBy?: StringFilter<"DocumentSnapshot"> | string
@@ -47141,6 +52231,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspace?: WorkspaceUpdateOneRequiredWithoutProjectsNestedInput
+    diagrams?: DiagramUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUpdateManyWithoutProjectNestedInput
@@ -47153,9 +52244,834 @@ export namespace Prisma {
     workspaceId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    diagrams?: DiagramUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type WorkspaceCreateWithoutDiagramsInput = {
+    id?: string
+    name: string
+    slug: string
+    icon?: string | null
+    plan?: $Enums.Plan
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
+    documents?: DocumentCreateNestedManyWithoutWorkspaceInput
+    folders?: FolderCreateNestedManyWithoutWorkspaceInput
+    templates?: TemplateCreateNestedManyWithoutWorkspaceInput
+    projects?: ProjectCreateNestedManyWithoutWorkspaceInput
+    invitations?: InvitationCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceUncheckedCreateWithoutDiagramsInput = {
+    id?: string
+    name: string
+    slug: string
+    icon?: string | null
+    plan?: $Enums.Plan
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutWorkspaceInput
+    folders?: FolderUncheckedCreateNestedManyWithoutWorkspaceInput
+    templates?: TemplateUncheckedCreateNestedManyWithoutWorkspaceInput
+    projects?: ProjectUncheckedCreateNestedManyWithoutWorkspaceInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutWorkspaceInput
+  }
+
+  export type WorkspaceCreateOrConnectWithoutDiagramsInput = {
+    where: WorkspaceWhereUniqueInput
+    create: XOR<WorkspaceCreateWithoutDiagramsInput, WorkspaceUncheckedCreateWithoutDiagramsInput>
+  }
+
+  export type FolderCreateWithoutDiagramsInput = {
+    id?: string
+    name: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutFoldersInput
+    parent?: FolderCreateNestedOneWithoutChildrenInput
+    children?: FolderCreateNestedManyWithoutParentInput
+    documents?: DocumentCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderUncheckedCreateWithoutDiagramsInput = {
+    id?: string
+    name: string
+    workspaceId: string
+    parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    children?: FolderUncheckedCreateNestedManyWithoutParentInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutFolderInput
+  }
+
+  export type FolderCreateOrConnectWithoutDiagramsInput = {
+    where: FolderWhereUniqueInput
+    create: XOR<FolderCreateWithoutDiagramsInput, FolderUncheckedCreateWithoutDiagramsInput>
+  }
+
+  export type UserCreateWithoutDiagramsInput = {
+    id?: string
+    email: string
+    emailVerified?: Date | string | null
+    name?: string | null
+    image?: string | null
+    avatar?: string | null
+    passwordHash?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
+    documents?: DocumentCreateNestedManyWithoutCreatorInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+    activities?: ActivityCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    aiChats?: AIChatCreateNestedManyWithoutUserInput
+    notes?: NoteCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskCreateNestedManyWithoutAssigneeInput
+    sentInvitations?: InvitationCreateNestedManyWithoutSenderInput
+    receivedInvitations?: InvitationCreateNestedManyWithoutReceiverInput
+    projectMembers?: ProjectMemberCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    subscription?: SubscriptionCreateNestedOneWithoutUserInput
+    payments?: PaymentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDiagramsInput = {
+    id?: string
+    email: string
+    emailVerified?: Date | string | null
+    name?: string | null
+    image?: string | null
+    avatar?: string | null
+    passwordHash?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
+    documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutUserInput
+    notes?: NoteUncheckedCreateNestedManyWithoutUserInput
+    assignedTasks?: TaskUncheckedCreateNestedManyWithoutAssigneeInput
+    sentInvitations?: InvitationUncheckedCreateNestedManyWithoutSenderInput
+    receivedInvitations?: InvitationUncheckedCreateNestedManyWithoutReceiverInput
+    projectMembers?: ProjectMemberUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    subscription?: SubscriptionUncheckedCreateNestedOneWithoutUserInput
+    payments?: PaymentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDiagramsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDiagramsInput, UserUncheckedCreateWithoutDiagramsInput>
+  }
+
+  export type VersionCreateWithoutDiagramInput = {
+    id?: string
+    content: JsonNullValueInput | InputJsonValue
+    createdBy: string
+    createdAt?: Date | string
+    description?: string | null
+    document?: DocumentCreateNestedOneWithoutVersionsInput
+  }
+
+  export type VersionUncheckedCreateWithoutDiagramInput = {
+    id?: string
+    documentId?: string | null
+    content: JsonNullValueInput | InputJsonValue
+    createdBy: string
+    createdAt?: Date | string
+    description?: string | null
+  }
+
+  export type VersionCreateOrConnectWithoutDiagramInput = {
+    where: VersionWhereUniqueInput
+    create: XOR<VersionCreateWithoutDiagramInput, VersionUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type VersionCreateManyDiagramInputEnvelope = {
+    data: VersionCreateManyDiagramInput | VersionCreateManyDiagramInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CommentCreateWithoutDiagramInput = {
+    id?: string
+    content: string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    resolved?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: DocumentCreateNestedOneWithoutCommentsInput
+    user: UserCreateNestedOneWithoutCommentsInput
+    parent?: CommentCreateNestedOneWithoutRepliesInput
+    replies?: CommentCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentUncheckedCreateWithoutDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId: string
+    content: string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    resolved?: boolean
+    parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: CommentUncheckedCreateNestedManyWithoutParentInput
+  }
+
+  export type CommentCreateOrConnectWithoutDiagramInput = {
+    where: CommentWhereUniqueInput
+    create: XOR<CommentCreateWithoutDiagramInput, CommentUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type CommentCreateManyDiagramInputEnvelope = {
+    data: CommentCreateManyDiagramInput | CommentCreateManyDiagramInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PermissionCreateWithoutDiagramInput = {
+    id?: string
+    userId?: string | null
+    email?: string | null
+    role: $Enums.PermissionRole
+    createdAt?: Date | string
+    document?: DocumentCreateNestedOneWithoutPermissionsInput
+  }
+
+  export type PermissionUncheckedCreateWithoutDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId?: string | null
+    email?: string | null
+    role: $Enums.PermissionRole
+    createdAt?: Date | string
+  }
+
+  export type PermissionCreateOrConnectWithoutDiagramInput = {
+    where: PermissionWhereUniqueInput
+    create: XOR<PermissionCreateWithoutDiagramInput, PermissionUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type PermissionCreateManyDiagramInputEnvelope = {
+    data: PermissionCreateManyDiagramInput | PermissionCreateManyDiagramInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type CollaboratorCreateWithoutDiagramInput = {
+    id?: string
+    userId: string
+    cursor?: NullableJsonNullValueInput | InputJsonValue
+    selection?: NullableJsonNullValueInput | InputJsonValue
+    lastSeen?: Date | string
+    document?: DocumentCreateNestedOneWithoutCollaboratorsInput
+  }
+
+  export type CollaboratorUncheckedCreateWithoutDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId: string
+    cursor?: NullableJsonNullValueInput | InputJsonValue
+    selection?: NullableJsonNullValueInput | InputJsonValue
+    lastSeen?: Date | string
+  }
+
+  export type CollaboratorCreateOrConnectWithoutDiagramInput = {
+    where: CollaboratorWhereUniqueInput
+    create: XOR<CollaboratorCreateWithoutDiagramInput, CollaboratorUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type CollaboratorCreateManyDiagramInputEnvelope = {
+    data: CollaboratorCreateManyDiagramInput | CollaboratorCreateManyDiagramInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AIChatCreateWithoutDiagramInput = {
+    id?: string
+    title?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: DocumentCreateNestedOneWithoutAiChatsInput
+    user: UserCreateNestedOneWithoutAiChatsInput
+    messages?: AIMessageCreateNestedManyWithoutChatInput
+  }
+
+  export type AIChatUncheckedCreateWithoutDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId: string
+    title?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    messages?: AIMessageUncheckedCreateNestedManyWithoutChatInput
+  }
+
+  export type AIChatCreateOrConnectWithoutDiagramInput = {
+    where: AIChatWhereUniqueInput
+    create: XOR<AIChatCreateWithoutDiagramInput, AIChatUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type AIChatCreateManyDiagramInputEnvelope = {
+    data: AIChatCreateManyDiagramInput | AIChatCreateManyDiagramInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type NoteCreateWithoutDiagramInput = {
+    id?: string
+    content: string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    document?: DocumentCreateNestedOneWithoutNotesInput
+    user: UserCreateNestedOneWithoutNotesInput
+  }
+
+  export type NoteUncheckedCreateWithoutDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId: string
+    content: string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NoteCreateOrConnectWithoutDiagramInput = {
+    where: NoteWhereUniqueInput
+    create: XOR<NoteCreateWithoutDiagramInput, NoteUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type NoteCreateManyDiagramInputEnvelope = {
+    data: NoteCreateManyDiagramInput | NoteCreateManyDiagramInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DimensionItemCreateWithoutDiagramInput = {
+    id?: string
+    type: string
+    content: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DimensionItemUncheckedCreateWithoutDiagramInput = {
+    id?: string
+    type: string
+    content: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DimensionItemCreateOrConnectWithoutDiagramInput = {
+    where: DimensionItemWhereUniqueInput
+    create: XOR<DimensionItemCreateWithoutDiagramInput, DimensionItemUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type DimensionItemCreateManyDiagramInputEnvelope = {
+    data: DimensionItemCreateManyDiagramInput | DimensionItemCreateManyDiagramInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DocumentSnapshotCreateWithoutDiagramInput = {
+    id?: string
+    content: JsonNullValueInput | InputJsonValue
+    description?: string | null
+    createdBy: string
+    createdAt?: Date | string
+    document?: DocumentCreateNestedOneWithoutSnapshotsInput
+  }
+
+  export type DocumentSnapshotUncheckedCreateWithoutDiagramInput = {
+    id?: string
+    documentId?: string | null
+    content: JsonNullValueInput | InputJsonValue
+    description?: string | null
+    createdBy: string
+    createdAt?: Date | string
+  }
+
+  export type DocumentSnapshotCreateOrConnectWithoutDiagramInput = {
+    where: DocumentSnapshotWhereUniqueInput
+    create: XOR<DocumentSnapshotCreateWithoutDiagramInput, DocumentSnapshotUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type DocumentSnapshotCreateManyDiagramInputEnvelope = {
+    data: DocumentSnapshotCreateManyDiagramInput | DocumentSnapshotCreateManyDiagramInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ProjectCreateWithoutDiagramsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutProjectsInput
+    documents?: DocumentCreateNestedManyWithoutProjectInput
+    tasks?: TaskCreateNestedManyWithoutProjectInput
+    members?: ProjectMemberCreateNestedManyWithoutProjectInput
+    invitations?: InvitationCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectUncheckedCreateWithoutDiagramsInput = {
+    id?: string
+    name: string
+    description?: string | null
+    workspaceId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
+    tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
+    members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
+    invitations?: InvitationUncheckedCreateNestedManyWithoutProjectInput
+  }
+
+  export type ProjectCreateOrConnectWithoutDiagramsInput = {
+    where: ProjectWhereUniqueInput
+    create: XOR<ProjectCreateWithoutDiagramsInput, ProjectUncheckedCreateWithoutDiagramsInput>
+  }
+
+  export type WorkspaceUpsertWithoutDiagramsInput = {
+    update: XOR<WorkspaceUpdateWithoutDiagramsInput, WorkspaceUncheckedUpdateWithoutDiagramsInput>
+    create: XOR<WorkspaceCreateWithoutDiagramsInput, WorkspaceUncheckedCreateWithoutDiagramsInput>
+    where?: WorkspaceWhereInput
+  }
+
+  export type WorkspaceUpdateToOneWithWhereWithoutDiagramsInput = {
+    where?: WorkspaceWhereInput
+    data: XOR<WorkspaceUpdateWithoutDiagramsInput, WorkspaceUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type WorkspaceUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
+    documents?: DocumentUpdateManyWithoutWorkspaceNestedInput
+    folders?: FolderUpdateManyWithoutWorkspaceNestedInput
+    templates?: TemplateUpdateManyWithoutWorkspaceNestedInput
+    projects?: ProjectUpdateManyWithoutWorkspaceNestedInput
+    invitations?: InvitationUpdateManyWithoutWorkspaceNestedInput
+  }
+
+  export type WorkspaceUncheckedUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    icon?: NullableStringFieldUpdateOperationsInput | string | null
+    plan?: EnumPlanFieldUpdateOperationsInput | $Enums.Plan
+    settings?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutWorkspaceNestedInput
+    folders?: FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
+    templates?: TemplateUncheckedUpdateManyWithoutWorkspaceNestedInput
+    projects?: ProjectUncheckedUpdateManyWithoutWorkspaceNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutWorkspaceNestedInput
+  }
+
+  export type FolderUpsertWithoutDiagramsInput = {
+    update: XOR<FolderUpdateWithoutDiagramsInput, FolderUncheckedUpdateWithoutDiagramsInput>
+    create: XOR<FolderCreateWithoutDiagramsInput, FolderUncheckedCreateWithoutDiagramsInput>
+    where?: FolderWhereInput
+  }
+
+  export type FolderUpdateToOneWithWhereWithoutDiagramsInput = {
+    where?: FolderWhereInput
+    data: XOR<FolderUpdateWithoutDiagramsInput, FolderUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type FolderUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
+    parent?: FolderUpdateOneWithoutChildrenNestedInput
+    children?: FolderUpdateManyWithoutParentNestedInput
+    documents?: DocumentUpdateManyWithoutFolderNestedInput
+  }
+
+  export type FolderUncheckedUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    children?: FolderUncheckedUpdateManyWithoutParentNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutFolderNestedInput
+  }
+
+  export type UserUpsertWithoutDiagramsInput = {
+    update: XOR<UserUpdateWithoutDiagramsInput, UserUncheckedUpdateWithoutDiagramsInput>
+    create: XOR<UserCreateWithoutDiagramsInput, UserUncheckedCreateWithoutDiagramsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDiagramsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDiagramsInput, UserUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type UserUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
+    documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+    activities?: ActivityUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    aiChats?: AIChatUpdateManyWithoutUserNestedInput
+    notes?: NoteUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUpdateManyWithoutAssigneeNestedInput
+    sentInvitations?: InvitationUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: InvitationUpdateManyWithoutReceiverNestedInput
+    projectMembers?: ProjectMemberUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    subscription?: SubscriptionUpdateOneWithoutUserNestedInput
+    payments?: PaymentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    avatar?: NullableStringFieldUpdateOperationsInput | string | null
+    passwordHash?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
+    documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutUserNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutUserNestedInput
+    assignedTasks?: TaskUncheckedUpdateManyWithoutAssigneeNestedInput
+    sentInvitations?: InvitationUncheckedUpdateManyWithoutSenderNestedInput
+    receivedInvitations?: InvitationUncheckedUpdateManyWithoutReceiverNestedInput
+    projectMembers?: ProjectMemberUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    subscription?: SubscriptionUncheckedUpdateOneWithoutUserNestedInput
+    payments?: PaymentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type VersionUpsertWithWhereUniqueWithoutDiagramInput = {
+    where: VersionWhereUniqueInput
+    update: XOR<VersionUpdateWithoutDiagramInput, VersionUncheckedUpdateWithoutDiagramInput>
+    create: XOR<VersionCreateWithoutDiagramInput, VersionUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type VersionUpdateWithWhereUniqueWithoutDiagramInput = {
+    where: VersionWhereUniqueInput
+    data: XOR<VersionUpdateWithoutDiagramInput, VersionUncheckedUpdateWithoutDiagramInput>
+  }
+
+  export type VersionUpdateManyWithWhereWithoutDiagramInput = {
+    where: VersionScalarWhereInput
+    data: XOR<VersionUpdateManyMutationInput, VersionUncheckedUpdateManyWithoutDiagramInput>
+  }
+
+  export type CommentUpsertWithWhereUniqueWithoutDiagramInput = {
+    where: CommentWhereUniqueInput
+    update: XOR<CommentUpdateWithoutDiagramInput, CommentUncheckedUpdateWithoutDiagramInput>
+    create: XOR<CommentCreateWithoutDiagramInput, CommentUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type CommentUpdateWithWhereUniqueWithoutDiagramInput = {
+    where: CommentWhereUniqueInput
+    data: XOR<CommentUpdateWithoutDiagramInput, CommentUncheckedUpdateWithoutDiagramInput>
+  }
+
+  export type CommentUpdateManyWithWhereWithoutDiagramInput = {
+    where: CommentScalarWhereInput
+    data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutDiagramInput>
+  }
+
+  export type PermissionUpsertWithWhereUniqueWithoutDiagramInput = {
+    where: PermissionWhereUniqueInput
+    update: XOR<PermissionUpdateWithoutDiagramInput, PermissionUncheckedUpdateWithoutDiagramInput>
+    create: XOR<PermissionCreateWithoutDiagramInput, PermissionUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type PermissionUpdateWithWhereUniqueWithoutDiagramInput = {
+    where: PermissionWhereUniqueInput
+    data: XOR<PermissionUpdateWithoutDiagramInput, PermissionUncheckedUpdateWithoutDiagramInput>
+  }
+
+  export type PermissionUpdateManyWithWhereWithoutDiagramInput = {
+    where: PermissionScalarWhereInput
+    data: XOR<PermissionUpdateManyMutationInput, PermissionUncheckedUpdateManyWithoutDiagramInput>
+  }
+
+  export type CollaboratorUpsertWithWhereUniqueWithoutDiagramInput = {
+    where: CollaboratorWhereUniqueInput
+    update: XOR<CollaboratorUpdateWithoutDiagramInput, CollaboratorUncheckedUpdateWithoutDiagramInput>
+    create: XOR<CollaboratorCreateWithoutDiagramInput, CollaboratorUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type CollaboratorUpdateWithWhereUniqueWithoutDiagramInput = {
+    where: CollaboratorWhereUniqueInput
+    data: XOR<CollaboratorUpdateWithoutDiagramInput, CollaboratorUncheckedUpdateWithoutDiagramInput>
+  }
+
+  export type CollaboratorUpdateManyWithWhereWithoutDiagramInput = {
+    where: CollaboratorScalarWhereInput
+    data: XOR<CollaboratorUpdateManyMutationInput, CollaboratorUncheckedUpdateManyWithoutDiagramInput>
+  }
+
+  export type AIChatUpsertWithWhereUniqueWithoutDiagramInput = {
+    where: AIChatWhereUniqueInput
+    update: XOR<AIChatUpdateWithoutDiagramInput, AIChatUncheckedUpdateWithoutDiagramInput>
+    create: XOR<AIChatCreateWithoutDiagramInput, AIChatUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type AIChatUpdateWithWhereUniqueWithoutDiagramInput = {
+    where: AIChatWhereUniqueInput
+    data: XOR<AIChatUpdateWithoutDiagramInput, AIChatUncheckedUpdateWithoutDiagramInput>
+  }
+
+  export type AIChatUpdateManyWithWhereWithoutDiagramInput = {
+    where: AIChatScalarWhereInput
+    data: XOR<AIChatUpdateManyMutationInput, AIChatUncheckedUpdateManyWithoutDiagramInput>
+  }
+
+  export type NoteUpsertWithWhereUniqueWithoutDiagramInput = {
+    where: NoteWhereUniqueInput
+    update: XOR<NoteUpdateWithoutDiagramInput, NoteUncheckedUpdateWithoutDiagramInput>
+    create: XOR<NoteCreateWithoutDiagramInput, NoteUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type NoteUpdateWithWhereUniqueWithoutDiagramInput = {
+    where: NoteWhereUniqueInput
+    data: XOR<NoteUpdateWithoutDiagramInput, NoteUncheckedUpdateWithoutDiagramInput>
+  }
+
+  export type NoteUpdateManyWithWhereWithoutDiagramInput = {
+    where: NoteScalarWhereInput
+    data: XOR<NoteUpdateManyMutationInput, NoteUncheckedUpdateManyWithoutDiagramInput>
+  }
+
+  export type DimensionItemUpsertWithWhereUniqueWithoutDiagramInput = {
+    where: DimensionItemWhereUniqueInput
+    update: XOR<DimensionItemUpdateWithoutDiagramInput, DimensionItemUncheckedUpdateWithoutDiagramInput>
+    create: XOR<DimensionItemCreateWithoutDiagramInput, DimensionItemUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type DimensionItemUpdateWithWhereUniqueWithoutDiagramInput = {
+    where: DimensionItemWhereUniqueInput
+    data: XOR<DimensionItemUpdateWithoutDiagramInput, DimensionItemUncheckedUpdateWithoutDiagramInput>
+  }
+
+  export type DimensionItemUpdateManyWithWhereWithoutDiagramInput = {
+    where: DimensionItemScalarWhereInput
+    data: XOR<DimensionItemUpdateManyMutationInput, DimensionItemUncheckedUpdateManyWithoutDiagramInput>
+  }
+
+  export type DimensionItemScalarWhereInput = {
+    AND?: DimensionItemScalarWhereInput | DimensionItemScalarWhereInput[]
+    OR?: DimensionItemScalarWhereInput[]
+    NOT?: DimensionItemScalarWhereInput | DimensionItemScalarWhereInput[]
+    id?: StringFilter<"DimensionItem"> | string
+    diagramId?: StringFilter<"DimensionItem"> | string
+    type?: StringFilter<"DimensionItem"> | string
+    content?: JsonFilter<"DimensionItem">
+    createdAt?: DateTimeFilter<"DimensionItem"> | Date | string
+    updatedAt?: DateTimeFilter<"DimensionItem"> | Date | string
+  }
+
+  export type DocumentSnapshotUpsertWithWhereUniqueWithoutDiagramInput = {
+    where: DocumentSnapshotWhereUniqueInput
+    update: XOR<DocumentSnapshotUpdateWithoutDiagramInput, DocumentSnapshotUncheckedUpdateWithoutDiagramInput>
+    create: XOR<DocumentSnapshotCreateWithoutDiagramInput, DocumentSnapshotUncheckedCreateWithoutDiagramInput>
+  }
+
+  export type DocumentSnapshotUpdateWithWhereUniqueWithoutDiagramInput = {
+    where: DocumentSnapshotWhereUniqueInput
+    data: XOR<DocumentSnapshotUpdateWithoutDiagramInput, DocumentSnapshotUncheckedUpdateWithoutDiagramInput>
+  }
+
+  export type DocumentSnapshotUpdateManyWithWhereWithoutDiagramInput = {
+    where: DocumentSnapshotScalarWhereInput
+    data: XOR<DocumentSnapshotUpdateManyMutationInput, DocumentSnapshotUncheckedUpdateManyWithoutDiagramInput>
+  }
+
+  export type ProjectUpsertWithoutDiagramsInput = {
+    update: XOR<ProjectUpdateWithoutDiagramsInput, ProjectUncheckedUpdateWithoutDiagramsInput>
+    create: XOR<ProjectCreateWithoutDiagramsInput, ProjectUncheckedCreateWithoutDiagramsInput>
+    where?: ProjectWhereInput
+  }
+
+  export type ProjectUpdateToOneWithWhereWithoutDiagramsInput = {
+    where?: ProjectWhereInput
+    data: XOR<ProjectUpdateWithoutDiagramsInput, ProjectUncheckedUpdateWithoutDiagramsInput>
+  }
+
+  export type ProjectUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutProjectsNestedInput
+    documents?: DocumentUpdateManyWithoutProjectNestedInput
+    tasks?: TaskUpdateManyWithoutProjectNestedInput
+    members?: ProjectMemberUpdateManyWithoutProjectNestedInput
+    invitations?: InvitationUpdateManyWithoutProjectNestedInput
+  }
+
+  export type ProjectUncheckedUpdateWithoutDiagramsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
+    tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
+    members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
+    invitations?: InvitationUncheckedUpdateManyWithoutProjectNestedInput
+  }
+
+  export type DiagramCreateWithoutItemsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutItemsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutItemsInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutItemsInput, DiagramUncheckedCreateWithoutItemsInput>
+  }
+
+  export type DiagramUpsertWithoutItemsInput = {
+    update: XOR<DiagramUpdateWithoutItemsInput, DiagramUncheckedUpdateWithoutItemsInput>
+    create: XOR<DiagramCreateWithoutItemsInput, DiagramUncheckedCreateWithoutItemsInput>
+    where?: DiagramWhereInput
+  }
+
+  export type DiagramUpdateToOneWithWhereWithoutItemsInput = {
+    where?: DiagramWhereInput
+    data: XOR<DiagramUpdateWithoutItemsInput, DiagramUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type DiagramUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
   }
 
   export type WorkspaceCreateWithoutProjectsInput = {
@@ -47169,6 +53085,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramCreateNestedManyWithoutWorkspaceInput
     folders?: FolderCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateCreateNestedManyWithoutWorkspaceInput
     invitations?: InvitationCreateNestedManyWithoutWorkspaceInput
@@ -47185,6 +53102,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentUncheckedCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutWorkspaceInput
     folders?: FolderUncheckedCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateUncheckedCreateNestedManyWithoutWorkspaceInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -47250,6 +53168,64 @@ export namespace Prisma {
 
   export type DocumentCreateManyProjectInputEnvelope = {
     data: DocumentCreateManyProjectInput | DocumentCreateManyProjectInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DiagramCreateWithoutProjectInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramUncheckedCreateWithoutProjectInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutProjectInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutProjectInput, DiagramUncheckedCreateWithoutProjectInput>
+  }
+
+  export type DiagramCreateManyProjectInputEnvelope = {
+    data: DiagramCreateManyProjectInput | DiagramCreateManyProjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -47385,6 +53361,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUpdateManyWithoutWorkspaceNestedInput
     invitations?: InvitationUpdateManyWithoutWorkspaceNestedInput
@@ -47401,6 +53378,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUncheckedUpdateManyWithoutWorkspaceNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -47420,6 +53398,22 @@ export namespace Prisma {
   export type DocumentUpdateManyWithWhereWithoutProjectInput = {
     where: DocumentScalarWhereInput
     data: XOR<DocumentUpdateManyMutationInput, DocumentUncheckedUpdateManyWithoutProjectInput>
+  }
+
+  export type DiagramUpsertWithWhereUniqueWithoutProjectInput = {
+    where: DiagramWhereUniqueInput
+    update: XOR<DiagramUpdateWithoutProjectInput, DiagramUncheckedUpdateWithoutProjectInput>
+    create: XOR<DiagramCreateWithoutProjectInput, DiagramUncheckedCreateWithoutProjectInput>
+  }
+
+  export type DiagramUpdateWithWhereUniqueWithoutProjectInput = {
+    where: DiagramWhereUniqueInput
+    data: XOR<DiagramUpdateWithoutProjectInput, DiagramUncheckedUpdateWithoutProjectInput>
+  }
+
+  export type DiagramUpdateManyWithWhereWithoutProjectInput = {
+    where: DiagramScalarWhereInput
+    data: XOR<DiagramUpdateManyMutationInput, DiagramUncheckedUpdateManyWithoutProjectInput>
   }
 
   export type TaskUpsertWithWhereUniqueWithoutProjectInput = {
@@ -47478,6 +53472,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspace: WorkspaceCreateNestedOneWithoutProjectsInput
     documents?: DocumentCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramCreateNestedManyWithoutProjectInput
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
     invitations?: InvitationCreateNestedManyWithoutProjectInput
   }
@@ -47490,6 +53485,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutProjectInput
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -47511,6 +53507,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -47537,6 +53534,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -47629,6 +53627,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspace?: WorkspaceUpdateOneRequiredWithoutProjectsNestedInput
     documents?: DocumentUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUpdateManyWithoutProjectNestedInput
   }
@@ -47641,6 +53640,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -47668,6 +53668,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -47694,6 +53695,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -47906,6 +53908,59 @@ export namespace Prisma {
     create: XOR<DocumentCreateWithoutVersionsInput, DocumentUncheckedCreateWithoutVersionsInput>
   }
 
+  export type DiagramCreateWithoutVersionsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutVersionsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutVersionsInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutVersionsInput, DiagramUncheckedCreateWithoutVersionsInput>
+  }
+
   export type DocumentUpsertWithoutVersionsInput = {
     update: XOR<DocumentUpdateWithoutVersionsInput, DocumentUncheckedUpdateWithoutVersionsInput>
     create: XOR<DocumentCreateWithoutVersionsInput, DocumentUncheckedCreateWithoutVersionsInput>
@@ -47965,6 +54020,65 @@ export namespace Prisma {
     snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
+  export type DiagramUpsertWithoutVersionsInput = {
+    update: XOR<DiagramUpdateWithoutVersionsInput, DiagramUncheckedUpdateWithoutVersionsInput>
+    create: XOR<DiagramCreateWithoutVersionsInput, DiagramUncheckedCreateWithoutVersionsInput>
+    where?: DiagramWhereInput
+  }
+
+  export type DiagramUpdateToOneWithWhereWithoutVersionsInput = {
+    where?: DiagramWhereInput
+    data: XOR<DiagramUpdateWithoutVersionsInput, DiagramUncheckedUpdateWithoutVersionsInput>
+  }
+
+  export type DiagramUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutVersionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
   export type DocumentCreateWithoutCommentsInput = {
     id?: string
     title: string
@@ -48018,6 +54132,59 @@ export namespace Prisma {
     create: XOR<DocumentCreateWithoutCommentsInput, DocumentUncheckedCreateWithoutCommentsInput>
   }
 
+  export type DiagramCreateWithoutCommentsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutCommentsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutCommentsInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutCommentsInput, DiagramUncheckedCreateWithoutCommentsInput>
+  }
+
   export type UserCreateWithoutCommentsInput = {
     id?: string
     email: string
@@ -48030,6 +54197,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -48056,6 +54224,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -48082,14 +54251,16 @@ export namespace Prisma {
     resolved?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutCommentsInput
+    document?: DocumentCreateNestedOneWithoutCommentsInput
+    diagram?: DiagramCreateNestedOneWithoutCommentsInput
     user: UserCreateNestedOneWithoutCommentsInput
     parent?: CommentCreateNestedOneWithoutRepliesInput
   }
 
   export type CommentUncheckedCreateWithoutRepliesInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -48111,14 +54282,16 @@ export namespace Prisma {
     resolved?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutCommentsInput
+    document?: DocumentCreateNestedOneWithoutCommentsInput
+    diagram?: DiagramCreateNestedOneWithoutCommentsInput
     user: UserCreateNestedOneWithoutCommentsInput
     replies?: CommentCreateNestedManyWithoutParentInput
   }
 
   export type CommentUncheckedCreateWithoutParentInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -48197,6 +54370,65 @@ export namespace Prisma {
     snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
+  export type DiagramUpsertWithoutCommentsInput = {
+    update: XOR<DiagramUpdateWithoutCommentsInput, DiagramUncheckedUpdateWithoutCommentsInput>
+    create: XOR<DiagramCreateWithoutCommentsInput, DiagramUncheckedCreateWithoutCommentsInput>
+    where?: DiagramWhereInput
+  }
+
+  export type DiagramUpdateToOneWithWhereWithoutCommentsInput = {
+    where?: DiagramWhereInput
+    data: XOR<DiagramUpdateWithoutCommentsInput, DiagramUncheckedUpdateWithoutCommentsInput>
+  }
+
+  export type DiagramUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutCommentsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
   export type UserUpsertWithoutCommentsInput = {
     update: XOR<UserUpdateWithoutCommentsInput, UserUncheckedUpdateWithoutCommentsInput>
     create: XOR<UserCreateWithoutCommentsInput, UserUncheckedCreateWithoutCommentsInput>
@@ -48220,6 +54452,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -48246,6 +54479,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -48278,14 +54512,16 @@ export namespace Prisma {
     resolved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutCommentsNestedInput
+    document?: DocumentUpdateOneWithoutCommentsNestedInput
+    diagram?: DiagramUpdateOneWithoutCommentsNestedInput
     user?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutRepliesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -48364,6 +54600,59 @@ export namespace Prisma {
     create: XOR<DocumentCreateWithoutPermissionsInput, DocumentUncheckedCreateWithoutPermissionsInput>
   }
 
+  export type DiagramCreateWithoutPermissionsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutPermissionsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutPermissionsInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutPermissionsInput, DiagramUncheckedCreateWithoutPermissionsInput>
+  }
+
   export type DocumentUpsertWithoutPermissionsInput = {
     update: XOR<DocumentUpdateWithoutPermissionsInput, DocumentUncheckedUpdateWithoutPermissionsInput>
     create: XOR<DocumentCreateWithoutPermissionsInput, DocumentUncheckedCreateWithoutPermissionsInput>
@@ -48423,6 +54712,65 @@ export namespace Prisma {
     snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
+  export type DiagramUpsertWithoutPermissionsInput = {
+    update: XOR<DiagramUpdateWithoutPermissionsInput, DiagramUncheckedUpdateWithoutPermissionsInput>
+    create: XOR<DiagramCreateWithoutPermissionsInput, DiagramUncheckedCreateWithoutPermissionsInput>
+    where?: DiagramWhereInput
+  }
+
+  export type DiagramUpdateToOneWithWhereWithoutPermissionsInput = {
+    where?: DiagramWhereInput
+    data: XOR<DiagramUpdateWithoutPermissionsInput, DiagramUncheckedUpdateWithoutPermissionsInput>
+  }
+
+  export type DiagramUpdateWithoutPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutPermissionsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
   export type DocumentCreateWithoutCollaboratorsInput = {
     id?: string
     title: string
@@ -48474,6 +54822,59 @@ export namespace Prisma {
   export type DocumentCreateOrConnectWithoutCollaboratorsInput = {
     where: DocumentWhereUniqueInput
     create: XOR<DocumentCreateWithoutCollaboratorsInput, DocumentUncheckedCreateWithoutCollaboratorsInput>
+  }
+
+  export type DiagramCreateWithoutCollaboratorsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutCollaboratorsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutCollaboratorsInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutCollaboratorsInput, DiagramUncheckedCreateWithoutCollaboratorsInput>
   }
 
   export type DocumentUpsertWithoutCollaboratorsInput = {
@@ -48535,6 +54936,65 @@ export namespace Prisma {
     snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
+  export type DiagramUpsertWithoutCollaboratorsInput = {
+    update: XOR<DiagramUpdateWithoutCollaboratorsInput, DiagramUncheckedUpdateWithoutCollaboratorsInput>
+    create: XOR<DiagramCreateWithoutCollaboratorsInput, DiagramUncheckedCreateWithoutCollaboratorsInput>
+    where?: DiagramWhereInput
+  }
+
+  export type DiagramUpdateToOneWithWhereWithoutCollaboratorsInput = {
+    where?: DiagramWhereInput
+    data: XOR<DiagramUpdateWithoutCollaboratorsInput, DiagramUncheckedUpdateWithoutCollaboratorsInput>
+  }
+
+  export type DiagramUpdateWithoutCollaboratorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutCollaboratorsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
   export type WorkspaceCreateWithoutTemplatesInput = {
     id?: string
     name: string
@@ -48546,6 +55006,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramCreateNestedManyWithoutWorkspaceInput
     folders?: FolderCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectCreateNestedManyWithoutWorkspaceInput
     invitations?: InvitationCreateNestedManyWithoutWorkspaceInput
@@ -48562,6 +55023,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentUncheckedCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutWorkspaceInput
     folders?: FolderUncheckedCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectUncheckedCreateNestedManyWithoutWorkspaceInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -48594,6 +55056,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUpdateManyWithoutWorkspaceNestedInput
     invitations?: InvitationUpdateManyWithoutWorkspaceNestedInput
@@ -48610,6 +55073,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutWorkspaceNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -48627,6 +55091,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -48653,6 +55118,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -48695,6 +55161,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -48721,6 +55188,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -48788,6 +55256,59 @@ export namespace Prisma {
     create: XOR<DocumentCreateWithoutAiChatsInput, DocumentUncheckedCreateWithoutAiChatsInput>
   }
 
+  export type DiagramCreateWithoutAiChatsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutAiChatsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutAiChatsInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutAiChatsInput, DiagramUncheckedCreateWithoutAiChatsInput>
+  }
+
   export type UserCreateWithoutAiChatsInput = {
     id?: string
     email: string
@@ -48800,6 +55321,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -48826,6 +55348,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -48928,6 +55451,65 @@ export namespace Prisma {
     snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
+  export type DiagramUpsertWithoutAiChatsInput = {
+    update: XOR<DiagramUpdateWithoutAiChatsInput, DiagramUncheckedUpdateWithoutAiChatsInput>
+    create: XOR<DiagramCreateWithoutAiChatsInput, DiagramUncheckedCreateWithoutAiChatsInput>
+    where?: DiagramWhereInput
+  }
+
+  export type DiagramUpdateToOneWithWhereWithoutAiChatsInput = {
+    where?: DiagramWhereInput
+    data: XOR<DiagramUpdateWithoutAiChatsInput, DiagramUncheckedUpdateWithoutAiChatsInput>
+  }
+
+  export type DiagramUpdateWithoutAiChatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutAiChatsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
   export type UserUpsertWithoutAiChatsInput = {
     update: XOR<UserUpdateWithoutAiChatsInput, UserUncheckedUpdateWithoutAiChatsInput>
     create: XOR<UserCreateWithoutAiChatsInput, UserUncheckedCreateWithoutAiChatsInput>
@@ -48951,6 +55533,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -48977,6 +55560,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -49023,13 +55607,15 @@ export namespace Prisma {
     title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    document: DocumentCreateNestedOneWithoutAiChatsInput
+    document?: DocumentCreateNestedOneWithoutAiChatsInput
+    diagram?: DiagramCreateNestedOneWithoutAiChatsInput
     user: UserCreateNestedOneWithoutAiChatsInput
   }
 
   export type AIChatUncheckedCreateWithoutMessagesInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     title?: string | null
     createdAt?: Date | string
@@ -49057,13 +55643,15 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutAiChatsNestedInput
+    document?: DocumentUpdateOneWithoutAiChatsNestedInput
+    diagram?: DiagramUpdateOneWithoutAiChatsNestedInput
     user?: UserUpdateOneRequiredWithoutAiChatsNestedInput
   }
 
   export type AIChatUncheckedUpdateWithoutMessagesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49123,6 +55711,59 @@ export namespace Prisma {
     create: XOR<DocumentCreateWithoutNotesInput, DocumentUncheckedCreateWithoutNotesInput>
   }
 
+  export type DiagramCreateWithoutNotesInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutNotesInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+    snapshots?: DocumentSnapshotUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutNotesInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutNotesInput, DiagramUncheckedCreateWithoutNotesInput>
+  }
+
   export type UserCreateWithoutNotesInput = {
     id?: string
     email: string
@@ -49135,6 +55776,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -49161,6 +55803,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -49239,6 +55882,65 @@ export namespace Prisma {
     snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
+  export type DiagramUpsertWithoutNotesInput = {
+    update: XOR<DiagramUpdateWithoutNotesInput, DiagramUncheckedUpdateWithoutNotesInput>
+    create: XOR<DiagramCreateWithoutNotesInput, DiagramUncheckedCreateWithoutNotesInput>
+    where?: DiagramWhereInput
+  }
+
+  export type DiagramUpdateToOneWithWhereWithoutNotesInput = {
+    where?: DiagramWhereInput
+    data: XOR<DiagramUpdateWithoutNotesInput, DiagramUncheckedUpdateWithoutNotesInput>
+  }
+
+  export type DiagramUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutNotesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
   export type UserUpsertWithoutNotesInput = {
     update: XOR<UserUpdateWithoutNotesInput, UserUncheckedUpdateWithoutNotesInput>
     create: XOR<UserCreateWithoutNotesInput, UserUncheckedCreateWithoutNotesInput>
@@ -49262,6 +55964,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -49288,6 +55991,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -49355,6 +56059,59 @@ export namespace Prisma {
     create: XOR<DocumentCreateWithoutSnapshotsInput, DocumentUncheckedCreateWithoutSnapshotsInput>
   }
 
+  export type DiagramCreateWithoutSnapshotsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    workspace: WorkspaceCreateNestedOneWithoutDiagramsInput
+    folder?: FolderCreateNestedOneWithoutDiagramsInput
+    creator: UserCreateNestedOneWithoutDiagramsInput
+    versions?: VersionCreateNestedManyWithoutDiagramInput
+    comments?: CommentCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatCreateNestedManyWithoutDiagramInput
+    notes?: NoteCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemCreateNestedManyWithoutDiagramInput
+    project?: ProjectCreateNestedOneWithoutDiagramsInput
+  }
+
+  export type DiagramUncheckedCreateWithoutSnapshotsInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+    versions?: VersionUncheckedCreateNestedManyWithoutDiagramInput
+    comments?: CommentUncheckedCreateNestedManyWithoutDiagramInput
+    permissions?: PermissionUncheckedCreateNestedManyWithoutDiagramInput
+    collaborators?: CollaboratorUncheckedCreateNestedManyWithoutDiagramInput
+    aiChats?: AIChatUncheckedCreateNestedManyWithoutDiagramInput
+    notes?: NoteUncheckedCreateNestedManyWithoutDiagramInput
+    items?: DimensionItemUncheckedCreateNestedManyWithoutDiagramInput
+  }
+
+  export type DiagramCreateOrConnectWithoutSnapshotsInput = {
+    where: DiagramWhereUniqueInput
+    create: XOR<DiagramCreateWithoutSnapshotsInput, DiagramUncheckedCreateWithoutSnapshotsInput>
+  }
+
   export type DocumentUpsertWithoutSnapshotsInput = {
     update: XOR<DocumentUpdateWithoutSnapshotsInput, DocumentUncheckedUpdateWithoutSnapshotsInput>
     create: XOR<DocumentCreateWithoutSnapshotsInput, DocumentUncheckedCreateWithoutSnapshotsInput>
@@ -49414,6 +56171,65 @@ export namespace Prisma {
     notes?: NoteUncheckedUpdateManyWithoutDocumentNestedInput
   }
 
+  export type DiagramUpsertWithoutSnapshotsInput = {
+    update: XOR<DiagramUpdateWithoutSnapshotsInput, DiagramUncheckedUpdateWithoutSnapshotsInput>
+    create: XOR<DiagramCreateWithoutSnapshotsInput, DiagramUncheckedCreateWithoutSnapshotsInput>
+    where?: DiagramWhereInput
+  }
+
+  export type DiagramUpdateToOneWithWhereWithoutSnapshotsInput = {
+    where?: DiagramWhereInput
+    data: XOR<DiagramUpdateWithoutSnapshotsInput, DiagramUncheckedUpdateWithoutSnapshotsInput>
+  }
+
+  export type DiagramUpdateWithoutSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutSnapshotsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
   export type WorkspaceCreateWithoutInvitationsInput = {
     id?: string
     name: string
@@ -49425,6 +56241,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramCreateNestedManyWithoutWorkspaceInput
     folders?: FolderCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectCreateNestedManyWithoutWorkspaceInput
@@ -49441,6 +56258,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     members?: WorkspaceMemberUncheckedCreateNestedManyWithoutWorkspaceInput
     documents?: DocumentUncheckedCreateNestedManyWithoutWorkspaceInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutWorkspaceInput
     folders?: FolderUncheckedCreateNestedManyWithoutWorkspaceInput
     templates?: TemplateUncheckedCreateNestedManyWithoutWorkspaceInput
     projects?: ProjectUncheckedCreateNestedManyWithoutWorkspaceInput
@@ -49459,6 +56277,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspace: WorkspaceCreateNestedOneWithoutProjectsInput
     documents?: DocumentCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     members?: ProjectMemberCreateNestedManyWithoutProjectInput
   }
@@ -49471,6 +56290,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     members?: ProjectMemberUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -49492,6 +56312,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -49518,6 +56339,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -49549,6 +56371,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -49575,6 +56398,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -49616,6 +56440,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUpdateManyWithoutWorkspaceNestedInput
@@ -49632,6 +56457,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     members?: WorkspaceMemberUncheckedUpdateManyWithoutWorkspaceNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutWorkspaceNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutWorkspaceNestedInput
     folders?: FolderUncheckedUpdateManyWithoutWorkspaceNestedInput
     templates?: TemplateUncheckedUpdateManyWithoutWorkspaceNestedInput
     projects?: ProjectUncheckedUpdateManyWithoutWorkspaceNestedInput
@@ -49656,6 +56482,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspace?: WorkspaceUpdateOneRequiredWithoutProjectsNestedInput
     documents?: DocumentUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
   }
@@ -49668,6 +56495,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -49695,6 +56523,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -49721,6 +56550,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -49758,6 +56588,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -49784,6 +56615,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -49810,6 +56642,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -49836,6 +56669,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -49863,6 +56697,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspace: WorkspaceCreateNestedOneWithoutProjectsInput
     documents?: DocumentCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramCreateNestedManyWithoutProjectInput
     tasks?: TaskCreateNestedManyWithoutProjectInput
     invitations?: InvitationCreateNestedManyWithoutProjectInput
   }
@@ -49875,6 +56710,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     documents?: DocumentUncheckedCreateNestedManyWithoutProjectInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutProjectInput
     tasks?: TaskUncheckedCreateNestedManyWithoutProjectInput
     invitations?: InvitationUncheckedCreateNestedManyWithoutProjectInput
   }
@@ -49907,6 +56743,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -49933,6 +56770,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -49966,6 +56804,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspace?: WorkspaceUpdateOneRequiredWithoutProjectsNestedInput
     documents?: DocumentUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUpdateManyWithoutProjectNestedInput
   }
@@ -49978,6 +56817,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutProjectNestedInput
   }
@@ -49994,6 +56834,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -50020,6 +56861,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -50062,6 +56904,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -50088,6 +56931,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -50202,6 +57046,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -50228,6 +57073,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -50270,6 +57116,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -50296,6 +57143,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -50322,6 +57170,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberCreateNestedManyWithoutUserInput
     documents?: DocumentCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramCreateNestedManyWithoutCreatorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     activities?: ActivityCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -50348,6 +57197,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     workspaces?: WorkspaceMemberUncheckedCreateNestedManyWithoutUserInput
     documents?: DocumentUncheckedCreateNestedManyWithoutCreatorInput
+    diagrams?: DiagramUncheckedCreateNestedManyWithoutCreatorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     activities?: ActivityUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -50390,6 +57240,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUpdateManyWithoutUserNestedInput
     documents?: DocumentUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUpdateManyWithoutCreatorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     activities?: ActivityUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -50416,6 +57267,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     workspaces?: WorkspaceMemberUncheckedUpdateManyWithoutUserNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutCreatorNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutCreatorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     activities?: ActivityUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -50454,9 +57306,26 @@ export namespace Prisma {
     projectId?: string | null
   }
 
+  export type DiagramCreateManyCreatorInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+  }
+
   export type CommentCreateManyUserInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
     resolved?: boolean
@@ -50496,7 +57365,8 @@ export namespace Prisma {
 
   export type AIChatCreateManyUserInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     title?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -50504,7 +57374,8 @@ export namespace Prisma {
 
   export type NoteCreateManyUserInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
     color?: string
@@ -50677,6 +57548,70 @@ export namespace Prisma {
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type DiagramUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutCreatorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type CommentUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
@@ -50684,14 +57619,16 @@ export namespace Prisma {
     resolved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutCommentsNestedInput
+    document?: DocumentUpdateOneWithoutCommentsNestedInput
+    diagram?: DiagramUpdateOneWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
     resolved?: BoolFieldUpdateOperationsInput | boolean
@@ -50703,7 +57640,8 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
     resolved?: BoolFieldUpdateOperationsInput | boolean
@@ -50804,13 +57742,15 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutAiChatsNestedInput
+    document?: DocumentUpdateOneWithoutAiChatsNestedInput
+    diagram?: DiagramUpdateOneWithoutAiChatsNestedInput
     messages?: AIMessageUpdateManyWithoutChatNestedInput
   }
 
   export type AIChatUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50819,7 +57759,8 @@ export namespace Prisma {
 
   export type AIChatUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50832,12 +57773,14 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutNotesNestedInput
+    document?: DocumentUpdateOneWithoutNotesNestedInput
+    diagram?: DiagramUpdateOneWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
     color?: StringFieldUpdateOperationsInput | string
@@ -50847,7 +57790,8 @@ export namespace Prisma {
 
   export type NoteUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
     color?: StringFieldUpdateOperationsInput | string
@@ -51120,6 +58064,22 @@ export namespace Prisma {
     projectId?: string | null
   }
 
+  export type DiagramCreateManyWorkspaceInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+  }
+
   export type FolderCreateManyWorkspaceInput = {
     id?: string
     name: string
@@ -51249,6 +58209,70 @@ export namespace Prisma {
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type DiagramUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutWorkspaceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type FolderUpdateWithoutWorkspaceInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -51257,6 +58281,7 @@ export namespace Prisma {
     parent?: FolderUpdateOneWithoutChildrenNestedInput
     children?: FolderUpdateManyWithoutParentNestedInput
     documents?: DocumentUpdateManyWithoutFolderNestedInput
+    diagrams?: DiagramUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderUncheckedUpdateWithoutWorkspaceInput = {
@@ -51267,6 +58292,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: FolderUncheckedUpdateManyWithoutParentNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutFolderNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderUncheckedUpdateManyWithoutWorkspaceInput = {
@@ -51320,6 +58346,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUpdateManyWithoutProjectNestedInput
     tasks?: TaskUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUpdateManyWithoutProjectNestedInput
@@ -51332,6 +58359,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     documents?: DocumentUncheckedUpdateManyWithoutProjectNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutProjectNestedInput
     tasks?: TaskUncheckedUpdateManyWithoutProjectNestedInput
     members?: ProjectMemberUncheckedUpdateManyWithoutProjectNestedInput
     invitations?: InvitationUncheckedUpdateManyWithoutProjectNestedInput
@@ -51415,6 +58443,22 @@ export namespace Prisma {
     projectId?: string | null
   }
 
+  export type DiagramCreateManyFolderInput = {
+    id?: string
+    title: string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    projectId?: string | null
+  }
+
   export type FolderUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
@@ -51423,6 +58467,7 @@ export namespace Prisma {
     workspace?: WorkspaceUpdateOneRequiredWithoutFoldersNestedInput
     children?: FolderUpdateManyWithoutParentNestedInput
     documents?: DocumentUpdateManyWithoutFolderNestedInput
+    diagrams?: DiagramUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderUncheckedUpdateWithoutParentInput = {
@@ -51433,6 +58478,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     children?: FolderUncheckedUpdateManyWithoutParentNestedInput
     documents?: DocumentUncheckedUpdateManyWithoutFolderNestedInput
+    diagrams?: DiagramUncheckedUpdateManyWithoutFolderNestedInput
   }
 
   export type FolderUncheckedUpdateManyWithoutParentInput = {
@@ -51508,8 +58554,73 @@ export namespace Prisma {
     projectId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type DiagramUpdateWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+    project?: ProjectUpdateOneWithoutDiagramsNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutFolderInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    projectId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
   export type VersionCreateManyDocumentInput = {
     id?: string
+    diagramId?: string | null
     content: JsonNullValueInput | InputJsonValue
     createdBy: string
     createdAt?: Date | string
@@ -51518,6 +58629,7 @@ export namespace Prisma {
 
   export type CommentCreateManyDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -51529,6 +58641,7 @@ export namespace Prisma {
 
   export type PermissionCreateManyDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId?: string | null
     email?: string | null
     role: $Enums.PermissionRole
@@ -51537,6 +58650,7 @@ export namespace Prisma {
 
   export type CollaboratorCreateManyDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId: string
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
@@ -51545,6 +58659,7 @@ export namespace Prisma {
 
   export type AIChatCreateManyDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId: string
     title?: string | null
     createdAt?: Date | string
@@ -51553,6 +58668,7 @@ export namespace Prisma {
 
   export type NoteCreateManyDocumentInput = {
     id?: string
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -51563,6 +58679,7 @@ export namespace Prisma {
 
   export type DocumentSnapshotCreateManyDocumentInput = {
     id?: string
+    diagramId?: string | null
     content: JsonNullValueInput | InputJsonValue
     description?: string | null
     createdBy: string
@@ -51575,10 +58692,12 @@ export namespace Prisma {
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    diagram?: DiagramUpdateOneWithoutVersionsNestedInput
   }
 
   export type VersionUncheckedUpdateWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: JsonNullValueInput | InputJsonValue
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51587,6 +58706,7 @@ export namespace Prisma {
 
   export type VersionUncheckedUpdateManyWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: JsonNullValueInput | InputJsonValue
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51600,6 +58720,7 @@ export namespace Prisma {
     resolved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    diagram?: DiagramUpdateOneWithoutCommentsNestedInput
     user?: UserUpdateOneRequiredWithoutCommentsNestedInput
     parent?: CommentUpdateOneWithoutRepliesNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
@@ -51607,6 +58728,7 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -51619,6 +58741,7 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateManyWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -51634,10 +58757,12 @@ export namespace Prisma {
     email?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    diagram?: DiagramUpdateOneWithoutPermissionsNestedInput
   }
 
   export type PermissionUncheckedUpdateWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
@@ -51646,6 +58771,7 @@ export namespace Prisma {
 
   export type PermissionUncheckedUpdateManyWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
@@ -51658,10 +58784,12 @@ export namespace Prisma {
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
     lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    diagram?: DiagramUpdateOneWithoutCollaboratorsNestedInput
   }
 
   export type CollaboratorUncheckedUpdateWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
@@ -51670,6 +58798,7 @@ export namespace Prisma {
 
   export type CollaboratorUncheckedUpdateManyWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     cursor?: NullableJsonNullValueInput | InputJsonValue
     selection?: NullableJsonNullValueInput | InputJsonValue
@@ -51681,12 +58810,14 @@ export namespace Prisma {
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    diagram?: DiagramUpdateOneWithoutAiChatsNestedInput
     user?: UserUpdateOneRequiredWithoutAiChatsNestedInput
     messages?: AIMessageUpdateManyWithoutChatNestedInput
   }
 
   export type AIChatUncheckedUpdateWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51696,6 +58827,7 @@ export namespace Prisma {
 
   export type AIChatUncheckedUpdateManyWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     title?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51709,11 +58841,13 @@ export namespace Prisma {
     color?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    diagram?: DiagramUpdateOneWithoutNotesNestedInput
     user?: UserUpdateOneRequiredWithoutNotesNestedInput
   }
 
   export type NoteUncheckedUpdateWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -51724,6 +58858,7 @@ export namespace Prisma {
 
   export type NoteUncheckedUpdateManyWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -51738,10 +58873,12 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    diagram?: DiagramUpdateOneWithoutSnapshotsNestedInput
   }
 
   export type DocumentSnapshotUncheckedUpdateWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -51750,6 +58887,315 @@ export namespace Prisma {
 
   export type DocumentSnapshotUncheckedUpdateManyWithoutDocumentInput = {
     id?: StringFieldUpdateOperationsInput | string
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: JsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type VersionCreateManyDiagramInput = {
+    id?: string
+    documentId?: string | null
+    content: JsonNullValueInput | InputJsonValue
+    createdBy: string
+    createdAt?: Date | string
+    description?: string | null
+  }
+
+  export type CommentCreateManyDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId: string
+    content: string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    resolved?: boolean
+    parentId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PermissionCreateManyDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId?: string | null
+    email?: string | null
+    role: $Enums.PermissionRole
+    createdAt?: Date | string
+  }
+
+  export type CollaboratorCreateManyDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId: string
+    cursor?: NullableJsonNullValueInput | InputJsonValue
+    selection?: NullableJsonNullValueInput | InputJsonValue
+    lastSeen?: Date | string
+  }
+
+  export type AIChatCreateManyDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId: string
+    title?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type NoteCreateManyDiagramInput = {
+    id?: string
+    documentId?: string | null
+    userId: string
+    content: string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    color?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DimensionItemCreateManyDiagramInput = {
+    id?: string
+    type: string
+    content: JsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentSnapshotCreateManyDiagramInput = {
+    id?: string
+    documentId?: string | null
+    content: JsonNullValueInput | InputJsonValue
+    description?: string | null
+    createdBy: string
+    createdAt?: Date | string
+  }
+
+  export type VersionUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    document?: DocumentUpdateOneWithoutVersionsNestedInput
+  }
+
+  export type VersionUncheckedUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: JsonNullValueInput | InputJsonValue
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type VersionUncheckedUpdateManyWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: JsonNullValueInput | InputJsonValue
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type CommentUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: DocumentUpdateOneWithoutCommentsNestedInput
+    user?: UserUpdateOneRequiredWithoutCommentsNestedInput
+    parent?: CommentUpdateOneWithoutRepliesNestedInput
+    replies?: CommentUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: CommentUncheckedUpdateManyWithoutParentNestedInput
+  }
+
+  export type CommentUncheckedUpdateManyWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    resolved?: BoolFieldUpdateOperationsInput | boolean
+    parentId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PermissionUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: DocumentUpdateOneWithoutPermissionsNestedInput
+  }
+
+  export type PermissionUncheckedUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PermissionUncheckedUpdateManyWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumPermissionRoleFieldUpdateOperationsInput | $Enums.PermissionRole
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollaboratorUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    cursor?: NullableJsonNullValueInput | InputJsonValue
+    selection?: NullableJsonNullValueInput | InputJsonValue
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: DocumentUpdateOneWithoutCollaboratorsNestedInput
+  }
+
+  export type CollaboratorUncheckedUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    cursor?: NullableJsonNullValueInput | InputJsonValue
+    selection?: NullableJsonNullValueInput | InputJsonValue
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CollaboratorUncheckedUpdateManyWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    cursor?: NullableJsonNullValueInput | InputJsonValue
+    selection?: NullableJsonNullValueInput | InputJsonValue
+    lastSeen?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AIChatUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: DocumentUpdateOneWithoutAiChatsNestedInput
+    user?: UserUpdateOneRequiredWithoutAiChatsNestedInput
+    messages?: AIMessageUpdateManyWithoutChatNestedInput
+  }
+
+  export type AIChatUncheckedUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    messages?: AIMessageUncheckedUpdateManyWithoutChatNestedInput
+  }
+
+  export type AIChatUncheckedUpdateManyWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NoteUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: DocumentUpdateOneWithoutNotesNestedInput
+    user?: UserUpdateOneRequiredWithoutNotesNestedInput
+  }
+
+  export type NoteUncheckedUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type NoteUncheckedUpdateManyWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    position?: NullableJsonNullValueInput | InputJsonValue
+    color?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DimensionItemUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DimensionItemUncheckedUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DimensionItemUncheckedUpdateManyWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    type?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentSnapshotUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: JsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    document?: DocumentUpdateOneWithoutSnapshotsNestedInput
+  }
+
+  export type DocumentSnapshotUncheckedUpdateWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    content?: JsonNullValueInput | InputJsonValue
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdBy?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentSnapshotUncheckedUpdateManyWithoutDiagramInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
     content?: JsonNullValueInput | InputJsonValue
     description?: NullableStringFieldUpdateOperationsInput | string | null
     createdBy?: StringFieldUpdateOperationsInput | string
@@ -51760,6 +59206,22 @@ export namespace Prisma {
     id?: string
     title: string
     type: $Enums.DocType
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: string | null
+    workspaceId: string
+    folderId?: string | null
+    creatorId: string
+    isPublic?: boolean
+    publicSlug?: string | null
+    isArchived?: boolean
+    isFavorite?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DiagramCreateManyProjectInput = {
+    id?: string
+    title: string
     content?: NullableJsonNullValueInput | InputJsonValue
     thumbnail?: string | null
     workspaceId: string
@@ -51863,6 +59325,70 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     type?: EnumDocTypeFieldUpdateOperationsInput | $Enums.DocType
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DiagramUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    workspace?: WorkspaceUpdateOneRequiredWithoutDiagramsNestedInput
+    folder?: FolderUpdateOneWithoutDiagramsNestedInput
+    creator?: UserUpdateOneRequiredWithoutDiagramsNestedInput
+    versions?: VersionUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUpdateManyWithoutDiagramNestedInput
+  }
+
+  export type DiagramUncheckedUpdateWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: NullableJsonNullValueInput | InputJsonValue
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    workspaceId?: StringFieldUpdateOperationsInput | string
+    folderId?: NullableStringFieldUpdateOperationsInput | string | null
+    creatorId?: StringFieldUpdateOperationsInput | string
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    publicSlug?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    isFavorite?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    versions?: VersionUncheckedUpdateManyWithoutDiagramNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutDiagramNestedInput
+    permissions?: PermissionUncheckedUpdateManyWithoutDiagramNestedInput
+    collaborators?: CollaboratorUncheckedUpdateManyWithoutDiagramNestedInput
+    aiChats?: AIChatUncheckedUpdateManyWithoutDiagramNestedInput
+    notes?: NoteUncheckedUpdateManyWithoutDiagramNestedInput
+    items?: DimensionItemUncheckedUpdateManyWithoutDiagramNestedInput
+    snapshots?: DocumentSnapshotUncheckedUpdateManyWithoutDiagramNestedInput
+  }
+
+  export type DiagramUncheckedUpdateManyWithoutProjectInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
     content?: NullableJsonNullValueInput | InputJsonValue
     thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
     workspaceId?: StringFieldUpdateOperationsInput | string
@@ -52064,7 +59590,8 @@ export namespace Prisma {
 
   export type CommentCreateManyParentInput = {
     id?: string
-    documentId: string
+    documentId?: string | null
+    diagramId?: string | null
     userId: string
     content: string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -52080,14 +59607,16 @@ export namespace Prisma {
     resolved?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    document?: DocumentUpdateOneRequiredWithoutCommentsNestedInput
+    document?: DocumentUpdateOneWithoutCommentsNestedInput
+    diagram?: DiagramUpdateOneWithoutCommentsNestedInput
     user?: UserUpdateOneRequiredWithoutCommentsNestedInput
     replies?: CommentUpdateManyWithoutParentNestedInput
   }
 
   export type CommentUncheckedUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
@@ -52099,7 +59628,8 @@ export namespace Prisma {
 
   export type CommentUncheckedUpdateManyWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    documentId?: StringFieldUpdateOperationsInput | string
+    documentId?: NullableStringFieldUpdateOperationsInput | string | null
+    diagramId?: NullableStringFieldUpdateOperationsInput | string | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
     position?: NullableJsonNullValueInput | InputJsonValue
